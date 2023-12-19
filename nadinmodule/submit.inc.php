@@ -1,0 +1,1 @@
+<img src="spinner.gif" style="display:none;height:25px;margin-right:3px" id="spinner" align="left" /><input onchange="document.form1.submit();document.getElementById('spinner').style.display='inline'" name="userfile" type="file" size="80%" <?php echo $accept ?> />

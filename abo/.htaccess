@@ -1,0 +1,8 @@
+AuthName "Dein NADIN Login bitte"
+AuthType Basic
+AuthUserFile "/var/webs/www.sophisware.ch/hostingwebs/bigbandweb/abb/nadin/userdatei/.htpasswd"
+Require valid-user
+#http://www.besthostratings.com/articles/http-auth-php-cgi.html
+#RewriteEngine on
+#RewriteCond %{HTTP:Authorization} !^$
+#RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]

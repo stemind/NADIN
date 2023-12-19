@@ -1,0 +1,3 @@
+NADIN INITIAL LOGIN,	nadin@nadin.na,		31.12.2037,vgigs=1,vsaxes=1,vbones=1,vtrumpets=1,vrhythm=1,vother=1,vscore=1,vreclist=1,varchiv=1,vlibrary=1,upaudio=1,uppdf=1,mgigs=1,musers=1
+
+Here, enter your users‘ data and, above all, your own data. Give yourself all rights BEFORE deleting the NADIN INITIAL LOGIN!

@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule !.(gif|jpg|png|css)$ ../ohnerw/index.php
