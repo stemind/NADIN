@@ -112,7 +112,7 @@ $userexp=explode('.',$userexp);
 $d=$userexp[0];
 $m=$userexp[1];
 $y=$userexp[2];
-$userexp=mktime(0,0,0,$m,$d,$y);
+$userexp=mktime(0,0,0,intval($m),intval($d),intval($y));
 if ($userexp<time())  {
 writelog('exp'.date('Ymd',$userexp).';'.cleancsv($uc).';'.crc32($pcrcc));
 echo '<script>alert("Dein Zugang ist per '.date('d.m.Y',$userexp).' abgelaufen.");location.href="'.$homepage.'../login.php";</script>';
@@ -139,7 +139,7 @@ $userexp=explode('.',$userexp);
 $d=$userexp[0];
 $m=$userexp[1];
 $y=$userexp[2];
-$userexp=mktime(0,0,0,$m,intval($d),$y);
+$userexp=mktime(0,0,0,intval($m),intval($d),intval($y));
 
 $userrights=explode(','.$uc.',',$users);
 $userrights=$userrights[1];

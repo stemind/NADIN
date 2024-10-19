@@ -56,6 +56,6 @@ if (!navigator.cookieEnabled) {alert("You have Cookies disabled in your Browser.
 </script>
 </div>
 <noscript>You have JavaScript disabled in your Browser. You have to enable JavaScript to work with NADIN! Enable Cookies now in your Browser Properties, then <a href="login.php">restart NADIN by clicking here</a>.</noscript>
-<div align="right" style="font-size:10px"><a href="http://yuba.ch/nadin" target="_blank">NADIN</a> 7.1</div>
+<div align="right" style="font-size:10px"><a href="http://yuba.ch/nadin" target="_blank">NADIN</a> 7.3</div>
 </body>
 </html>

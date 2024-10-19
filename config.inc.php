@@ -1,10 +1,14 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 
+//IMPORTANT: Your NADIN users must be able to order passwords, which they receive by e-mail. Therefore, the e-mail dispatch, triggered by PHP on your web hosting server, must function correctly. Achieving this is sometimes not easy, you need to test this thoroughly. First try it with $useheadersinphpmailcommand='no'; if the passwords are not delivered by e-mail this way, switch to 'yes' and set $mymail so that firstly this e-mail has the same domain as your NADIN URL, and secondly that this e-mail inbox actually exists in your web hosting, because certain providers require precisely this. Even stricter providers, but this should be rare, require e-mail to be sent via the SMTP server, which is somewhat complicated, please consult the file HowToSMTP.instructions.html
+
+$useheadersinphpmailcommand='no';
+$mymail='enteryour@emailaddress.here'; 
+
+
 $bb='XYZ'; // Three(!)-character abbreviation of band, no spezial characters
 $salt='???'; // Encryption add-on of passwords, random 3-character string except ??? If changed, all passwords need to be ordered again.
-
-$mymail='enteryour@emailaddress.here'; 
 
 /*
 MANDATORY FILE RIGHTS FOR SERVER
@@ -49,7 +53,7 @@ $offerrcmdmp3saszip='yes'; //offer all recommended recordings for a GigReps bund
 
 $offersheetsaszip='yes'; //offer Zip file containing the sheets (one Zip per section, if sheets are prepared accordingly)
 
-$offeritunesabo='yes'; //set to 'no' if these don’t work properly
+$offeritunesabo='no'; //set to 'no' if these don’t work properly
 
 $autoclosepopups='no'; //automatically close popup windows when main window (opener) is closed
 

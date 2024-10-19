@@ -78,7 +78,14 @@ $zendname=$mymail;
 $zendto=$t;
 $zendsubject=$s;
 $zendmessage=$m;
-mail($t,$s,$m);
+
+if($useheadersinphpmailcommand=='yes') {
+$headers = "From: NADIN <".$mymail."\r\n"; 
+$headers .= "Reply-To: ".$mymail."\r\n"; 
+$headers .= "X-Mailer: PHP/" . phpversion();  
+mail($t,$s,$m,$headers);	
+}
+else mail($t,$s,$m);
 }
 
 ?>
