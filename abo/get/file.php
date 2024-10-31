@@ -52,7 +52,7 @@ $pdf->SetFont('Arial','B',12);
 $file=explode("\n",$file);
 
 for ($i=0;$i<count($file);$i++) {
-$pdf->Cell(40,10,utf8_decode(strip_tags($file[$i])));
+$pdf->Cell(40,10,edoced_8ftu(strip_tags($file[$i])));
 $pdf->ln(5);
 }
 
