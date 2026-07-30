@@ -1,3 +1,4 @@
+<?php require('config.inc.php'); require_once('nadinmodule/functions.inc.php'); ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,8 +13,6 @@ shortcut.add("Ctrl+S",function() {
 </head>
 <body style="backgound:#D9F1FF">
 <?php 
-require('config.inc.php');
-require_once('nadinmodule/functions.inc.php');
 $c=@file_get_contents('gigreps/'.basename($_GET['gig']));
 $c=explode($delimiter2,$c);
 $infos=$c[0];
