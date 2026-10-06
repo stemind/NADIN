@@ -7,7 +7,13 @@ $filename=str_replace(' ','',mkname(substr($bb.$bibliothek,0,60)));
 header('Content-Type: text/x-csv; charset=UTF-8'); 
 header("Content-Disposition:attachment;filename=".$filename."_".date('Y-m-d_His').".csv");
 
-echo "\xEF\xBB\xBF".$bb.' '.$bibliothek.';';
+echo "\xEF\xBB\xBF".$bb.' '.$bibliothek."\r\n";
+$libraryExportHeadings = array('Tune', $humaninfos, $humanscore, $humansaxes, $humanbones, $humantrumpets, $humanrhythm, $humanother, $humanparts, $humantherec, 'Duration', 'Latest file modification');
+foreach ($libraryExportHeadings as &$libraryExportHeading) {
+    $libraryExportHeading = str_replace(array(';', "\r", "\n"), array(',.', ' ', ' '), $libraryExportHeading);
+}
+unset($libraryExportHeading);
+echo implode(';', $libraryExportHeadings)."\r\n";
 
 $path='../library';
 $tunes='';
@@ -20,6 +26,7 @@ if ($handle = @opendir($path))  {
 
 $tunes=explode($delimiter,$tunes);
 sort($tunes);
+require('library.sort.inc.php');
 require('table.inc.xls.php');
 
 ?>

@@ -55,7 +55,14 @@ if($scorepdf!='' || $saxespdf!='' || $bonespdf!='' || $trumpetpdf!='' || $rhythm
 else echo '<tr class="trspacer"><td></td><td></td><tr><td></td>';
 }
 
+if ($_GET['m']=='library' && isset($libraryTuneDates)) {
+    $libraryPrintDate = !empty($libraryTuneDates[$tunes[$i]]) ? date('d.m.Y', $libraryTuneDates[$tunes[$i]]) : '';
+    echo '<tr><td style="white-space:nowrap; padding-right:10px;">';
+    if ($libraryPrintDate !== '') echo '<span title="Latest file modification" style="display:inline-block; padding:1px 4px; border-radius:3px; background:#ddd; color:#666; font-size:10px; line-height:13px; white-space:nowrap; -webkit-print-color-adjust:exact; print-color-adjust:exact;">'.$libraryPrintDate.'</span>';
+    echo '</td><td class="print">'.nsk($tunes[$i]).'</td></tr>';
+} else {
 echo '</td><td class="print">'.nsk($tunes[$i]).'<td></tr>';
+}
 }
 echo "\r\n";
 }

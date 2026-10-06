@@ -4,7 +4,11 @@ $inumber=1;
 $letter='';
 $oldletter='';
 
-   echo '<table '.$small.'>';
+   $libraryInteractive = !empty($libraryClientSorting) && isset($_GET['m']) && $_GET['m'] === 'library';
+   $librarySeenLetters = array();
+   $libraryBackgroundFrames = '';
+   $libraryTableAttributes = $libraryInteractive ? ' id="nadin-library-table" data-library-sort="'.$librarySort.'"' : '';
+   echo '<table '.$small.$libraryTableAttributes.'>';
 
    for ($i=0;$i<count($tunes);$i++) {
 
@@ -23,6 +27,7 @@ $zusatz='';
 $listento='';
 	  
       $tunes[$i]=trim($tunes[$i]);
+      if ($libraryInteractive && $tunes[$i] === '') continue;
 
       $path='library/'.$tunes[$i];
    
@@ -58,13 +63,21 @@ $zusatz=explode($delimiter2,$zusatz);
       
 	  
 	   $letter=substr($tunes[$i],0,1);
-	   if ($_GET['m']=='library' && $letter!=$oldletter) echo '<tr colspan="6"><td><br /><h4><a name="'.$letter.'"></a>'.$letter.'</h4>
+       if ($libraryInteractive) {
+           if (!isset($librarySeenLetters[$letter])) {
+               $librarySeenLetters[$letter] = true;
+               echo '<tbody class="nadin-library-letter" data-library-letter="'.htmlXspecialchars($letter).'"><tr><td colspan="6"><br /><h4><a name="'.htmlXspecialchars($letter).'"></a>'.htmlXspecialchars($letter).'</h4></td></tr></tbody>';
+           }
+           echo '<tbody class="nadin-library-tune" data-library-letter="'.htmlXspecialchars($letter).'" data-library-alpha="'.$libraryTuneOrder[$tunes[$i]].'" data-library-time="'.$libraryTuneDates[$tunes[$i]].'">';
+       } else {
+	   if ($_GET['m']=='library' && (!isset($librarySort) || $librarySort !== 'newest') && $letter!=$oldletter) echo '<tr colspan="6"><td><br /><h4><a name="'.$letter.'"></a>'.$letter.'</h4>
 	   
 	   <script>
 	   document.getElementById("alphabet").innerHTML=document.getElementById("alphabet").innerHTML+"<a onmouseover=\"location.href=\'#'.$letter.'\'\" href=\"#'.$letter.'\">'.$letter.'</a><br/>";
 	   </script>
 	   
 	   </td></tr>';
+       }
 	   $oldletter=substr($tunes[$i],0,1);
 
 $basket='';
@@ -73,13 +86,17 @@ if ($_GET['c']=='admin') $basket='style="cursor:pointer" onmouseover="this.style
 if (isset($_GET['gig'])) $basket='style="cursor:pointer" onmouseover="this.style.color=\'red\'" onmouseout="this.style.color=\'black\';" onclick="parent.ifrc.basket(escape(this.innerHTML));this.style.textDecoration=\'line-through\'"';
 
 
-      echo '<tr style="background:#eee" onmouseover="this.style.background=\'lightyellow\'" onmouseout="this.style.background=\'#eee\'"></td>';
+      echo '<tr style="background:#eee" onmouseover="this.style.background=\'lightyellow\'" onmouseout="this.style.background=\'#eee\'">'.($libraryInteractive ? '' : '</td>');
          if($_GET['m']!='library') {
 			 if($scorepdf!='' || $saxespdf!='' || $bonespdf!='' || $trumpetpdf!='' || $rhythmpdf!='' || $otherpdf!='' || $partspdf!='')echo'<td align="right">'.$inumber++.'</td>';
 		     else echo '<td></td>';
 		 }
 		 
-		 echo '<td id="'.mkid($tunes[$i]).'"><h5 id="'.mkid2($tunes[$i]).'" '.$basket.'>'.$tunes[$i].'</h5></td>';
+		 echo '<td id="'.mkid($tunes[$i]).'"'.($libraryInteractive ? ' class="nadin-library-tune-cell"' : '').'>';
+         if ($libraryInteractive && !empty($libraryTuneDates[$tunes[$i]])) {
+             echo '<span class="nadin-library-date-badge" title="Latest file modification">'.date('d.m.Y', $libraryTuneDates[$tunes[$i]]).'</span>';
+         }
+         echo '<h5 id="'.mkid2($tunes[$i]).'" '.$basket.'>'.$tunes[$i].'</h5></td>';
 
          echo '<td>';
 		 
@@ -124,7 +141,11 @@ if (isset($_GET['gig'])) $basket='style="cursor:pointer" onmouseover="this.style
 			 $seconds=$seconds[0]*60+$seconds[1];
 			 if($seconds<1)$secwarn=' (!!)';
 			 $totalseconds+=$seconds;
-			 if(striptime($listento)==$listento) echo '<iframe style="display:none" src="nadinmodule/settime.php?p='.$tunes[$i].'&f='.$listento.'"></iframe>';
+             if(striptime($listento)==$listento) {
+                 $libraryTimeFrame = '<iframe style="display:none" src="nadinmodule/settime.php?p='.$tunes[$i].'&f='.$listento.'"></iframe>';
+                 if ($libraryInteractive) $libraryBackgroundFrames .= $libraryTimeFrame;
+                 else echo $libraryTimeFrame;
+             }
 			 echo '<a title="'.$listento.'" href="get/file.php?c='.$tunes[$i].'/'.$listento.  '" target="_blank">'.$humantherec.' '.$time.'</a>  ';
 		 }
 		 else if($scorepdf!='' || $saxespdf!='' || $bonespdf!='' || $trumpetpdf!='' || $rhythmpdf!='' || $otherpdf!='' || $partspdf!='') echo '<span class="inumber" style="display:none">?</span>';
@@ -156,11 +177,15 @@ if (role('upaudio')) $upnow='&nbsp;<span style="color:white;background:#ddd;font
       echo '<tr><td align="right" colspan="6" class="mehr"><span style="display:none;" id="td1'.$i.'"><b>'.$humanfilesandlinks.':</b> ';
       include('weitereaufnahmen.inc.inc.php');    
 	  echo '</span></td></tr>'; 
+      if ($libraryInteractive) echo '</tbody>';
       }
   if($_GET['m']!='library')$onemoretd='<td></td>';
+  if ($libraryInteractive) echo '<tfoot>';
   echo '<tr>'.$onemoretd.'<td></td><td></td><td></td><td align="right"> '.hms($totalseconds).$secwarn.'<small>&nbsp;</small></td><td></td><td></td></tr>';
 
+   if ($libraryInteractive) echo '</tfoot>';
    echo '</table>';
+   if ($libraryInteractive) echo $libraryBackgroundFrames;
 if ($_COOKIE['i']>0) echo '<script>if (document.getElementById(\'td1'.$_COOKIE['i'].'\')) document.getElementById(\'td1'.$_COOKIE['i'].'\').style.display=\'block\';if (document.getElementById(\'td2'.$_COOKIE['i'].'\')) document.getElementById(\'td2'.$_COOKIE['i'].'\').style.display=\'block\';</script>';
 
 ?>

@@ -15,6 +15,7 @@ $zusatz='';
 $listento='';
 	  
       $tunes[$i]=trim($tunes[$i]);
+      if ($_GET['m']=='library' && isset($libraryTuneDates) && $tunes[$i] === '') continue;
 
       $path='../library/'.$tunes[$i];
    
@@ -82,6 +83,9 @@ $time='0:'.str_replace('.',':',$time[0]);
 
 if ($listento!='') echo nsk($time);
 echo ';';
+if ($_GET['m']=='library' && isset($libraryTuneDates) && !empty($libraryTuneDates[$tunes[$i]])) {
+    echo date('Y-m-d', $libraryTuneDates[$tunes[$i]]);
+}
 }
 echo "\r\n";
 }
