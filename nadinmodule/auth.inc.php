@@ -2,13 +2,15 @@
 /** File-based credentials and revocable sessions. No changes to userdatei.txt's format. */
 final class NadinAuth {
     private $root, $salt, $timeout, $bindIp, $ip;
+    private $loginRetry = 0;
+    const MAX_RATES = 10000;
     const GUARD = "<?php http_response_code(404); exit; ?>\n";
     public function __construct($root, $salt, $timeout = 3600, $bindIp = false, $ip = '') {
         $this->root = rtrim($root, '/'); $this->salt = $salt;
         $this->timeout = max(60, (int)$timeout); $this->bindIp = $bindIp; $this->ip = $ip;
     }
     public static function email($value) {
-        return is_string($value) ? strtolower(trim($value)) : '';
+        return is_string($value) && strlen($value) <= 254 ? strtolower(trim($value)) : '';
     }
     public function members() {
         $text = @file_get_contents($this->root.'/userdatei/userdatei.txt');
@@ -51,6 +53,14 @@ final class NadinAuth {
                 foreach ($db['accounts'] as $a) {
                     if (!is_array($a) || !is_string($a['hash'] ?? null) || !is_array($a['sessions'] ?? null) || !is_array($a['resets'] ?? null)) throw new RuntimeException('Invalid account storage.');
                 }
+                foreach ($db['rates'] as $r) {
+                    if (!is_array($r) || !is_int($r['n'] ?? null) || $r['n'] < 0 || !is_int($r['until'] ?? null)) throw new RuntimeException('Invalid attempt storage.');
+                    if (isset($r['blocked']) && !is_int($r['blocked'])) throw new RuntimeException('Invalid attempt storage.');
+                    if (isset($r['attempts'])) {
+                        if (!is_array($r['attempts']) || count($r['attempts']) > 100) throw new RuntimeException('Invalid attempt storage.');
+                        foreach ($r['attempts'] as $t) if (!is_int($t)) throw new RuntimeException('Invalid attempt storage.');
+                    }
+                }
             } else {
                 if (fstat($lock)['size'] > 0) throw new RuntimeException('Authentication data is missing. Restore it from backup; do not recreate initial passwords.');
                 $db = array('version'=>11, 'key'=>bin2hex(random_bytes(32)), 'accounts'=>array(), 'rates'=>array());
@@ -81,9 +91,23 @@ final class NadinAuth {
     }
     private function rate(&$db, $scope, $value, $limit, $seconds) {
         $key = hash_hmac('sha256', $scope.'|'.$value, $db['key']);
+        if (!isset($db['rates'][$key]) && count($db['rates']) >= self::MAX_RATES) return false;
         $r = $db['rates'][$key] ?? array('n'=>0, 'until'=>time()+$seconds);
-        $r['n']++; $db['rates'][$key] = $r;
+        $r['n'] = min($limit+1, $r['n']+1); $db['rates'][$key] = $r;
         return $r['n'] <= $limit;
+    }
+    private function loginKey($db, $scope, $value) { return hash_hmac('sha256', 'login-v13-'.$scope.'|'.$value, $db['key']); }
+    public function loginRetryAfter() { return $this->loginRetry; }
+    private function clearLoginFailures(&$db, $email) {
+        unset($db['rates'][$this->loginKey($db, 'account', $email)]);
+        unset($db['rates'][hash_hmac('sha256', 'login-account|'.$email, $db['key'])]);
+    }
+    private function loginEvent(&$db, $event, $account, $network, $delay = 0) {
+        // Bounded diagnostic history: keyed identifiers only, never submitted credentials.
+        $events = $db['loginEvents'] ?? array();
+        if (!is_array($events)) throw new RuntimeException('Invalid login history.');
+        $events[] = array('at'=>time(), 'event'=>$event, 'account'=>$account, 'network'=>$network, 'delay'=>$delay);
+        $db['loginEvents'] = array_slice($events, -200);
     }
     private function verify($a, $email, $password) {
         if (!is_string($password) || strlen($password) > 1024) return false;
@@ -106,14 +130,41 @@ final class NadinAuth {
         return '';
     }
     public function login($email, $password) {
-        $email = self::email($email);
+        $email = self::email($email); $this->loginRetry = 0;
         return $this->transaction(function(&$db) use($email, $password) {
-            $ipOK = $this->rate($db, 'login-ip', $this->ip, 60, 900);
-            $userOK = $ipOK && $this->rate($db, 'login-account', $email, 12, 900);
+            $now = time();
+            $accountKey = $this->loginKey($db, 'account', $email);
+            $networkKey = $this->loginKey($db, 'network', $this->ip);
+            $account = $db['rates'][$accountKey] ?? array('n'=>0, 'until'=>$now+86400, 'blocked'=>0);
+            $network = $db['rates'][$networkKey] ?? array('n'=>0, 'until'=>$now+600, 'blocked'=>0, 'attempts'=>array());
+            if (!is_int($account['blocked'] ?? null) || !is_int($network['blocked'] ?? null) || !is_array($network['attempts'] ?? null)) throw new RuntimeException('Invalid login attempt storage.');
+            // Honour active V11/V12 limits while upgrading an existing installation.
+            foreach (array('login-account'=>array($email,12), 'login-ip'=>array($this->ip,60)) as $scope=>$old) {
+                $r = $db['rates'][hash_hmac('sha256', $scope.'|'.$old[0], $db['key'])] ?? null;
+                if ($r && $r['n'] >= $old[1]) $this->loginRetry = max($this->loginRetry, $r['until']-$now);
+            }
+            $this->loginRetry = max($this->loginRetry, $account['blocked']-$now, $network['blocked']-$now, 0);
+            if ($this->loginRetry > 0) return false; // Blocked requests never prolong the lock.
+            $needed = (int)!isset($db['rates'][$accountKey]) + (int)!isset($db['rates'][$networkKey]);
+            if (count($db['rates'])+$needed > self::MAX_RATES) { $this->loginRetry=60; return false; }
             $members = $this->members(); $m = $members[$email] ?? null;
-            if (!$ipOK || !$userOK || !$m || $m['expires'] < time() || !$this->verify($db['accounts'][$email] ?? $this->emptyAccount(), $email, $password)) return false;
+            if (!$m || $m['expires'] < $now || !$this->verify($db['accounts'][$email] ?? $this->emptyAccount(), $email, $password)) {
+                $account['n'] = min(9, $account['n']+1);
+                $delay = $account['n'] < 6 ? 0 : array(6=>30, 7=>120, 8=>600, 9=>3600)[$account['n']];
+                $account['blocked'] = $now+$delay; $account['until']=$now+86400;
+                $network['attempts'] = array_values(array_filter($network['attempts'], function($t) use($now) { return $t > $now-600; }));
+                $network['attempts'][] = $now; $network['n'] = count($network['attempts']);
+                $network['blocked'] = $network['n'] >= 100 ? $now+600 : 0;
+                $network['until'] = $now+600;
+                $db['rates'][$accountKey]=$account; $db['rates'][$networkKey]=$network;
+                $this->loginRetry = max($delay, $network['blocked']-$now);
+                $this->loginEvent($db, $this->loginRetry ? 'lock' : 'failure', $accountKey, $networkKey, $this->loginRetry);
+                return false;
+            }
             if (!isset($db['accounts'][$email])) $db['accounts'][$email] = $this->emptyAccount();
-            unset($db['rates'][hash_hmac('sha256', 'login-account|'.$email, $db['key'])]);
+            $this->clearLoginFailures($db, $email);
+            // Successful band members do not consume the shared network's failure budget.
+            $this->loginEvent($db, 'success', $accountKey, $networkKey);
             return $this->newSession($db['accounts'][$email], $email, $members);
         });
     }
@@ -149,6 +200,7 @@ final class NadinAuth {
             $members = $this->members(); $email = $this->sessionUser($db, $token, $members);
             if (!$email || !$this->rate($db, 'change', $email, 8, 900) || !$this->verify($db['accounts'][$email], $email, $current)) return false;
             $db['accounts'][$email] = array('hash'=>$this->hashPassword($password), 'sessions'=>array(), 'resets'=>array());
+            $this->clearLoginFailures($db, $email);
             return $this->newSession($db['accounts'][$email], $email, $members);
         });
     }
@@ -181,7 +233,7 @@ final class NadinAuth {
             $r = $db['accounts'][$email]['resets'][$id] ?? null;
             if (!$ipOK || !$userOK || !$m || $m['expires'] < time() || !$r || $r['until'] <= time() || !hash_equals($m['stamp'], $r['stamp'])) return false;
             $db['accounts'][$email] = array('hash'=>$this->hashPassword($password), 'sessions'=>array(), 'resets'=>array());
-            unset($db['rates'][hash_hmac('sha256', 'login-account|'.$email, $db['key'])]);
+            $this->clearLoginFailures($db, $email);
             return true;
         });
     }
