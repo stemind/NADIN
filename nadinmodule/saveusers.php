@@ -1,27 +1,18 @@
-<?php require ('refreshcookies2.inc.php') ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="../style.css" />
-</head>
-
-<body style="backgound:#D9F1FF">
-<?php 
-require_once('../config.inc.php');
-require_once('functions.inc.php');
+<?php
+require_once dirname(__DIR__).'/config.inc.php';
+require_once __DIR__.'/functions.inc.php';
 auth('musers');
-if (file_put_contents('../userdatei/userdatei.txt',$_POST['users'])) echo "<script>
-
-parent.document.getElementById('save').style.background='lightgreen';
-parent.document.getElementById('save').style.color='black';
-parent.document.getElementById('save').innerHTML='s';
-parent.document.getElementById('save').title='save [Ctrl s]';
-parent.document.getElementById('changes').value=0;
-
-</script>";
-else echo '<script>alert("Could not save. The server must have write permissions in the folder userdatei and on all files there (incl. .htpasswd) (e. g. chmod 777).")</script>';
+header('Content-Type: text/html; charset=UTF-8'); header('Cache-Control: no-store');
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !nadin_auth()->csrf('users', nadin_session_token(), $_POST['csrf'] ?? '')) { http_response_code(403); exit('This form has expired. Reload the user editor before saving.'); }
+try { nadin_auth()->saveMembers($_POST['users'] ?? null); }
+catch (RuntimeException $e) { http_response_code(500); exit('The user list could not be saved. Check storage permissions and try again.'); }
 ?>
-<iframe src="p.php" width="0" height="0" frameborder="0"</iframe>
-</body>
-</html>
+<!doctype html><html><head><meta charset="utf-8"><title>Users saved</title></head><body>
+Users saved.
+<script>
+if (parent.document.getElementById('save')) {
+var b=parent.document.getElementById('save');b.style.background='lightgreen';b.style.color='black';b.style.fontWeight='normal';b.textContent='s';b.title='save [Ctrl s]';
+}
+if(parent.document.getElementById('changes'))parent.document.getElementById('changes').value=0;
+parent.changes=0;
+</script></body></html>

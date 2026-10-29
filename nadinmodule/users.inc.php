@@ -78,6 +78,7 @@ myField.scrollTop=keepscrolltop;
 </script>
 <iframe name="su" frameborder="0" width="0" height="0"></iframe>
 <form name="form" method="post" target="su" action="nadinmodule/saveusers.php">
+<input type="hidden" name="csrf" value="<?php echo htmlspecialchars(nadin_auth()->csrf('users', nadin_session_token()), ENT_QUOTES, 'UTF-8'); ?>">
 
 
   <script>
@@ -111,7 +112,7 @@ document.form.users.value=arr.join("\n");
 </script>
 <small>
 <a href="javascript:sort()">sort</a> | 
-<a href="javascript:void(0)" onclick="f1=window.open('nadinmodule/p.php','_blank','toolbar=0,location=0,status=1,screenX=0,screenY=0,top=0,left=222,menubar=0,scrollbars=1,resizable=1,width=400,height=700');">passwords</a> |  
+<a href="javascript:void(0)" onclick="f1=window.open('nadinmodule/p.php','_blank','toolbar=0,location=0,status=1,screenX=0,screenY=0,top=0,left=222,menubar=0,scrollbars=1,resizable=1,width=400,height=700');">access details</a> |
 </small>
 
 <button id="save" title="save [Ctrl s]" type="button" onclick="document.form.submit()">s</button>

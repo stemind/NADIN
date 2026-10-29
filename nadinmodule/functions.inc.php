@@ -1,9 +1,4 @@
 <?php 
-if ($autoresolvefastcgiproblems=='yes') {
-if ($basicauthvarname=='') $basicauthvarname='HTTP_AUTHORIZATION';
-list($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']) = explode(':', base64_decode(substr($_SERVER[$basicauthvarname], 6)));
-}
-
 function mkid($s) {
 $t='()ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 -_';
 $s=trim($s);
@@ -57,99 +52,26 @@ $s=str_replace($badascii,$goodascii,$s);
 return mkfilename($s);
 }
 
-if (file_exists('../userdatei/userdatei.txt')) $users=file_get_contents('../userdatei/userdatei.txt');
-if (file_exists('userdatei/userdatei.txt')) $users=file_get_contents('userdatei/userdatei.txt');
-if (file_exists('../../userdatei/userdatei.txt')) $users=file_get_contents('../../userdatei/userdatei.txt');
-
-$users=cleanusers($users);
-
-if (!isset($_POST['u'])) $_POST['u']='';
-if (!isset($_COOKIE['u'])) $_COOKIE['u']='';
-if (!isset($_POST['p'])) $_POST['p']='';
-if (!isset($_COOKIE['p'])) $_COOKIE['p']='';
-
-$up=str_replace(' ','',strtolower(trim($_POST['u'])));
-$uc=str_replace(' ','',strtolower(trim($_COOKIE['u'])));
-
-$pcrcp=nadinhash($up.$salt);
-$pcrcc=nadinhash($uc.$salt);
-
-if($sticksessiontoip=='yes')$serverremoteaddr=$_SERVER['REMOTE_ADDR'];
-else $serverremoteaddr='';
-$pmd5p=sha1(trim(str_replace(' ','',($salt.$serverremoteaddr.strtolower($_POST['p'])))));
-$pmd5i=sha1(trim(str_replace(' ','',($salt.$serverremoteaddr.$pcrcc))));
-$pmd5c=$_COOKIE['p'];
-
-$homepage=str_replace(basename($nadin),'',$nadin);
+require_once __DIR__.'/auth.inc.php';
+$users = cleanusers((string)file_get_contents(dirname(__DIR__).'/userdatei/userdatei.txt'));
+$up = NadinAuth::email($_POST['u'] ?? '');
+$uc = nadin_auth()->session(nadin_session_token(), true);
+$pmd5c = nadin_session_token();
+$pmd5i = $uc !== '' ? $pmd5c : '!invalid!';
+$pcrcp = $pcrcc = ''; // Legacy logging variables never contain password-derived values.
+$homepage = nadin_cookie_path();
 
 function auth($right) {
-global $uc;
-global $pmd5c;
-global $pmd5i;
-global $users;
-global $pcrcc;
-
-if (strpos($users,$uc)<1) {
-writelog('unknown;'.cleancsv($uc).';'.crc32($pcrcc));
-echo '<script>location.href="'.$homepage.'login.php";</script>';
-exit;
+    nadin_require_login();
+    if (!role($right)) {
+        if (!headers_sent()) http_response_code(403);
+        exit('Access denied.');
+    }
 }
-
-if ($pmd5c!=$pmd5i) {
-writelog('byebye;'.cleancsv($uc).';'.crc32($pcrcc));
-echo '<script>location.href="'.$homepage.'login.php";</script>';
-exit;
-}
-
-$userrights=explode(','.$uc.',',$users);
-$userrights=$userrights[1];
-$userrights=explode("\n",$userrights);
-$userrights=$userrights[0];
-
-$userexp=explode(',',$userrights);
-$userexp=$userexp[0];
-$userexp=explode('.',$userexp);
-$d=$userexp[0];
-$m=$userexp[1];
-$y=$userexp[2];
-$userexp=mktime(0,0,0,intval($m),intval($d),intval($y));
-if ($userexp<time())  {
-writelog('exp'.date('Ymd',$userexp).';'.cleancsv($uc).';'.crc32($pcrcc));
-echo '<script>alert("Dein Zugang ist per '.date('d.m.Y',$userexp).' abgelaufen.");location.href="'.$homepage.'../login.php";</script>';
-exit;
-}
-
-if (strpos($userrights,($right.'=1'))<1) die('<script>if (document.getElementById(\'navigation\')) document.getElementById(\'navigation\').style.visibility=\'visible\';alert("Du hast keinen Zugriff auf diesen NADIN Bereich (fehlende Berechtigungsstufe '.$right.').");</script>');
-}
-
 function role($right) {
-global $uc;
-global $users;
-
-$users = $users ?? '';
-$userrights=explode(','.$uc.',',$users);
-$userrights=$userrights[1];
-$userrights = $userrights ?? '';
-$userrights=explode("\n",$userrights);
-$userrights=$userrights[0];
-
-$userexp=explode(',',$userrights);
-$userexp=$userexp[0];
-$userexp=explode('.',$userexp);
-$d=$userexp[0];
-$m=$userexp[1];
-$y=$userexp[2];
-$userexp=mktime(0,0,0,intval($m),intval($d),intval($y));
-
-$userrights=explode(','.$uc.',',$users);
-$userrights=$userrights[1];
-$userrights=explode("\n",$userrights);
-$userrights=$userrights[0];
-
-if (strpos($userrights,($right.'=1'))>0 && $userexp>=time()) return true;
-else return false;
+    global $uc;
+    return $uc !== '' && nadin_auth()->active($uc, $right);
 }
-
 
 function checkrole($right) {
 if (!role($right)) die('<script>alert("Du hast keinen Zugriff auf diese Datei (fehlende Berechtigungsstufe '.$right.').");self.close();</script>');

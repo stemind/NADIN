@@ -1,8 +1,4 @@
-<?php 
-require_once('config.inc.php');
-$_COOKIE['u'] = $_COOKIE['u'] ?? '';
-$_COOKIE['p'] = $_COOKIE['p'] ?? '';
-setcookie('u', $_COOKIE['u'], time()+$timeout, '/');
-setcookie('p', $_COOKIE['p'], time()+$timeout, '/');
-setcookie('scrlt', '', time()+600, '/')
-?>
+<?php
+require_once dirname(__DIR__).'/config.inc.php';
+require_once __DIR__.'/functions.inc.php';
+if ($uc !== '') nadin_set_session(nadin_session_token());
