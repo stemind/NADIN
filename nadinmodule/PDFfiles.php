@@ -32,7 +32,7 @@ if (file_exists('../library/'.$_GET['name'])) {
      if ($handle = @opendir($path))  { 
      while (false !== ($file = readdir($handle)))  { 
 
-    if (str_replace('.','',$file)!='' && str_replace('infos.txt','',$file)!='' ) {
+    if (substr($file,0,1)!='.' && strpos($file,'zzDEL!')!==0 && str_replace('.','',$file)!='' && str_replace('infos.txt','',$file)!='' ) {
 
 $ext=explode('.',$file);
 $ext=$ext[count($ext)-1];
@@ -74,8 +74,8 @@ else $vorschlag=basename($path).'_HDDN amytext .'.$ext;
 	<td><a id="'.mkid2($file[$i]).'" target="_blank" href="../get/file.php?c='.str_replace('library/','',$path).'/'.$file[$i].'">'.$file[$i].'</a></td>
 	<td>'.date('d.m.Y H:i:s',filemtime($path.'/'.$file[$i])).'</td>
 	<td align="right">&nbsp;'.$filesize.$mass.'&nbsp</td>
-	<td><a href="javascript:void(0)" onclick="cf=prompt(\'New file name (incl. extension):                                                                                                                     \',\''.$vorschlag.'\');location.replace(\'PDFrenamefile.php?n=\'+cf+\'&p='.basename($path).'&f='.basename($file[$i]).'\')">rename</a></td>
-	<td><a href="javascript:void(0)" onclick="cf=confirm(\'Do you really want to delete '.$file[$i].'\');if (cf) location.replace(\'PDFdeletefile.php?p='.basename($path).'&f='.basename($file[$i]).'\')">delete</a></td></tr>';
+	<td><a href="javascript:void(0)" onclick="cf=prompt(\'New file name (incl. extension):                                                                                                                     \',\''.$vorschlag.'\');nadinMutation(\'PDFrenamefile.php?n=\'+cf+\'&p='.basename($path).'&f='.basename($file[$i]).'\')">rename</a></td>
+	<td><a href="javascript:void(0)" onclick="cf=confirm(\'Do you really want to delete '.$file[$i].'\');if (cf) nadinMutation(\'PDFdeletefile.php?p='.basename($path).'&f='.basename($file[$i]).'\')">delete</a></td></tr>';
 }
 
 }
@@ -85,3 +85,5 @@ else $vorschlag=basename($path).'_HDDN amytext .'.$ext;
 
 </body>
 </html>
+
+<?php require __DIR__.'/legacy-ui.inc.php'; ?>

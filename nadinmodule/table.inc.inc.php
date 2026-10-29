@@ -96,40 +96,40 @@ if (isset($_GET['gig'])) $basket='style="cursor:pointer" onmouseover="this.style
          if ($libraryInteractive && !empty($libraryTuneDates[$tunes[$i]])) {
              echo '<span class="nadin-library-date-badge" title="Latest file modification">'.date('d.m.Y', $libraryTuneDates[$tunes[$i]]).'</span>';
          }
-         echo '<h5 id="'.mkid2($tunes[$i]).'" '.$basket.'>'.$tunes[$i].'</h5></td>';
+         echo '<h5 id="'.mkid2($tunes[$i]).'" '.$basket.'>'.htmlXspecialchars($tunes[$i]).'</h5></td>';
 
          echo '<td>';
 		 
 		 if (!allowedfor('vscore')) $mute='class="mute"';
 		 else $mute='';	 
-		 if ($scorepdf!='') echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$scorepdf.'" target="_blank">'.$humanscore.'</a>';
+		 if ($scorepdf!='' && allowedfor('vscore')) echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$scorepdf.'" target="_blank">'.$humanscore.'</a>';
          echo '</td>';
 		 
          echo '<td nowrap="nowrap">';
 
 		 if (!allowedfor('vsaxes')) $mute='class="mute"';
 		 else $mute='';	 
-         if ($saxespdf!='')    echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$saxespdf.'" target="_blank">'.$humansaxes.'</a> ';
+         if ($saxespdf!='' && allowedfor('vsaxes'))    echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$saxespdf.'" target="_blank">'.$humansaxes.'</a> ';
 
 		 if (!allowedfor('vbones')) $mute='class="mute"';
 		 else $mute='';	 
-         if ($bonespdf!='')    echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$bonespdf.'" target="_blank">'.$humanbones.'</a> ';
+         if ($bonespdf!='' && allowedfor('vbones'))    echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$bonespdf.'" target="_blank">'.$humanbones.'</a> ';
 
 		 if (!allowedfor('vtrumpets')) $mute='class="mute"';
 		 else $mute='';	 
-		 if ($trumpetspdf!='') echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$trumpetspdf.'" target="_blank">'.$humantrumpets.'</a> ';
+		 if ($trumpetspdf!='' && allowedfor('vtrumpets')) echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$trumpetspdf.'" target="_blank">'.$humantrumpets.'</a> ';
 
 		 if (!allowedfor('vrhythm')) $mute='class="mute"';
 		 else $mute='';	 
-		 if ($rhythmpdf!='')   echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$rhythmpdf.'" target="_blank">'.$humanrhythm.'</a> ';
+		 if ($rhythmpdf!='' && allowedfor('vrhythm'))   echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$rhythmpdf.'" target="_blank">'.$humanrhythm.'</a> ';
 
 		 if (!allowedfor('vother')) $mute='class="mute"';
 		 else $mute='';	 
-		 if ($otherpdf!='')    echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$otherpdf.'" target="_blank">'.$humanother.'</a> ';
+		 if ($otherpdf!='' && allowedfor('vother'))    echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$otherpdf.'" target="_blank">'.$humanother.'</a> ';
 
 		 if (!allowedfor('vgigs')) $mute='class="mute"';
 		 else $mute='';	 
-		 if ($partspdf!='')    echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$partspdf.'" target="_blank">'.$humanparts.'</a> ';
+		 if ($partspdf!='' && allowedfor('vgigs'))    echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$partspdf.'" target="_blank">'.$humanparts.'</a> ';
 
          echo '</td>';         echo '<td nowrap="nowrap">';
          if ($listento=='' && ($scorepdf!='' || $saxespdf!='' || $bonespdf!='' || $trumpetpdf!='' || $rhythmpdf!='' || $otherpdf!='' || $partspdf!='')) $secwarn=' (!)';

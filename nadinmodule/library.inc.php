@@ -27,7 +27,7 @@ else $neu='';
 #nadin-library-table[data-library-sort="newest"] .nadin-library-letter { display:none; }
 </style>
 
-<div class="nadin-library-body">
+<div class="nadin-library-body"><label class="nadin-search-label">Find a tune <input id="nadin-tune-search" type="search" placeholder="Title…"></label><span id="nadin-search-count" role="status" class="nadin-hint"></span>
 <?php
 $path='./library';
 $tunes='';
@@ -57,7 +57,7 @@ foreach ($_GET as $libraryQueryName => $libraryQueryValue) {
 </form>
 <?php
 
-require('ascii.inc.php');
+// Existing media names are never changed by viewing the library.
 $libraryClientSorting = true;
 echo '<div class="nadin-table-scroll" tabindex="0" role="region" aria-label="Library tunes and downloads">';
 require('table.inc.inc.php');
@@ -67,16 +67,3 @@ echo '</div>';
 <script src="nadinmodule/library.sort.js"></script>
 </div>
 </main></div>
-
-<?php 
-
-if ($_GET['c']=='admin') {
-?>
-
-<div id="composer" style="position:absolute;width:400px;height:800px;top:111px;left:700px;background:#D9F1FF"><iframe id="icomposer" src="nadinmodule/composer.php" frameborder="0" width="400" height="800" name="ifrc"></iframe></div>
-<div id="preview" style="position:absolute;width:600px;height:800px;top:111px;left:1110px;background:#D9F1FF"><iframe id="ipreview" src="preview.php"  frameborder="0" width="600" height="800" name="ifrp"></iframe></div>
-<script>if (document.getElementById('managegigs')) document.getElementById('managegigs').style.background='yellow';</script>
-<script src="nadinmodule/composer.position.js"></script>
-<?php 
-}
-?>

@@ -1,3 +1,4 @@
+<?php require_once __DIR__.'/legacy-write.inc.php'; ?>
 <?php require('refreshcookies2.inc.php') ?>
 <?php require_once('functions.inc.php')?>
 <?php setcookie('i', $_GET['i'], time()+$timeout, '/'); ?>
@@ -31,3 +32,6 @@ else echo '<script>alert("Could not save. The server must have write permissions
 ?>
 </body>
 </html>
+<?php
+if(isset($data,$foldername) && is_file('../library/'.$foldername.'/infos.txt') && file_get_contents('../library/'.$foldername.'/infos.txt')===$data) echo '<script>if(parent.document.form && parent.document.form.elements.revision)parent.document.form.elements.revision.value='.json_encode(hash('sha256',$data)).';</script>';
+?>

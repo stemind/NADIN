@@ -27,6 +27,8 @@
         document.querySelectorAll('.nadin-mobile-actions details[open]').forEach(function (menu) { menu.open = false; menu.querySelector('summary').focus(); });
     });
     nav.addEventListener('click', function (event) { if (event.target.closest('a') && mobile.matches) closeList(false); });
+    var gigSearch=document.getElementById('nadin-gig-search');
+    if(gigSearch)gigSearch.addEventListener('input',function(){var q=gigSearch.value.toLocaleLowerCase();nav.querySelectorAll('a').forEach(function(a){a.hidden=!a.textContent.toLocaleLowerCase().includes(q);});});
     var key = 'nadin-sidebar:' + location.pathname + ':' + nav.getAttribute('data-sidebar');
     try { nav.scrollTop = Number(sessionStorage.getItem(key)) || 0; } catch (ignore) {}
     function fitSidebar() {
@@ -108,4 +110,12 @@
         var downloads = document.querySelector('.nadin-downloads');
         if (downloads) downloads.open = false;
     }
+}());
+
+(function(){
+ 'use strict';
+ var search=document.getElementById('nadin-tune-search');if(!search)return;
+ var fold=function(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/_/g,' ');};
+ function filter(){var q=fold(search.value),count=0;document.querySelectorAll('.nadin-library-tune').forEach(function(group){var title=group.querySelector('h5');var show=title&&fold(title.textContent).includes(q);group.hidden=!show;if(show)count++;});document.querySelectorAll('.nadin-library-letter').forEach(function(letter){var value=letter.dataset.libraryLetter;letter.hidden=!Array.from(document.querySelectorAll('.nadin-library-tune')).some(function(t){return !t.hidden&&t.dataset.libraryLetter===value;});});document.getElementById('nadin-search-count').textContent=q?count+' tunes':'';}
+ search.addEventListener('input',filter);document.getElementById('library-sort').addEventListener('change',filter);
 }());

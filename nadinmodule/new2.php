@@ -1,3 +1,4 @@
+<?php require_once __DIR__.'/legacy-write.inc.php'; ?>
 <?php
 require ('refreshcookies2.inc.php');
 require_once('../config.inc.php');

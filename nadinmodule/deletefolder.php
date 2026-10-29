@@ -34,15 +34,15 @@ echo '<h1>'.htmlXspecialchars(str_replace('_',' ',$_GET['tune'])).'</h2>';
 
 <form name="form" action="deletefolder2.php?tune=<?php echo $_GET['tune']?>" method="post">
 
-Fill in the first character:
-
-  <input type="text" name="tune" size="50" value="<?php echo htmlXspecialchars(substr($_GET['tune'],1,strlen($_GET['tune']))) ?>" />
-
-<input type="submit" value="delete" />
+<p>Only an empty tune that is no longer used in a setlist can be removed. Its folder is kept in the deleted-files folder.</p>
+<input type="hidden" name="tune" value="<?php echo htmlXspecialchars($_GET['tune']) ?>">
+<button type="submit">Delete empty tune</button>
 
 </form>
 
-<script>setTimeout("document.form.tune.focus()",555);</script>
+
 
 </body>
 </html>
+
+<?php require __DIR__.'/legacy-ui.inc.php'; ?>

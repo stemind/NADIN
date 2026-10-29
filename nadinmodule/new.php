@@ -14,7 +14,7 @@ auth('uppdf');
 ?></head>
 
 <body>
-<h1>Create new folder</h1>
+<h1>New tune</h1>
 <div style="position:absolute;top:0px;left:10px;color:red;background:#ddd;height:27px;width:25px;text-align:center;cursor:pointer;font-size:20px" onmouseover="this.style.fontWeight='bold';this.style.background='#ccc';" onmouseout="this.style.fontWeight='100';this.style.background='#ddd';" onclick="self.close()">&#215;</div>
 <form name="form" action="new2.php" method="post">
 
@@ -22,7 +22,7 @@ Tune name:
 
 <input type="text" name="tune" size="50" />
 
-<input type="submit" value="create" />
+<input type="submit" value="Create tune" />
 
 </form>
 
@@ -38,3 +38,5 @@ document.form.tune.focus();
 <script>document.title=document.title='<?php echo $bb ?> - '+document.title</script>
 </body>
 </html>
+
+<?php require __DIR__.'/legacy-ui.inc.php'; ?>

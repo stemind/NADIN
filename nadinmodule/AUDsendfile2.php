@@ -1,3 +1,4 @@
+<?php require_once __DIR__.'/legacy-write.inc.php'; ?>
 <?php
 include('iniset.inc.php');
 require ('refreshcookies2.inc.php');

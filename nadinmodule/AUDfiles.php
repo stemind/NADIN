@@ -32,7 +32,7 @@ if (file_exists('../library/'.$_GET['name'])) {
      if ($handle = @opendir($path))  { 
      while (false !== ($file = readdir($handle)))  { 
 
-    if (str_replace('.','',$file)!='') {
+    if (substr($file,0,1)!='.' && strpos($file,'zzDEL!')!==0 && str_replace('.','',$file)!='') {
 
 	 $ext=explode('.',$file);
      $ext=$ext[count($ext)-1];
@@ -58,8 +58,8 @@ $mass='kB';
 	<td>'.date('d.m.Y H:i:s',filemtime($path.'/'.$file[$i]));
 	if(striptime($file[$i])==$file[$i]) echo '<iframe style="display:none" src="settime.php?p='.$path.'&f='.$file[$i].'"></iframe>';
 	echo '</td>	<td align="right">&nbsp;'.$filesize.$mass.'&nbsp</td>
-	<td><a href="javascript:void(0)" onclick="cf=prompt(\'New file name (incl. extension):                                                                                                                     \',\''.htmlXspecialchars(str_replace('..','.',striptime($file[$i]))).'\');location.replace(\'AUDrenamefile.php?n=\'+cf+\'&p='.basename($path).'&f='.basename($file[$i]).'\')">rename</a></td>
-	<td><a href="javascript:void(0)" onclick="cf=confirm(\'Do you really want to delete '.$file[$i].'\');if (cf) location.replace(\'AUDdeletefile.php?p='.basename($path).'&f='.basename($file[$i]).'\')">delete</a></td></tr>';
+	<td><a href="javascript:void(0)" onclick="cf=prompt(\'New file name (incl. extension):                                                                                                                     \',\''.htmlXspecialchars(str_replace('..','.',striptime($file[$i]))).'\');nadinMutation(\'AUDrenamefile.php?n=\'+cf+\'&p='.basename($path).'&f='.basename($file[$i]).'\')">rename</a></td>
+	<td><a href="javascript:void(0)" onclick="cf=confirm(\'Do you really want to delete '.$file[$i].'\');if (cf) nadinMutation(\'AUDdeletefile.php?p='.basename($path).'&f='.basename($file[$i]).'\')">delete</a></td></tr>';
 }
 
 }
@@ -74,3 +74,5 @@ if(document.getElementById('<?php echo $_GET['m']?>'))document.getElementById('<
 </body>
 </html>
 
+
+<?php require __DIR__.'/legacy-ui.inc.php'; ?>

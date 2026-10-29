@@ -193,9 +193,14 @@ final class NadinAuth {
             return hash_equals(hash_hmac('sha256', $scope.'|'.$binding.'|'.$m[1], $db['key']), $m[2]);
         });
     }
-    public function saveMembers($text) {
+    public function saveMembers($text, $expected = null, $keepToken = null) {
         if (!is_string($text) || strlen($text)>1000000) throw new RuntimeException('Invalid user list.');
-        $this->transaction(function(&$db) use($text) {
+        $this->transaction(function(&$db) use($text,$expected,$keepToken) {
+            $path=$this->root.'/userdatei/userdatei.txt';
+            if ($expected !== null && !hash_equals(hash_file('sha256',$path),$expected)) throw new DomainException('The user list changed. Reload before saving.');
+            $keepUser=$keepToken ? $this->sessionUser($db,$keepToken,$this->members()) : '';
+            $keepId=$keepToken ? hash('sha256',$keepToken) : '';
+            $keepSession=$keepUser ? $db['accounts'][$keepUser]['sessions'][$keepId] : null;
             $tmp = $this->root.'/userdatei/users-'.bin2hex(random_bytes(12)).'.php';
             try {
                 if (file_put_contents($tmp, $text) !== strlen($text) || !rename($tmp, $this->root.'/userdatei/userdatei.txt')) throw new RuntimeException('Could not save the user list.');
@@ -206,6 +211,10 @@ final class NadinAuth {
                 foreach ($a['sessions'] as $id=>$s) if (!hash_equals($members[$email]['stamp'], $s['stamp'])) unset($a['sessions'][$id]);
                 foreach ($a['resets'] as $id=>$r) if (!hash_equals($members[$email]['stamp'], $r['stamp'])) unset($a['resets'][$id]);
             } unset($a);
+            if ($keepUser && isset($members[$keepUser]) && $members[$keepUser]['expires']>=time()) {
+                $keepSession['stamp']=$members[$keepUser]['stamp'];
+                $db['accounts'][$keepUser]['sessions'][$keepId]=$keepSession;
+            }
         });
     }
 }

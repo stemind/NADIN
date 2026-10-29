@@ -75,7 +75,7 @@ else $vorschlag=basename($path).'_HDDN amytext .'.$ext;
 	<td>'.date('d.m.Y H:i:s',filemtime($path.'/'.$file[$i])).'</td>
 	<td align="right">&nbsp;'.$filesize.$mass.'&nbsp</td>
 	<td> </td>
-	<td><a href="javascript:void(0)" onclick="cf=confirm(\'Do you really want to delete '.$file[$i].'\');if (cf) location.replace(\'ATTdeletefile.php?p='.basename($path).'&f='.basename($file[$i]).'\')">delete</a></td></tr>';
+	<td><a href="javascript:void(0)" onclick="cf=confirm(\'Do you really want to delete '.$file[$i].'\');if (cf) nadinMutation(\'ATTdeletefile.php?p='.basename($path).'&f='.basename($file[$i]).'\')">delete</a></td></tr>';
 }
 
 }
@@ -85,3 +85,5 @@ else $vorschlag=basename($path).'_HDDN amytext .'.$ext;
 
 </body>
 </html>
+
+<?php require __DIR__.'/legacy-ui.inc.php'; ?>

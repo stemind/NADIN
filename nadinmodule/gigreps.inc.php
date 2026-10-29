@@ -11,6 +11,7 @@ $_GET['c'] = $selectedGig;
 ?>
 <div class="nadin-layout" style="--nadin-sidebar-width:<?php echo nadinSidebarWidth(); ?>px">
 <nav id="nadin-sidebar" class="nadin-sidebar" aria-label="GigReps" data-sidebar="<?php echo $gigModule; ?>">
+<label class="nadin-search-label"><span class="nadin-sr-only">Find a gig</span><input id="nadin-gig-search" type="search" placeholder="Find a gig…"></label>
 <?php foreach ($gigs as $gig) { ?>
 <a id="id<?php echo md5($gig); ?>" href="?<?php echo nadinHtml(http_build_query(array('m' => $gigModule, 'c' => $gig))); ?>"<?php if ($gig === $selectedGig) echo ' aria-current="page"'; ?> title="<?php echo nadinHtml(substr($gig, 0, -4)); ?>"><?php echo nadinHtml(substr($gig, 0, -4)); ?></a>
 <?php } ?>
@@ -20,6 +21,9 @@ $_GET['c'] = $selectedGig;
 if ($selectedGig === '') {
     echo '<p>No GigReps available.</p>';
 } else {
+    echo '<div class="nadin-gig-heading"><h3>'.nadinHtml(substr($selectedGig,0,-4)).'</h3>';
+    if (role('mgigs') && $gigModule==='gigreps') echo '<a href="?'.nadinHtml(http_build_query(array('m'=>'managegigs','c'=>$selectedGig))).'">Edit gig</a>';
+    echo '</div>';
     list($infos, $tunes) = nadinReadRep($gigModule . '/' . $selectedGig, $delimiter2);
     echo '<div class="nadin-info-scroll"><div class="nadin-info-inner">';
     require('nadinmodule/infos.inc.php');

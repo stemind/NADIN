@@ -1,3 +1,4 @@
+<?php require_once __DIR__.'/legacy-write.inc.php'; ?>
 <?php
 include('iniset.inc.php');
 require ('refreshcookies2.inc.php');
@@ -23,7 +24,6 @@ $ext=$ext[count($ext)-1];
 
 if(trim($path)!=''&&trim($file)!='') {
 rename('../library/'.$path.'/'.$file,'../filesdeleted/'.$time.'!'.$uc.'!'.$file);
-unlink('../library/'.$path.'/'.$file);
 }
 ?>
 <script>

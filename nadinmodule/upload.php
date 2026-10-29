@@ -96,3 +96,5 @@ self.focus();
 </script>
 </body>
 </html>
+
+<?php require __DIR__.'/legacy-ui.inc.php'; ?>
