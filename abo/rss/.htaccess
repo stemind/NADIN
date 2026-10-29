@@ -1,2 +1,8 @@
-RewriteEngine on
-RewriteRule !.(gif|jpg|png|css)$ ../get/file.php
+# RSS/iTunes is retired. Keep abo/zip on disk; PHP download handlers read it.
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+</IfModule>
