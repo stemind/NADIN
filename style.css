@@ -226,3 +226,16 @@ div, h3 {
 .nadin-forscore-help { margin-top:18px; }
 .nadin-forscore-help summary { cursor:pointer; color:blue; }
 @media (max-width:500px) { .nadin-forscore-row { grid-template-columns:minmax(0,1fr); } .nadin-forscore-row small { grid-column:1; } }
+
+/* V11 account forms retain the original restrained, compact interface. */
+.nadin-account-page { padding:16px; box-sizing:border-box; }
+.nadin-account-panel { max-width:460px; margin:0 auto; overflow-wrap:anywhere; }
+.nadin-account-logo { float:right; }
+.nadin-account-panel h1 { margin:0 0 10px; }.nadin-account-panel h1 small { font-size:12px; }
+.nadin-account-panel h2 { margin:10px 0; }
+.nadin-account-panel label { display:block; margin:12px 0 4px; }
+.nadin-account-panel input:not([type=hidden]) { box-sizing:border-box; width:100%; min-width:0; font-size:16px; padding:8px; }
+.nadin-account-panel button { margin-top:14px; padding:8px 14px; font-size:16px; }
+.nadin-form-hint { font-size:12px; margin:4px 0; }
+.nadin-account-panel [role=alert] { padding:8px; border:1px solid #b71c1c; background:#fff2f2; }
+.nadin-account-panel [role=status] { padding:8px; border:1px solid #587050; background:#f2f8ee; }

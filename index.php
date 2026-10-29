@@ -24,8 +24,8 @@ shortcut.add("Ctrl+S",function() {
 <body class="nadin-page">
 <header class="nadin-header">
 <button type="button" class="nadin-sidebar-toggle" id="nadin-sidebar-toggle" aria-expanded="false" aria-controls="nadin-sidebar" aria-label="Open list">&#9776;</button>
-<h1>NADIN <small class="nadin-version">V9</small></h1>
-<div class="nadin-account"><?php echo htmlXspecialchars($uc) ?> | <a href="logout.php">logout</a></div>
+<h1>NADIN <small class="nadin-version">V11</small></h1>
+<div class="nadin-account"><?php echo htmlXspecialchars($uc) ?> | <a href="password.php">password</a> | <a href="logout.php">logout</a></div>
 <img src="nadink.gif" width="40" height="40" alt="" />
 </header>
 <?php

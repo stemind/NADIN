@@ -1,4 +1,4 @@
-<?php require('config.inc.php'); require_once('nadinmodule/functions.inc.php'); ?>
+<?php require('config.inc.php'); require_once('nadinmodule/functions.inc.php'); auth('mgigs'); ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
