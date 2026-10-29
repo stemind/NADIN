@@ -54,8 +54,13 @@ try:
   r=s.get(base+url);assert r.status_code==200,(key,r.status_code);r.encoding='utf-8';p=r.text
   if key=='forscore':p=p.replace('href="../style.css"','href="style.css"')
   (out/(key+'.html')).write_text(p)
+ # Capture the actual V13 locked response with synthetic credentials only.
+ locked=requests.Session();r=locked.get(base+'/login.php');soup=BeautifulSoup(r.text,'html.parser');form={x['name']:x.get('value','') for x in soup.select('input[type=hidden][name]')};form.update(u='sax@example.invalid',p='incorrect-fixture-password')
+ for _ in range(6):r=locked.post(base+'/login2.php',data=form)
+ assert r.status_code==429
+ r.encoding='utf-8';(out/'login-locked.html').write_text(r.text)
  for name,source,width,height in [('mobile','gigs',390,780),('admin-wide','admin',1440,850),('admin-mobile','admin',390,1300),('desktop','gigs',1280,780),('users-wide','users',1280,780),('password-view','password',640,720)]:
-  (out/(name+'.html')).write_text('<html><head><meta charset="utf-8"></head><body style="margin:0;background:white"><iframe title="NADIN V12" src="'+source+'.html" style="display:block;width:'+str(width)+'px;height:'+str(height)+'px;border:0"></iframe></body></html>')
+  (out/(name+'.html')).write_text('<html><head><meta charset="utf-8"></head><body style="margin:0;background:white"><iframe title="NADIN" src="'+source+'.html" style="display:block;width:'+str(width)+'px;height:'+str(height)+'px;border:0"></iframe></body></html>')
  print(out)
 finally:
  server.terminate();server.wait(timeout=5);log.close()
