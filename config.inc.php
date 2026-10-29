@@ -59,7 +59,7 @@ $autoclosepopups='no'; //automatically close popup windows when main window (ope
 
 $allowmultiplepopups='yes'; //when you click the pencil symbol to manage tunes, a popup will be opened; set to $allowmultiplepopups='no' replaces this popup with the next you are going to open
 
-$rendergiglistontheleft='yes';
+// The left sidebar is now the only layout (the former switch is obsolete).
 $ifleftthenthiswidth='300px'; // e. g. $ifleftthenthiswidth='300px';
 
 /*

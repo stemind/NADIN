@@ -129,3 +129,86 @@ div, h3 {
         display: none !important;
     }
 }
+
+/* V8: original colours, compact rows and one contextual sidebar. */
+.nadin-page { margin:8px; min-width:0; }
+.nadin-header { display:flex; align-items:center; gap:12px; height:40px; }
+.nadin-header h1 { white-space:nowrap; display:inline; margin:0; font-size:32px; }
+.nadin-version { font-size:10px; font-weight:normal; color:#777; }
+.nadin-account { margin-left:auto; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:12px; }
+.nadin-header img { flex:none; }
+.nadin-navigation { margin:8px 0; padding:2px 3px; font-size:20px; line-height:28px; }
+.nadin-admin-action { font-size:11px; margin:0 6px 6px 0; }
+.nadin-layout { display:grid; grid-template-columns:var(--nadin-sidebar-width,300px) minmax(0,1fr); gap:11px; align-items:start; }
+.nadin-sidebar { position:sticky; top:8px; max-height:calc(100vh - 132px); overflow-y:auto; overflow-x:hidden; margin:0; padding:3px 0; background:#eee; font-size:13px; line-height:23px; min-width:0; box-sizing:border-box; }
+.nadin-sidebar > a { display:block; box-sizing:border-box; padding:0 4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.nadin-sidebar [aria-current] { background:yellow; }
+.nadin-sidebar a:focus-visible, .nadin-sidebar-toggle:focus-visible { outline:2px solid royalblue; outline-offset:-2px; }
+.nadin-content { min-width:0; }
+.nadin-content .infos { padding:5px 7px; font-size:14px; overflow-wrap:anywhere; }
+.nadin-export-links { text-align:right; font-size:12px; white-space:nowrap; }
+.nadin-export-links a + a { margin-left:10px; }
+.nadin-tunes { max-width:100%; }
+.nadin-tune-cell h5 { overflow-wrap:anywhere; }
+.nadin-detail-row:not(:has(> td > span[style*="display: block"], > td > span[style*="display:block"])) { display:none; }
+.nadin-library-layout { --nadin-sidebar-width:48px; }
+.nadin-library-body { margin:0; }
+.nadin-page .nadin-library-letter h4 { margin:8px 0 3px; }
+.nadin-recordings section { scroll-margin-top:8px; }
+.nadin-recordings h4 { margin:0 0 3px; }
+.nadin-recordings section + section { margin-top:12px; }
+.nadin-recording-row { font-size:13px; line-height:22px; overflow-wrap:anywhere; }
+.nadin-recording-duration { font-size:12px; }
+.nadin-manage-recording { color:#888; }
+.nadin-mobile-actions, .nadin-nav-short, .nadin-sidebar-toggle, .nadin-recording-symbol, .nadin-sidebar-backdrop { display:none; }
+.nadin-downloads summary { display:none; }
+.nadin-info-inner > br { display:none; }
+@media (max-width:1000px) {
+    .nadin-layout { grid-template-columns:minmax(140px,22vw) minmax(0,1fr); }
+    .nadin-library-layout { grid-template-columns:42px minmax(0,1fr); }
+}
+@media (max-width:700px) {
+    .nadin-page { margin:5px; }
+    .nadin-header { gap:6px; }
+    .nadin-header h1 { font-size:27px; }
+    .nadin-header img { width:32px; height:32px; }
+    .nadin-sidebar-toggle { display:block; flex:none; padding:2px 5px; font-size:21px; line-height:26px; background:#eee; color:#222; border:1px solid #bbb; border-radius:2px; cursor:pointer; }
+    .nadin-sidebar-toggle[hidden] { display:none; }
+    .nadin-navigation { display:flex; justify-content:space-between; gap:8px; font-size:14px; line-height:25px; margin:5px 0; }
+    .nadin-navigation { font-size:0; }
+    .nadin-navigation > a { font-size:14px; }
+    .nadin-nav-long { display:none; }
+    .nadin-nav-short { display:inline; }
+    .nadin-layout { display:block; }
+    .nadin-sidebar { display:none; position:fixed; z-index:20; top:50px; left:5px; width:300px; max-width:calc(100vw - 10px); max-height:calc(100dvh - 60px); font-size:13px; line-height:27px; border:1px solid #bbb; box-shadow:2px 3px 8px #0003; }
+    .nadin-sidebar-open .nadin-sidebar { display:block; }
+    .nadin-sidebar-open .nadin-sidebar-backdrop { display:block; position:fixed; inset:50px 0 0; z-index:19; background:#0002; }
+    .nadin-tunes, .nadin-tunes > tbody { display:block; width:100%; }
+    .nadin-tune-row { display:flex; align-items:center; margin-bottom:2px; }
+    .nadin-tune-row > .nadin-tune-cell { flex:1; min-width:0; }
+    .nadin-tune-row > td { display:block; box-sizing:border-box; }
+    .nadin-tune-row > .nadin-number { flex:0 0 20px; }
+    .nadin-tune-row > .nadin-mobile-actions { flex:0 0 54px; }
+    .nadin-tunes > tfoot { display:block; }
+    .nadin-library-letter > tr, .nadin-library-letter > tr > td { display:block; }
+    .nadin-tune-row > .nadin-number { width:16px; }
+    .nadin-tune-cell h5 { line-height:18px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+    .nadin-tune-row > .nadin-desktop-actions { display:none; }
+    .nadin-tune-row > .nadin-mobile-actions { display:table-cell; width:49px; position:relative; }
+    .nadin-mobile-actions summary { cursor:pointer; color:blue; font-size:12px; white-space:nowrap; }
+    .nadin-action-menu { position:absolute; z-index:15; right:0; top:100%; width:260px; max-width:calc(100vw - 24px); padding:8px; background:#eee; border:1px solid #bbb; box-shadow:1px 2px 6px #0003; box-sizing:border-box; white-space:normal; }
+    .nadin-action-menu strong { display:block; overflow-wrap:anywhere; margin-bottom:4px; }
+    .nadin-action-menu > div { line-height:26px; }
+    .nadin-action-menu a { display:inline-block; margin-right:8px; font-size:13px; }
+    .nadin-detail-row > td { overflow-wrap:anywhere; }
+    .nadin-downloads { font-size:12px; }
+    .nadin-downloads summary { display:list-item; cursor:pointer; }
+    .nadin-downloads[open] { line-height:22px; }
+    .nadin-recording-row > a:first-child { display:inline-block; max-width:calc(100% - 22px); vertical-align:bottom; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+}
+@media print {
+    .nadin-header, .nadin-navigation, .nadin-sidebar, .nadin-admin-action, .nadin-export-links, .nadin-sidebar-backdrop { display:none; }
+    .nadin-layout { display:block; }
+}
+
+.nadin-library-export { float:right; line-height:20px; }

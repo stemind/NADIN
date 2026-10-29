@@ -3,3 +3,5 @@ To that end, the PDF files can be taken apart to make them available selectively
 In NADIN, a band’s complete music library can be managed. NADIN administrators can put together the set lists of gigs by mouse clicks and make them available to the band members, including download links for the appropriate notes and recordings. Past gigs can be archived. In the administration, user rights can be defined (e.g. access only to the sax score for the current gigs, but not to archived gigs, and not to the music library).
 
 NADIN is purely file-based; therefore, it needs no database. It was developed by Urs Petermann and Stefan Minder for the Uptown Big Band Bern and is available to all interested parties free of charge. Any warranty and liability is excluded.
+
+Version notes: [V8 — compact original interface](docs/V8.md).
