@@ -26,6 +26,7 @@ if ($selectedGig === '') {
     echo '</div></div>';
 ?>
 <div class="nadin-export-links">
+<a href="get/forscore.php?<?php echo nadinHtml(http_build_query(array('m' => $gigModule, 'c' => $selectedGig))); ?>">forScore</a>
 <a href="nadinmodule/gigreps.xls.php?<?php echo nadinHtml(http_build_query(array('m' => $gigModule, 'c' => $selectedGig))); ?>" target="_blank">xls&darr;</a>
 <a href="nadinmodule/gigreps.print.php?<?php echo nadinHtml(http_build_query(array('m' => $gigModule, 'c' => $selectedGig))); ?>" target="_blank">print&darr;</a>
 </div>
