@@ -5,14 +5,16 @@ auth('vlibrary');
 if (role('uppdf') && role('upaudio') && $_GET['m']=='library') $neu = '<span style="color:white;background:green;font-weight:bold;cursor:pointer;font-size:10px;" title="Ordner f&uuml;r neuen Tune anlegen" onclick="f1=window.open(\'nadinmodule/new.php\',\'_blank\',\'toolbar=0,location=0,status=1,top=0,left=700,menubar=0,scrollbars=1,resizable=1,width=800,height=830\');">neu</span><p>';
 else $neu='';
 ?>
-<h3 id="alphabet" style="position:fixed; padding:5px; top:111px; left:7px;"><?php echo $neu ?><a style="font-size:10px" onmouseover="location.href='#top'" href="#top">top</a><br/><span id="library-alphabet-links"<?php if (isset($_GET['sort']) && $_GET['sort'] === 'newest') echo ' style="display:none"'; ?>></span></h3>
-<div style="float:right;line-height:28px;text-align:right">
-<a id="library-xls-link" style="text-decoration:none" href="nadinmodule/library.xls.php?<?php echo $_SERVER['QUERY_STRING']?>" target="_blank">xls&darr;</a><br />
+<div class="nadin-layout nadin-library-layout">
+<nav id="nadin-sidebar" class="nadin-sidebar" aria-label="Library alphabet" data-sidebar="library"><?php echo $neu ?><a style="font-size:10px" href="#top">top</a><br/><span id="library-alphabet-links"<?php if (isset($_GET['sort']) && $_GET['sort'] === 'newest') echo ' style="display:none"'; ?>></span></nav>
+<main class="nadin-content">
+<div class="nadin-export-links nadin-library-export">
+<a id="library-xls-link" style="text-decoration:none" href="nadinmodule/library.xls.php?<?php echo $_SERVER['QUERY_STRING']?>" target="_blank">xls&darr;</a>
 <a id="library-print-link" style="text-decoration:none" href="nadinmodule/library.print.php?<?php echo $_SERVER['QUERY_STRING']?>" target="_blank">print&darr;</a>
 </div>
 <style>
-#library-sort-form[data-library-sort="alpha"] { margin:33px 0 -77px 77px; }
-#library-sort-form[data-library-sort="newest"] { margin:0 0 12px 77px; }
+#library-sort-form[data-library-sort="alpha"] { margin:0 0 4px; }
+#library-sort-form[data-library-sort="newest"] { margin:0 0 4px; }
 #nadin-library-table .nadin-library-tune-cell { position:relative; }
 #nadin-library-table .nadin-library-date-badge {
     position:absolute; top:50%; right:3px; transform:translateY(-50%);
@@ -24,7 +26,7 @@ else $neu='';
 #nadin-library-table[data-library-sort="newest"] .nadin-library-letter { display:none; }
 </style>
 
-<blockquote>
+<div class="nadin-library-body">
 <?php
 $path='./library';
 $tunes='';
@@ -56,11 +58,14 @@ foreach ($_GET as $libraryQueryName => $libraryQueryValue) {
 
 require('ascii.inc.php');
 $libraryClientSorting = true;
+echo '<div class="nadin-table-scroll" tabindex="0" role="region" aria-label="Library tunes and downloads">';
 require('table.inc.inc.php');
+echo '</div>';
 
 ?>
 <script src="nadinmodule/library.sort.js"></script>
-</blockquote>
+</div>
+</main></div>
 
 <?php 
 
@@ -74,4 +79,3 @@ if ($_GET['c']=='admin') {
 <?php 
 }
 ?>
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />

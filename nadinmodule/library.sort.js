@@ -51,9 +51,6 @@
             var link = document.createElement('a');
             link.href = '#' + alphaLetter;
             link.appendChild(document.createTextNode(alphaLetter));
-            link.onmouseover = function () {
-                window.location.href = this.getAttribute('href');
-            };
             alphabet.appendChild(link);
             alphabet.appendChild(document.createElement('br'));
         }

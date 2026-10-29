@@ -18,6 +18,8 @@ document.getElementById('preview').style.left=windowwidth-608+'px';
 document.getElementById('ipreview').style.height=windowheight-30-offs+'px';
 if(ifrc)if(ifrc.document.getElementById('tunesarea'))ifrc.document.getElementById('tunesarea').style.height=windowheight-270-offs+'px';
 else if(!ifrc.document.getElementById('anlegen'))setTimeout("rescale()",777);
+var libraryLayout = document.querySelector('.nadin-library-layout');
+if (libraryLayout) libraryLayout.style.width = Math.max(320, windowwidth-1030)+'px';
 repos();
 }
 rescale();

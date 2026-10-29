@@ -34,4 +34,3 @@ infostatus='none';
 document.general.location.replace('nadinmodule/infostatus.php?infodiv='+infodiv+'&infostatus='+infostatus);
 }
 </script>
-<?php if($rendergiglistontheleft=='yes')echo'<script>document.getElementsByClassName("infos")[0].style.marginLeft="'.$ifleftthenthiswidth.'"</script>'; ?>
