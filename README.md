@@ -9,3 +9,5 @@ Version notes: [V8 — compact original interface](docs/V8.md).
 [V9 — forScore setlists and reusable notes](docs/V9-forScore.md), based on V8.
 
 Version notes: [V11 — personal passwords and simple onboarding](docs/V11.md).
+
+[V12 — compact gig administration, clear permissions and safer downloads](docs/V12.md), based on V11.

@@ -1,9 +1,10 @@
 <?php 
 require('nadinmodule/refreshcookies.inc.php'); 
 require_once('config.inc.php');
+header('Cache-Control: private, no-store');
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
@@ -24,13 +25,17 @@ shortcut.add("Ctrl+S",function() {
 <body class="nadin-page">
 <header class="nadin-header">
 <button type="button" class="nadin-sidebar-toggle" id="nadin-sidebar-toggle" aria-expanded="false" aria-controls="nadin-sidebar" aria-label="Open list">&#9776;</button>
-<h1>NADIN <small class="nadin-version">V11</small></h1>
-<div class="nadin-account"><?php echo htmlXspecialchars($uc) ?> | <a href="password.php">password</a> | <a href="logout.php">logout</a></div>
+<h1>NADIN <small class="nadin-version">V12</small></h1>
+<div class="nadin-account"><span class="nadin-account-email"><?php echo htmlXspecialchars($uc) ?></span> | <a href="password.php">password</a> | <a href="logout.php">logout</a></div>
 <img src="nadink.gif" width="40" height="40" alt="" />
 </header>
 <?php
-if (!isset($_GET['m']) || !is_string($_GET['m']) || !in_array($_GET['m'], array('gigreps', 'gigrepsarchiv', 'reclist', 'library', 'users'), true)) $_GET['m']='gigreps';
+if (!isset($_GET['m']) || !is_string($_GET['m']) || !in_array($_GET['m'], array('gigreps', 'gigrepsarchiv', 'reclist', 'library', 'users', 'managegigs'), true)) $_GET['m']='gigreps';
 
+if ($_GET['m']==='library' && ($_GET['c'] ?? '')==='admin') $_GET['m']='managegigs';
+if ($_GET['m']==='gigreps' && !role('vgigs')) {
+    foreach (array('reclist'=>'vreclist','library'=>'vlibrary','managegigs'=>'mgigs','users'=>'musers') as $module=>$right) if (role($right)) { $_GET['m']=$module; break; }
+}
 require_once('nadinmodule/navigation.inc.php');
 
 if (file_exists('nadinmodule/'.basename($_GET['m']).'.inc.php')) require_once('nadinmodule/'.basename($_GET['m']).'.inc.php');

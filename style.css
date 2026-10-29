@@ -239,3 +239,115 @@ div, h3 {
 .nadin-form-hint { font-size:12px; margin:4px 0; }
 .nadin-account-panel [role=alert] { padding:8px; border:1px solid #b71c1c; background:#fff2f2; }
 .nadin-account-panel [role=status] { padding:8px; border:1px solid #587050; background:#f2f8ee; }
+
+/* V12: compact administration, readable permissions, no fixed-width editor windows. */
+[hidden] { display:none !important; }
+.nadin-sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0; }
+.nadin-navigation { display:flex;flex-wrap:wrap;gap:4px 20px;font-weight:normal; }
+.nadin-navigation [aria-current],.nadin-admin-navigation [aria-current] { background:yellow; }
+.nadin-admin-navigation { display:flex;gap:10px;min-height:4px;margin-bottom:6px; }
+.nadin-admin-navigation a { display:inline-block;color:#333;background:#eee;border:1px solid #bbb;padding:2px 7px;border-radius:2px;font-size:12px; }
+.nadin-gig-heading { display:flex;align-items:baseline;gap:12px;margin-bottom:5px; }
+.nadin-gig-heading h3 { background:transparent;margin:0;font-size:15px;overflow-wrap:anywhere; }
+.nadin-gig-heading a { font-size:12px;white-space:nowrap; }
+.nadin-search-label { display:inline-flex;align-items:center;gap:6px;font-size:12px;margin:0 0 5px; }
+.nadin-search-label input { min-width:0;padding:4px 6px;max-width:100%;box-sizing:border-box; }
+.nadin-sidebar .nadin-search-label { display:block;padding:0 4px; }
+.nadin-sidebar input { width:100%; }
+.nadin-admin { font-size:13px; }
+.nadin-admin button,.nadin-admin input,.nadin-admin select,.nadin-admin textarea,.nadin-dialog input,.nadin-dialog button { font:inherit;box-sizing:border-box; }
+.nadin-admin button,.nadin-dialog button { cursor:pointer;background:#eee;border:1px solid #aaa;border-radius:2px;padding:4px 9px;color:#222;min-height:28px; }
+.nadin-admin button:hover:not(:disabled),.nadin-dialog button:hover { background:lightyellow; }
+.nadin-admin button:disabled { opacity:.5;cursor:default; }
+.nadin-admin input:not([type=checkbox]):not([type=file]),.nadin-admin select,.nadin-admin textarea,.nadin-dialog input { border:1px solid #aaa;background:white;border-radius:2px;padding:5px 6px;min-width:0; }
+.nadin-admin input[type=search] { width:100%;margin-bottom:6px; }
+.nadin-admin input[type=checkbox] { accent-color:#416c92;width:16px;height:16px;margin:0;flex-shrink:0; }
+.nadin-admin :focus-visible,.nadin-dialog :focus-visible { outline:2px solid royalblue;outline-offset:2px; }
+.nadin-admin .nadin-primary,.nadin-dialog .nadin-primary { background:#fff7b0;border-color:#9a8b36;font-weight:600; }
+.nadin-admin .nadin-unsaved { background:#ffe3bb; }
+.nadin-admin-heading { display:flex;align-items:center;gap:14px;padding:5px 7px;background:#eee;margin-bottom:8px; }
+.nadin-admin-heading h3 { margin:0;font-size:17px; }
+#admin-status { font-size:12px;color:#555; }
+#admin-error { border-left:3px solid #b72424;background:#fff0ed;padding:8px 10px;margin-bottom:8px; }
+.nadin-admin-workspace { display:grid;grid-template-columns:minmax(180px,22%) minmax(340px,1fr) minmax(230px,27%);gap:12px;align-items:start; }
+.nadin-people-workspace { grid-template-columns:minmax(200px,25%) minmax(0,1fr); }
+.nadin-admin-list,.nadin-admin-editor,.nadin-catalog { min-width:0; }
+.nadin-admin-list { background:#f0f0f0;padding:6px; }
+.nadin-toolbar { display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:7px; }
+.nadin-toolbar h4 { margin:0 auto 0 0; }
+.nadin-toolbar a { font-size:12px; }
+.nadin-editor-toolbar { position:sticky;top:0;z-index:3;background:white;padding:0 0 5px;border-bottom:1px solid #ddd; }
+.nadin-admin-editor h4,.nadin-catalog h4 { font-size:14px;margin:0 0 7px;overflow-wrap:anywhere; }
+.nadin-choice-list { max-height:calc(100dvh - 235px);overflow:auto; }
+.nadin-choice-list>button { display:block;width:100%;text-align:left;border:0;border-bottom:1px solid white;border-radius:0;background:#eee;line-height:19px;padding:4px; }
+.nadin-choice-list>button[aria-current] { background:yellow; }
+.nadin-choice-list>button span { display:block;overflow-wrap:anywhere; }
+.nadin-choice-list small { display:block;font-size:11px;color:#555;overflow-wrap:anywhere; }
+.nadin-hint { color:#555;font-size:12px;line-height:1.5;margin:5px 0 8px; }
+.nadin-fields { display:grid;grid-template-columns:minmax(135px,1fr) minmax(180px,2fr);gap:10px;margin-bottom:6px; }
+.nadin-fields label,.nadin-dialog label { display:block;font-size:12px;font-weight:600; }
+.nadin-fields input,.nadin-dialog input { display:block;width:100%;margin-top:4px; }
+.nadin-secondary-actions button { font-size:12px;min-height:25px;padding:2px 7px; }
+.nadin-gig-info { background:lightyellow;padding:6px;margin:7px 0 10px; }
+.nadin-gig-info summary { cursor:pointer;color:#444;font-weight:600; }
+.nadin-gig-info textarea { width:100%;margin:7px 0 4px;resize:vertical;font-family:inherit; }
+.nadin-upload-label { display:flex;align-items:center;gap:8px;font-size:12px;margin:5px 0; }
+.nadin-upload-label input { max-width:230px; }
+.nadin-setlist { list-style:none;padding:0;margin:0; }
+.nadin-setlist li { display:flex;align-items:center;gap:6px;background:#eee;border-bottom:2px solid white;padding:3px 5px;min-height:28px; }
+.nadin-setlist li:hover { background:lightyellow; }
+.nadin-setlist-title { flex:1;min-width:0;overflow-wrap:anywhere;line-height:19px;font-weight:600; }
+.nadin-setlist-title small { display:block;font-size:10px;font-weight:normal;color:#666; }
+.nadin-order { min-width:19px;text-align:right;color:#777;font-size:11px; }
+.nadin-row-actions { display:flex;gap:3px; }
+.nadin-row-actions button { width:27px;min-height:25px;padding:1px;border-color:#ccc; }
+.nadin-setlist-note .nadin-setlist-title { font-style:italic;font-weight:normal; }
+.nadin-empty { color:#666;font-size:12px; }
+.nadin-catalog-row { display:flex;align-items:center;gap:6px;border-bottom:1px solid white;background:#eee;padding:4px 6px; }
+.nadin-catalog-row>span { flex:1;min-width:0; }
+.nadin-catalog-row strong { font-size:12px;font-weight:600;overflow-wrap:anywhere; }
+.nadin-catalog-row button { font-size:18px;padding:0 8px; }
+.nadin-expiry { margin:10px 0; }
+.nadin-check { display:flex;align-items:center;gap:7px;line-height:19px; }
+.nadin-expiry small { color:#666;font-size:11px; }
+.nadin-presets { border-top:1px solid #ddd;padding-top:8px; }
+.nadin-presets button { font-size:12px; }
+.nadin-rights { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px; }
+.nadin-rights fieldset { border:1px solid #ccc;min-width:0;margin:0;padding:7px;background:#f8f8f8; }
+.nadin-rights legend { font-weight:600;padding:0 4px; }
+.nadin-rights label { font-size:12px;min-height:30px;align-items:flex-start; }
+.nadin-rights label input { margin-top:2px; }
+.nadin-rights-summary { background:lightyellow;padding:7px;font-size:12px; }
+.nadin-dialog { border:1px solid #999;border-radius:3px;padding:16px;max-width:430px;width:calc(100% - 40px);font:13px 'Open Sans',sans-serif; }
+.nadin-dialog::backdrop { background:#0005; }
+.nadin-dialog h3 { margin:0 0 12px;padding:4px;font-size:16px; }
+.nadin-dialog label { margin:10px 0; }
+.nadin-dialog .nadin-toolbar { justify-content:flex-end;margin:14px 0 0; }
+@media(max-width:1000px) {
+ .nadin-admin-workspace { grid-template-columns:minmax(170px,24%) minmax(0,1fr); }
+ .nadin-catalog { grid-column:2; }
+ .nadin-catalog .nadin-choice-list { max-height:340px; }
+ .nadin-rights { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:700px) {
+ .nadin-navigation { flex-wrap:nowrap;justify-content:space-between;gap:7px; }
+ .nadin-navigation>a { font-size:14px; }
+ .nadin-admin-workspace,.nadin-people-workspace { display:block; }
+ .nadin-admin-list { margin-bottom:10px; }
+ .nadin-admin-list .nadin-choice-list { max-height:145px; }
+ .nadin-catalog { margin-top:15px; }
+ .nadin-choice-list>button { min-height:34px; }
+ .nadin-admin-heading h3 { font-size:15px; }
+ .nadin-fields { grid-template-columns:minmax(0,1fr);gap:8px; }
+ .nadin-rights { grid-template-columns:minmax(0,1fr); }
+ .nadin-rights label { min-height:32px; }
+ .nadin-admin button { min-height:32px; }
+ .nadin-admin input:not([type=checkbox]),.nadin-admin textarea,.nadin-admin select { font-size:16px; }
+ .nadin-search-label input { max-width:calc(100vw - 100px); }
+}
+.nadin-account { display:flex;align-items:center;gap:5px;min-width:0; }
+.nadin-account-email { overflow:hidden;text-overflow:ellipsis;min-width:0; }
+.nadin-account a { flex:none; }
+.nadin-account-panel .nadin-password-visibility { display:flex;align-items:center;gap:7px;font-size:13px;margin-top:10px; }
+.nadin-account-panel .nadin-password-visibility input { width:16px;min-width:16px;padding:0; }
+@media(max-width:700px){.nadin-account-email{display:none}.nadin-header img{display:none}.nadin-account{font-size:11px}.nadin-header h1{font-size:25px}}
