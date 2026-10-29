@@ -1,14 +1,8 @@
-<?php 
-require('../config.inc.php');
-require('../nadinmodule/functions.inc.php');
-$c='../abo/zip/'.secure($_GET['c']);
-auth('vgigs');
-if (!file_exists($c)) die('File '.$c.' not found.');
-require_once('mime.inc.php');
-$ext=explode('.',$c);
-$ext=$ext[count($ext)-1];
-header("Content-type: ".$m[$ext]); 
-header("Content-Disposition:inline;filename=".basename($c));
-header("Content-Length: " . filesize($c));
-readfile($c);
-?>
+<?php
+require_once dirname(__DIR__).'/config.inc.php';require_once dirname(__DIR__).'/nadinmodule/functions.inc.php';
+auth('vgigs');$name=$_GET['c'] ?? '';$root=dirname(__DIR__);
+if(!is_string($name)||$name===''||$name[0]==='.'||basename($name)!==$name||preg_match('/[\\\\\x00-\x1f]/',$name)||strtolower(substr($name,-4))!=='.pdf'){http_response_code(404);exit('Attachment not found.');}
+$gig=substr($name,0,-4).'.txt';
+if(!is_file($root.'/gigreps/'.$gig)){if(!is_file($root.'/gigrepsarchiv/'.$gig)){http_response_code(404);exit('Gig not found.');}auth('varchiv');}
+$file=$root.'/abo/zip/'.$name;if(!is_file($file)||is_link($file)){http_response_code(404);exit('Attachment not found.');}
+header('Content-Type: application/pdf');header('X-Content-Type-Options: nosniff');header('Cache-Control: private, no-store');header('Content-Disposition: inline; filename="NADIN.pdf"; filename*=UTF-8\'\''.rawurlencode($name));header('Content-Length: '.filesize($file));readfile($file);

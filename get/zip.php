@@ -1,22 +1,15 @@
-<?php 
-require('../config.inc.php');
-require('../nadinmodule/functions.inc.php');
-$c='../abo/'.secure($_GET['c']);
+<?php
+require_once dirname(__DIR__).'/config.inc.php';
+require_once dirname(__DIR__).'/nadinmodule/functions.inc.php';
+require_once dirname(__DIR__).'/nadinmodule/zip.inc.php';
 auth('vgigs');
-
-if (strpos($c,'allsaxes')>0) checkrole('vsaxes');
-if (strpos($c,'allbones')>0) checkrole('vbones');
-if (strpos($c,'alltrumpets')>0) checkrole('vtrumpets');
-if (strpos($c,'allrhythm')>0) checkrole('vrhythm');
-if (strpos($c,'allother')>0) checkrole('vother');
-if (strpos($c,'allscore')>0) checkrole('vscore');
-
-if (!file_exists($c)) die('File '.$c.' not found.');
-require_once('mime.inc.php');
-$ext=explode('.',$c);
-$ext=$ext[count($ext)-1];
-header("Content-type: ".$m[$ext]); 
-header("Content-Disposition:inline;filename=".basename($c));
-header("Content-Length: " . filesize($c));
-readfile($c);
-?>
+try {
+ $c=$_GET['c'] ?? '';
+ if(!is_string($c)||!preg_match('~^zip/(alllistento|allscore|allparts|allsaxes|allbones|alltrumpets|allrhythm|allother)/([^/\\\\]+)_\1\.zip$~D',$c,$m))throw new InvalidArgumentException('Invalid ZIP request.');
+ $types=nadin_zip_types();auth($types[$m[1]][1]);$gig=$m[2].'.txt';$root=dirname(__DIR__);$mode='gigreps';
+ if(!is_file($root.'/'.$mode.'/'.$gig)){$mode='gigrepsarchiv';auth('varchiv');}
+ $file=nadin_zip_bundle($root,$gig,$m[1],$mode);
+ header('Content-Type: application/zip');header('X-Content-Type-Options: nosniff');header('Cache-Control: private, no-store');
+ header('Content-Disposition: attachment; filename="NADIN.zip"; filename*=UTF-8\'\''.rawurlencode(basename($file)));header('Content-Length: '.filesize($file));readfile($file);
+}catch(InvalidArgumentException $e){http_response_code(404);echo htmlspecialchars($e->getMessage(),ENT_QUOTES,'UTF-8');}
+catch(Throwable $e){http_response_code(500);echo 'The download could not be prepared. Please try again.';error_log('NADIN ZIP: '.$e->getMessage());}
