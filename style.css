@@ -161,7 +161,20 @@ div, h3 {
 .nadin-recording-duration { font-size:12px; }
 .nadin-manage-recording { color:#888; }
 .nadin-mobile-actions, .nadin-nav-short, .nadin-sidebar-toggle, .nadin-recording-symbol, .nadin-sidebar-backdrop { display:none; }
-.nadin-downloads summary { display:none; }
+.nadin-downloads { margin-top:12px;padding-top:7px;border-top:1px solid #d5d5d5;font-size:13px;line-height:1.4; }
+.nadin-downloads summary { display:list-item;cursor:pointer;font-weight:600;width:fit-content;max-width:100%; }
+.nadin-downloads summary:focus-visible { outline:2px solid royalblue;outline-offset:3px; }
+.nadin-downloads-hint { margin-left:8px;font-size:11px;font-weight:normal;color:#666; }
+.nadin-zip-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,172px),1fr));gap:5px;margin-top:7px; }
+.nadin-zip-link { display:flex;align-items:center;gap:9px;min-width:0;min-height:46px;box-sizing:border-box;padding:5px 8px;border:1px solid #d3d5da;border-radius:3px;background:#f6f7f8; }
+.nadin-zip-link:visited { color:blue; }
+.nadin-zip-link:hover { background:lightyellow;border-color:#9ca8c3;color:blue;text-decoration:none; }
+.nadin-zip-link:focus-visible { outline:2px solid royalblue;outline-offset:2px; }
+.nadin-zip-badge { flex:none;font-size:10px;font-weight:600;color:#536078; }
+.nadin-zip-text { min-width:0; }
+.nadin-zip-text strong { display:block;font-size:12px;line-height:17px;overflow-wrap:anywhere; }
+.nadin-zip-text small { display:block;font-size:10px;line-height:15px;color:#59616c;overflow-wrap:anywhere; }
+.nadin-zip-note { margin:5px 0 0;font-size:11px;color:#666; }
 .nadin-info-inner > br { display:none; }
 @media (max-width:1000px) {
     .nadin-layout { grid-template-columns:minmax(140px,22vw) minmax(0,1fr); }
@@ -201,13 +214,12 @@ div, h3 {
     .nadin-action-menu > div { line-height:26px; }
     .nadin-action-menu a { display:inline-block; margin-right:8px; font-size:13px; }
     .nadin-detail-row > td { overflow-wrap:anywhere; }
-    .nadin-downloads { font-size:12px; }
-    .nadin-downloads summary { display:list-item; cursor:pointer; }
-    .nadin-downloads[open] { line-height:22px; }
+    .nadin-downloads summary { min-height:28px;line-height:28px; }
+    .nadin-zip-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
     .nadin-recording-row > a:first-child { display:inline-block; max-width:calc(100% - 22px); vertical-align:bottom; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 }
 @media print {
-    .nadin-header, .nadin-navigation, .nadin-sidebar, .nadin-admin-action, .nadin-export-links, .nadin-sidebar-backdrop { display:none; }
+    .nadin-header, .nadin-navigation, .nadin-sidebar, .nadin-admin-action, .nadin-export-links, .nadin-sidebar-backdrop, .nadin-downloads { display:none; }
     .nadin-layout { display:block; }
 }
 

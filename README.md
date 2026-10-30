@@ -13,3 +13,5 @@ Version notes: [V11 — personal passwords and simple onboarding](docs/V11.md).
 [V12 — compact gig administration, clear permissions and safer downloads](docs/V12.md), based on V11.
 
 [V13 — progressive brute-force protection with a clear retry countdown](docs/V13.md), including all V12 improvements.
+
+[V14 — compact, readable ZIP downloads](docs/V14.md), based on V13.
