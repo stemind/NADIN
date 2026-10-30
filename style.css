@@ -1,10 +1,15 @@
 @charset "utf-8";
 /* CSS Document */
 
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600);
+/* Local system fonts keep rendering immediate and avoid a third-party font request. */
+:root {
+ --nadin-font: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+ --nadin-ink:#243247; --nadin-muted:#596777; --nadin-blue:#2458a3;
+ --nadin-line:#dce2e9; --nadin-surface:#f3f5f8; --nadin-yellow:#fff0b3;
+}
 
 body {
-font-family:'Open Sans', sans-serif;	
+font-family:var(--nadin-font);
 }
 
 a {
@@ -330,7 +335,7 @@ div, h3 {
 .nadin-rights label { font-size:12px;min-height:30px;align-items:flex-start; }
 .nadin-rights label input { margin-top:2px; }
 .nadin-rights-summary { background:lightyellow;padding:7px;font-size:12px; }
-.nadin-dialog { border:1px solid #999;border-radius:3px;padding:16px;max-width:430px;width:calc(100% - 40px);font:13px 'Open Sans',sans-serif; }
+.nadin-dialog { border:1px solid #999;border-radius:3px;padding:16px;max-width:430px;width:calc(100% - 40px);font:13px var(--nadin-font); }
 .nadin-dialog::backdrop { background:#0005; }
 .nadin-dialog h3 { margin:0 0 12px;padding:4px;font-size:16px; }
 .nadin-dialog label { margin:10px 0; }
@@ -363,3 +368,138 @@ div, h3 {
 .nadin-account-panel .nadin-password-visibility { display:flex;align-items:center;gap:7px;font-size:13px;margin-top:10px; }
 .nadin-account-panel .nadin-password-visibility input { width:16px;min-width:16px;padding:0; }
 @media(max-width:700px){.nadin-account-email{display:none}.nadin-header img{display:none}.nadin-account{font-size:11px}.nadin-header h1{font-size:25px}}
+
+/* V15: a consistent visual language with compact, familiar working areas. */
+body { color:var(--nadin-ink);background:#fff; }
+a,a:visited { color:var(--nadin-blue); }
+a:hover,a:active { color:#173f7c;text-decoration:underline; }
+a:focus-visible,summary:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex="0"]:focus-visible { outline:2px solid var(--nadin-blue);outline-offset:2px; }
+button,input,select,textarea { font-family:var(--nadin-font); }
+.mute,.mute:visited,.mute:hover,.mute:active { color:var(--nadin-muted); }
+.nadin-page { margin:8px 12px; }
+.nadin-header { height:36px;gap:10px; }
+.nadin-header h1 { font-size:28px;letter-spacing:-1px;font-weight:750; }
+.nadin-version,.nadin-account-panel h1 small { display:inline-block;vertical-align:middle;padding:2px 5px;border:1px solid var(--nadin-line);border-radius:4px;background:var(--nadin-surface);color:var(--nadin-muted);font-size:10px;font-weight:600;letter-spacing:0;line-height:14px; }
+.nadin-account { color:var(--nadin-muted);font-size:11px;gap:7px; }
+.nadin-header img { width:32px;height:32px; }
+.nadin-navigation { margin:5px 0 6px;padding:3px;background:var(--nadin-surface);border:1px solid var(--nadin-line);border-radius:6px;gap:3px 8px;font-size:14px;line-height:22px; }
+.nadin-navigation>a { padding:1px 9px;border-radius:4px;color:var(--nadin-muted);font-weight:600; }
+.nadin-navigation>a:hover { background:#e6ebf2;color:var(--nadin-blue);text-decoration:none; }
+.nadin-navigation [aria-current] { background:var(--nadin-yellow);color:var(--nadin-ink);box-shadow:inset 0 -2px #d4ac36; }
+.nadin-admin-navigation { gap:5px;margin-bottom:7px;flex-wrap:wrap; }
+.nadin-admin-navigation a { margin:0;border-color:var(--nadin-line);background:#fff;color:var(--nadin-muted);border-radius:4px;line-height:19px;padding:1px 8px; }
+.nadin-admin-navigation a:hover { background:var(--nadin-surface);text-decoration:none; }
+.nadin-admin-navigation [aria-current] { background:#e8eff9;color:var(--nadin-blue);border-color:#a8bfdf; }
+.nadin-layout { gap:10px; }
+.nadin-sidebar { padding:5px 0;background:var(--nadin-surface);border:1px solid var(--nadin-line);border-radius:5px;line-height:23px; }
+.nadin-sidebar>a { padding:0 7px;border-left:3px solid transparent; }
+.nadin-sidebar>a:hover { background:#e7edf5;text-decoration:none; }
+.nadin-sidebar [aria-current] { background:var(--nadin-yellow);color:var(--nadin-ink);border-left-color:#b78c14;font-weight:600; }
+.nadin-sidebar .nadin-search-label { padding:0 6px; }
+.nadin-search-label input { border:1px solid #c8d1dc;border-radius:4px;background:#fff;font:12px var(--nadin-font);line-height:18px;padding:3px 6px; }
+.nadin-gig-heading { gap:10px;margin-bottom:5px; }
+.nadin-gig-heading h3 { font-size:15px;font-weight:650;line-height:21px; }
+.nadin-content .infos { background:#fff9e6;border:1px solid #eee1b2;border-left:3px solid #d4ac36;border-radius:4px;padding:4px 7px;font-size:13px;line-height:18px; }
+.nadin-info-inner>div:first-child:not(.infos) { font-size:11px;padding:4px 7px; }
+.nadin-export-links { line-height:23px;font-size:11px; }
+.nadin-export-links a { display:inline-block; }
+.nadin-tunes { border-collapse:separate;border-spacing:0 1px; }
+/* These rows have legacy inline hover colours, so override only their paint. */
+.nadin-tune-row { background:var(--nadin-surface) !important; }
+.nadin-tune-row:hover,.nadin-tune-row:focus-within { background:#fff7d7 !important; }
+.nadin-tune-row>td { padding:2px 5px;line-height:18px;border-bottom:1px solid #e7ebf0; }
+.nadin-tune-row>td:first-child { border-radius:3px 0 0 3px; }
+.nadin-tune-row>td:last-child { border-radius:0 3px 3px 0; }
+.nadin-tune-cell h5 { font-size:13px;line-height:18px;font-weight:600; }
+.nadin-number { color:var(--nadin-muted);font-size:10px;font-variant-numeric:tabular-nums; }
+.nadin-tune-row td a { font-size:12px; }
+.nadin-recording-duration { color:var(--nadin-muted);font-variant-numeric:tabular-nums; }
+.nadin-library-letter h4 { color:var(--nadin-muted);font-size:14px; }
+.nadin-library-letter td>br { display:none; }
+.nadin-recording-row { border-bottom:1px solid #edf0f4; }
+.nadin-downloads { border-color:var(--nadin-line);margin-top:10px; }
+.nadin-downloads-hint,.nadin-zip-note { color:var(--nadin-muted); }
+.nadin-zip-link,.nadin-zip-link:visited { background:var(--nadin-surface);border-color:var(--nadin-line);border-radius:4px;color:var(--nadin-blue);min-height:44px; }
+.nadin-zip-link:hover { background:#fff7d7;border-color:#c8b56b;color:#173f7c; }
+.nadin-zip-badge { color:var(--nadin-blue);border-right:1px solid var(--nadin-line);padding-right:7px; }
+.nadin-zip-text small { color:var(--nadin-muted); }
+.nadin-admin-heading { background:var(--nadin-surface);border:1px solid var(--nadin-line);border-radius:5px;padding:4px 7px;margin-bottom:7px; }
+.nadin-admin-heading h3 { background:transparent;font-size:15px;font-weight:650;line-height:21px; }
+.nadin-admin-workspace { gap:10px; }
+.nadin-admin-list { border:1px solid var(--nadin-line);border-radius:5px;background:var(--nadin-surface);padding:5px; }
+.nadin-admin button,.nadin-dialog button { border-color:#c8d1dc;border-radius:4px;background:#fff;color:var(--nadin-ink);padding:3px 8px;min-height:27px;line-height:19px; }
+.nadin-admin button:hover:not(:disabled),.nadin-dialog button:hover:not(:disabled) { background:#edf2fa;border-color:#9ab3d5; }
+.nadin-admin .nadin-primary,.nadin-dialog .nadin-primary { background:var(--nadin-blue);border-color:var(--nadin-blue);color:#fff;font-weight:600; }
+.nadin-admin .nadin-primary:hover:not(:disabled),.nadin-dialog .nadin-primary:hover:not(:disabled) { background:#173f7c;color:#fff; }
+.nadin-admin .nadin-unsaved { background:#fff0b3;color:var(--nadin-ink);border-color:#b69a42; }
+.nadin-admin input:not([type=checkbox]):not([type=file]),.nadin-admin select,.nadin-admin textarea,.nadin-dialog input { border-color:#c8d1dc;border-radius:4px;padding:4px 6px;color:var(--nadin-ink); }
+.nadin-admin input[type=checkbox] { accent-color:var(--nadin-blue); }
+.nadin-admin :focus-visible,.nadin-dialog :focus-visible { outline-color:var(--nadin-blue); }
+.nadin-toolbar { gap:5px;margin-bottom:6px; }
+.nadin-editor-toolbar { border-color:var(--nadin-line); }
+.nadin-choice-list>button { border:0;border-left:3px solid transparent;border-bottom:1px solid var(--nadin-line);border-radius:0;background:transparent;padding:3px 5px;line-height:18px; }
+.nadin-choice-list>button[aria-current] { background:var(--nadin-yellow);border-left-color:#b78c14; }
+.nadin-choice-list small,.nadin-hint,.nadin-empty,#admin-status { color:var(--nadin-muted); }
+.nadin-fields { gap:8px;margin-bottom:5px; }
+.nadin-gig-info { border:1px solid #eee1b2;border-radius:4px;background:#fff9e6;margin:6px 0 8px;padding:5px 7px; }
+.nadin-setlist li { background:var(--nadin-surface);border-bottom:1px solid white;padding:2px 5px;min-height:27px; }
+.nadin-setlist li:hover { background:#fff7d7; }
+.nadin-row-actions button { width:26px;min-height:24px;padding:0;border-color:var(--nadin-line); }
+.nadin-catalog-row { background:var(--nadin-surface);padding:3px 5px; }
+.nadin-catalog-row button { background:transparent;min-height:25px; }
+.nadin-rights { gap:6px; }
+.nadin-rights fieldset { border-color:var(--nadin-line);border-radius:4px;background:#f7f8fa;padding:5px 6px; }
+.nadin-rights legend { font-size:12px; }
+.nadin-rights label { min-height:26px; }
+.nadin-rights-summary { background:#fff9e6;border-left:3px solid #d4ac36;border-radius:3px;padding:6px 8px;line-height:17px; }
+.nadin-presets { border-color:var(--nadin-line);padding-top:6px; }
+.nadin-dialog { border-color:#c8d1dc;border-radius:7px;padding:14px;color:var(--nadin-ink);box-shadow:0 10px 40px #182c4830; }
+.nadin-dialog h3 { background:var(--nadin-surface);border-radius:3px; }
+.nadin-action-menu { background:#fff;border-color:var(--nadin-line);border-radius:5px;box-shadow:0 5px 18px #24324726; }
+.nadin-forscore h2 { background:var(--nadin-surface);padding:5px 7px;border-radius:4px;font-size:18px; }
+.nadin-forscore-row { border:1px solid var(--nadin-line);border-radius:4px;background:var(--nadin-surface);padding:4px 6px; }
+.nadin-account-page { margin:0;padding:24px 14px;background:#f3f5f8; }
+.nadin-account-panel { background:#fff;border:1px solid var(--nadin-line);border-top:3px solid #d4ac36;border-radius:7px;padding:18px 22px;box-sizing:border-box; }
+.nadin-account-panel h1 { font-size:28px;letter-spacing:-1px;margin-bottom:8px; }
+.nadin-account-panel h2 { background:transparent;font-size:18px;font-weight:600;margin:8px 0; }
+.nadin-account-panel label { font-size:13px;font-weight:600;margin-top:10px; }
+.nadin-account-panel input:not([type=hidden]):not([type=checkbox]) { border:1px solid #c8d1dc;border-radius:4px;color:var(--nadin-ink);padding:7px 8px; }
+.nadin-account-panel button { background:var(--nadin-blue);color:#fff;border:1px solid var(--nadin-blue);border-radius:4px;font-size:14px;font-weight:600;margin-top:12px;cursor:pointer; }
+.nadin-account-panel button:hover:not(:disabled) { background:#173f7c; }
+.nadin-account-panel button:disabled { opacity:.55;cursor:default; }
+.nadin-account-panel p { font-size:13px;line-height:19px;margin:9px 0; }
+.nadin-account-panel .nadin-form-hint { font-size:12px;color:var(--nadin-muted);margin:4px 0;line-height:17px; }
+.nadin-account-panel [role=alert],.nadin-account-panel [role=status] { border-radius:4px;font-size:13px;line-height:19px;padding:7px 9px; }
+.nadin-account-panel .nadin-password-visibility { font-weight:400; }
+@media(max-width:700px) {
+ .nadin-page { margin:5px; }
+ .nadin-header { height:34px;gap:6px; }
+ .nadin-header h1 { font-size:25px; }
+ .nadin-account { gap:4px;font-size:11px; }
+ .nadin-navigation { gap:2px;justify-content:space-between;margin:4px 0 5px; }
+ .nadin-navigation>a { font-size:13px;padding:2px 7px;line-height:24px; }
+ .nadin-sidebar-toggle { border-color:var(--nadin-line);border-radius:4px;background:var(--nadin-surface);color:var(--nadin-ink); }
+ .nadin-sidebar { border-radius:0 5px 5px 0; }
+ .nadin-search-label input { font-size:16px; }
+ .nadin-tune-row>td { padding:2px 4px; }
+ .nadin-mobile-actions summary { color:var(--nadin-blue);line-height:25px; }
+ .nadin-admin button { min-height:32px; }
+ .nadin-row-actions button { min-height:30px;width:30px; }
+ .nadin-rights { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .nadin-rights fieldset:first-child { grid-column:1 / -1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:8px; }
+ .nadin-rights label { min-height:30px; }
+ .nadin-fields { grid-template-columns:minmax(0,1fr); }
+ .nadin-account-page { padding:12px 10px; }
+ .nadin-account-panel { padding:14px 16px; }
+}
+@media(max-width:360px) {
+ .nadin-navigation>a { padding-inline:5px; }
+ .nadin-rights { grid-template-columns:minmax(0,1fr); }
+ .nadin-rights fieldset:first-child { display:block; }
+ .nadin-zip-link { gap:6px;padding-inline:6px; }
+}
+@media print {
+ body,.nadin-page { margin:0;color:#000;background:#fff; }
+ .nadin-tune-row,.nadin-content .infos { background:#fff !important; }
+ .nadin-tune-row>td { border-bottom:1px solid #ddd; }
+}

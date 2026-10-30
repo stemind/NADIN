@@ -15,3 +15,5 @@ Version notes: [V11 — personal passwords and simple onboarding](docs/V11.md).
 [V13 — progressive brute-force protection with a clear retry countdown](docs/V13.md), including all V12 improvements.
 
 [V14 — compact, readable ZIP downloads](docs/V14.md), based on V13.
+
+[V15 — a cleaner, consistent interface with compact spacing](docs/V15.md), including V14 downloads.
