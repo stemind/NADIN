@@ -17,3 +17,5 @@ Version notes: [V11 — personal passwords and simple onboarding](docs/V11.md).
 [V14 — compact, readable ZIP downloads](docs/V14.md), based on V13.
 
 [V15 — a cleaner, consistent interface with compact spacing](docs/V15.md), including V14 downloads.
+
+[V16 — optional SAML/OIDC, verified ZIP downloads and a Main-to-V15 regression review](docs/V16.md). Local onboarding stays unchanged; federation setup is documented [here](docs/V16-federation.md).

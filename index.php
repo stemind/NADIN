@@ -10,7 +10,7 @@ header('Cache-Control: private, no-store');
 <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" type="text/css" href="style.css" />
-<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<link rel="icon" href="favicon.ico" type="image/x-icon" /><link rel="icon" href="nadin.svg" type="image/svg+xml" />
 <title><?php echo $bb ?> - NADIN - Online Big Band Sheet Music Manager</title>
 <?php 
 require_once('nadinmodule/functions.inc.php')
@@ -25,9 +25,9 @@ shortcut.add("Ctrl+S",function() {
 <body class="nadin-page">
 <header class="nadin-header">
 <button type="button" class="nadin-sidebar-toggle" id="nadin-sidebar-toggle" aria-expanded="false" aria-controls="nadin-sidebar" aria-label="Open list">&#9776;</button>
-<h1>NADIN <small class="nadin-version">V15</small></h1>
+<h1>NADIN <small class="nadin-version">V16</small></h1>
 <div class="nadin-account"><span class="nadin-account-email"><?php echo htmlXspecialchars($uc) ?></span> | <a href="password.php">password</a> | <a href="logout.php">logout</a></div>
-<img src="nadink.gif" width="40" height="40" alt="" />
+<img src="nadin.svg" width="40" height="40" alt="" />
 </header>
 <?php
 if (!isset($_GET['m']) || !is_string($_GET['m']) || !in_array($_GET['m'], array('gigreps', 'gigrepsarchiv', 'reclist', 'library', 'users', 'managegigs'), true)) $_GET['m']='gigreps';

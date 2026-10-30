@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">NADIN</title>
+  <rect width="64" height="64" rx="6" fill="#f59b32"/>
+  <path d="M9 53V11h12l22 27V11h12v42H43L21 26v27Z" fill="#fff"/>
+  <path d="M13 49V15h6l28 28V15h4v34h-6L17 21v28Z" fill="#24272b"/>
+</svg>

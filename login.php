@@ -10,6 +10,7 @@ $loginEmail = $loginEmail ?? '';
 if (!empty($loginError)) echo '<p role="alert">'.nadin_h($loginError).'</p>';
 elseif (isset($_GET['error'])) echo '<p role="alert">Login was not possible. Check your email and password and try again.</p>';
 if ($loginRetry) echo '<p id="login-wait" role="status" data-retry-after="'.$loginRetry.'">Too many unsuccessful attempts. Try again in <span>'.ceil($loginRetry/60).'</span> minute(s). The waiting time ends automatically.</p>';
+if (isset($_GET['organisation_logout'])) echo '<p role="status">You are signed out of NADIN. Your organisation may still have its own active sign-in session.</p>';
 if (isset($_GET['reset'])) echo '<p role="status">Your password has been changed. Log in with your new password.</p>';
 $members = nadin_auth()->members();
 if (count($members) === 1 && isset($members['nadin@nadin.na']) && !nadin_auth()->hasPersonal('nadin@nadin.na')) echo '<p>Initial setup: <strong>nadin@nadin.na</strong> / <strong>'.nadin_h(nadin_auth()->initial('nadin@nadin.na')).'</strong>. Create your administrator account, then remove this setup account.</p>';
@@ -21,4 +22,15 @@ if (count($members) === 1 && isset($members['nadin@nadin.na']) && !nadin_auth()-
 <button type="submit">Log in</button>
 </form>
 <p><a href="bestellen.php">First login or forgotten password?</a></p>
-<?php nadin_account_end(); ?>
+<?php
+require_once __DIR__.'/nadinmodule/federation.inc.php';
+foreach (array('oidc','saml') as $provider) {
+    try {
+        $p=nadin_federation_provider($provider);nadin_federation_dependencies($provider);
+        if (!nadin_federation_https()) continue;
+        echo '<form class="nadin-federation-login" action="federation.php" method="post">';
+        nadin_csrf_field('federation-start',$binding);
+        echo '<input type="hidden" name="provider" value="'.$provider.'"><button type="submit">'.nadin_h($p['label']).'</button></form>';
+    } catch (Throwable $e) { /* Local login is independent of optional provider configuration. */ }
+}
+nadin_account_end(); ?>

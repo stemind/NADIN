@@ -1,0 +1,8 @@
+/vendor/
+/userdatei/federation.php
+/userdatei/auth-v11*.php
+/userdatei/*-lock.php
+/userdatei/revisions/
+/userdatei/zip-*.php
+/abo/zip/.cache-v16/
+/.phpunit.result.cache
