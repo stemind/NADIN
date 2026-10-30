@@ -39,9 +39,7 @@ if ($selectedGig === '') {
 <?php require('table.inc.inc.php'); ?>
 </div>
 <?php
-echo '<details class="nadin-downloads" open><summary>Downloads</summary>';
 require('zipped.inc.php');
-echo '</details>';
 if ($gigModule !== 'gigrepsarchiv') require('abo.inc.inc.php');
 ?>
 </div>
