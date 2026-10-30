@@ -46,7 +46,7 @@ try:
   time.sleep(.05)
  s=requests.Session();r=s.get(base+'/login.php');soup=BeautifulSoup(r.text,'html.parser');d={x['name']:x.get('value','') for x in soup.select('input[type=hidden][name]')};d.update(u='demo@example.invalid',p=hashlib.sha1(b'demo@example.invalidpreview-fixture-only').hexdigest()[7:13]);r=s.post(base+'/login2.php',data=d);assert 'demo@example.invalid' in r.text
  for f in app.rglob('*'):
-  if f.is_file() and f.suffix.lower() in ['.css','.js','.gif','.png','.jpg','.ico']:
+  if f.is_file() and f.suffix.lower() in ['.css','.js','.gif','.png','.jpg','.ico','.svg']:
    dest=out/f.relative_to(app);dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(f,dest)
  gig='2026-11-06 Herbstkonzert Bern.txt'
  urls={'gigs':'/index.php?m=gigreps','library':'/index.php?m=library','admin':'/index.php?m=managegigs','users':'/index.php?m=users','password':'/password.php','login':'/login.php','forscore':'/get/forscore.php?m=gigreps&c='+requests.utils.quote(gig)}
