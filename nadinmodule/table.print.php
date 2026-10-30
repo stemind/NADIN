@@ -1,6 +1,6 @@
 <button class="noprint" style="font-size:33px" onclick="self.close()">back</button>
 <table id="tprint">
-<h2><?php echo $bb.': '.str_replace('.txt','',$_GET['c'])?></h2>
+<h2><?php echo htmlXspecialchars($bb.': '.str_replace('.txt','',$_GET['c'] ?? ''))?></h2>
 <?php
 $inumber=1;
 for ($i=0;$i<count($tunes);$i++) {
@@ -22,8 +22,9 @@ $listento='';
       $path='../library/'.$tunes[$i];
    
    
-      if ($handle = @opendir($path))  { 
+      if (!is_link($path) && basename($tunes[$i])===$tunes[$i] && $tunes[$i]!=='' && $tunes[$i][0]!=='.' && ($handle = @opendir($path)))  {
          while (false !== ($file = readdir($handle)))  { 
+      if ($file[0]==='.' || strpos($file,'zzDEL!')===0 || is_link($path.'/'.$file) || !is_file($path.'/'.$file) || ($hidden!=='' && strpos($tunes[$i].'/'.$file,$hidden)!==false && !role('musers'))) continue;
 
       if (strpos($file,$saxes)>1) {$saxespdf=$file;$allsaxes.=$tunes[$i].'/'.$file.',';}
       else if (strpos($file,$bones)>1) {$bonespdf=$file;$allbones.=$tunes[$i].'/'.$file.',';}
@@ -51,7 +52,7 @@ $zusatz=explode($delimiter2,$zusatz);
 if ($tunes[$i]!='') {
 
 if($_GET['m']!='library') {
-if($scorepdf!='' || $saxespdf!='' || $bonespdf!='' || $trumpetpdf!='' || $rhythmpdf!='' || $otherpdf!='' || $partspdf!='' || $more!='' || $zusatz!='' || $listento!='')echo '<tr class="trcontent" style="height:33px"><td align="right" class="tdcounter">'.$inumber++.'</td>';
+if($scorepdf!='' || $saxespdf!='' || $bonespdf!='' || $trumpetspdf!='' || $rhythmpdf!='' || $otherpdf!='' || $partspdf!='' || $more!='' || $zusatz!='' || $listento!='')echo '<tr class="trcontent" style="height:33px"><td align="right" class="tdcounter">'.$inumber++.'</td>';
 else echo '<tr class="trspacer"><td></td><td></td><tr><td></td>';
 }
 
@@ -73,7 +74,7 @@ $s=str_replace(';',',.',$s);
 $s=str_replace("\n",' | ',$s);
 $s=str_replace("\r",' | ',$s);
 $s=str_replace(" |  | ",' | ',$s);
-return $s;
+return htmlXspecialchars($s);
 }
 ?>
 </table>

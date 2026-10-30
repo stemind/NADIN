@@ -20,8 +20,9 @@ $listento='';
       $path='../library/'.$tunes[$i];
    
    
-      if ($handle = @opendir($path))  { 
+      if (!is_link($path) && basename($tunes[$i])===$tunes[$i] && $tunes[$i]!=='' && $tunes[$i][0]!=='.' && ($handle = @opendir($path)))  {
          while (false !== ($file = readdir($handle)))  { 
+      if ($file[0]==='.' || strpos($file,'zzDEL!')===0 || is_link($path.'/'.$file) || !is_file($path.'/'.$file) || ($hidden!=='' && strpos($tunes[$i].'/'.$file,$hidden)!==false && !role('musers'))) continue;
 
       if (strpos($file,$saxes)>1) {$saxespdf=$file;$allsaxes.=$tunes[$i].'/'.$file.',';}
       else if (strpos($file,$bones)>1) {$bonespdf=$file;$allbones.=$tunes[$i].'/'.$file.',';}
@@ -49,13 +50,13 @@ $zusatz=explode($delimiter2,$zusatz);
 if ($tunes[$i]!='') {
 
 if($_GET['m']!='library') {
-if($scorepdf!='' || $saxespdf!='' || $bonespdf!='' || $trumpetpdf!='' || $rhythmpdf!='' || $otherpdf!='' || $partspdf!='')echo $inumber++.';';
+if($scorepdf!='' || $saxespdf!='' || $bonespdf!='' || $trumpetspdf!='' || $rhythmpdf!='' || $otherpdf!='' || $partspdf!='')echo $inumber++.';';
 else echo ';';
 }
 
 echo nsk($tunes[$i]).';';
 
-echo nsk($zusatz[0]).';';
+echo nsk(is_array($zusatz)?($zusatz[0] ?? ''):'').';';
 
 if ($scorepdf!='') echo nsk($humanscore);
 echo ';';
@@ -95,6 +96,7 @@ $s=str_replace(';',',.',$s);
 $s=str_replace("\n",' | ',$s);
 $s=str_replace("\r",' | ',$s);
 $s=str_replace(" |  | ",' | ',$s);
-return $s;
+if (preg_match('/^[=+@\-\t]/',$s)) $s="'".$s;
+return '"'.str_replace('"','""',$s).'"';
 }
 ?>

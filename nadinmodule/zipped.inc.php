@@ -12,7 +12,7 @@ foreach(nadin_zip_types() as $type=>$profile){
  $hasPartsFallback=$hasPartsFallback||$includesParts;
  $count=count($available);$format=$type==='alllistento'?'MP3':'PDF';
  $description=$count.' '.$format.($count===1?'':'s').($includesParts?' · incl. Parts':'');
- $url='get/zip.php?'.http_build_query(array('c'=>'zip/'.$type.'/'.substr($_GET['c'],0,-4).'_'.$type.'.zip'));
+ $url='get/zip.php?'.http_build_query(array('m'=>$zipMode,'c'=>'zip/'.$type.'/'.substr($_GET['c'],0,-4).'_'.$type.'.zip'));
  $links[]='<a class="nadin-zip-link" href="'.nadinHtml($url).'"><span class="nadin-zip-badge"><span aria-hidden="true">↓ </span>ZIP</span><span class="nadin-zip-text"><strong>'.nadinHtml($profile[2]).'</strong><small>'.nadinHtml($description).'</small></span></a>';
 }
 if($links){

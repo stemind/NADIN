@@ -5,10 +5,14 @@ require_once('nadinmodule/ui.inc.php');
 auth('vreclist');
 $recordings = array();
 foreach ((array)glob('library/*', GLOB_ONLYDIR) as $tuneDirectory) {
-    foreach ((array)glob($tuneDirectory . '/*') as $recording) {
-        $file = basename($recording);
+    if (is_link($tuneDirectory)) continue;
+    foreach (new DirectoryIterator($tuneDirectory) as $entry) {
+        if ($entry->isDot()) continue;
+        $recording=$entry->getPathname();$file=$entry->getFilename();
         $prefix = substr($file, 0, 3);
-        if (!is_file($recording) || is_link($recording)) continue;
+        if (!is_file($recording) || is_link($recording) || strtolower(pathinfo($file,PATHINFO_EXTENSION))!=='mp3' || $file[0]==='.' || strpos($file,'zzDEL!')===0) continue;
+        $permitted=true;foreach (array(array($saxes,'vsaxes'),array($bones,'vbones'),array($trumpets,'vtrumpets'),array($rhythm,'vrhythm'),array($other,'vother'),array($parts,'vgigs'),array($score,'vscore'),array($hidden,'musers')) as $restriction) if ($restriction[0]!=='' && strpos(basename($tuneDirectory).'/'.$file,$restriction[0])!==false && !role($restriction[1])) $permitted=false;
+        if (!$permitted) continue;
         if (strcasecmp($prefix, substr($bb, 0, 3)) !== 0 && strcasecmp($prefix, 'xyz') !== 0) continue;
         $group = substr($file, 0, 14);
         $recordings[$group][] = array('file' => $file, 'tune' => basename($tuneDirectory));

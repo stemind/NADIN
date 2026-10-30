@@ -1,36 +1,22 @@
-<?php 
-$_GET['gig'] =$_GET['gig'] ?? '';
-if (file_exists('abo/zip/'.str_replace('.txt','',$_GET['gig']).'.pdf')) $fmt=filemtime('abo/zip/'.str_replace('.txt','',$_GET['gig']).'.pdf');
-$_GET['c'] =$_GET['c'] ?? '';
-if (file_exists('abo/zip/'.str_replace('.txt','',$_GET['c']).'.pdf')) $fmt=filemtime('abo/zip/'.str_replace('.txt','',$_GET['c']).'.pdf');
-
-echo '<div style="float:right">';
-include('configlinks.inc.php');
-echo '</div>';
-
-echo '<div id="info'.md5($infos.$fmt).'" class="infos"><a style="font-size:70%" href="javascript:void(0)" onclick="ionoff(\'info'.md5($infos.$fmt).'\')">show/hide infos</a><span id="infoarea" '.$small.'><br>'.nl2br(autohref($infos));
-
-if (file_exists('abo/zip/'.str_replace('.txt','',$_GET['gig']).'.pdf')) echo '<a target="_blank" href="get/setlist.php?c='.str_replace('.txt','',$_GET['gig']).'.pdf">PDF-Anhang '.date('Y-m-d h:i',$fmt).'</a></small>';
-
-if (file_exists('abo/zip/'.str_replace('.txt','',$_GET['c']).'.pdf')) echo '<a target="_blank" href="get/setlist.php?c='.str_replace('.txt','',$_GET['c']).'.pdf">PDF-Anhang '.date('Y-m-d h:i',$fmt).'</a></small>';
-
-echo '</span></div><br />';  
+<?php
+require_once __DIR__.'/ui.inc.php';
+$attachmentGig=$selectedGig ?? ($_GET['c'] ?? '');$attachmentMode=$gigModule ?? 'gigreps';$fmt=0;$attachment='';
+if (is_string($attachmentGig) && basename($attachmentGig)===$attachmentGig && substr($attachmentGig,-4)==='.txt') {
+    $attachmentName=substr($attachmentGig,0,-4).'.pdf';$attachmentPath='abo/zip/'.$attachmentName;
+    if (is_file($attachmentPath) && !is_link($attachmentPath)) {
+        $fmt=filemtime($attachmentPath);
+        $attachment='<a target="_blank" href="get/setlist.php?'.nadinHtml(http_build_query(array('m'=>$attachmentMode,'c'=>$attachmentName))).'">PDF-Anhang '.date('Y-m-d H:i',$fmt).'</a>';
+    }
+}
+$infoId='info'.md5($infos.$fmt);
+echo '<div style="float:right">';include('configlinks.inc.php');echo '</div>';
+echo '<div id="'.$infoId.'" class="infos"><a style="font-size:70%" href="#" onclick="ionoff();return false">show/hide infos</a><span id="infoarea" '.$small.'><br>'.nl2br(nadinInfoHtml($infos)).$attachment.'</span></div><br>';
+$infoDisplay=$_COOKIE[$infoId] ?? '';
 ?>
-<?php if ($_COOKIE['info'.md5($infos.$fmt)]=='inline' || $_COOKIE['info'.md5($infos.$fmt)]=='none') { ?>
 <script>
-if (document.getElementById('info<?php echo md5($infos.$fmt)?>')) document.getElementById('infoarea').style.display='<?php echo $_COOKIE['info'.md5($infos.$fmt)]?>';
-</script>
-<?php } ?>
-<script>
-function ionoff(infodiv) {
-if (document.getElementById('infoarea').style.display=='none') {
-document.getElementById('infoarea').style.display='inline';
-infostatus='inline';
-}
-else {
-document.getElementById('infoarea').style.display='none'
-infostatus='none';
-}
-document.general.location.replace('nadinmodule/infostatus.php?infodiv='+infodiv+'&infostatus='+infostatus);
+(function(){var value=<?php echo json_encode(in_array($infoDisplay,array('inline','none'),true)?$infoDisplay:''); ?>;if(value)document.getElementById('infoarea').style.display=value;})();
+function ionoff() {
+ var area=document.getElementById('infoarea');area.style.display=area.style.display==='none'?'inline':'none';
+ document.general.location.replace('nadinmodule/infostatus.php?infodiv=<?php echo $infoId; ?>&infostatus='+area.style.display);
 }
 </script>

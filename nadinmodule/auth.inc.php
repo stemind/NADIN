@@ -1,13 +1,14 @@
 <?php
 /** File-based credentials and revocable sessions. No changes to userdatei.txt's format. */
 final class NadinAuth {
-    private $root, $salt, $timeout, $bindIp, $ip;
+    private $root, $salt, $timeout, $bindIp, $ip, $federationVerifier;
     private $loginRetry = 0;
     const MAX_RATES = 10000;
     const GUARD = "<?php http_response_code(404); exit; ?>\n";
-    public function __construct($root, $salt, $timeout = 3600, $bindIp = false, $ip = '') {
+    public function __construct($root, $salt, $timeout = 3600, $bindIp = false, $ip = '', $federationVerifier = null) {
         $this->root = rtrim($root, '/'); $this->salt = $salt;
         $this->timeout = max(60, (int)$timeout); $this->bindIp = $bindIp; $this->ip = $ip;
+        $this->federationVerifier = $federationVerifier;
     }
     public static function email($value) {
         return is_string($value) && strlen($value) <= 254 ? strtolower(trim($value)) : '';
@@ -66,6 +67,13 @@ final class NadinAuth {
                 $db = array('version'=>11, 'key'=>bin2hex(random_bytes(32)), 'accounts'=>array(), 'rates'=>array());
             }
             $before = json_encode($db); $now = time();
+            foreach (array('federationRequests','federationReplays') as $bucket) {
+                if (isset($db[$bucket]) && !is_array($db[$bucket])) throw new RuntimeException('Invalid federation storage.');
+                foreach (($db[$bucket] ?? array()) as $key=>$entry) {
+                    if (!is_array($entry) || !is_int($entry['until'] ?? null)) throw new RuntimeException('Invalid federation transaction.');
+                    if ($entry['until'] <= $now) unset($db[$bucket][$key]);
+                }
+            }
             foreach ($db['rates'] as $k=>$rate) if (($rate['until'] ?? 0) <= $now) unset($db['rates'][$k]);
             foreach ($db['accounts'] as &$a) {
                 foreach ($a['sessions'] as $k=>$s) if (($s['until'] ?? 0) <= $now) unset($a['sessions'][$k]);
@@ -125,6 +133,7 @@ final class NadinAuth {
         $id = hash('sha256', $token);
         foreach ($db['accounts'] as $email=>$a) {
             $s = $a['sessions'][$id] ?? null; $m = $members[$email] ?? null;
+            if ($s && isset($s['federated']) && (!is_array($s['federated']) || ($s['absolute'] ?? 0)<=time() || !is_callable($this->federationVerifier) || !call_user_func($this->federationVerifier,$email,$s['federated']))) continue;
             if ($s && $m && $m['expires'] >= time() && ($s['until'] ?? 0) > time() && hash_equals($m['stamp'], $s['stamp'] ?? '') && (!$this->bindIp || hash_equals($this->ip, $s['ip'] ?? ''))) return $email;
         }
         return '';
@@ -173,13 +182,59 @@ final class NadinAuth {
             $email = $this->sessionUser($db, $token, $this->members());
             if ($email && $touch) {
                 $id = hash('sha256', $token);
-                if ($db['accounts'][$email]['sessions'][$id]['until'] < time()+$this->timeout-30) $db['accounts'][$email]['sessions'][$id]['until'] = time()+$this->timeout;
+                if ($db['accounts'][$email]['sessions'][$id]['until'] < time()+$this->timeout-30) $db['accounts'][$email]['sessions'][$id]['until'] = min(time()+$this->timeout,$db['accounts'][$email]['sessions'][$id]['absolute'] ?? PHP_INT_MAX);
             }
             return $email;
         });
     }
     public function logout($token) {
         $this->transaction(function(&$db) use($token) { foreach ($db['accounts'] as &$a) unset($a['sessions'][hash('sha256', (string)$token)]); });
+    }
+    public function federationStart($provider,$binding,array $data,$state=null) {
+        $state=$state ?? bin2hex(random_bytes(32));
+        if (!is_string($state) || !preg_match('/^[a-f0-9]{64}$/D',$state)) throw new InvalidArgumentException('Invalid federation state.');
+        if (!in_array($provider,array('oidc','saml'),true) || !is_string($binding) || !preg_match('/^[a-f0-9]{64}$/D',$binding) || strlen(json_encode($data,JSON_THROW_ON_ERROR))>16000) throw new InvalidArgumentException('Invalid federation request.');
+        return $this->transaction(function(&$db) use($provider,$binding,$data,$state) {
+            if (!$this->rate($db,'federation-network',$this->ip,120,600) || !$this->rate($db,'federation-browser',$binding,20,600) || count($db['federationRequests'] ?? array())>=1000) throw new RuntimeException('Too many federation attempts. Try again later.');
+            $key=hash('sha256',$state);
+            if (isset($db['federationRequests'][$key])) throw new RuntimeException('Duplicate federation request.');
+            $db['federationRequests'][$key]=array('until'=>time()+600,'provider'=>$provider,'binding'=>hash('sha256',$binding),'data'=>$data);
+            return $state;
+        });
+    }
+    /** Consuming a transaction is atomic across workers, including failed callbacks. */
+    public function federationTake($provider,$state,$binding) {
+        if (!is_string($state) || !preg_match('/^[a-f0-9]{64}$/D',$state) || !is_string($binding) || !preg_match('/^[a-f0-9]{64}$/D',$binding)) return null;
+        return $this->transaction(function(&$db) use($provider,$state,$binding) {
+            $key=hash('sha256',$state);$request=$db['federationRequests'][$key] ?? null;
+            if (!$request || ($request['provider'] ?? '')!==$provider || !is_string($request['binding'] ?? null) || !hash_equals($request['binding'],hash('sha256',$binding))) return null;
+            unset($db['federationRequests'][$key]);
+            return is_array($request['data'] ?? null) ? $request['data'] : null;
+        });
+    }
+    /** Called only after the protocol adapter has verified the signed identity. */
+    public function federatedLogin($email,array $context,$replay,$absolute) {
+        $email=self::email($email);
+        if (!is_string($replay) || $replay==='' || strlen($replay)>4096 || !is_int($absolute) || $absolute<=time() || !is_callable($this->federationVerifier) || !call_user_func($this->federationVerifier,$email,$context)) return false;
+        return $this->transaction(function(&$db) use($email,$context,$replay,$absolute) {
+            $members=$this->members();$m=$members[$email] ?? null;
+            $key=hash('sha256',($context['provider'] ?? '').'|'.($context['policy'] ?? '').'|'.$replay);
+            if (!$m || $m['expires']<time() || isset($db['federationReplays'][$key]) || count($db['federationReplays'] ?? array())>=10000) return false;
+            if (!isset($db['accounts'][$email])) $db['accounts'][$email]=$this->emptyAccount();
+            $token=$this->newSession($db['accounts'][$email],$email,$members);$id=hash('sha256',$token);
+            $db['accounts'][$email]['sessions'][$id]['federated']=$context;
+            $db['accounts'][$email]['sessions'][$id]['absolute']=min($absolute,time()+86400);
+            $db['accounts'][$email]['sessions'][$id]['until']=min($absolute,time()+$this->timeout);
+            $db['federationReplays'][$key]=array('until'=>time()+86400);
+            $this->loginEvent($db,'federated',$this->loginKey($db,'account',$email),$this->loginKey($db,'network',$this->ip));
+            return $token;
+        });
+    }
+    public function sessionMethod($token) {
+        return $this->transaction(function(&$db) use($token) {
+            $email=$this->sessionUser($db,$token,$this->members());
+            return $email ? ($db['accounts'][$email]['sessions'][hash('sha256',$token)]['federated']['provider'] ?? 'local') : '';
+        });
     }
     public function hasPersonal($email) {
         return $this->transaction(function(&$db) use($email) { return ($db['accounts'][$email]['hash'] ?? '') !== ''; });
@@ -273,7 +328,10 @@ final class NadinAuth {
 
 function nadin_auth() {
     static $auth; global $salt, $timeout, $sticksessiontoip;
-    if (!$auth) $auth = new NadinAuth(dirname(__DIR__), $salt, $timeout, $sticksessiontoip === 'yes', $_SERVER['REMOTE_ADDR'] ?? '');
+    if (!$auth) $auth = new NadinAuth(dirname(__DIR__), $salt, $timeout, $sticksessiontoip === 'yes', $_SERVER['REMOTE_ADDR'] ?? '', function($email,$context) {
+        require_once __DIR__.'/federation.inc.php';
+        return nadin_federation_session_valid($email,$context);
+    });
     return $auth;
 }
 function nadin_cookie_name($kind = 'session') { return 'nadin_'.$kind.'_'.substr(hash('sha256', dirname(__DIR__)), 0, 12); }

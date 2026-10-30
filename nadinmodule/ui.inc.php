@@ -31,3 +31,15 @@ function nadinSidebarWidth() {
     $width = isset($ifleftthenthiswidth) ? (int)$ifleftthenthiswidth : 300;
     return max(120, min(450, $width));
 }
+// Gig information is plain text. Recognised web/email links remain clickable.
+function nadinInfoHtml($value) {
+    $text=nadinText($value);$out='';$offset=0;
+    preg_match_all('~https?://[^\s<>"\x27]+|www\.[^\s<>"\x27]+|[A-Z0-9._%+\-]+@[A-Z0-9.\-]+\.[A-Z]{2,}~i',$text,$matches,PREG_OFFSET_CAPTURE);
+    foreach($matches[0] as $match){
+        $token=rtrim($match[0],'.;,');$out.=nadinHtml(substr($text,$offset,$match[1]-$offset));
+        $url=strpos($token,'@')!==false && !preg_match('~^(https?://|www\.)~i',$token)?'mailto:'.rawurlencode($token):(stripos($token,'www.')===0?'https://'.$token:$token);
+        $out.='<a target="_blank" rel="noopener noreferrer" href="'.nadinHtml($url).'">'.nadinHtml($token).'</a>'.nadinHtml(substr($match[0],strlen($token)));
+        $offset=$match[1]+strlen($match[0]);
+    }
+    return $out.nadinHtml(substr($text,$offset));
+}

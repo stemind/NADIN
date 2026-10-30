@@ -1,3 +1,7 @@
+<?php require_once __DIR__.'/legacy-write.inc.php';
+$source=dirname(__DIR__).'/library/'.($_GET['p'] ?? '').'/'.($_GET['f'] ?? '');
+if (!is_file($source) || is_link($source) || strtolower(pathinfo($source,PATHINFO_EXTENSION))!=='mp3') nadin_legacy_error(404,'Audio file not found.');
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -27,7 +31,8 @@ for($i=0;$i<count($s)-1;$i++) {
 $snew.=$s[$i].'.';
 }
 $filenamewithtime=striptime($snew).'('.MP3File::formatTime($duration2).').'.$ext;
-if(file_exists('../library/'.$_GET['p'].'/'.$filenamewithtime))copy('../library/'.$_GET['p'].'/'.$filenamewithtime,'../filesdeleted/zzDEL!'.$time.$filenamewithtime);
+if ($filenamewithtime===$_GET['f']) exit;
+if(file_exists('../library/'.$_GET['p'].'/'.$filenamewithtime)) nadin_legacy_error(409,'A file with this duration name already exists.');
 rename('../library/'.$_GET['p'].'/'.$_GET['f'],'../library/'.$_GET['p'].'/'.$filenamewithtime);
 
 
@@ -192,12 +197,13 @@ class MP3File
         //$info['Original'] = $original_bit;
         //$info['Emphasis'] = $emphasis;
         $info['Framesize'] = self::framesize($layer, $bitrate, $sample_rate, $padding_bit);
-        $info['Samples'] = $samples[$simple_version][$layer];
+        $info['Samples'] = $samples[$simple_version][$layer] ?? 0;
         return $info;
     }
  
     private static function framesize($layer, $bitrate,$sample_rate,$padding_bit)
     {
+        if (!$sample_rate || !$bitrate) return 0;
         if ($layer==1)
             return intval(((12 * $bitrate*1000 /$sample_rate) + $padding_bit) * 4);
         else //layer 2, 3

@@ -123,12 +123,13 @@ class NadinForScore {
         $directory = $this->root . '/library/' . $tune;
         if (!is_dir($directory) || is_link($directory)) return array();
         $files = array();
-        foreach ((array)glob($directory . '/*') as $source) {
-            $file = basename($source);
+        foreach (new DirectoryIterator($directory) as $item) {
+            if ($item->isDot()) continue;
+            $source=$item->getPathname();$file=$item->getFilename();
             if (!is_file($source) || is_link($source) || strtolower(pathinfo($file, PATHINFO_EXTENSION)) !== 'pdf') continue;
-            if (!$this->component($file)) continue;
+            if (!$this->component($file) || strpos($file,'zzDEL!')===0 || !is_readable($source) || filesize($source)===0) continue;
             global $hidden;
-            if (isset($hidden) && $hidden !== '' && strpos($file, $hidden) !== false && empty($this->rights['musers'])) continue;
+            if (isset($hidden) && $hidden !== '' && strpos($tune.'/'.$file, $hidden) !== false && empty($this->rights['musers'])) continue;
             $permitted = true;
             foreach ($this->profiles as $restriction) {
                 if ($restriction['code'] !== '' && strpos($tune . '/' . $file, $restriction['code']) !== false && empty($this->rights[$restriction['right']])) $permitted = false;
