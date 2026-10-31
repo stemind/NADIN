@@ -1,37 +1,19 @@
 # NADIN — forScore export
 
-The forScore development line on the compact interface, with reusable PDF identities across Reps and controlled import/update choices.
+The original forScore milestone on the compact interface: section/Parts selection, ordered and repeated tunes, literal headings and stable PDF reuse. V8 now also includes the backported exporter.
 
-**Branch:** `V9-forScore-export`
-
-Section notes with Parts fallback; ordered/repeated tunes; automatic text headings; existing PDF reuse through a current inventory.
+**Branch:** `V9-forScore-export`  
+**Starting point:** V8  
+**Status:** Development line; shared collateral corrections are backported without taking over the later visual stages.
 
 ## Project
 
 NADIN is a file-based PHP application for big bands. It manages sheet music, recordings, member permissions and current/archived gig setlists without a database. It was developed by Urs Petermann and Stefan Minder for the Uptown Big Band Bern. Any warranty and liability is excluded. Project information: https://yuba.ch/nadin.
 
-## Branches
+## Branches and releases
 
-The numbered development lines are successive stages; later lines retain the earlier application capabilities, apart from the agreed retirement of iTunes/RSS at V10. Shared forScore, encoding and interaction corrections have also been backported where applicable. The 7.7 line deliberately keeps the original interface.
+See [the complete branch map](docs/BRANCHES.md) for the stages, historical numbering, integration status and current release. [NADIN 7.7.2](https://github.com/stemind/NADIN/releases/tag/v7.7.2) is the conservative classic-interface maintenance release.
 
-| Line | Branch | Main purpose |
-| --- | --- | --- |
-| main | [`main`](https://github.com/stemind/NADIN/tree/main) | Maintained 7.x baseline |
-| 7.7 | [`7.7-original-interface-forScore`](https://github.com/stemind/NADIN/tree/7.7-original-interface-forScore) | Original interface with forScore |
-| V8 | [`V8-compact-interface`](https://github.com/stemind/NADIN/tree/V8-compact-interface) | Compact original interface |
-| V9 | [`V9-forScore-export`](https://github.com/stemind/NADIN/tree/V9-forScore-export) | forScore export |
-| V10 | [`V10-personal-passwords`](https://github.com/stemind/NADIN/tree/V10-personal-passwords) | Personal passwords and onboarding |
-| V11 | [`V11-gig-user-management`](https://github.com/stemind/NADIN/tree/V11-gig-user-management) | Compact gig and user management |
-| V12 | [`V12-login-protection`](https://github.com/stemind/NADIN/tree/V12-login-protection) | Progressive login protection |
-| V13 | [`V13-zip-download-layout`](https://github.com/stemind/NADIN/tree/V13-zip-download-layout) | Readable ZIP downloads |
-| V14 | [`V14-refined-interface`](https://github.com/stemind/NADIN/tree/V14-refined-interface) | Refined compact interface |
-| V15 | [`V15-oidc-saml-reliable-zips`](https://github.com/stemind/NADIN/tree/V15-oidc-saml-reliable-zips) | Optional federation and reliable ZIPs |
-| V16 | [`V16-php85-php9-preparation`](https://github.com/stemind/NADIN/tree/V16-php85-php9-preparation) | PHP 8.5 validation and PHP 9 preparation |
+## Installation and verification
 
-## Installation and updates
-
-Use the source files for the selected line together. Preserve your installation configuration, user/member and authentication files, music/gig directories and hidden forScore identity metadata. The application retains the file-based storage model. Existing technical notes and verification tools are in `docs/` and `tests/` where present.
-
-The current conservative 7.x forScore release is [NADIN 7.7.2](https://github.com/stemind/NADIN/releases/tag/v7.7.2), with separate correction and 7.6-upgrade ZIPs. First forScore imports need no CSV; later PDF-containing imports use a current Filename inventory to reuse annotated PDFs. Native forScore/iPad acceptance is separate from the PHP/HTTP regression checks.
-
-The forScore Library link is removed. Changing the section/import option or choosing a CSV updates the export automatically. `rendergiglistontheleft` controls the current and archived GigRep list position. See `docs/2026-10-31-maintenance.md` for the Main comparison and test boundaries.
+Use the selected line's source files together and preserve your configuration, salt, member/authentication files, music, Reps, attachments and hidden forScore metadata. See [the executed evolution audit](docs/EVOLUTION-AUDIT.md) for the checks and corrected collateral issues, and [7.7.2 notes](docs/7.7.2.md) for that release's patch packages.
