@@ -4,11 +4,11 @@ const {JSDOM}=require('jsdom');
 const fixture=process.argv[2],root=path.resolve(__dirname,'..');let checks=0;
 function ok(value,label){assert(value,label);checks++;}
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
-function setup(name,selected){
+function setup(name,selected,reviewRows){
  const doc=fs.readFileSync(path.join(fixture,name+'.html'),'utf8');
  const dom=new JSDOM(doc,{url:'https://nadin.example.invalid/index.php',runScripts:'outside-only',pretendToBeVisual:true});
  const w=dom.window,errors=[];w.addEventListener('error',e=>errors.push(e.message));
- if(selected){const data=w.document.getElementById('nadin-admin-data'),boot=JSON.parse(data.textContent);Object.assign(boot.selected,selected);data.textContent=JSON.stringify(boot);}
+ if(selected||reviewRows){const data=w.document.getElementById('nadin-admin-data'),boot=JSON.parse(data.textContent);if(selected)Object.assign(boot.selected,selected);if(reviewRows)boot.people.unparsed_rows=reviewRows;data.textContent=JSON.stringify(boot);}
  w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};
  w.HTMLDialogElement.prototype.close=function(value=''){this.returnValue=value;this.open=false;this.dispatchEvent(new w.Event('close'));};
  w.fetch=async()=>{throw new Error('Unexpected network call');};
@@ -46,6 +46,14 @@ function setup(name,selected){
   ok(!doc.querySelector('.nadin-setlist-note small')&&!doc.getElementById('setlist-warning')&&!doc.getElementById('admin-editor').textContent.includes('unavailable tune'),mode+': no heading warning or error label');
   ok((doc.querySelector('[data-remove]')!==null)===(mode==='current'),mode+': editing controls retain access mode');
   if(mode==='current'){
+   ok(doc.querySelectorAll('[data-edit-note]').length===2,'current headings have direct edit buttons');
+   doc.querySelector('[data-edit-note="0"]').click();ok(doc.querySelector('[name=note]').value==='Aus Gigrep:','heading edit opens with its complete text');doc.querySelector('[name=note]').value='Discarded';doc.getElementById('admin-dialog').close('cancel');await tick();
+   ok(doc.querySelector('#setlist [data-row="0"] .nadin-setlist-title').textContent==='Aus Gigrep:','cancel keeps the original heading');
+   doc.querySelector('[data-edit-note="0"]').click();doc.querySelector('[name=note]').value="Set 2 / Pause: Müller & O'Connor";doc.getElementById('admin-dialog').close('confirm');await tick();
+   ok(doc.querySelector('#setlist [data-row="0"] .nadin-setlist-title').textContent==="Set 2 / Pause: Müller & O'Connor"&&JSON.stringify(orders(doc))===JSON.stringify(expected),'heading edit retains special characters, position and tune numbers');doc.getElementById('setlist-undo').click();
+   ok(doc.querySelector('#setlist [data-row="0"] .nadin-setlist-title').textContent==='Aus Gigrep:','undo restores the original heading text');
+   doc.querySelector('[data-edit-note="0"]').click();doc.querySelector('[name=note]').value='';doc.getElementById('admin-dialog').close('confirm');await tick();
+   ok(orders(doc)[0]===''&&doc.querySelector('#setlist [data-row="0"] .nadin-setlist-title').textContent==='—','heading can become a blank unnumbered break');doc.getElementById('setlist-undo').click();
    doc.querySelector('[data-move="1"][data-index="6"]').click();
    ok(JSON.stringify(orders(doc))===JSON.stringify(['','1','2','3','4','5','6','','7','8']),'moving a heading renumbers only tunes');
    doc.getElementById('setlist-undo').click();ok(JSON.stringify(orders(doc))===JSON.stringify(expected),'undo restores heading positions and tune numbers');
@@ -58,12 +66,15 @@ function setup(name,selected){
    doc.getElementById('gig-form').dispatchEvent(new view.w.Event('submit',{cancelable:true}));await tick();await tick();
    ok(saved&&JSON.stringify(saved.tunes)===JSON.stringify(headingTunes),'save preserves exact headings, tune IDs, order and repetitions');
    ok(JSON.stringify(orders(doc))===JSON.stringify(expected),'saved response renders headings without numbers');
-  }
+  }else ok(!doc.querySelector('[data-edit-note]'),mode+': headings remain read-only');
   ok(view.errors.length===0,mode+': heading UI has no uncaught errors');view.dom.window.close();
  }
  const notes=setup('admin',{tunes:['First heading','','Second heading']});
  ok(orders(notes.d).every(n=>n==='')&&notes.d.getElementById('setlist-count').textContent==='(0 tunes)','consecutive headings and blank breaks remain unnumbered');notes.dom.window.close();
  const empty=setup('admin',{tunes:[]});ok(!empty.d.querySelector('#setlist .nadin-order')&&empty.d.getElementById('setlist-count').textContent==='(0 tunes)','empty setlist has no tune numbers');empty.dom.window.close();
+ const legacyReview=setup('users',null,[{line:5,text:'Ambiguous, <script>unsafe</script>, vgigs=1,'}]);
+ ok(legacyReview.d.getElementById('admin-items').textContent.includes('Line 5: Ambiguous'),'unrecognised account-like rows remain visible for review');
+ ok(!legacyReview.d.querySelector('#admin-items script'),'review entries are rendered as text');legacyReview.dom.window.close();
  function drag(view,source,target,after=false){
   const transfer={setData(){},effectAllowed:'',dropEffect:''};
   function event(type){const e=new view.w.Event(type,{bubbles:true,cancelable:true});Object.defineProperties(e,{dataTransfer:{value:transfer},clientY:{value:after?1:-1}});return e;}

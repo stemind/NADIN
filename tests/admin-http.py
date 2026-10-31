@@ -18,6 +18,12 @@ with tempfile.TemporaryDirectory(prefix='nadin-v12-') as temp:
  users='Admin, admin@example.invalid, 31.12.2099, '+', '.join(r+'=1' for r in rights)+',\nMember, member@example.invalid, 31.12.2099, vgigs=1, vsaxes=1,\n'
  (app/'userdatei/userdatei.txt').write_text(users)
  (app/'userdatei/mail-adapter.php').write_text('<?php function nadin_mail_transport($to,$subject,$body){return true;}')
+ if os.environ.get('NADIN_TEST_SHARED_DATA')=='1':
+  shared=Path(temp)/'shared';shared.mkdir()
+  for index,relative in enumerate(['userdatei','library','gigreps','gigrepsarchiv','gigrepsdeleted','filesdeleted','abo/zip']):
+   source=app/relative;destination=shared/str(index)
+   if not source.exists():source.mkdir(parents=True)
+   source.rename(destination);source.symlink_to(destination,target_is_directory=True)
  with socket.socket() as sock:sock.bind(('127.0.0.1',0));port=sock.getsockname()[1]
  log=open(Path(temp)/'server.log','w+')
  process=subprocess.Popen([PHP,'-S',f'127.0.0.1:{port}','-t',str(Path(temp))],stdout=log,stderr=log)
@@ -48,12 +54,14 @@ with tempfile.TemporaryDirectory(prefix='nadin-v12-') as temp:
   r=api({'area':'gigs','action':'save','date':'2026-12-01','title':'GET mutation'});ok(not (app/'gigreps/2026-12-01 GET mutation.txt').exists(),'GET does not mutate')
   r=gigsave(id='',date='2026-02-31',title='Impossible');ok(r.status_code==400,'invalid date rejected')
   r=gigsave(id='',date='2026-12-01',title='../Traversal');ok(r.status_code==400,'traversal name rejected')
-  r=gigsave(id='',date='2026-12-01',title='V12 Test',infos='Meet 19:00',tunes=['Anna_Swings_Best','Break','Berta_Has_The_Blues']);ok(r.status_code==200,r.text);g=r.json()['gig'];ok(g['id']=='2026-12-01 V12 Test.txt' and len(g['tunes'])==3,'create gig with heading')
+  r=gigsave(id='',date='2026-12-01',title='V12 Test',infos='Meet 19:00',tunes=['Anna_Swings_Best','Set 1 / Break','Berta_Has_The_Blues']);ok(r.status_code==200,r.text);g=r.json()['gig'];ok(g['id']=='2026-12-01 V12 Test.txt' and len(g['tunes'])==3,'create gig with heading')
   ok(gigsave(id='',date='2026-12-01',title='V12 Test').status_code==409,'duplicate create rejected')
   old=dict(g);g['tunes'].append('Anna_Swings_Best');r=gigsave(**{k:g[k] for k in ['id','revision','infos','tunes']});ok(r.status_code==200,'repeated tune preserved');g=r.json()['gig']
   r=gigsave(**{k:old[k] for k in ['id','revision','infos','tunes']});ok(r.status_code==409,'stale save rejected')
   ok(gigsave(id='../config.inc.php',revision='',infos='',tunes=[]).status_code==400,'gig traversal rejected')
   ok(gigsave(id=g['id'],revision=g['revision'],infos='',tunes=['../private']).status_code==400,'tune traversal rejected')
+  for unsafe in ['/etc/passwd','./private','A/../private','A\\..\\private']:
+   ok(gigsave(id=g['id'],revision=g['revision'],infos='',tunes=[unsafe]).status_code==400,'absolute or traversal entry rejected')
   token=api({'area':'gigs','action':'token'}).json()['csrf']
   r=s.post(base+'/nadinmodule/admin-api.php',data={'area':'gigs','action':'attachment','id':g['id'],'revision':g['revision'],'csrf':token},files={'pdf':('notes.pdf',b'%PDF-1.4\nFixture PDF','application/pdf')});ok(r.status_code==200,r.text);g=r.json()['gig'];ok(g['attachment'],'attachment saved')
   r=s.post(base+'/nadinmodule/admin-api.php',data={'area':'gigs','action':'attachment','id':g['id'],'revision':g['revision'],'csrf':token},files={'pdf':('notes.pdf',b'<?php echo 1;','application/pdf')});ok(r.status_code==400,'fake PDF rejected')
@@ -86,7 +94,7 @@ with tempfile.TemporaryDirectory(prefix='nadin-v12-') as temp:
   ok(member.get(base+'/password.php',allow_redirects=False).status_code==303,'changed member session revoked')
   p=dict(baseperson,revision=m2['revision'],rights=['uppdf']);ok(api(p,post=True).status_code==400,'contradictory rights rejected')
   p=dict(baseperson,revision=m2['revision'],email='other@example.invalid');ok(api(p,post=True).status_code==400,'email identity cannot be silently changed')
-  p=dict(baseperson,revision=m2['revision'],name='Injected, email');ok(api(p,post=True).status_code==400,'CSV injection rejected')
+  p=dict(baseperson,revision=m2['revision'],name='Injected\nOther, other@example.invalid');ok(api(p,post=True).status_code==400,'CSV row injection rejected')
   r=api(dict(area='people',action='delete',original=admin['email'],revision=admin['revision']),post=True);ok(r.status_code==400,'cannot delete own account')
   p=dict(area='people',action='save',original=admin['email'],revision=admin['revision'],name=admin['name'],email=admin['email'],expiry=admin['expiry'],rights=['vgigs']);ok(api(p,post=True).status_code==400,'cannot remove own user management')
   p['rights']=admin['rights'];p['name']='Admin Renamed';r=api(p,post=True);ok(r.status_code==200,r.text);ok(api({'area':'people'}).status_code==200,'own current session survives permitted edit')

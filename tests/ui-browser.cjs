@@ -20,6 +20,11 @@ function fixture(name,tunes){
    await page.goto(fixture('admin',['Aus Gigrep:','Anna_Swings_Best','Berta_Has_The_Blues','Challenge Tunes und Neuigkeiten:','David_Funks_The_City_Hall']));
    const numbers=()=>page.locator('#setlist .nadin-order').allTextContents();
    ok(JSON.stringify(await numbers())===JSON.stringify(['','1','2','','3']),'headings render without numbers in Chromium');
+   await page.locator('[data-edit-note="0"]').click();await page.locator('[name=note]').fill('Set 2 / Pause: Müller & O\'Connor');await page.getByRole('button',{name:'Apply',exact:true}).click();
+   await page.waitForFunction(()=>document.querySelector('#setlist [data-row="0"] .nadin-setlist-title').textContent==="Set 2 / Pause: Müller & O'Connor");
+   ok(await page.locator('#setlist [data-row="0"] .nadin-setlist-title').textContent()==='Set 2 / Pause: Müller & O\'Connor','native heading editor applies complete text');
+   await page.locator('#setlist-undo').click();
+   ok(await page.locator('#setlist [data-row="0"] .nadin-setlist-title').textContent()==='Aus Gigrep:','native Undo restores heading text');
    const source=page.locator('[data-catalog-tune="Anna_Swings_Best"]');
    const initial=await source.evaluate(el=>getComputedStyle(el).backgroundColor);await source.hover();
    ok(await source.evaluate(el=>getComputedStyle(el).backgroundColor)!==initial,'library rows visibly highlight on hover');
