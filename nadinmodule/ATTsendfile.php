@@ -23,7 +23,7 @@ shortcut.add("Ctrl+S",function() {
 <form name="form1" enctype="multipart/form-data" action="ATTsendfile2.php?gig=<?php echo $_GET['gig']?>" method="post">
 <!--<input type="hidden" name="MAX_FILE_SIZE" value="999999999999" />-->
 <?php require('submit.inc.php') ?>
-<input name="name" type="hidden" size="44" value="<?php echo $_GET['name']?>" />
+<input name="name" type="hidden" size="44" value="<?php echo htmlXspecialchars($_GET['name'] ?? '')?>" />
 <!--<input type="submit" name="submit" value="upload "/>-->
 </form>
 </body>

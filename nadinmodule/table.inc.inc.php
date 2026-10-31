@@ -1,4 +1,7 @@
 <?php
+$allsaxes=$allbones=$alltrumpets=$allrhythm=$allother=$allparts=$allscore=$alllistento='';
+$totalseconds=0; $secwarn=$onemoretd='';
+$small=$small ?? '';
 echo'<script>if(top===self)windowleft=700;else windowleft=10</script>';
 $inumber=1;
 $letter='';
@@ -22,9 +25,9 @@ $otherpdf='';
 $partspdf='';
 $scorepdf='';
 
-$more='';
-$zusatz='';	  
-$listento='';
+$more=''; $upnow='';
+$zusatz=array('', '');
+$listento=''; $zusatzFile='';
 	  
       $tunes[$i]=trim($tunes[$i]);
       if ($libraryInteractive && $tunes[$i] === '') continue;
@@ -46,7 +49,7 @@ $listento='';
 
       else if (strpos($file,$recommended)>1) {$listento=$file; $alllistento.=$tunes[$i].'/'.$file.',';}
 	  
-	  else if (strpos($file,'.txt')>1) $zusatz=$file;						
+	  else if (strpos($file,'.txt')>1) $zusatzFile=$file;
       else if ($tunes[$i]!='' && substr($file,0,1)!='.') {
 	  if (role('musers')) $more.=$file.$delimiter; 
 	  else if ($file==str_replace($hidden,'',$file)) $more.=$file.$delimiter; 
@@ -54,8 +57,8 @@ $listento='';
 		    }
          } 
 
-if (strpos($zusatz,'.txt')>0 && file_exists('library/'.$tunes[$i].'/'.$zusatz)) {
-$zusatz=file_get_contents('library/'.$tunes[$i].'/'.$zusatz);
+if (strpos($zusatzFile,'.txt')>0 && file_exists('library/'.$tunes[$i].'/'.$zusatzFile)) {
+$zusatz=file_get_contents('library/'.$tunes[$i].'/'.$zusatzFile);
 $zusatz=explode($delimiter2,$zusatz);
 }
 				
@@ -151,7 +154,7 @@ $basket='';
          echo '<a id="weitereaufnahmen'.$i.'" href="javascript:void(0)" onclick="if (document.getElementById(\'td1'.$i.'\').style.display!=\'block\') {document.getElementById(\'td1'.$i.'\').style.display=\'block\'} else {document.getElementById(\'td1'.$i.'\').style.display=\'none\'}"></a>';
          echo '</td>';
 
-if($_COOKIE['multipop']=='yes') $randomnumber=rand(0,999999999);
+if(($_COOKIE['multipop'] ?? '')=='yes') $randomnumber=rand(0,999999999);
 else $randomnumber='';
 
 if (role('upaudio')) $upnow='&nbsp;<span style="color:white;background:#ddd;font-weight:bold;cursor:pointer" onmouseover="this.style.background=\'green\'" onmouseout="this.style.background=\'#ddd\'" title="manage Infos, Links, Files in'."\n".htmlXspecialchars(strtoupper(str_replace('_',' ',$tunes[$i]))).'" onclick="if(location.href.indexOf(\'&c=admin\')>0 && typeof ifrc!==\'undefined\' && ifrc.changes && ifrc.changes>0 && ifrc.document.getElementById(\'plus\').style.display!=\'none\')alert(\'There are unsaved changes in the blue manage Gigs area. You have to save them before clicking on a pencil in the white area.\');else{f1=window.open(\'nadinmodule/managetune.php?i='.$i.'&tune='.rawurlencode($tunes[$i]).'\',\'manage'.$randomnumber.'\',\'toolbar=0,location=0,status=1,top=0,left=\'+windowleft+\',menubar=0,scrollbars=1,resizable=1,width=800,height=830\');f1.focus()}">&nbsp;&#9998;&nbsp;</span>';

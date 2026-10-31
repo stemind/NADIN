@@ -1,4 +1,5 @@
 <?php
+$allsaxes=$allbones=$alltrumpets=$allrhythm=$allother=$allparts=$allscore=$alllistento='';
 $inumber=1;
 for ($i=0;$i<count($tunes);$i++) {
 

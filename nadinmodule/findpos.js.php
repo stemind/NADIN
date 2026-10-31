@@ -9,14 +9,13 @@ function findPos(obj) {
     }
 }
 
-<?php 
-if ($_COOKIE['scrlt']!='') echo "
-if (document.getElementById('".$_COOKIE['scrlt']."')) {
-setTimeout(\"window.scroll(0,findPos(document.getElementById('".$_COOKIE['scrlt']."')))\",777);
-document.getElementById('".$_COOKIE['scrlt']."').style.background='yellow';
-}
-";
-?>
+<?php $scrollTarget=$_COOKIE['scrlt'] ?? '';
+if (is_string($scrollTarget) && $scrollTarget!=='' && strlen($scrollTarget)<=256) { ?>
+(function(){
+ var target=document.getElementById(<?php echo json_encode($scrollTarget,JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_INVALID_UTF8_SUBSTITUTE); ?>);
+ if(target){setTimeout(function(){window.scroll(0,findPos(target));},777);target.style.background='yellow';}
+})();
+<?php } ?>
 
 function checkIE() 
 // Returns the version of Internet Explorer or a -1

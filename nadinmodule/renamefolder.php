@@ -1,7 +1,8 @@
 <?php 
 setcookie('upos', 'renamefolder', time()+3600*24*365*10, '/');
 require('refreshcookies2.inc.php');
-require_once('functions.inc.php')
+require_once('functions.inc.php');
+auth('uppdf');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -19,7 +20,7 @@ shortcut.add("Ctrl+S",function() {
 <title>manage <?php echo htmlXspecialchars(str_replace('_',' ',$_GET['tune'])) ?> - NADIN</title>
 <?php 
 require_once('../config.inc.php');
-auth('uppdf');
+
 ?></head>
 
 <body>

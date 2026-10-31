@@ -1,7 +1,7 @@
 <?php require_once __DIR__.'/legacy-write.inc.php'; ?>
 <?php require('refreshcookies2.inc.php') ?>
 <?php require_once('functions.inc.php')?>
-<?php setcookie('i', $_GET['i'], time()+$timeout, '/'); ?>
+<?php setcookie('i', $_GET['i'] ?? '', time()+$timeout, '/'); ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>

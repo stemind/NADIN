@@ -1,7 +1,7 @@
 <script>document.title=document.title.replace(/manage/,'<?php echo $bb ?> - ')</script>
 <div style="position:absolute;top:0px;left:10px;color:red;background:#ddd;height:27px;width:25px;text-align:center;cursor:pointer;font-size:20px" onmouseover="this.style.fontWeight='bold';this.style.background='#ccc';" onmouseout="this.style.fontWeight='100';this.style.background='#ddd';" onclick="self.close()">&#215;</div>
 <?php
-$marker='';
+$marker=''; $leers='';
 if(isset($_GET['m']))$marker='&m='.$_GET['m'];
 if (str_replace(' ','',trim($_GET['tune']))!=$_GET['tune']) $leers='By the way: There is whitespace in the name that could be problematic.';
 if (str_replace(' ','',trim($_GET['tune']))=='' || !file_exists('../library/'.$_GET['tune']))echo'<script>alert("'.htmlXspecialchars($_GET['tune']).'\\n\\ndoes not exist in\\n\\n'.$bibliothek.'\\n\\nor it is not spelled identically.\\n\\nTo enable uploads, you must create the corresponding object there.\\n\\n'.$leers.'");self.close();</script>';
@@ -31,7 +31,7 @@ Folder:
 <?php } ?>
 
 <?php 
-if($allowmultiplepopups=='yes')echo'<span style="font-size:9px;float:right">multi popups<input id="multipop" type="checkbox" onchange="if(this.checked){document.cookie=\'multipop=yes; expires=Thu, 31 Dec 2037 12:00:00 GMT; path=/\';multipopcookie=\'yes\'}else {document.cookie=\'multipop=no; expires=Thu, 31 Dec 2037 12:00:00 GMT; path=/\';multipopcookie=\'no\'};if(opener)opener.fresh()" /></span>';if($_COOKIE['multipop']=='yes')echo"<script>if(document.getElementById('multipop'))document.getElementById('multipop').checked=true</script>";
+if($allowmultiplepopups=='yes')echo'<span style="font-size:9px;float:right">multi popups<input id="multipop" type="checkbox" onchange="if(this.checked){document.cookie=\'multipop=yes; expires=Thu, 31 Dec 2037 12:00:00 GMT; path=/\';multipopcookie=\'yes\'}else {document.cookie=\'multipop=no; expires=Thu, 31 Dec 2037 12:00:00 GMT; path=/\';multipopcookie=\'no\'};if(opener)opener.fresh()" /></span>';if(($_COOKIE['multipop'] ?? '')=='yes')echo"<script>if(document.getElementById('multipop'))document.getElementById('multipop').checked=true</script>";
 ?>
 
 <script>
@@ -56,9 +56,9 @@ setTimeout("myfocus()",1111)
 }
 setTimeout("myfocus()",333)
 
-<?php if($_GET['m']=='')$_GET['m']=mkid2($_GET['tune']);?>
+<?php if(($_GET['m'] ?? '')=='')$_GET['m']=mkid2($_GET['tune']);?>
 
-multipopcookie='<?php echo $_COOKIE['multipop'] ?>';
+multipopcookie='<?php echo ($_COOKIE['multipop'] ?? '') ?>';
 
 function openerhilite(that) {
 <?php if($autoclosepopups=='yes')echo'if(!opener)self.close();'?>

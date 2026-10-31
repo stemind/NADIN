@@ -79,7 +79,7 @@ function nadin_federation_http($url,$provider,$body=null,$headers=array()) {
         $json=json_decode($response,true,32,JSON_THROW_ON_ERROR);
         if (!is_array($json) || !preg_match('/^\s*\{/',$response)) throw new RuntimeException('Invalid provider response.');
         return $json;
-    } finally { curl_close($h); }
+    } finally { unset($h); } // CurlHandle is released automatically on PHP 8+.
 }
 function nadin_federation_finish($p,$subject,$replay,$expires=null) {
     if (!nadin_federation_subject($subject)) throw new RuntimeException('Invalid external identity.');

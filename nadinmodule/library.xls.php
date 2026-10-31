@@ -1,7 +1,8 @@
 <?php 
 require_once('../config.inc.php');
 require_once('functions.inc.php');
-auth('vlibrary'); 
+auth('vlibrary');
+$_GET['m']='library';
 
 $filename=str_replace(' ','',mkname(substr($bb.$bibliothek,0,60)));
 header('Content-Type: text/x-csv; charset=UTF-8'); 

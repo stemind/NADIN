@@ -10,7 +10,7 @@ if (is_string($attachmentGig) && basename($attachmentGig)===$attachmentGig && su
 }
 $infoId='info'.md5($infos.$fmt);
 echo '<div style="float:right">';include('configlinks.inc.php');echo '</div>';
-echo '<div id="'.$infoId.'" class="infos"><a style="font-size:70%" href="#" onclick="ionoff();return false">show/hide infos</a><span id="infoarea" '.$small.'><br>'.nl2br(nadinInfoHtml($infos)).$attachment.'</span></div><br>';
+echo '<div id="'.$infoId.'" class="infos"><a style="font-size:70%" href="#" onclick="ionoff();return false">show/hide infos</a><span id="infoarea" '.($small ?? '').'><br>'.nl2br(nadinInfoHtml($infos)).$attachment.'</span></div><br>';
 $infoDisplay=$_COOKIE[$infoId] ?? '';
 ?>
 <script>

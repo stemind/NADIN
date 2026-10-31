@@ -1,12 +1,11 @@
 <?php 
 setcookie('upos', 'uploadpdf', time()+3600*24*365*10, '/');
 require('refreshcookies2.inc.php');
-require_once('functions.inc.php')
+require_once('functions.inc.php');
+auth('uppdf');
 ?>
 <?php
 require_once('../config.inc.php');
-setcookie('u', $_COOKIE['u'], time()+$timeout, '/');
-setcookie('p', $_COOKIE['p'], time()+$timeout, '/');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -25,7 +24,7 @@ shortcut.add("Ctrl+S",function() {
 <?php 
 require_once('../config.inc.php');
 require_once('functions.inc.php');
-auth('uppdf');
+
 ?></head>
 
 <body>
@@ -58,6 +57,6 @@ echo '<h1>'.htmlXspecialchars(str_replace('_',' ',$_GET['tune'])).'</h1>';?>
 <small>*visible to admins, suitable for Sibelius files etc.</small>
 </small>
 </div>
-<iframe style="display:none" src="rezip.php?c=<?php echo $_COOKIE['rezip']?>"></iframe>
+
 </body>
 </html>

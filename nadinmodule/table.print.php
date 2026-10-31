@@ -2,6 +2,7 @@
 <table id="tprint">
 <h2><?php echo htmlXspecialchars($bb.': '.str_replace('.txt','',$_GET['c'] ?? ''))?></h2>
 <?php
+$allsaxes=$allbones=$alltrumpets=$allrhythm=$allother=$allparts=$allscore=$alllistento='';
 $inumber=1;
 for ($i=0;$i<count($tunes);$i++) {
 

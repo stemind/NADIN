@@ -1,9 +1,9 @@
-<?php require('refreshcookies2.inc.php') ?>
+<?php require('refreshcookies2.inc.php') ;
+auth('mgigs');
+?>
 <?php require_once('functions.inc.php')?>
 <?php
 require_once('../config.inc.php');
-setcookie('u', $_COOKIE['u'], time()+$timeout, '/');
-setcookie('p', $_COOKIE['p'], time()+$timeout, '/');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -22,7 +22,7 @@ shortcut.add("Ctrl+S",function() {
 <?php 
 require_once('../config.inc.php');
 require_once('functions.inc.php');
-auth('mgigs');
+
 ?></head>
 
 <body>

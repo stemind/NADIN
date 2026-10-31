@@ -20,7 +20,7 @@ shortcut.add("Ctrl+S",function() {
 </head>
 
 <body>
-<form name="form1" enctype="multipart/form-data" action="AUDsendfile2.php?l=<?php echo $_GET['l']?>&typ=<?php echo $_GET['typ']?>" method="post">
+<form name="form1" enctype="multipart/form-data" action="AUDsendfile2.php?l=<?php echo ($_GET['l'] ?? '')?>&typ=<?php echo ($_GET['typ'] ?? '')?>" method="post">
 <!--<input type="hidden" name="MAX_FILE_SIZE" value="999999999999" />-->
 <?php $accept='accept=".mp3"'?>
 <?php require('submit.inc.php') ?>

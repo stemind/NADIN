@@ -1,7 +1,8 @@
 <?php 
 setcookie('upos', 'upload', time()+3600*24*365*10, '/');
 require('refreshcookies2.inc.php');
-require_once('functions.inc.php')
+require_once('functions.inc.php');
+auth('upaudio');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -20,7 +21,7 @@ shortcut.add("Ctrl+S",function() {
 <?php 
 require_once('../config.inc.php');
 require_once('functions.inc.php');
-auth('upaudio');
+
 ?></head>
 
 <body>
@@ -29,10 +30,11 @@ auth('upaudio');
 
 $infos='';
 $links='';
-$c=file_get_contents('../library/'.basename($_GET['tune']).'/infos.txt');
+$infoPath='../library/'.basename($_GET['tune']).'/infos.txt';
+$c=is_file($infoPath) ? file_get_contents($infoPath) : '';
 $c=explode($delimiter2,$c);
 $infos=$c[0];
-$links=$c[1];
+$links=$c[1] ?? '';
 
 echo '<h1>'.htmlXspecialchars(str_replace('_',' ',$_GET['tune'])).'</h1>';
 ?>
@@ -45,7 +47,7 @@ echo '<h1>'.htmlXspecialchars(str_replace('_',' ',$_GET['tune'])).'</h1>';
 
 
 
-<form name="form" action="uploadsave.php?i=<?php echo $_GET['i']?>" method="post" target="su">
+<form name="form" action="uploadsave.php?i=<?php echo htmlXspecialchars($_GET['i'] ?? '')?>" method="post" target="su">
 
 <h2>Tips &amp; info about the tune</h2>
 <input type="hidden" name="foldername" value="<?php echo htmlXspecialchars($_GET['tune']) ?>" />
