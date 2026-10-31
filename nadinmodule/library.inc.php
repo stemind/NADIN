@@ -2,11 +2,11 @@
 require_once('config.inc.php');
 require_once('nadinmodule/functions.inc.php');
 auth('vlibrary'); 
-if (role('uppdf') && role('upaudio') && $_GET['m']=='library') $neu = '<span style="color:white;background:green;font-weight:bold;cursor:pointer;font-size:10px;" title="Ordner f&uuml;r neuen Tune anlegen" onclick="f1=window.open(\'nadinmodule/new.php\',\'_blank\',\'toolbar=0,location=0,status=1,top=0,left=700,menubar=0,scrollbars=1,resizable=1,width=800,height=830\');">neu</span><p>';
+if (role('uppdf') && role('upaudio') && $_GET['m']=='library') $neu = '<a class="nadin-library-new" href="nadinmodule/new.php" target="_blank" rel="noopener" title="Create a tune" onclick="window.open(this.href,\'_blank\',\'toolbar=0,location=0,status=1,top=0,left=700,menubar=0,scrollbars=1,resizable=1,width=800,height=830\');return false;">+ Tune</a>';
 else $neu='';
 ?>
 <div class="nadin-layout nadin-library-layout">
-<nav id="nadin-sidebar" class="nadin-sidebar" aria-label="Library alphabet" data-sidebar="library"><?php echo $neu ?><a style="font-size:10px" href="#top">top</a><br/><span id="library-alphabet-links"<?php if (isset($_GET['sort']) && $_GET['sort'] === 'newest') echo ' style="display:none"'; ?>></span></nav>
+<nav id="nadin-sidebar" class="nadin-library-alphabet" aria-label="Library alphabet" data-sidebar="library"><?php echo $neu ?><a href="#top">Top</a><span id="library-alphabet-links"<?php if (isset($_GET['sort']) && $_GET['sort'] === 'newest') echo ' style="display:none"'; ?>></span></nav>
 <main class="nadin-content">
 <div class="nadin-export-links nadin-library-export">
 <a id="library-xls-link" style="text-decoration:none" href="nadinmodule/library.xls.php?<?php echo $_SERVER['QUERY_STRING']?>" target="_blank">xls&darr;</a>
