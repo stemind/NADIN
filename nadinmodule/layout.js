@@ -3,6 +3,8 @@
     var nav = document.querySelector('[data-sidebar]');
     var toggle = document.getElementById('nadin-sidebar-toggle');
     if (!nav) { if (toggle) toggle.hidden = true; return; }
+    var inlineAlphabet = nav.classList.contains('nadin-library-alphabet');
+    if (inlineAlphabet && toggle) { toggle.hidden = true; toggle.style.display = 'none'; }
     var mobile = window.matchMedia('(max-width:700px)');
     var backdrop = document.createElement('div');
     backdrop.className = 'nadin-sidebar-backdrop';
@@ -32,6 +34,7 @@
     var key = 'nadin-sidebar:' + location.pathname + ':' + nav.getAttribute('data-sidebar');
     try { nav.scrollTop = Number(sessionStorage.getItem(key)) || 0; } catch (ignore) {}
     function fitSidebar() {
+        if (inlineAlphabet) { nav.style.maxHeight = ''; return; }
         if (mobile.matches) nav.style.maxHeight = '';
         else {
             closeList(false);
