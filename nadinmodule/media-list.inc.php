@@ -45,7 +45,7 @@ require __DIR__.'/legacy-ui.inc.php';
 <script>
 document.addEventListener('click',function(e){
  var b=e.target.closest('button[data-rename],button[data-delete]');if(!b)return;
- if(b.dataset.rename){var value=prompt('New file name (including extension):',b.dataset.name);if(value===null||!value.trim())return;var url=new URL(b.dataset.rename,location.href);url.searchParams.set('n',value);nadinMutation(url.href);}
+ if(b.dataset.rename){var value=prompt('New file name (including extension):',b.dataset.name);if(value===null||!value.trim())return;nadinMutation(b.dataset.rename+'&n='+encodeURIComponent(value));}
  else if(confirm('Delete '+b.dataset.name+'?'))nadinMutation(b.dataset.delete);
 });
 (function(){var id=<?php echo json_encode(is_string($_GET['m'] ?? null)?$_GET['m']:'',JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_AMP); ?>;var el=document.getElementById(id);if(el){el.style.background='yellow';el.focus();}}());

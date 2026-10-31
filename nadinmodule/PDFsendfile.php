@@ -23,7 +23,7 @@ shortcut.add("Ctrl+S",function() {
 <form name="form1" enctype="multipart/form-data" action="PDFsendfile2.php?l=<?php echo $_GET['l']?>&typ=<?php echo $_GET['typ']?>" method="post">
 <!--<input type="hidden" name="MAX_FILE_SIZE" value="999999999999" />-->
 <?php require('submitmulti.inc.php') ?>
-<input name="name" type="hidden" size="44" value="<?php echo $_GET['name']?>" />
+<?php echo nadinPathField('name', $_GET['name']); ?>
 <!--<input type="submit" name="submit" value="upload "/>-->
 </form>
 </body>

@@ -48,7 +48,7 @@ function nadin_zip_snapshot($root,$gig,$type,$mode) {
         $entry=nadinText($name);
         if (isset($entries[$entry])) throw new RuntimeException('Two files have the same ZIP name after text conversion.');
         $entries[$entry]=array('source'=>$source,'hash'=>$hash,'size'=>$size);
-        $fingerprint.=base64_encode($name).'|'.$size.'|'.$hash."\n";
+        $fingerprint.=base64_encode($name).'|'.base64_encode($entry).'|'.$size.'|'.$hash."\n";
     }
     return array('hash'=>hash('sha256',$fingerprint),'entries'=>$entries);
 }
