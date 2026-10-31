@@ -5,7 +5,7 @@ $countaufnahmen=0;
 
 for ($ii=0;$ii<count($more)-1;$ii++) {
 if (trim($more[$ii])!='') {
-	echo '<a href="get/file.php?c='.str_replace('library/','',$path).'/'.$more[$ii].'" target="_blank">'.$more[$ii].'</a><br />';		
+	echo '<a href="get/file.php?c='.rawurlencode(basename($path).'/'.$more[$ii]).'" target="_blank">'.htmlXspecialchars($more[$ii]).'</a><br />';
     $countaufnahmen++;
 }
 }

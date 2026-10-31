@@ -54,7 +54,7 @@ foreach ($_GET as $libraryQueryName => $libraryQueryValue) {
 </form>
 <?php
 
-require('ascii.inc.php');
+// Viewing the library must never rename existing files or directories.
 $libraryClientSorting = true;
 require('table.inc.inc.php');
 

@@ -62,7 +62,7 @@ $zusatz=explode($delimiter2,$zusatz);
 
       
 	  
-	   $letter=substr($tunes[$i],0,1);
+	   $letter=nadinInitial($tunes[$i]);
        if ($libraryInteractive) {
            if (!isset($librarySeenLetters[$letter])) {
                $librarySeenLetters[$letter] = true;
@@ -78,12 +78,12 @@ $zusatz=explode($delimiter2,$zusatz);
 	   
 	   </td></tr>';
        }
-	   $oldletter=substr($tunes[$i],0,1);
+	   $oldletter=nadinInitial($tunes[$i]);
 
 $basket='';
-if ($_GET['c']=='admin') $basket='style="cursor:pointer" onmouseover="this.style.color=\'green\';this.style.textDecoration=\'underline\'" onmouseout="this.style.color=\'black\';this.style.textDecoration=\'none\'" onclick="ifrc.basket(escape(this.innerHTML))"';
+if ($_GET['c']=='admin') $basket='style="cursor:pointer" onmouseover="this.style.color=\'green\';this.style.textDecoration=\'underline\'" onmouseout="this.style.color=\'black\';this.style.textDecoration=\'none\'" onclick="ifrc.basket(escape(this.textContent))"';
 
-if (isset($_GET['gig'])) $basket='style="cursor:pointer" onmouseover="this.style.color=\'red\'" onmouseout="this.style.color=\'black\';" onclick="parent.ifrc.basket(escape(this.innerHTML));this.style.textDecoration=\'line-through\'"';
+if (isset($_GET['gig'])) $basket='style="cursor:pointer" onmouseover="this.style.color=\'red\'" onmouseout="this.style.color=\'black\';" onclick="parent.ifrc.basket(escape(this.textContent));this.style.textDecoration=\'line-through\'"';
 
 
       echo '<tr style="background:#eee" onmouseover="this.style.background=\'lightyellow\'" onmouseout="this.style.background=\'#eee\'">'.($libraryInteractive ? '' : '</td>');
@@ -96,40 +96,40 @@ if (isset($_GET['gig'])) $basket='style="cursor:pointer" onmouseover="this.style
          if ($libraryInteractive && !empty($libraryTuneDates[$tunes[$i]])) {
              echo '<span class="nadin-library-date-badge" title="Latest file modification">'.date('d.m.Y', $libraryTuneDates[$tunes[$i]]).'</span>';
          }
-         echo '<h5 id="'.mkid2($tunes[$i]).'" '.$basket.'>'.$tunes[$i].'</h5></td>';
+         echo '<h5 id="'.mkid2($tunes[$i]).'" '.$basket.'>'.htmlXspecialchars($tunes[$i]).'</h5></td>';
 
          echo '<td>';
 		 
 		 if (!allowedfor('vscore')) $mute='class="mute"';
 		 else $mute='';	 
-		 if ($scorepdf!='') echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$scorepdf.'" target="_blank">'.$humanscore.'</a>';
+		 if ($scorepdf!='') echo '<a '.$mute.' href="get/file.php?c=' .rawurlencode($tunes[$i].'/'.$scorepdf).'" target="_blank">'.$humanscore.'</a>';
          echo '</td>';
 		 
          echo '<td nowrap="nowrap">';
 
 		 if (!allowedfor('vsaxes')) $mute='class="mute"';
 		 else $mute='';	 
-         if ($saxespdf!='')    echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$saxespdf.'" target="_blank">'.$humansaxes.'</a> ';
+         if ($saxespdf!='')    echo '<a '.$mute.' href="get/file.php?c=' .rawurlencode($tunes[$i].'/'.$saxespdf).'" target="_blank">'.$humansaxes.'</a> ';
 
 		 if (!allowedfor('vbones')) $mute='class="mute"';
 		 else $mute='';	 
-         if ($bonespdf!='')    echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$bonespdf.'" target="_blank">'.$humanbones.'</a> ';
+         if ($bonespdf!='')    echo '<a '.$mute.' href="get/file.php?c=' .rawurlencode($tunes[$i].'/'.$bonespdf).'" target="_blank">'.$humanbones.'</a> ';
 
 		 if (!allowedfor('vtrumpets')) $mute='class="mute"';
 		 else $mute='';	 
-		 if ($trumpetspdf!='') echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$trumpetspdf.'" target="_blank">'.$humantrumpets.'</a> ';
+		 if ($trumpetspdf!='') echo '<a '.$mute.' href="get/file.php?c=' .rawurlencode($tunes[$i].'/'.$trumpetspdf).'" target="_blank">'.$humantrumpets.'</a> ';
 
 		 if (!allowedfor('vrhythm')) $mute='class="mute"';
 		 else $mute='';	 
-		 if ($rhythmpdf!='')   echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$rhythmpdf.'" target="_blank">'.$humanrhythm.'</a> ';
+		 if ($rhythmpdf!='')   echo '<a '.$mute.' href="get/file.php?c=' .rawurlencode($tunes[$i].'/'.$rhythmpdf).'" target="_blank">'.$humanrhythm.'</a> ';
 
 		 if (!allowedfor('vother')) $mute='class="mute"';
 		 else $mute='';	 
-		 if ($otherpdf!='')    echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$otherpdf.'" target="_blank">'.$humanother.'</a> ';
+		 if ($otherpdf!='')    echo '<a '.$mute.' href="get/file.php?c=' .rawurlencode($tunes[$i].'/'.$otherpdf).'" target="_blank">'.$humanother.'</a> ';
 
 		 if (!allowedfor('vgigs')) $mute='class="mute"';
 		 else $mute='';	 
-		 if ($partspdf!='')    echo '<a '.$mute.' href="get/file.php?c='.$tunes[$i].'/'.$partspdf.'" target="_blank">'.$humanparts.'</a> ';
+		 if ($partspdf!='')    echo '<a '.$mute.' href="get/file.php?c=' .rawurlencode($tunes[$i].'/'.$partspdf).'" target="_blank">'.$humanparts.'</a> ';
 
          echo '</td>';         echo '<td nowrap="nowrap">';
          if ($listento=='' && ($scorepdf!='' || $saxespdf!='' || $bonespdf!='' || $trumpetpdf!='' || $rhythmpdf!='' || $otherpdf!='' || $partspdf!='')) $secwarn=' (!)';
@@ -146,7 +146,7 @@ if (isset($_GET['gig'])) $basket='style="cursor:pointer" onmouseover="this.style
                  if ($libraryInteractive) $libraryBackgroundFrames .= $libraryTimeFrame;
                  else echo $libraryTimeFrame;
              }
-			 echo '<a title="'.$listento.'" href="get/file.php?c='.$tunes[$i].'/'.$listento.  '" target="_blank">'.$humantherec.' '.$time.'</a>  ';
+			 echo '<a title="'.htmlXspecialchars($listento).'" href="get/file.php?c='.rawurlencode($tunes[$i].'/'.$listento).'" target="_blank">'.$humantherec.' '.$time.'</a>  ';
 		 }
 		 else if($scorepdf!='' || $saxespdf!='' || $bonespdf!='' || $trumpetpdf!='' || $rhythmpdf!='' || $otherpdf!='' || $partspdf!='') echo '<span class="inumber" style="display:none">?</span>';
          echo '</td>';
