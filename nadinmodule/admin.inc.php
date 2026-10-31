@@ -132,7 +132,7 @@ final class NadinAdmin {
         $names=array();
         foreach (array_merge($previous,array_map('basename',(array)glob($this->root.'/library/*',GLOB_ONLYDIR))) as $raw) $names[nadinText(trim($raw))][trim($raw)]=true;
         foreach ($tunes as &$t) {
-            if (!is_string($t) || strlen($t)>250 || preg_match('/[\x00-\x1f<>|\\\\\/]/',$t) || strpos($t,$this->separator)!==false) throw new InvalidArgumentException('Invalid setlist entry.');
+            if (!is_string($t) || strlen($t)>250 || (preg_match('/[\x00-\x1f<>|\\\\]/',$t) || strpos($t,'/')===0 || preg_match('~(?:^|/)\.\.?(?:/|$)~',$t)) || strpos($t,$this->separator)!==false) throw new InvalidArgumentException('Invalid setlist entry.');
             $t=trim($t);
             if (isset($names[$t])) {
                 if (count($names[$t])>1) throw new DomainException('Two legacy tunes have the same displayed name. Resolve the filename collision before saving.');
