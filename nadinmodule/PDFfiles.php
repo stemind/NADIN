@@ -71,11 +71,11 @@ if ($ext=='pdf') $vorschlag=basename($path).' '.$xyz.' .'.$ext;
 else $vorschlag=basename($path).'_HDDN amytext .'.$ext;
 
 	echo '<tr bgcolor="#eeeeee" onmouseover="this.style.background=\'lightyellow\'" onmouseout="this.style.background=\'#eeeeee\'">
-	<td><a id="'.mkid2($file[$i]).'" target="_blank" href="../get/file.php?c='.str_replace('library/','',$path).'/'.$file[$i].'">'.$file[$i].'</a></td>
+	<td><a id="'.mkid2($file[$i]).'" target="_blank" href="../get/file.php?c='.rawurlencode(basename($path).'/'.$file[$i]).'">'.htmlXspecialchars($file[$i]).'</a></td>
 	<td>'.date('d.m.Y H:i:s',filemtime($path.'/'.$file[$i])).'</td>
 	<td align="right">&nbsp;'.$filesize.$mass.'&nbsp</td>
-	<td><a href="javascript:void(0)" onclick="cf=prompt(\'New file name (incl. extension):                                                                                                                     \',\''.$vorschlag.'\');nadinMutation(\'PDFrenamefile.php?n=\'+cf+\'&p='.basename($path).'&f='.basename($file[$i]).'\')">rename</a></td>
-	<td><a href="javascript:void(0)" onclick="cf=confirm(\'Do you really want to delete '.$file[$i].'\');if (cf) nadinMutation(\'PDFdeletefile.php?p='.basename($path).'&f='.basename($file[$i]).'\')">delete</a></td></tr>';
+	<td><a href="javascript:void(0)" onclick="cf=prompt(\'New file name (incl. extension):                                                                                                                     \',\''.htmlXspecialchars($vorschlag).'\');nadinMutation(\'PDFrenamefile.php?n=\'+encodeURIComponent(cf)+\'&p='.rawurlencode(basename($path)).'&f='.rawurlencode(basename($file[$i])).'\')">rename</a></td>
+	<td><a href="javascript:void(0)" onclick="cf=confirm(\'Do you really want to delete '.htmlXspecialchars($file[$i]).'\');if (cf) nadinMutation(\'PDFdeletefile.php?p='.rawurlencode(basename($path)).'&f='.rawurlencode(basename($file[$i])).'\')">delete</a></td></tr>';
 }
 
 }
