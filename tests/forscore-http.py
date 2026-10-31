@@ -15,6 +15,8 @@ from bs4 import BeautifulSoup
 
 ROOT = Path(__file__).resolve().parents[1]
 PHP = os.environ.get('NADIN_PHP', 'php')
+DEFAULT_CHARSET = os.environ.get('NADIN_DEFAULT_CHARSET', 'UTF-8')
+EXPECTED_VERSION = 'V12'
 SEPARATOR = '* - * - * - * * * - * - * - *'
 checks = 0
 
@@ -76,11 +78,16 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
     rep('Switch.txt', ['Switch_Heading'])
     escaped_heading = '<img src=x onerror=alert(1)>'
     rep('Escaped.txt', [escaped_heading])
+    rep('Müller – Probe.txt', [heading, 'Heading_A'])
+    latin_heading = 'zum weiter Üben: Müller – Grüsse €'
+    latin_rep = rep('Latin headings.txt', [])
+    latin_rep.write_bytes(('Fixture\n' + SEPARATOR + '\n').encode('ascii')
+                          + latin_heading.encode('cp1252') + b'\nHeading_A')
     with socket.socket() as sock:
         sock.bind(('127.0.0.1', 0))
         port = sock.getsockname()[1]
     log = open(temp / 'server.log', 'w+')
-    process = subprocess.Popen([PHP, '-S', f'127.0.0.1:{port}', '-t', str(temp)],
+    process = subprocess.Popen([PHP, '-d', 'default_charset=' + DEFAULT_CHARSET, '-S', f'127.0.0.1:{port}', '-t', str(temp)],
                                stdout=log, stderr=log)
     base = f'http://127.0.0.1:{port}/band/nadin'
     try:
@@ -94,7 +101,10 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
         else:
             raise AssertionError('PHP server did not start')
         session = requests.Session()
-        data = fields(session.get(base + '/login.php'))
+        login_page = session.get(base + '/login.php')
+        ok('NADIN ' + EXPECTED_VERSION in BeautifulSoup(login_page.text, 'html.parser').get_text(' ', strip=True),
+           'login page renders the current branch/release version')
+        data = fields(login_page)
         data.update(u='fixture@example.invalid',
                     p=hashlib.sha1(b'fixture@example.invalidforscore-fixture').hexdigest()[7:13])
         login = session.post(base + '/login2.php', data=data, allow_redirects=False)
@@ -106,6 +116,8 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
                 'm': 'gigrepsarchiv' if archive else 'gigreps', 'c': name, 'profile': 'sx'})
             ok(response.status_code == 200 and 'reviewed_profile' in response.text,
                'preview opens: ' + name)
+            ok(response.headers.get('Content-Type', '').lower() == 'text/html; charset=utf-8',
+               'HTTP charset is UTF-8 regardless of server default: ' + name)
             return response
 
         def download(response, **overrides):
@@ -114,6 +126,13 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
             return session.post(endpoint, data=data)
 
         response = preview('Headings.txt')
+        version_page = BeautifulSoup(response.text, 'html.parser')
+        ok(EXPECTED_VERSION in version_page.title.get_text(),
+           'export window title renders the current branch/release version')
+        ok(any(EXPECTED_VERSION in h.get_text(' ', strip=True) for h in version_page.find_all(['h1', 'h2'])),
+           'export heading renders the current branch/release version')
+        ok('Heading — included automatically as a text placeholder.' in response.text and 'forScore’s Backup panel' in response.text,
+           'browser decoding preserves punctuation in static interface text')
         soup = BeautifulSoup(response.text, 'html.parser')
         headers = soup.select('.nadin-forscore-heading')
         ok([x.strong.get_text() for x in headers] == [heading, 'Pause:'],
@@ -199,12 +218,29 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
         result = session.post(endpoint, data=data)
         ok(result.status_code == 400 and 'session changed' in result.text,
            'heading-only exports retain CSRF protection')
+        ok(result.headers.get('Content-Type', '').lower() == 'text/html; charset=utf-8',
+           'validation errors retain the explicit UTF-8 response charset')
+
+        response = preview('Müller – Probe.txt')
+        ok('Müller – Probe — sx' in response.text,
+           'UTF-8 filename accents and dash render correctly through the HTTP charset')
+        response = preview('Latin headings.txt')
+        soup = BeautifulSoup(response.text, 'html.parser')
+        ok(soup.select_one('.nadin-forscore-heading strong').get_text() == latin_heading,
+           'legacy Windows-1252 headings are converted once and decoded as UTF-8')
+        result = download(response, mode='new', initial='1')
+        ok(result.status_code == 200
+           and result.headers.get('Content-Type', '').lower() == 'application/octet-stream',
+           'HTML charset does not replace the binary download content type')
+        ok(ET.fromstring(result.content)[0].get('title') == latin_heading,
+           'downloaded XML retains exact Unicode heading text')
+
         log.flush()
         log.seek(0)
         errors = log.read()
         ok('Fatal error' not in errors and 'Parse error' not in errors,
            'no PHP fatal or parse errors')
-        print(f'PASS: {checks} forScore heading HTTP checks')
+        print(f'PASS: {checks} forScore HTTP checks (server default: {DEFAULT_CHARSET})')
     finally:
         process.terminate()
         process.wait(timeout=5)
