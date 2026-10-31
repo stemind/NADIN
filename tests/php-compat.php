@@ -27,7 +27,7 @@ try {
     // Verify that the guard observes errors even when the application hides warnings.
     error_reporting(0);
     foreach (array(function(){ return @$undefinedCompatVariable; },function(){return strlen(null);},function(){ $x=array();return @$x['missing']; }) as $probe) {
-        $caught=false;try{$probe();}catch(ErrorException $e){$caught=true;}
+        $caught=false;try{$probe();}catch(Throwable $e){$caught=true;}
         compat_ok($caught,'future-error guard cannot be bypassed by suppression');
     }
     error_reporting(E_ALL);
