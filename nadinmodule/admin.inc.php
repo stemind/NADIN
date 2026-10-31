@@ -1,6 +1,7 @@
 <?php
 /** V12 administrative storage. The existing text files remain authoritative. */
 require_once __DIR__.'/ui.inc.php';
+require_once __DIR__.'/members.inc.php';
 final class NadinAdmin {
     private $root, $separator;
     public function __construct($root, $separator) { $this->root = rtrim($root,'/'); $this->separator = $separator; }
@@ -191,23 +192,20 @@ final class NadinAdmin {
         });
     }
     public function people() {
-        $text=file_get_contents($this->root.'/userdatei/userdatei.txt'); $rows=array(); $unparsed=0;
+        $text=file_get_contents($this->root.'/userdatei/userdatei.txt'); $rows=array();
         foreach (preg_split('/\r\n|\n|\r/',$text) as $line) {
-            if (!trim($line)) continue; $f=array_map('trim',explode(',',$line));
-            if (count($f)<3 || !filter_var($f[1],FILTER_VALIDATE_EMAIL)) { $unparsed++; continue; }
-            $d=DateTimeImmutable::createFromFormat('!d.m.Y',$f[2]);
-            if (!$d || $d->format('d.m.Y')!==$f[2]) { $unparsed++; continue; }
-            $rights=array(); foreach (array_slice($f,3) as $r) if (preg_match('/^([a-z]+)\s*=\s*1$/i',$r,$m)) $rights[]=strtolower($m[1]);
-            $rows[]=array('email'=>strtolower($f[1]),'name'=>nadinText($f[0]),'expiry'=>$d->format('Y-m-d'),'expired'=>$d->getTimestamp()<time(),'rights'=>$rights,'revision'=>hash('sha256',$line));
+            $member=nadinMemberLine($line); if (!$member) continue; $d=$member['date'];
+            $rows[]=array('email'=>$member['email'],'name'=>nadinText($member['name']),'expiry'=>$d ? $d->format('Y-m-d') : '',
+                'expired'=>!$d || $d->getTimestamp()<time(),'rights'=>array_keys($member['rights']),'revision'=>hash('sha256',$line));
         }
         usort($rows,function($a,$b){return strnatcasecmp($a['name'],$b['name']);});
-        return array('rows'=>$rows,'unparsed'=>$unparsed);
+        return array('rows'=>$rows,'unparsed'=>0);
     }
     public function savePerson($data,$auth,$actor) {
         return $this->locked(function() use($data,$auth,$actor) {
             $path=$this->root.'/userdatei/userdatei.txt'; $text=file_get_contents($path); $lines=preg_split('/\r\n|\n|\r/',$text);
             $original=strtolower(trim($data['original'] ?? '')); $delete=($data['action'] ?? '')==='delete'; $index=null; $existingRights=array();
-            foreach ($lines as $i=>$line) { $f=array_map('trim',explode(',',$line)); if (isset($f[1]) && strtolower($f[1])===$original && $original!=='') { if ($index!==null) throw new DomainException('Duplicate email in the existing list. Correct the source list before editing this person.'); $index=$i; } }
+            foreach ($lines as $i=>$line) { $member=nadinMemberLine($line); if ($member && $member['email']===$original && $original!=='') { if ($index!==null) throw new DomainException('Duplicate email in the existing list. Correct the source list before editing this person.'); $index=$i; } }
             if ($original!=='' && ($index===null || !hash_equals(hash('sha256',$lines[$index]),$data['revision'] ?? ''))) throw new DomainException('This person changed in another window. Your work is still here. Reload before saving again.');
             if ($delete && $original===$actor) throw new InvalidArgumentException('You cannot remove your own account.');
             if (!$delete) {
@@ -221,7 +219,7 @@ final class NadinAdmin {
                 if (in_array('uppdf',$rights,true) && !in_array('upaudio',$rights,true)) throw new InvalidArgumentException('Managing sheet music also requires tune info & audio access.');
                 if ((in_array('mgigs',$rights,true) || in_array('upaudio',$rights,true)) && (!in_array('vlibrary',$rights,true) || !in_array('vgigs',$rights,true))) throw new InvalidArgumentException('Managing gigs or tunes requires current gigs and library access.');
                 if ($email===$actor && (!in_array('musers',$rights,true) || $d->getTimestamp()<time())) throw new InvalidArgumentException('Keep your own account active with permission to manage people.');
-                foreach ($lines as $i=>$line) { $f=array_map('trim',explode(',',$line)); if ($i!==$index && isset($f[1]) && strtolower($f[1])===$email) throw new DomainException('This email already belongs to a person.'); }
+                foreach ($lines as $i=>$line) { $member=nadinMemberLine($line); if ($i!==$index && $member && $member['email']===$email) throw new DomainException('This email already belongs to a person.'); }
                 // Preserve extension-defined permissions not represented by the standard UI.
                 if ($index!==null) foreach (array_slice(explode(',',$lines[$index]),3) as $r) if (preg_match('/^\s*([a-z]+)\s*=\s*1\s*$/i',$r,$m) && !isset(self::rights()[strtolower($m[1])])) $existingRights[]=strtolower($m[1]);
                 $new=$name.', '.$email.', '.$d->format('d.m.Y').', '.implode(', ',array_map(function($r){return $r.'=1';},array_merge($rights,$existingRights))).',';
@@ -229,7 +227,7 @@ final class NadinAdmin {
             } else { if ($index===null) throw new InvalidArgumentException('Choose a person.'); unset($lines[$index]); }
             $result=implode("\n",$lines);
             $activeAdmins=0;
-            foreach (explode("\n",$result) as $line) { $f=array_map('trim',explode(',',$line)); $d=isset($f[2]) ? DateTimeImmutable::createFromFormat('!d.m.Y',$f[2]) : false; if ($d && $d->getTimestamp()>=time() && preg_match('/(?:^|,)\s*musers\s*=\s*1\s*(?:,|$)/i',$line)) $activeAdmins++; }
+            foreach (explode("\n",$result) as $line) { $member=nadinMemberLine($line); if ($member && $member['date'] && $member['date']->getTimestamp()>=time() && !empty($member['rights']['musers'])) $activeAdmins++; }
             if (!$activeAdmins) throw new InvalidArgumentException('Keep at least one active person with permission to manage people.');
             $this->backup($path); $auth->saveMembers($result,hash('sha256',$text),nadin_session_token()); return $delete ? '' : $email;
         });
