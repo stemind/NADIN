@@ -91,6 +91,7 @@ with tempfile.TemporaryDirectory(prefix='nadin-encoding-http-') as tmp:
    page=soup(session.get(base+'nadinmodule/AUDfiles.php?name='+quote_from_bytes(raw)),'audio file list')
    script=r"""const {JSDOM,VirtualConsole}=require('jsdom');const fs=require('fs');let posted;
 const dom=new JSDOM(fs.readFileSync(0,'utf8'),{url:process.argv[1],runScripts:'dangerously',virtualConsole:new VirtualConsole(),beforeParse(w){w.prompt=()=> 'Erneuert.mp3';w.HTMLFormElement.prototype.submit=function(){posted={url:this.action,data:Object.fromEntries(new w.FormData(this))}}}});
+dom.window.eval(fs.readFileSync('nadinmodule/media-dialog.js','utf8'));
 dom.window.document.querySelector('button[data-rename]').click();console.log(JSON.stringify(posted));dom.window.close();"""
    submitted=json.loads(subprocess.check_output(['node','-e',script,base+'nadinmodule/AUDfiles.php'],input=str(page).encode()))
    result=session.post(submitted['url'],data=submitted['data'])
