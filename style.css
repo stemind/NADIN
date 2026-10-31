@@ -220,3 +220,17 @@ div, h3 {
 }
 
 .nadin-library-export { float:right; line-height:20px; }
+
+.nadin-forscore { max-width:1000px; font-size:14px; }
+.nadin-forscore h2 { margin:8px 0; }
+.nadin-forscore form p { margin:10px 0; }
+.nadin-forscore select, .nadin-forscore input[type=file] { max-width:100%; }
+.nadin-forscore-rows { border-top:1px solid #ddd; }
+.nadin-forscore-row { display:grid; grid-template-columns:minmax(120px,1fr) minmax(0,2fr); gap:3px 8px; padding:5px; background:#eee; margin-top:2px; }
+.nadin-forscore-row small { grid-column:2; }
+.nadin-forscore-row label { overflow-wrap:anywhere; }
+.nadin-forscore-error { color:#900; background:#fff0f0; padding:8px; }
+.nadin-forscore-warning { color:#784400; }
+.nadin-forscore-help { margin-top:18px; }
+.nadin-forscore-help summary { cursor:pointer; color:blue; }
+@media (max-width:500px) { .nadin-forscore-row { grid-template-columns:minmax(0,1fr); } .nadin-forscore-row small { grid-column:1; } }

@@ -5,3 +5,5 @@ In NADIN, a band’s complete music library can be managed. NADIN administrators
 NADIN is purely file-based; therefore, it needs no database. It was developed by Urs Petermann and Stefan Minder for the Uptown Big Band Bern and is available to all interested parties free of charge. Any warranty and liability is excluded.
 
 Version notes: [V8 — compact original interface](docs/V8.md).
+
+forScore export is available in current/archived GigReps and the library; see [forScore workflow](docs/forScore.md).
