@@ -187,10 +187,16 @@ class NadinForScore {
             $key = hash('sha256', $tune);
             $entries[] = $key;
             if (isset($rows[$key])) continue;
+            // Legacy Reps store headings as text without a corresponding library entry.
+            // An existing entry (including an empty folder or a blocked symlink) is
+            // still a tune whose missing notes require explicit confirmation.
+            $directory = $this->root . '/library/' . $tune;
+            $heading = $module !== 'library' && $this->component($tune) && !file_exists($directory) && !is_link($directory);
+            $row = array('tune' => nadinText($tune), 'key' => $key, 'kind' => $heading ? 'heading' : 'tune', 'options' => array(), 'selected' => '', 'reason' => '');
+            if ($heading) { $rows[$key] = $row; continue; }
             $assets = $this->assets($tune);
-            $row = array('tune' => nadinText($tune), 'key' => $key, 'options' => array(), 'selected' => '', 'reason' => '');
             if (!$assets) {
-                $row['reason'] = 'No accessible PDF / text entry'; $rows[$key] = $row; continue;
+                $row['reason'] = 'No accessible PDF'; $rows[$key] = $row; continue;
             }
             $primary = array(); $fallback = array(); $existing = array();
             foreach ($assets as $asset) {
@@ -254,7 +260,7 @@ class NadinForScore {
         $emitted = array(); $total = 0;
         foreach ($plan['rows'] as $row) {
             if ($row['selected'] === '' && $row['options']) throw new RuntimeException('Choose a PDF for every ambiguous tune.');
-            if ($row['selected'] === '' && !$allowPlaceholders) throw new RuntimeException('Missing notes or text entries require explicit placeholders.');
+            if ($row['kind'] !== 'heading' && $row['selected'] === '' && !$allowPlaceholders) throw new RuntimeException('Missing notes require explicit placeholder confirmation.');
             if ($row['selected'] !== '') {
                 $option = $row['options'][$row['selected']];
                 if ($includeNew && !$option['known']) $total += filesize($option['asset']['source']);
