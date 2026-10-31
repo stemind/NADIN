@@ -17,6 +17,7 @@ from bs4 import BeautifulSoup
 ROOT = Path(__file__).resolve().parents[1]
 PHP = os.environ.get('NADIN_PHP', 'php')
 DEFAULT_CHARSET = os.environ.get('NADIN_DEFAULT_CHARSET', 'UTF-8')
+EXPECTED_VERSION = '7.7.1'
 SEPARATOR = '* - * - * - * * * - * - * - *'
 checks = 0
 
@@ -102,7 +103,10 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
         else:
             raise AssertionError('PHP server did not start')
         session = requests.Session()
-        data = fields(session.get(base + '/login.php'))
+        login_page = session.get(base + '/login.php')
+        ok('NADIN ' + EXPECTED_VERSION in BeautifulSoup(login_page.text, 'html.parser').get_text(' ', strip=True),
+           'login page renders the current branch/release version')
+        data = fields(login_page)
         data.update(u='fixture@example.invalid',
                     p=hashlib.sha1(b'fixture@example.invalidforscore-fixture').hexdigest()[7:13])
         login = session.post(base + '/login2.php', data=data, allow_redirects=False)
@@ -124,6 +128,11 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
             return session.post(endpoint, data=data)
 
         response = preview('Headings.txt')
+        version_page = BeautifulSoup(response.text, 'html.parser')
+        ok(EXPECTED_VERSION in version_page.title.get_text(),
+           'export window title renders the current branch/release version')
+        ok(any(EXPECTED_VERSION in h.get_text(' ', strip=True) for h in version_page.find_all(['h1', 'h2'])),
+           'export heading renders the current branch/release version')
         ok('Heading — included automatically as a text placeholder.' in response.text and 'forScore’s Backup panel' in response.text,
            'browser decoding preserves punctuation in static interface text')
         soup = BeautifulSoup(response.text, 'html.parser')
