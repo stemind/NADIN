@@ -151,7 +151,15 @@ div, h3 {
 .nadin-tunes { max-width:100%; }
 .nadin-tune-cell h5 { overflow-wrap:anywhere; }
 .nadin-detail-row:not(:has(> td > span[style*="display: block"], > td > span[style*="display:block"])) { display:none; }
-.nadin-library-layout { --nadin-sidebar-width:48px; }
+.nadin-library-layout { --nadin-sidebar-width:48px;display:block; }
+.nadin-library-alphabet { display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:4px 6px;margin:0 0 8px;border:1px solid var(--nadin-line,#d5d5d5);border-radius:4px;background:var(--nadin-surface,#f5f5f5);font-size:12px;line-height:20px; }
+#library-alphabet-links { display:flex;flex:1 1 260px;flex-wrap:wrap;gap:2px; }
+.nadin-library-alphabet a { display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-width:26px;min-height:26px;padding:2px 5px;border-radius:3px;color:var(--nadin-blue,blue);font-weight:600;text-decoration:none; }
+.nadin-library-alphabet>a { padding-inline:8px; }
+.nadin-library-alphabet .nadin-library-new { border-right:1px solid var(--nadin-line,#d5d5d5);border-radius:0;padding-right:12px; }
+.nadin-library-alphabet a:hover { background:var(--nadin-yellow,lightyellow);text-decoration:none; }
+.nadin-library-alphabet a:focus-visible { outline:2px solid var(--nadin-blue,royalblue);outline-offset:-2px; }
+.nadin-library-alphabet [aria-current] { background:var(--nadin-yellow,lightyellow);color:var(--nadin-ink,#222);box-shadow:inset 0 -2px #b78c14; }
 .nadin-library-body { margin:0; }
 .nadin-page .nadin-library-letter h4 { margin:8px 0 3px; }
 .nadin-recordings section { scroll-margin-top:8px; }
@@ -207,7 +215,7 @@ div, h3 {
     .nadin-recording-row > a:first-child { display:inline-block; max-width:calc(100% - 22px); vertical-align:bottom; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 }
 @media print {
-    .nadin-header, .nadin-navigation, .nadin-sidebar, .nadin-admin-action, .nadin-export-links, .nadin-sidebar-backdrop { display:none; }
+    .nadin-header, .nadin-navigation, .nadin-sidebar, .nadin-library-alphabet, .nadin-admin-action, .nadin-export-links, .nadin-sidebar-backdrop { display:none; }
     .nadin-layout { display:block; }
 }
 
@@ -295,7 +303,7 @@ div, h3 {
 .nadin-upload-label input { max-width:230px; }
 .nadin-setlist { list-style:none;padding:0;margin:0; }
 .nadin-setlist li { display:flex;align-items:center;gap:6px;background:#eee;border-bottom:2px solid white;padding:3px 5px;min-height:28px; }
-.nadin-setlist li:hover { background:lightyellow; }
+.nadin-setlist li:hover,.nadin-catalog-row:hover,.nadin-catalog-row:focus-within { background:lightyellow; }
 .nadin-setlist-title { flex:1;min-width:0;overflow-wrap:anywhere;line-height:19px;font-weight:600; }
 .nadin-setlist-title small { display:block;font-size:10px;font-weight:normal;color:#666; }
 .nadin-order { min-width:19px;text-align:right;color:#777;font-size:11px; }
@@ -306,6 +314,10 @@ div, h3 {
 .nadin-catalog-row { display:flex;align-items:center;gap:6px;border-bottom:1px solid white;background:#eee;padding:4px 6px; }
 .nadin-catalog-row>span { flex:1;min-width:0; }
 .nadin-catalog-row strong { font-size:12px;font-weight:600;overflow-wrap:anywhere; }
+.nadin-catalog-row[draggable=true] { cursor:grab; }
+.nadin-setlist .nadin-drop-before { box-shadow:inset 0 3px royalblue; }
+.nadin-setlist .nadin-drop-after { box-shadow:inset 0 -3px royalblue; }
+.nadin-setlist.nadin-drop-target { outline:2px dashed royalblue;outline-offset:2px; }
 .nadin-catalog-row button { font-size:18px;padding:0 8px; }
 .nadin-expiry { margin:10px 0; }
 .nadin-check { display:flex;align-items:center;gap:7px;line-height:19px; }
