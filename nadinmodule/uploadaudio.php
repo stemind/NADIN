@@ -36,11 +36,11 @@ echo '<h1>'.htmlXspecialchars(str_replace('_',' ',$_GET['tune'])).'</h1>';
 
 <?php require('uploadnavi.inc.php'); ?>
 <h2>Existing files</h2>
-<iframe src="AUDfiles.php?name=<?php echo $_GET['tune']?>&m=<?php echo $_GET['m'] ?>" name="files" frameborder="0" width="100%" height="250"></iframe>
+<iframe src="AUDfiles.php?name=<?php echo rawurlencode($_GET['tune'])?>&m=<?php echo $_GET['m'] ?>" name="files" frameborder="0" width="100%" height="250"></iframe>
 
 
 <h2>Upload further files</h2>
-<iframe src="AUDsendfile.php?name=<?php echo $_GET['tune']?>" frameborder="0" width="100%" height="88"></iframe>
+<iframe src="AUDsendfile.php?name=<?php echo rawurlencode($_GET['tune'])?>" frameborder="0" width="100%" height="88"></iframe>
 <span style="font-size:70%"><?php include('iniget.inc.php')?></span>
 <p>
 <div style="background:#eee;padding:3px">

@@ -1,4 +1,12 @@
-<?php 
+<?php
+require_once __DIR__.'/encoding.inc.php';
+nadinRestorePathFields();
+ini_set('default_charset', 'UTF-8');
+foreach (array('humansaxes','humanbones','humantrumpets','humanrhythm','humanother','humanparts','humanscore','humantherec','humanfilesandlinks','humaninfos','aktuellegigs','archiviertegigs','bbaufnahmen','bibliothek') as $nadinLabel) {
+    if (isset($GLOBALS[$nadinLabel]) && is_string($GLOBALS[$nadinLabel])) $GLOBALS[$nadinLabel]=nadinText($GLOBALS[$nadinLabel]);
+}
+unset($nadinLabel);
+
 function mkid($s) {
 $t='()ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 -_';
 $s=trim($s);
@@ -46,7 +54,7 @@ return $n;
 
 function mkascii($s) {
 $s=utf8_decode($s);
-$badascii = array(" ",":","¦","|","@" ,"&","¢","£","¤","¥","€","§","¨","©","ª","¬","®","¯","°","±","´","µ","¶","…","·","¸","º","÷","†","ß" ,"„","“","”","‚","‘","’","«","»","‹","›","¡","¿","–","À","Á","Â","Ã","Ä" ,"Å","Æ" ,"Ç","È","É","Ê","Ë","Ì","Í","Î","Ï","Ñ","Ò","Ó","Ô","Õ","#","Ö", "Ø","Œ" ,"Ù","Ú","Û","Ü", "à","á","â","ã","ä", "å","æ" ,"ç","è","é","ê","ë","ì","í","î","ï","ñ","ò","ó","ô","õ","#","ö", "ø","œ", "ù","ú","û","ü", "ÿ","'","%","/","\\","<",">",   ",",   ";","+","=","[","]","{","}","*","?","!","`","\"");
+$badascii = array(" ",":","\xA6","|","@" ,"&","\xA2","\xA3","\xA4","\xA5","\x80","\xA7","\xA8","\xA9","\xAA","\xAC","\xAE","\xAF","\xB0","\xB1","\xB4","\xB5","\xB6","\x85","\xB7","\xB8","\xBA","\xF7","\x86","\xDF" ,"\x84","\x93","\x94","\x82","\x91","\x92","\xAB","\xBB","\x8B","\x9B","\xA1","\xBF","\x96","\xC0","\xC1","\xC2","\xC3","\xC4" ,"\xC5","\xC6" ,"\xC7","\xC8","\xC9","\xCA","\xCB","\xCC","\xCD","\xCE","\xCF","\xD1","\xD2","\xD3","\xD4","\xD5","#","\xD6", "\xD8","\x8C" ,"\xD9","\xDA","\xDB","\xDC", "\xE0","\xE1","\xE2","\xE3","\xE4", "\xE5","\xE6" ,"\xE7","\xE8","\xE9","\xEA","\xEB","\xEC","\xED","\xEE","\xEF","\xF1","\xF2","\xF3","\xF4","\xF5","#","\xF6", "\xF8","\x9C", "\xF9","\xFA","\xFB","\xFC", "\xFF","'","%","/","\\","<",">",   ",",   ";","+","=","[","]","{","}","*","?","!","`","\"");
 $goodascii= array("_","", "", "", "AT","u","c","L","", "Y","E","S","","c","a","N","R","", "o","pm","", "u","P","", "", "", "o","", "", "ss","", "", "", "", "", "", "", "", "", "", "", "", "", "A","A","A","A","Ae","A","Ae","C","E","E","E","E","I","I","I","I","N","O","O","O","O","","Oe","O","Oe","U","U","U","Ue","a","a","a","a","ae","a","ae","c","e","e","e","e","i","i","i","i","n","o","o","o","o","","oe","o","oe","u","u","u","ue","y","", "", "", "",  "", "",     "",    "","u","", "", "", "", "", "x","", "", "", "_");
 $s=str_replace($badascii,$goodascii,$s);
 return mkfilename($s);
@@ -126,15 +134,15 @@ return preg_replace($regex, $replace, $text);
 }
 
 function htmlXspecialchars($that) {
-return htmlspecialchars($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+return htmlspecialchars(nadinText($that), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
 }
 
 function htmlXentities($that) {
-return htmlentities($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+return htmlentities(nadinText($that), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
 }
 
 function htmlX_entity_decode($that) {
-return html_entity_decode($that, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+return html_entity_decode(nadinText($that), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8');
 }
 
 function pwdhsh($p) {

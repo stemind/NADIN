@@ -38,11 +38,12 @@ function nadin_zip_bundle($root,$gig,$type,$mode='gigreps'){
  try{
   if(!fstat($handle)['size']){fwrite($handle,"<?php http_response_code(404); exit; ?>\n");fflush($handle);}@chmod($lockPath,0600);
   // Hash the actual sources: manual replacements with unchanged dates are detected too.
-  $fingerprint='';foreach($sources as $name=>$source)$fingerprint.=$name.'|'.hash_file('sha256',$source)."\n";
+  $fingerprint="utf8-names-v1\n";foreach($sources as $name=>$source)$fingerprint.=$name.'|'.hash_file('sha256',$source)."\n";
   $hash=hash('sha256',$fingerprint);$manifest=$target.'.sha256';
   if(is_file($target)&&is_file($manifest)&&hash_equals(trim(file_get_contents($manifest)),$hash))return $target;
   $zip=new ZipArchive();if($zip->open($tmp,ZipArchive::CREATE|ZipArchive::OVERWRITE)!==true)throw new RuntimeException('Cannot create the ZIP.');
-  foreach($sources as $name=>$source)if(!$zip->addFile($source,$name))throw new RuntimeException('Cannot add a file to the ZIP.');
+  $entryNames=array();
+  foreach($sources as $name=>$source){$entry=nadinText($name);if(isset($entryNames[$entry]))throw new RuntimeException('Two files have the same ZIP name after text conversion.');$entryNames[$entry]=true;if(!$zip->addFile($source,$entry))throw new RuntimeException('Cannot add a file to the ZIP.');}
   if(!$zip->close()||!rename($tmp,$target))throw new RuntimeException('Cannot save the ZIP.');
   file_put_contents($manifest,$hash,LOCK_EX);return $target;
  }finally{if(is_file($tmp))@unlink($tmp);flock($handle,LOCK_UN);fclose($handle);}
