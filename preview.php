@@ -56,7 +56,7 @@ if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
     echo("cannot open $filename \n");
 }
 for ($iz=0;$iz<count($allsaxes);$iz++) {
-$zip->addFile("library/".$allsaxes[$iz],basename($allsaxes[$iz]));
+$zip->addFile("library/".$allsaxes[$iz],nadinText(basename($allsaxes[$iz])));
 $zip->deleteName('library/');
 }
 $zip->close();
@@ -70,7 +70,7 @@ if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
     echo("cannot open $filename \n");
 }
 for ($iz=0;$iz<count($allbones);$iz++) {
-$zip->addFile("library/".$allbones[$iz],basename($allbones[$iz]));
+$zip->addFile("library/".$allbones[$iz],nadinText(basename($allbones[$iz])));
 $zip->deleteName('library/');
 }
 $zip->close();
@@ -84,7 +84,7 @@ if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
     echo("cannot open $filename \n");
 }
 for ($iz=0;$iz<count($alltrumpets);$iz++) {
-$zip->addFile("library/".$alltrumpets[$iz],basename($alltrumpets[$iz]));
+$zip->addFile("library/".$alltrumpets[$iz],nadinText(basename($alltrumpets[$iz])));
 $zip->deleteName('library/');
 }
 $zip->close();
@@ -98,7 +98,7 @@ if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
     echo("cannot open $filename \n");
 }
 for ($iz=0;$iz<count($allrhythm);$iz++) {
-$zip->addFile("library/".$allrhythm[$iz],basename($allrhythm[$iz]));
+$zip->addFile("library/".$allrhythm[$iz],nadinText(basename($allrhythm[$iz])));
 $zip->deleteName('library/');
 }
 $zip->close();
@@ -112,7 +112,7 @@ if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
     echo("cannot open $filename \n");
 }
 for ($iz=0;$iz<count($allother);$iz++) {
-$zip->addFile("library/".$allother[$iz],basename($allother[$iz]));
+$zip->addFile("library/".$allother[$iz],nadinText(basename($allother[$iz])));
 $zip->deleteName('library/');
 }
 $zip->close();
@@ -126,7 +126,7 @@ if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
     echo("cannot open $filename \n");
 }
 for ($iz=0;$iz<count($allscore);$iz++) {
-$zip->addFile("library/".$allscore[$iz],basename($allscore[$iz]));
+$zip->addFile("library/".$allscore[$iz],nadinText(basename($allscore[$iz])));
 $zip->deleteName('library/');
 }
 $zip->close();
@@ -140,7 +140,7 @@ if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
     echo("cannot open $filename \n");
 }
 for ($iz=0;$iz<count($allparts);$iz++) {
-$zip->addFile("library/".$allparts[$iz],basename($allparts[$iz]));
+$zip->addFile("library/".$allparts[$iz],nadinText(basename($allparts[$iz])));
 $zip->deleteName('library/');
 }
 $zip->close();
@@ -155,7 +155,7 @@ if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
 echo("cannot open $filename \n");
 }
 for ($iz=0;$iz<count($alllistento);$iz++) {
-$zip->addFile("library/".$alllistento[$iz],basename($alllistento[$iz]));
+$zip->addFile("library/".$alllistento[$iz],nadinText(basename($alllistento[$iz])));
 $zip->deleteName("library/");
 $zip->deleteName('library/');
 }
