@@ -1,0 +1,1 @@
+Keep this folder. NADIN stores generated ZIP downloads and gig PDF attachments here.
