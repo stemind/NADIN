@@ -24,7 +24,7 @@ if (!isset($_GET['c'])) $_GET['c']=$gigs[0];
 }
 
 for ($i=0; $i<count($gigs);$i++) {
-echo '<a id="id'.md5($gigs[$i]).'" href="./?m='.$_GET['m'].'&c='.$gigs[$i].'">'.str_replace('.txt','',str_replace(' ','&nbsp;',str_replace('-','&#8209;',$gigs[$i]))).'</a> &nbsp; ';
+echo '<a id="id'.md5($gigs[$i]).'" href="./?m='.$_GET['m'].'&c='.rawurlencode($gigs[$i]).'">'.str_replace('.txt','',str_replace(' ','&nbsp;',str_replace('-','&#8209;',htmlXspecialchars($gigs[$i])))).'</a> &nbsp; ';
 }
 ?>
 </h3>

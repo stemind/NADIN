@@ -32,7 +32,7 @@ echo '<h1>'.htmlXspecialchars(str_replace('_',' ',$_GET['tune'])).'</h2>';
 
 <h2>Rename <?php echo htmlXspecialchars($_GET['tune'])?></h1>
 
-<form name="form" action="renamefolder2.php?tune=<?php echo $_GET['tune']?>" method="post">
+<form name="form" action="renamefolder2.php?tune=<?php echo rawurlencode($_GET['tune'])?>" method="post">
 
 New name:
 

@@ -7,7 +7,7 @@ $filename=str_replace(' ','',mkname(substr($bb.$bibliothek,0,60)));
 header('Content-Type: text/x-csv; charset=UTF-8'); 
 header("Content-Disposition:attachment;filename=".$filename."_".date('Y-m-d_His').".csv");
 
-echo "\xEF\xBB\xBF".$bb.' '.$bibliothek.';';
+echo "\xEF\xBB\xBF".nadinText($bb.' '.$bibliothek).';';
 
 $path='../library';
 $tunes='';

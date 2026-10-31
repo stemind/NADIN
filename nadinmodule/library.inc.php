@@ -25,7 +25,7 @@ if ($handle = @opendir($path))  {
 $tunes=explode($delimiter,$tunes);
 sort($tunes);
 
-require('ascii.inc.php');
+// Viewing the library must never rename existing files or directories.
 require('table.inc.inc.php');
 
 ?>

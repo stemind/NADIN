@@ -20,10 +20,10 @@ shortcut.add("Ctrl+S",function() {
 </head>
 
 <body>
-<form name="form1" enctype="multipart/form-data" action="ATTsendfile2.php?gig=<?php echo $_GET['gig']?>" method="post">
+<form name="form1" enctype="multipart/form-data" action="ATTsendfile2.php?gig=<?php echo rawurlencode($_GET['gig'])?>" method="post">
 <!--<input type="hidden" name="MAX_FILE_SIZE" value="999999999999" />-->
 <?php require('submit.inc.php') ?>
-<input name="name" type="hidden" size="44" value="<?php echo $_GET['name']?>" />
+<?php echo nadinPathField('name', $_GET['name'] ?? ''); ?>
 <!--<input type="submit" name="submit" value="upload "/>-->
 </form>
 </body>

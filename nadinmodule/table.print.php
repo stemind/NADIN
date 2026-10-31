@@ -1,6 +1,6 @@
 <button class="noprint" style="font-size:33px" onclick="self.close()">back</button>
 <table id="tprint">
-<h2><?php echo $bb.': '.str_replace('.txt','',$_GET['c'])?></h2>
+<h2><?php echo htmlXspecialchars($bb.': '.str_replace('.txt','',$_GET['c']))?></h2>
 <?php
 $inumber=1;
 for ($i=0;$i<count($tunes);$i++) {
@@ -66,7 +66,7 @@ $s=str_replace(';',',.',$s);
 $s=str_replace("\n",' | ',$s);
 $s=str_replace("\r",' | ',$s);
 $s=str_replace(" |  | ",' | ',$s);
-return $s;
+return htmlXspecialchars($s);
 }
 ?>
 </table>
