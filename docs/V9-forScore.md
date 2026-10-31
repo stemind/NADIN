@@ -1,11 +1,11 @@
 # NADIN V9: forScore export
 
-V9 builds directly on V8. Current/archived GigReps and the library have a compact **forScore** link. No WebDAV server, separate cloud account, or iPad helper app is required.
+V9 builds directly on V8. Current and archived GigReps have a compact **forScore** link. The Library retains its existing Print and XLS actions. No WebDAV server, separate cloud account, or iPad helper app is required.
 
 ## Workflow
 
-1. Open a Rep (or the library) and choose forScore, then your section.
-2. For the first import into an empty NADIN collection, choose **Setlist + PDFs missing from the inventory** and explicitly confirm the first import. A non-empty collection should instead supply a current forScore metadata CSV with the Filename column, exported from forScore's Backup panel.
+1. Open a Rep and choose forScore, then your section.
+2. Choose **First NADIN import - include PDFs** for the first import, **Add to existing notes - use inventory CSV** for subsequent imports containing PDFs, or **Setlist only - no PDFs**. First import needs no CSV. Subsequent PDF-inclusive imports use a fresh Filename metadata CSV from forScore's Backup panel. Section/import/CSV changes refresh automatically; without JavaScript, use Update selection.
 3. Review the proposed PDFs. The selected section is preferred; Parts is the fallback. Score is never substituted for a missing section. Multiple candidates require a choice. Headings are included automatically as text placeholders. Only tunes with missing or inaccessible notes require explicit placeholder confirmation.
 4. Download the `.4ss` file and open it in forScore. PDFs embedded in Open Setlist XML require forScore 14.3 or later. Reference-only exports require forScore 12 or later.
 5. Before subsequent imports, supply a fresh CSV from the actual destination library. Existing PDFs are referenced and only missing PDFs are embedded. A downloaded file or an earlier export is not evidence of a successful import.
@@ -45,3 +45,7 @@ Heading regressions cover automatic placeholders, exact text/encoding/order/repe
 Additional HTTP checks cover initial import, a second import with zero embedded PDFs, inventory review, stale source rejection, archive/library/section/traversal permissions, unauthenticated requests and CSRF rejection. Browser checks cover the export form at 320/390/1440px and retain V8's navigation/menu checks. Generated XML is parsed and embedded PDF bytes are compared with their sources. PHP 8.3 and Chromium were used. Actual import into the native forScore application remains an acceptance check on the user's iPad; it has not been claimed as tested.
 
 Official format reference: https://forscore.co/developers-file-types/
+
+## Current interaction corrections
+
+The Library has no forScore link. In current/archived GigReps, section, import-option and CSV changes update the preview automatically. One required Import selection replaces the separate mode and first-import checkbox: First NADIN import includes PDFs without CSV; Add to existing notes uses a current Filename inventory; Setlist only contains no PDF data. The loaded CSV filename/count remain visible, and PDF choices update their status immediately. A visible Update selection fallback is available without JavaScript. Classic 7.7 styling remains separate; V14 and later use the refined controls, with V16 retaining its aligned popup frame. Ordinary slash-bearing headings are inert text placeholders, without missing-note confirmation. See [the maintenance review](2026-10-31-maintenance.md).
