@@ -73,7 +73,13 @@ var $PDFVersion;         // PDF version number
 *                               Public methods                                 *
 *                                                                              *
 *******************************************************************************/
+// Retain explicit calls from legacy subclasses.
 function FPDF($orientation='P', $unit='mm', $size='A4')
+{
+	$this->__construct($orientation, $unit, $size);
+}
+
+function __construct($orientation='P', $unit='mm', $size='A4')
 {
 	// Some checks
 	$this->_dochecks();
@@ -1047,12 +1053,7 @@ function _dochecks()
 	// Check availability of %F
 	if(sprintf('%.1F',1.0)!='1.0')
 		$this->Error('This version of PHP is not supported');
-	// Check mbstring overloading
-	if(ini_get('mbstring.func_overload') & 2)
-		$this->Error('mbstring overloading must be disabled');
-	// Ensure runtime magic quotes are disabled
-	if(get_magic_quotes_runtime())
-		@set_magic_quotes_runtime(0);
+	// PHP 8+ has neither mbstring overloading nor runtime magic quotes.
 }
 
 function _checkoutput()
@@ -1404,7 +1405,7 @@ function _parsegif($file)
 		ob_start();
 		imagepng($im);
 		$data = ob_get_clean();
-		imagedestroy($im);
+		unset($im); // GdImage is released automatically on PHP 8+.
 		fwrite($f,$data);
 		rewind($f);
 		$info = $this->_parsepngstream($f,$file);
@@ -1418,7 +1419,7 @@ function _parsegif($file)
 			$this->Error('Unable to create a temporary file');
 		if(!imagepng($im,$tmp))
 			$this->Error('Error while saving to temporary file');
-		imagedestroy($im);
+		unset($im); // GdImage is released automatically on PHP 8+.
 		$info = $this->_parsepng($tmp);
 		unlink($tmp);
 	}
