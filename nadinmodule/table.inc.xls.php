@@ -93,6 +93,7 @@ echo "\r\n";
 }
 
 function nsk($s) {
+$s=nadinText($s);
 $s=str_replace(';',',.',$s);
 $s=str_replace("\n",' | ',$s);
 $s=str_replace("\r",' | ',$s);

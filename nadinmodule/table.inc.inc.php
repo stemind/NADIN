@@ -66,7 +66,7 @@ $zusatz=explode($delimiter2,$zusatz);
 
       
 	  
-	   $letter=substr($tunes[$i],0,1);
+	   $letter=nadinInitial($tunes[$i]);
        if ($libraryInteractive) {
            if (!isset($librarySeenLetters[$letter])) {
                $librarySeenLetters[$letter] = true;
@@ -82,7 +82,7 @@ $zusatz=explode($delimiter2,$zusatz);
 	   
 	   </td></tr>';
        }
-	   $oldletter=substr($tunes[$i],0,1);
+	   $oldletter=nadinInitial($tunes[$i]);
 
 $basket='';
 

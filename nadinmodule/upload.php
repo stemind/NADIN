@@ -50,7 +50,7 @@ echo '<h1>'.htmlXspecialchars(str_replace('_',' ',$_GET['tune'])).'</h1>';
 <form name="form" action="uploadsave.php?i=<?php echo htmlXspecialchars($_GET['i'] ?? '')?>" method="post" target="su">
 
 <h2>Tips &amp; info about the tune</h2>
-<input type="hidden" name="foldername" value="<?php echo htmlXspecialchars($_GET['tune']) ?>" />
+<?php echo nadinPathField('foldername', $_GET['tune']); ?>
 <textarea style="width:100%;height:200px" name="infos" id="infos">
 <?php echo htmlXspecialchars(trim($infos)) ?>
 </textarea>

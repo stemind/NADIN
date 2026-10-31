@@ -24,7 +24,7 @@ shortcut.add("Ctrl+S",function() {
 <!--<input type="hidden" name="MAX_FILE_SIZE" value="999999999999" />-->
 <?php $accept='accept=".mp3"'?>
 <?php require('submit.inc.php') ?>
-<input name="name" type="hidden" size="44" value="<?php echo $_GET['name']?>" />
+<?php echo nadinPathField('name', $_GET['name']); ?>
 <!--<input type="submit" name="submit" value="upload "/>-->
 </form>
 </body>

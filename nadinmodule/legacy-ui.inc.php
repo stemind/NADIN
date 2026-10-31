@@ -13,6 +13,8 @@ if(basename($_SERVER['SCRIPT_FILENAME'])==='upload.php'){
  window.nadinMutation=function(url){
   var parsed=new URL(url,location.href);if(parsed.origin!==location.origin)return;
   var form=document.createElement('form');form.method='post';form.action=parsed.pathname;
+  var rawPairs=parsed.search.slice(1).split('&');
+  rawPairs.forEach(function(pair){var cut=pair.indexOf('=');if(cut<0)return;var key=decodeURIComponent(pair.slice(0,cut));if(['p','f'].indexOf(key)<0)return;parsed.searchParams.set(key,pair.slice(cut+1).replace(/\+/g,'%20'));parsed.searchParams.set('_nadin_path_encoding['+key+']','url');});
   parsed.searchParams.set('csrf',token);parsed.searchParams.forEach(function(value,name){var input=document.createElement('input');input.type='hidden';input.name=name;input.value=value;form.appendChild(input);});document.body.appendChild(form);form.submit();
  };
  document.querySelectorAll('form[method="post"],form[method="POST"]').forEach(function(form){if(!form.querySelector('[name=csrf]')){var input=document.createElement('input');input.type='hidden';input.name='csrf';input.value=token;form.appendChild(input);}if(revision!==null){var version=document.createElement('input');version.type='hidden';version.name='revision';version.value=revision;form.appendChild(version);}});
