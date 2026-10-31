@@ -11,13 +11,15 @@ if (trim($more[$ii])!='') {
 }
 
 if ($zusatz!='') {
-$links=$zusatz[1];
+$links=$zusatz[1] ?? '';
 $links=explode("\n",$links);
 for ($ii=0;$ii<count($links);$ii++) {
-$link=explode(':',$links[$ii]);
-$link=str_replace($link[0].':','',$links[$ii]);
+$link=trim($links[$ii]);
+// Accept both a plain URL and the existing "Label: URL" format.
+// Split a label once; never remove a URL's own scheme or later occurrences.
+if (!preg_match('~^(https?://|mailto:)~i',$link) && strpos($link,':')!==false) $link=trim(explode(':',$link,2)[1]);
 if (trim($links[$ii])!='' && preg_match('~^(https?://|mailto:)~i',trim($link))) {
-	echo '<a href="'.htmlXspecialchars(trim($link)).'" target="_blank">'.htmlXspecialchars(trim($links[$ii])).'</a><br />';
+	echo '<a href="'.htmlXspecialchars(trim($link)).'" target="_blank" rel="noopener noreferrer">'.htmlXspecialchars(trim($links[$ii])).'</a><br />';
     $countaufnahmen++;
 }
 }

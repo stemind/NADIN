@@ -26,7 +26,8 @@ final class NadinAdmin {
         if (!is_file($path)) return;
         $dir=$this->root.'/userdatei/revisions';
         if (!is_dir($dir) && !mkdir($dir,0700)) throw new RuntimeException('Could not create a safety copy.');
-        $data=json_encode(array('path'=>substr($path,strlen($this->root)+1),'saved'=>gmdate('c'),'data'=>base64_encode(file_get_contents($path))),JSON_THROW_ON_ERROR);
+        $relative=substr($path,strlen($this->root)+1);
+        $data=json_encode(array('path'=>nadinText($relative),'path_bytes'=>base64_encode($relative),'saved'=>gmdate('c'),'data'=>base64_encode(file_get_contents($path))),JSON_THROW_ON_ERROR);
         $this->atomic($dir.'/'.gmdate('Ymd-His').'-'.bin2hex(random_bytes(6)).'.php',"<?php http_response_code(404); exit; ?>\n".$data);
     }
     private function folder($mode) {
@@ -36,14 +37,25 @@ final class NadinAdmin {
     }
     private function path($mode,$id) {
         if (!is_string($id) || $id==='' || basename($id)!==$id || strpos($id,'\\')!==false || substr($id,-4)!=='.txt' || preg_match('/[\x00-\x1f]/',$id)) throw new InvalidArgumentException('Invalid gig.');
-        $p=$this->folder($mode).'/'.$id;
+        $p=$this->folder($mode).'/'.$this->resolveName($this->folder($mode),$id);
         if (!is_file($p) || is_link($p)) throw new InvalidArgumentException('This gig no longer exists. Reload the list.');
         return $p;
+    }
+    /** JSON uses UTF-8; retain existing filesystem bytes and reject ambiguous names. */
+    private function resolveName($directory,$name) {
+        $matches=array();
+        foreach (new DirectoryIterator($directory) as $entry) {
+            if ($entry->isDot() || $entry->isLink() || !$entry->isFile()) continue;
+            $raw=$entry->getFilename();
+            if ($raw===$name || nadinText($raw)===$name) $matches[]=$raw;
+        }
+        if (count($matches)>1) throw new DomainException('Two legacy files have the same displayed name. Resolve the filename collision before editing.');
+        return $matches ? $matches[0] : $name;
     }
     private function original($id,$mode) { return $mode==='trash' ? preg_replace('/^(?:[0-9]+_[a-f0-9]+!|[0-9]+_)/','',$id) : $id; }
     private function attachment($mode,$id) { return $mode==='trash' ? $this->folder('trash').'/'.substr($id,0,-4).'.pdf' : $this->root.'/abo/zip/'.substr($id,0,-4).'.pdf'; }
     private function revision($mode,$id) {
-        $p=$this->path($mode,$id); $a=$this->attachment($mode,$id);
+        $p=$this->path($mode,$id); $a=$this->attachment($mode,basename($p));
         return hash('sha256',file_get_contents($p).'|'.(is_file($a) ? hash_file('sha256',$a) : ''));
     }
     private function expected($mode,$id,$revision) {
@@ -51,22 +63,30 @@ final class NadinAdmin {
     }
     public function gigs($mode='current') {
         $rows=array();
-        foreach (nadinRepFiles($this->folder($mode),$mode!=='current') as $id) $rows[]=array('id'=>$id,'title'=>nadinText(substr($this->original($id,$mode),0,-4)));
+        foreach (nadinRepFiles($this->folder($mode),$mode!=='current') as $id) $rows[]=array('id'=>nadinText($id),'title'=>nadinText(substr($this->original($id,$mode),0,-4)));
         return $rows;
     }
     public function gig($mode,$id) {
-        $p=$this->path($mode,$id); list($info,$tunes)=nadinReadRep($p,$this->separator);
-        return array('id'=>$id,'mode'=>$mode,'title'=>nadinText(substr($this->original($id,$mode),0,-4)),'infos'=>nadinText(rtrim($info)),'tunes'=>array_map('nadinText',$tunes),'revision'=>$this->revision($mode,$id),'attachment'=>is_file($this->attachment($mode,$id)));
+        $p=$this->path($mode,$id); $id=basename($p); list($info,$tunes)=nadinReadRep($p,$this->separator);
+        $module=$mode==='archive'?'gigrepsarchiv':'gigreps';
+        return array('id'=>nadinText($id),'mode'=>$mode,'title'=>nadinText(substr($this->original($id,$mode),0,-4)),'infos'=>nadinText(rtrim($info)),'tunes'=>array_map('nadinText',$tunes),'revision'=>$this->revision($mode,$id),'attachment'=>is_file($this->attachment($mode,$id)),
+            'view_url'=>'index.php?'.http_build_query(array('m'=>$module,'c'=>$id)),
+            'attachment_url'=>'get/setlist.php?'.http_build_query(array('m'=>$module,'c'=>substr($id,0,-4).'.pdf')));
     }
     public function catalog() {
-        global $saxes,$bones,$trumpets,$rhythm,$other,$parts,$score,$recommended;
+        global $saxes,$bones,$trumpets,$rhythm,$other,$parts,$score,$recommended,$hidden;
         $tags=array('sx'=>$saxes,'tb'=>$bones,'tp'=>$trumpets,'rh'=>$rhythm,'ot'=>$other,'Parts'=>$parts,'Score'=>$score,'Audio'=>$recommended);
         $rows=array();
         foreach ((array)glob($this->root.'/library/*',GLOB_ONLYDIR) as $dir) {
             if (is_link($dir)) continue;
             $found=array();
-            foreach ((array)glob($dir.'/*') as $f) if (is_file($f) && !is_link($f)) foreach ($tags as $label=>$tag) if ($tag!=='' && strpos(basename($f),$tag)!==false) $found[$label]=true;
-            $rows[]=array('id'=>basename($dir),'title'=>nadinText(str_replace('_',' ',basename($dir))),'files'=>array_keys($found));
+            foreach (new DirectoryIterator($dir) as $entry) {
+                $name=$entry->getFilename();
+                if ($entry->isDot() || $entry->isLink() || !$entry->isFile() || !$entry->isReadable() || !$entry->getSize() || $name[0]==='.' || strpos($name,'zzDEL!')===0 || ($hidden!=='' && strpos(basename($dir).'/'.$name,$hidden)!==false && !role('musers'))) continue;
+                $ext=strtolower(pathinfo($name,PATHINFO_EXTENSION));
+                foreach ($tags as $label=>$tag) if ($tag!=='' && strpos($name,$tag)!==false && $ext===($label==='Audio'?'mp3':'pdf')) $found[$label]=true;
+            }
+            $rows[]=array('id'=>nadinText(basename($dir)),'title'=>nadinText(str_replace('_',' ',basename($dir))),'files'=>array_keys($found));
         }
         usort($rows,function($a,$b){return strnatcasecmp($a['title'],$b['title']);}); return $rows;
     }
@@ -105,19 +125,28 @@ final class NadinAdmin {
         if (file_exists($this->attachment('current',$id))) throw new DomainException('An attachment already uses this name. Choose another name.');
         return $id;
     }
-    private function gigText($infos,$tunes) {
+    private function gigText($infos,$tunes,$previous=array()) {
         if (!is_string($infos) || strlen($infos)>100000 || strpos($infos,$this->separator)!==false || !is_array($tunes) || count($tunes)>1000) throw new InvalidArgumentException('Invalid gig information or setlist.');
+        // Preserve even unavailable legacy tune references when only gig info/order changes.
+        $names=array();
+        foreach (array_merge($previous,array_map('basename',(array)glob($this->root.'/library/*',GLOB_ONLYDIR))) as $raw) $names[nadinText(trim($raw))][trim($raw)]=true;
         foreach ($tunes as &$t) {
             if (!is_string($t) || strlen($t)>250 || preg_match('/[\x00-\x1f<>|\\\\\/]/',$t) || strpos($t,$this->separator)!==false) throw new InvalidArgumentException('Invalid setlist entry.');
             $t=trim($t);
+            if (isset($names[$t])) {
+                if (count($names[$t])>1) throw new DomainException('Two legacy tunes have the same displayed name. Resolve the filename collision before saving.');
+                $t=(string)array_key_first($names[$t]);
+            }
         } unset($t);
         return rtrim($infos)."\n\n".$this->separator."\n".implode("\n",$tunes);
     }
     public function saveGig($data) {
         return $this->locked(function() use($data) {
-            $id=$data['id'] ?? ''; $text=$this->gigText($data['infos'] ?? '',$data['tunes'] ?? array());
+            $id=$data['id'] ?? ''; $previous=array();
             if ($id==='') { $id=$this->newName($data['date'] ?? '',$data['title'] ?? ''); $p=$this->folder('current').'/'.$id; }
-            else { $p=$this->path('current',$id); $this->expected('current',$id,$data['revision'] ?? ''); $this->backup($p); }
+            else { $p=$this->path('current',$id); $id=basename($p); $this->expected('current',$id,$data['revision'] ?? ''); list($oldInfo,$previous)=nadinReadRep($p,$this->separator); }
+            $text=$this->gigText($data['infos'] ?? '',$data['tunes'] ?? array(),$previous);
+            if (is_file($p)) $this->backup($p);
             $this->atomic($p,$text); $this->invalidate($id);
             return $this->gig('current',$id);
         });
@@ -130,7 +159,7 @@ final class NadinAdmin {
     public function gigAction($data) {
         return $this->locked(function() use($data) {
             $mode=$data['mode'] ?? 'current'; $id=$data['id'] ?? ''; $action=$data['action'] ?? '';
-            $p=$this->path($mode,$id); $this->expected($mode,$id,$data['revision'] ?? '');
+            $p=$this->path($mode,$id); $id=basename($p); $this->expected($mode,$id,$data['revision'] ?? '');
             $targetMode=$mode; $target=$id; $copy=false;
             if ($action==='copy' || $action==='rename') {
                 if ($mode==='trash' || ($action==='rename' && $mode!=='current')) throw new InvalidArgumentException('Restore this gig first.');
@@ -156,7 +185,7 @@ final class NadinAdmin {
     }
     public function uploadAttachment($data,$file) {
         return $this->locked(function() use($data,$file) {
-            $id=$data['id'] ?? ''; $this->expected('current',$id,$data['revision'] ?? '');
+            $id=basename($this->path('current',$data['id'] ?? '')); $this->expected('current',$id,$data['revision'] ?? '');
             if (!$file || ($file['error'] ?? 1)!==UPLOAD_ERR_OK || !is_uploaded_file($file['tmp_name']) || $file['size']>20*1024*1024 || file_get_contents($file['tmp_name'],false,null,0,5)!=='%PDF-') throw new InvalidArgumentException('Choose a PDF up to 20 MB (or the hosting upload limit).');
             $p=$this->attachment('current',$id); $this->backup($p); $this->atomic($p,file_get_contents($file['tmp_name'])); return $this->gig('current',$id);
         });
