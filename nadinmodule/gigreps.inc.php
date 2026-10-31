@@ -9,7 +9,7 @@ $selectedGig = isset($_GET['c']) && is_string($_GET['c']) ? $_GET['c'] : '';
 if (!in_array($selectedGig, $gigs, true)) $selectedGig = isset($gigs[0]) ? $gigs[0] : '';
 $_GET['c'] = $selectedGig;
 ?>
-<div class="nadin-layout" style="--nadin-sidebar-width:<?php echo nadinSidebarWidth(); ?>px">
+<div class="nadin-layout<?php if (nadinGigListPosition() === 'top') echo ' nadin-gig-list-top'; ?>" style="--nadin-sidebar-width:<?php echo nadinSidebarWidth(); ?>px">
 <nav id="nadin-sidebar" class="nadin-sidebar" aria-label="GigReps" data-sidebar="<?php echo $gigModule; ?>">
 <label class="nadin-search-label"><span class="nadin-sr-only">Find a gig</span><input id="nadin-gig-search" type="search" placeholder="Find a gig…"></label>
 <?php foreach ($gigs as $gig) { ?>
