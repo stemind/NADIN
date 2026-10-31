@@ -11,7 +11,7 @@ try {
             if($provider==='oidc'){$p=nadin_oidc_settings($p);if(in_array('--online',$argv,true))nadin_oidc_discover($p);}
             else { $settings=new OneLogin\Saml2\Settings(nadin_saml_settings($p));if($settings->validateMetadata($settings->getSPMetadata()))throw new RuntimeException('Invalid metadata.'); }
             echo strtoupper($provider).': configuration OK; '.count($p['identities'])." explicit identity mapping(s)\n";
-        } catch(Throwable $e){$failed=true;fwrite(STDERR,strtoupper($provider).": configuration/dependency check failed. Check the required settings in docs/V16-federation.md.\n");}
+        } catch(Throwable $e){$failed=true;fwrite(STDERR,strtoupper($provider).": configuration/dependency check failed. Check the required settings in docs/V15-federation.md.\n");}
     }
 } catch(Throwable $e){$failed=true;fwrite(STDERR,"Federation configuration cannot be read.\n");}
 exit($failed?1:0);

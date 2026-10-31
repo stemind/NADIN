@@ -1,5 +1,5 @@
 <?php
-/** Keep a hosting-specific mail adapter here when deploying: see docs/V11.md. */
+/** Keep a hosting-specific mail adapter here when deploying: see docs/V10.md. */
 function nadin_account_mail($to, $subject, $message) {
     global $mymail, $useheadersinphpmailcommand;
     if (!filter_var($to, FILTER_VALIDATE_EMAIL)) return false;
