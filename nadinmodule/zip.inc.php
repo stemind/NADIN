@@ -10,15 +10,18 @@ function nadin_zip_sources($root,$gig,$type,$mode='gigreps') {
     $types=nadin_zip_types();
     if (!isset($types[$type]) || !in_array($mode,array('gigreps','gigrepsarchiv'),true) || !is_string($gig) || $gig==='' || $gig[0]==='.' || basename($gig)!==$gig || substr($gig,-4)!=='.txt' || preg_match('/[\\\\\x00-\x1f\x7f]/',$gig)) throw new InvalidArgumentException('Invalid download.');
     $rep=$root.'/'.$mode.'/'.$gig;
-    if (!is_file($rep) || is_link($rep) || is_link(dirname($rep))) throw new InvalidArgumentException('Gig not found.');
+    $repRoot=realpath($root.'/'.$mode); $resolvedRep=realpath($rep);
+    if (!is_file($rep) || is_link($rep) || !$repRoot || !$resolvedRep || dirname($resolvedRep)!==$repRoot) throw new InvalidArgumentException('Gig not found.');
+    $libraryRoot=realpath($root.'/library');
     list($info,$tunes)=nadinReadRep($rep,$delimiter2);$sources=array();
     foreach (array_unique(array_map('trim',$tunes)) as $tune) {
         if ($tune==='' || basename($tune)!==$tune || $tune[0]==='.' || preg_match('/[\\\\\x00-\x1f\x7f]/',$tune)) continue;
         $dir=$root.'/library/'.$tune;
-        if (!is_dir($dir) || is_link($dir) || is_link(dirname($dir))) continue;
+        $resolvedDir=realpath($dir);
+        if (!is_dir($dir) || is_link($dir) || !$libraryRoot || !$resolvedDir || dirname($resolvedDir)!==$libraryRoot) continue;
         $selected=array();$fallback=array();$files=array();
         // DirectoryIterator treats brackets and other glob characters literally.
-        foreach (new DirectoryIterator($dir) as $entry) {
+        foreach (new DirectoryIterator($resolvedDir) as $entry) {
             if ($entry->isDot() || $entry->isLink() || !$entry->isFile()) continue;
             $name=$entry->getFilename();$f=$entry->getPathname();$relative=$tune.'/'.$name;
             if ($name[0]==='.' || preg_match('/[\\\\\x00-\x1f\x7f]/',$name) || strpos($name,'zzDEL!')===0 || ($hidden!=='' && strpos($relative,$hidden)!==false)) continue;
@@ -86,8 +89,15 @@ function nadin_zip_prepare($root,$gig,$type,$mode='gigreps',$open=false) {
         $snapshot=nadin_zip_snapshot($root,$gig,$type,$mode);
         if (!$snapshot['entries']) throw new InvalidArgumentException('No readable files are available for this download.');
         $key=hash('sha256',$mode."\0".$gig."\0".$type);
-        $lock=nadin_zip_lock($root.'/userdatei/zip-'.$key.'.php');$dir=$root;
-        foreach (array('abo','zip','.cache-v16',$key) as $part) {
+        $lock=nadin_zip_lock($root.'/userdatei/zip-'.$key.'.php');
+        $abo=$root.'/abo'; $zipRoot=$abo.'/zip';
+        if (is_link($abo) || (!is_dir($abo) && !@mkdir($abo,0700) && !is_dir($abo))) throw new RuntimeException('Cannot prepare safe ZIP storage.');
+        // The installation owner may share the top-level ZIP directory. All
+        // cache children and files still have to be ordinary directories/files.
+        if (!is_dir($zipRoot) && !@mkdir($zipRoot,0700) && !is_dir($zipRoot)) throw new RuntimeException('Cannot prepare safe ZIP storage.');
+        $dir=realpath($zipRoot);
+        if (!$dir) throw new RuntimeException('Cannot prepare safe ZIP storage.');
+        foreach (array('.cache-v16',$key) as $part) {
             $dir.='/'.$part;
             if (is_link($dir) || (!is_dir($dir) && !@mkdir($dir,0700) && !is_dir($dir))) throw new RuntimeException('Cannot prepare safe ZIP storage.');
         }
