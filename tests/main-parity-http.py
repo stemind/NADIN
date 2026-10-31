@@ -2,7 +2,7 @@
 
 NADIN_APP_ROOT selects a branch checkout; no production files or outgoing mail.
 """
-import csv, hashlib, io, os, shutil, socket, subprocess, tempfile, time
+import csv, hashlib, io, os, re, shutil, socket, subprocess, tempfile, time
 from pathlib import Path
 from urllib.parse import urljoin, parse_qs, urlparse
 import requests
@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 
 ROOT=Path(os.environ.get('NADIN_APP_ROOT',Path(__file__).resolve().parents[1])).resolve()
 PHP=os.environ.get('NADIN_PHP','php'); checks=0
+EXPECTED_VERSION=os.environ.get('NADIN_EXPECTED_VERSION', 'V10')
 SEP='* - * - * - * * * - * - * - *'
 def ok(value,label):
     global checks
@@ -58,7 +59,10 @@ with tempfile.TemporaryDirectory(prefix='nadin-main-parity-') as temp:
             except requests.ConnectionError:pass
             time.sleep(.04)
         def login(email):
-            session=requests.Session();form=soup(session.get(base+'login.php')).find('form')
+            session=requests.Session();login_doc=soup(session.get(base+'login.php'))
+            labels=re.findall(r'\bNADIN\s+(V?\d+(?:\.\d+)*)\b',login_doc.get_text(' ',strip=True))
+            ok(EXPECTED_VERSION in labels and all(label==EXPECTED_VERSION for label in labels),'all login version labels agree: '+repr(labels))
+            form=login_doc.find('form')
             data={x['name']:x.get('value','') for x in form.select('input[type=hidden][name]')}
             data.update(u=email,p=hashlib.sha1((email+'main-parity').encode()).hexdigest()[7:13])
             response=session.post(base+'login2.php',data=data,allow_redirects=False)
@@ -87,7 +91,11 @@ with tempfile.TemporaryDirectory(prefix='nadin-main-parity-') as temp:
                 ok(result.status_code==200 and values==entries,'Print/XLS retains headings/order/repetitions '+kind+'/'+label+' '+repr(values))
             lib=session.get(base+'index.php?m=library');libdoc=soup(lib)
             ok(lib.status_code==200 and all(libdoc.find('a',href=lambda x:x and 'library.'+kind+'.php' in x) for kind in ['print','xls']),'Library Print/XLS '+label)
-            ok(not libdoc.find('a',href=lambda x:x and 'forscore.php' in x),'no bulk Library forScore '+label)
+            library_export=libdoc.find('a',href=lambda x:x and 'forscore.php' in x)
+            ok(bool(library_export)==(app/'get/forscore.php').is_file(),'Library forScore capability remains reachable '+label)
+            if library_export:
+                exported=session.get(urljoin(base,library_export['href']))
+                ok(exported.status_code==200 and 'reviewed_profile' in exported.text,'Library forScore export opens '+label)
             rec=session.get(base+'index.php?m=reclist');recdoc=soup(rec)
             recurl=next(a['href'] for a in recdoc.select('a[href*="get/file.php"]') if 'Parity_A' in a['href'])
             ok(session.get(urljoin(base,recurl)).content==b'Recording fixture','recordings download '+label)
