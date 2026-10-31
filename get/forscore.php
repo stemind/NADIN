@@ -1,5 +1,7 @@
 <?php
 require_once('../config.inc.php');
+// Override legacy server defaults before authentication or preview output.
+header('Content-Type: text/html; charset=UTF-8');
 require_once('../nadinmodule/functions.inc.php');
 require_once('../nadinmodule/forscore.inc.php');
 auth('vgigs');
@@ -109,7 +111,7 @@ try {
 }
 $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps', 'gigrepsarchiv', 'library'), true) ? $module : 'gigreps', 'c' => $rep));
 require_once __DIR__.'/../nadinmodule/popup-ui.inc.php';
-nadinPopupStart('forScore export', '../', 'nadin-forscore');
+nadinPopupStart('forScore export (V16)', '../', 'nadin-forscore');
 ?>
 <p><a href="<?php echo nadinHtml($back); ?>">&larr; Back to NADIN</a></p>
 <?php if ($error !== '') { ?>
