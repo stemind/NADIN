@@ -17,7 +17,7 @@ from bs4 import BeautifulSoup
 ROOT = Path(__file__).resolve().parents[1]
 PHP = os.environ.get('NADIN_PHP', 'php')
 DEFAULT_CHARSET = os.environ.get('NADIN_DEFAULT_CHARSET', 'UTF-8')
-EXPECTED_VERSION = '7.7.1'
+EXPECTED_VERSION = '7.7.2'
 SEPARATOR = '* - * - * - * * * - * - * - *'
 checks = 0
 
@@ -238,8 +238,7 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
            'downloaded XML retains exact Unicode heading text')
 
         # The two existing screens gain only a link in the Print export block.
-        for module, name in (('gigreps', 'Headings.txt'), ('gigrepsarchiv', 'Headings.txt'),
-                             ('library', '')):
+        for module, name in (('gigreps', 'Headings.txt'), ('gigrepsarchiv', 'Headings.txt')):
             screen = session.get(base + '/', params={'m': module, 'c': name})
             soup = BeautifulSoup(screen.text, 'html.parser')
             link = soup.find('a', href=lambda href: href and href.startswith('get/forscore.php?'))
@@ -249,6 +248,61 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
                'forScore sits immediately below Print in ' + module)
             ok(link.get('style') == print_link.get('style') and link.get('target') == '_blank',
                'forScore retains Print styling and target in ' + module)
+
+
+        # Current UI: one explicit import choice; no manual review dependency.
+        workflow_blank = preview('Headings.txt')
+        workflow_soup = BeautifulSoup(workflow_blank.text, 'html.parser')
+        ok(workflow_soup.find('select', attrs={'name': 'workflow', 'required': True}) is not None,
+           'import intent is one required selection')
+        ok(workflow_soup.find('select', attrs={'name': 'mode'}) is None
+           and workflow_soup.find('input', attrs={'name': 'initial'}) is None,
+           'scattered mode/initial controls are replaced by one import choice')
+        result = download(workflow_blank)
+        ok(result.status_code == 400 and 'Choose an import option' in result.text,
+           'no default silently imports every PDF')
+        first_data = fields(workflow_blank)
+        first_data.update(action='review', workflow='first', profile='sx')
+        workflow_first = session.post(endpoint, data=first_data)
+        ok(workflow_first.status_code == 200 and 'No CSV is needed.' in workflow_first.text,
+           'first import does not request an inventory')
+        result = download(workflow_first)
+        first_xml = ET.fromstring(result.content)
+        ok(result.status_code == 200 and len([x for x in first_xml if 'data' in x.attrib]) == 2,
+           'first-import choice embeds the required unique PDFs without another checkbox')
+        fresh_csv = 'Filename\n' + '\n'.join(x.get('path') for x in first_xml if 'data' in x.attrib) + '\n'
+        update_data = fields(workflow_first)
+        update_data.update(action='review', workflow='update')
+        workflow_update = session.post(endpoint, data=update_data,
+                                       files={'csv': ('current-notes.csv', fresh_csv, 'text/csv')})
+        ok(workflow_update.status_code == 200 and 'current-notes.csv' in workflow_update.text,
+           'inventory upload remains visibly identified after automatic refresh')
+        result = download(workflow_update)
+        ok(result.status_code == 200 and not any('data' in x.attrib for x in ET.fromstring(result.content)),
+           'following import reuses existing PDFs and annotations')
+        legacy_data = fields(workflow_update)
+        legacy_data.update(mode='new', initial='1')
+        result = session.post(endpoint, data=dict(legacy_data, action='download'))
+        ok(result.status_code == 200 and not any('data' in x.attrib for x in ET.fromstring(result.content)),
+           'cached old forms do not discard a provided inventory when initial was also checked')
+        reference_data = fields(workflow_update)
+        reference_data.update(action='review', workflow='references')
+        reference_preview = session.post(endpoint, data=reference_data)
+        result = download(reference_preview)
+        ok(result.status_code == 200 and not any('data' in x.attrib for x in ET.fromstring(result.content)),
+           'setlist-only choice includes no PDF data')
+        missing_inventory = fields(workflow_blank)
+        missing_inventory.update(action='download', workflow='update')
+        result = session.post(endpoint, data=missing_inventory)
+        ok(result.status_code == 400 and 'Upload a current forScore library CSV' in result.text,
+           'following import cannot silently embed duplicates without a current inventory')
+        if os.environ.get('NADIN_WORKFLOW_DOM') == '1':
+            dom_input = temp / 'workflow-dom.json'
+            dom_input.write_text(json.dumps({'blank': workflow_blank.text, 'first': workflow_first.text,
+                                            'update': workflow_update.text}))
+            subprocess.run(['node', 'tests/forscore-workflow-dom.cjs', str(dom_input)], cwd=ROOT,
+                           env=dict(os.environ, NADIN_FORSCORE_JS=str(ROOT / 'nadinmodule/forscore.js')),
+                           check=True)
 
         # Initial-import confirmation, section changes and an actual changed PDF.
         response = preview('Headings.txt')
@@ -278,6 +332,12 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
             env = dict(os.environ, NADIN_TEST_URL=base,
                        NADIN_TEST_COOKIES=json.dumps(session.cookies.get_dict()))
             subprocess.run(['node', 'tests/forscore-browser.cjs'], cwd=ROOT, env=env, check=True)
+        library_page = BeautifulSoup(session.get(base + '/', params={'m': 'library', 'c': ''}).text, 'html.parser')
+        ok(library_page.find('a', href=lambda href: href and 'forscore.php' in href) is None,
+           'Library has no bulk forScore entry point')
+        ok(library_page.find('a', href=lambda href: href and 'library.print.php' in href) is not None
+           and library_page.find('a', href=lambda href: href and 'library.xls.php' in href) is not None,
+           'Library retains Print and XLS links')
         log.flush()
         log.seek(0)
         errors = log.read()

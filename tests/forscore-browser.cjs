@@ -14,7 +14,7 @@ function ok(value, label) { assert(value, label); checks++; }
     const page = await context.newPage();
     await page.route('**/*', route => route.request().url().startsWith(base)
       ? route.continue() : route.abort());
-    for (const module of ['gigreps', 'gigrepsarchiv', 'library']) {
+    for (const module of ['gigreps', 'gigrepsarchiv']) {
       await page.goto(base + '/?m=' + module + '&c=Headings.txt');
       const link = page.getByRole('link', { name: 'forScore↓', exact: true });
       const print = page.getByRole('link', { name: 'print↓', exact: true });
@@ -33,10 +33,13 @@ function ok(value, label) { assert(value, label); checks++; }
       await link.click();
       const popup = await popupEvent;
       await popup.waitForLoadState();
-      ok(await popup.getByRole('heading', { name: 'forScore — NADIN 7.7.1' }).isVisible(),
+      ok(await popup.getByRole('heading', { name: 'forScore — NADIN 7.7.2' }).isVisible(),
         'forScore opens in its own tab from ' + module);
       await popup.close();
     }
+    await page.goto(base + '/?m=library&c=');
+    ok(await page.getByRole('link', { name: 'forScore↓', exact: true }).count() === 0, 'Library has no forScore link');
+    ok(await page.getByRole('link', { name: 'print↓', exact: true }).isVisible(), 'Library Print remains visible');
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({ width, height: 1000 });
       await page.goto(base + '/get/forscore.php?m=gigreps&c=Headings.txt&profile=sx');
@@ -45,6 +48,6 @@ function ok(value, label) { assert(value, label); checks++; }
       ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
         'new export page has no horizontal overflow at ' + width + 'px');
     }
-    console.log('PASS:', checks, 'NADIN 7.7.1 Chromium checks');
+    console.log('PASS:', checks, 'NADIN 7.7.2 Chromium checks');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });
