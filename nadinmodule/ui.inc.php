@@ -24,3 +24,8 @@ function nadinSidebarWidth() {
     $width = isset($ifleftthenthiswidth) ? (int)$ifleftthenthiswidth : 300;
     return max(120, min(450, $width));
 }
+
+function nadinGigListPosition() {
+    global $rendergiglistontheleft;
+    return !isset($rendergiglistontheleft) || $rendergiglistontheleft == 'yes' ? 'left' : 'top';
+}
