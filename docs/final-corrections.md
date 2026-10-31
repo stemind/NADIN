@@ -14,4 +14,6 @@ Validation uses disposable old-format user lists, actual logins and saves, real 
 
 All seven affected branches were checked on PHP 8.3: 35 member-format and 67 authentication checks each. V11–V16 additionally passed the user-import/save tests, the normal administration HTTP suite and the same 108 HTTP checks with all seven data directories shared through symlinks, plus heading-edit/cancel/Undo DOM tests and 24 real Chromium interaction/layout checks. V15–V16 retained the ZIP integrity/concurrency suite.
 
-V16 passed the complete cumulative suite on PHP 8.3.6 and PHP 8.5.12 with future-error simulation: 954 numbered checks and 162 PHP syntax checks per runtime. These are local test results, not GitHub CI or a certification of native PHP 9. The fixtures are disposable; no production identities, user files, music or mail delivery were exercised.
+V16 passed the complete cumulative suite on PHP 8.3.6 and PHP 8.5.12 with future-error simulation: 970 numbered checks and 162 PHP syntax checks per runtime. These are local test results, not GitHub CI or a certification of native PHP 9. The fixtures are disposable; no production identities, user files, music or mail delivery were exercised.
+
+The final source comparison retained concurrently published forScore heading-export fixes. The combined V16 tree passed the full suite again on both runtimes; all seven affected branches additionally passed 56 forScore regression checks and 32 real HTTP checks on each runtime.
