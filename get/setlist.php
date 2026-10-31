@@ -7,4 +7,4 @@ $mode=$_GET['m'] ?? (is_file($root.'/gigreps/'.$gig)?'gigreps':'gigrepsarchiv');
 if(!is_string($mode)||!in_array($mode,array('gigreps','gigrepsarchiv'),true)||!is_file($root.'/'.$mode.'/'.$gig)||is_link($root.'/'.$mode.'/'.$gig)){http_response_code(404);exit('Gig not found.');}
 if($mode==='gigrepsarchiv')auth('varchiv');
 $file=$root.'/abo/zip/'.$name;if(!is_file($file)||is_link($file)){http_response_code(404);exit('Attachment not found.');}
-header('Content-Type: application/pdf');header('X-Content-Type-Options: nosniff');header('Cache-Control: private, no-store');header('Content-Disposition: inline; filename="NADIN.pdf"; filename*=UTF-8\'\''.rawurlencode($name));header('Content-Length: '.filesize($file));readfile($file);
+header('Content-Type: application/pdf');header('X-Content-Type-Options: nosniff');header('Cache-Control: private, no-store');header('Content-Disposition: inline; filename="NADIN.pdf"; filename*=UTF-8\'\''.rawurlencode(nadinText($name)));header('Content-Length: '.filesize($file));readfile($file);
