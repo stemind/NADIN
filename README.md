@@ -1,15 +1,37 @@
-https://yuba.ch/nadin: NADIN is a PHP program made to provide big band musicians with the needed sheet music and recordings thereof by means of personal access data.
-To that end, the PDF files can be taken apart to make them available selectively, so that e.g. saxophonists can only obtain the saxophone score etc. This ensures that the arrangements are protected and do not spread uncontrollably. Substitutes can be registered in the system, too; they receive a login carrying an expiration date.
-In NADIN, a band’s complete music library can be managed. NADIN administrators can put together the set lists of gigs by mouse clicks and make them available to the band members, including download links for the appropriate notes and recordings. Past gigs can be archived. In the administration, user rights can be defined (e.g. access only to the sax score for the current gigs, but not to archived gigs, and not to the music library).
+# NADIN — Progressive login protection
 
-NADIN is purely file-based; therefore, it needs no database. It was developed by Urs Petermann and Stefan Minder for the Uptown Big Band Bern and is available to all interested parties free of charge. Any warranty and liability is excluded.
+Adds progressive account login throttling, a readable retry countdown and bounded network limits.
 
-Version notes: [V8 — compact original interface](docs/V8.md).
+**Branch:** `V12-login-protection`
 
-[V9 — forScore setlists and reusable notes](docs/V9-forScore.md), based on V8.
+Normal local onboarding and sessions remain usable; recovery has its separate protection and existing limits remain compatible.
 
-Version notes: [V11 — personal passwords and simple onboarding](docs/V11.md).
+## Project
 
-[V12 — compact gig administration, clear permissions and safer downloads](docs/V12.md), based on V11.
+NADIN is a file-based PHP application for big bands. It manages sheet music, recordings, member permissions and current/archived gig setlists without a database. It was developed by Urs Petermann and Stefan Minder for the Uptown Big Band Bern. Any warranty and liability is excluded. Project information: https://yuba.ch/nadin.
 
-[V13 — progressive brute-force protection with a clear retry countdown](docs/V13.md), including all V12 improvements.
+## Branches
+
+The numbered development lines are successive stages; later lines retain the earlier application capabilities, apart from the agreed retirement of iTunes/RSS at V10. Shared forScore, encoding and interaction corrections have also been backported where applicable. The 7.7 line deliberately keeps the original interface.
+
+| Line | Branch | Main purpose |
+| --- | --- | --- |
+| main | [`main`](https://github.com/stemind/NADIN/tree/main) | Maintained 7.x baseline |
+| 7.7 | [`7.7-original-interface-forScore`](https://github.com/stemind/NADIN/tree/7.7-original-interface-forScore) | Original interface with forScore |
+| V8 | [`V8-compact-interface`](https://github.com/stemind/NADIN/tree/V8-compact-interface) | Compact original interface |
+| V9 | [`V9-forScore-export`](https://github.com/stemind/NADIN/tree/V9-forScore-export) | forScore export |
+| V10 | [`V10-personal-passwords`](https://github.com/stemind/NADIN/tree/V10-personal-passwords) | Personal passwords and onboarding |
+| V11 | [`V11-gig-user-management`](https://github.com/stemind/NADIN/tree/V11-gig-user-management) | Compact gig and user management |
+| V12 | [`V12-login-protection`](https://github.com/stemind/NADIN/tree/V12-login-protection) | Progressive login protection |
+| V13 | [`V13-zip-download-layout`](https://github.com/stemind/NADIN/tree/V13-zip-download-layout) | Readable ZIP downloads |
+| V14 | [`V14-refined-interface`](https://github.com/stemind/NADIN/tree/V14-refined-interface) | Refined compact interface |
+| V15 | [`V15-oidc-saml-reliable-zips`](https://github.com/stemind/NADIN/tree/V15-oidc-saml-reliable-zips) | Optional federation and reliable ZIPs |
+| V16 | [`V16-php85-php9-preparation`](https://github.com/stemind/NADIN/tree/V16-php85-php9-preparation) | PHP 8.5 validation and PHP 9 preparation |
+
+## Installation and updates
+
+Use the source files for the selected line together. Preserve your installation configuration, user/member and authentication files, music/gig directories and hidden forScore identity metadata. The application retains the file-based storage model. Existing technical notes and verification tools are in `docs/` and `tests/` where present.
+
+The current conservative 7.x forScore release is [NADIN 7.7.2](https://github.com/stemind/NADIN/releases/tag/v7.7.2), with separate correction and 7.6-upgrade ZIPs. First forScore imports need no CSV; later PDF-containing imports use a current Filename inventory to reuse annotated PDFs. Native forScore/iPad acceptance is separate from the PHP/HTTP regression checks.
+
+The forScore Library link is removed. Changing the section/import option or choosing a CSV updates the export automatically. `rendergiglistontheleft` controls the current and archived GigRep list position. See `docs/2026-10-31-maintenance.md` for the Main comparison and test boundaries.
