@@ -16,7 +16,7 @@ require_once('mime.inc.php');
 $ext=explode('.',$c);
 $ext=$ext[count($ext)-1];
 header("Content-type: ".$m[$ext]); 
-header("Content-Disposition:inline;filename=".basename($c));
+header("Content-Disposition: inline; filename=\"NADIN\"; filename*=UTF-8''".rawurlencode(nadinText(basename($c))));
 header("Content-Length: " . filesize($c));
 readfile($c);
 ?>
