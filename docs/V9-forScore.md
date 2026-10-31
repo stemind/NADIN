@@ -6,11 +6,19 @@ V9 builds directly on V8. Current/archived GigReps and the library have a compac
 
 1. Open a Rep (or the library) and choose forScore, then your section.
 2. For the first import into an empty NADIN collection, choose **Setlist + PDFs missing from the inventory** and explicitly confirm the first import. A non-empty collection should instead supply a current forScore metadata CSV with the Filename column, exported from forScore's Backup panel.
-3. Review the proposed PDFs. The selected section is preferred; Parts is the fallback. Score is never substituted for a missing section. Multiple candidates require a choice. Missing files and free-text entries require explicit placeholder confirmation.
+3. Review the proposed PDFs. The selected section is preferred; Parts is the fallback. Score is never substituted for a missing section. Multiple candidates require a choice. Headings are included automatically as text placeholders. Only tunes with missing or inaccessible notes require explicit placeholder confirmation.
 4. Download the `.4ss` file and open it in forScore. PDFs embedded in Open Setlist XML require forScore 14.3 or later. Reference-only exports require forScore 12 or later.
 5. Before subsequent imports, supply a fresh CSV from the actual destination library. Existing PDFs are referenced and only missing PDFs are embedded. A downloaded file or an earlier export is not evidence of a successful import.
 
 A Rep preserves its sequence and repeated tunes. A newly embedded PDF appears only once in the transport file; subsequent occurrences reference the same filename. The same notes can belong to multiple Rep setlists. Existing original NADIN filenames can also be adopted when the filename is unique across the source library. PDF contents cannot be verified from a filename-only CSV. Custom renames that remove the NADIN identity prevent automatic matching; do not resolve such cases by title alone.
+
+## Headings and missing notes
+
+Ordinary free-text Rep entries without a corresponding library filesystem entry are headings, following NADIN's legacy file format. They appear as headings in the export preview without a missing-notes warning and are always written as forScore text placeholders. Their text (including underscores, accents and punctuation), position and repetitions are retained. Blank lines remain ignored. Heading text is escaped for HTML/XML and is never used to read a PDF outside the library.
+
+A library tune without a matching accessible section or Parts PDF still requires explicit placeholder confirmation; empty folders, hidden PDFs and blocked symlinks do not become headings. Ambiguous PDF choices must still be resolved. The preview signature includes the entry kind, so creating or removing a library entry after review requires another review even when neither version has PDF options.
+
+The legacy format does not record a separate header/tune type. A reference whose entire library folder was deleted is therefore indistinguishable from a free-text heading; it is shown as a heading for review. Existing Reps are not migrated or rewritten. In forScore, a placeholder is a text entry and displays a title page when reached, rather than NADIN's heading styling.
 
 ## Updates and identity
 
@@ -31,6 +39,8 @@ This is a controlled import/export workflow. It does not automatically synchroni
 ## Validation
 
 `php tests/forscore.php` exercises section/Parts selection, repeated tunes, cross-Rep reuse, revision changes, keeping local Parts, explicit ambiguous-file selection, source access, symlinks, hidden PDFs, CSV encodings, legacy filenames, file/folder renames, copied arrangements, Windows-1252 filenames, binary PDF transport, mid-export changes and corrupt identity metadata.
+
+Heading regressions cover automatic placeholders, exact text/encoding/order/repetitions, heading-only and archived Reps, missing/hidden/ambiguous notes and blocked sources. `python3 tests/forscore-http.py` uses a disposable installation and synthetic accounts to verify the actual preview/download form, both export modes, missing-note confirmation and stale heading/tune reviews. It sends no mail and does not exercise the native forScore app. Set `NADIN_PHP` to select the PHP executable.
 
 Additional HTTP checks cover initial import, a second import with zero embedded PDFs, inventory review, stale source rejection, archive/library/section/traversal permissions, unauthenticated requests and CSRF rejection. Browser checks cover the export form at 320/390/1440px and retain V8's navigation/menu checks. Generated XML is parsed and embedded PDF bytes are compared with their sources. PHP 8.3 and Chromium were used. Actual import into the native forScore application remains an acceptance check on the user's iPad; it has not been claimed as tested.
 
