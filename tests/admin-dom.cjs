@@ -4,10 +4,11 @@ const {JSDOM}=require('jsdom');
 const fixture=process.argv[2],root=path.resolve(__dirname,'..');let checks=0;
 function ok(value,label){assert(value,label);checks++;}
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
-function setup(name){
+function setup(name,selected){
  const doc=fs.readFileSync(path.join(fixture,name+'.html'),'utf8');
  const dom=new JSDOM(doc,{url:'https://nadin.example.invalid/index.php',runScripts:'outside-only',pretendToBeVisual:true});
  const w=dom.window,errors=[];w.addEventListener('error',e=>errors.push(e.message));
+ if(selected){const data=w.document.getElementById('nadin-admin-data'),boot=JSON.parse(data.textContent);Object.assign(boot.selected,selected);data.textContent=JSON.stringify(boot);}
  w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};
  w.HTMLDialogElement.prototype.close=function(value=''){this.returnValue=value;this.open=false;this.dispatchEvent(new w.Event('close'));};
  w.fetch=async()=>{throw new Error('Unexpected network call');};
@@ -16,6 +17,7 @@ function setup(name){
 }
 (async()=>{
  const a=setup('admin'),{w,d}=a;
+ const boot=JSON.parse(d.getElementById('nadin-admin-data').textContent);
  ok(d.querySelectorAll('#setlist li[data-row]').length===12,'server initial gig renders without network');
  ok(d.querySelectorAll('#catalog-items [data-add]').length===12,'complete tune catalog renders');
  const original=d.querySelector('#setlist').textContent;
@@ -31,6 +33,55 @@ function setup(name){
  ok(input.value==='Changes to keep','save conflict preserves entered infos');ok(d.getElementById('admin-error').textContent.includes('another window'),'save conflict is visible');ok(!d.getElementById('admin-save').disabled,'controls unlock after failed save');ok(d.getElementById('changes').value==='1','unsaved marker remains after failure');ok(calls===2,'write refreshes csrf before request');
  d.getElementById('admin-new').click();await tick();ok(d.getElementById('admin-dialog').open,'switch asks before discarding changes');d.getElementById('admin-dialog').close('cancel');await tick();ok(input.value==='Changes to keep','cancel preserves unsaved work');
  ok(a.errors.length===0,'gig UI has no uncaught errors');
+ // Headings at the beginning and between tunes must not consume tune numbers.
+ const headingTunes=['Aus Gigrep:','Anna_Swings_Best','Berta_Has_The_Blues','David_Funks_The_City_Hall','Evening_In_Bern','Friday_Night_Groove','Challenge Tunes und Neuigkeiten:','Good_Times_Ahead','Late_Night_Swing','Anna_Swings_Best'];
+ const orders=doc=>Array.from(doc.querySelectorAll('#setlist [data-row]'),row=>row.querySelector('.nadin-order').textContent);
+ const expected=['','1','2','3','4','5','','6','7','8'];
+ for(const mode of ['current','archive','trash']){
+  const view=setup('admin',{mode,tunes:headingTunes.slice()}),doc=view.d;
+  ok(JSON.stringify(orders(doc))===JSON.stringify(expected),mode+': only tunes receive consecutive numbers, including repeated tunes');
+  ok(doc.getElementById('setlist-count').textContent==='(8 tunes)',mode+': headings excluded from tune count');
+  ok(doc.getElementById('setlist').tagName==='UL',mode+': no automatic ordered-list numbering for headings');
+  ok(Array.from(doc.querySelectorAll('.nadin-setlist-note .nadin-setlist-title'),el=>el.textContent).join('|')==='Aus Gigrep:|Challenge Tunes und Neuigkeiten:',mode+': headings contain only their own text');
+  ok(!doc.querySelector('.nadin-setlist-note small')&&!doc.getElementById('setlist-warning')&&!doc.getElementById('admin-editor').textContent.includes('unavailable tune'),mode+': no heading warning or error label');
+  ok((doc.querySelector('[data-remove]')!==null)===(mode==='current'),mode+': editing controls retain access mode');
+  if(mode==='current'){
+   doc.querySelector('[data-move="1"][data-index="6"]').click();
+   ok(JSON.stringify(orders(doc))===JSON.stringify(['','1','2','3','4','5','6','','7','8']),'moving a heading renumbers only tunes');
+   doc.getElementById('setlist-undo').click();ok(JSON.stringify(orders(doc))===JSON.stringify(expected),'undo restores heading positions and tune numbers');
+   doc.querySelector('[data-remove="0"]').click();ok(doc.getElementById('setlist-count').textContent==='(8 tunes)'&&orders(doc)[0]==='1','removing a heading preserves tune count and numbering');doc.getElementById('setlist-undo').click();
+   doc.querySelector('[data-remove="1"]').click();ok(doc.getElementById('setlist-count').textContent==='(7 tunes)'&&orders(doc).filter(Boolean).join(',')==='1,2,3,4,5,6,7','removing a tune closes the numbering gap');doc.getElementById('setlist-undo').click();
+   doc.querySelector('[data-add="Anna_Swings_Best"]').click();ok(orders(doc).filter(Boolean).join(',')==='1,2,3,4,5,6,7,8,9','adding a repeated tune continues numbering');doc.getElementById('setlist-undo').click();
+   doc.getElementById('setlist-note').click();doc.querySelector('[name=note]').value='Encore & thanks';doc.getElementById('admin-dialog').close('confirm');await tick();
+   ok(doc.querySelector('#setlist li:last-child .nadin-setlist-title').textContent==='Encore & thanks'&&orders(doc).at(-1)===''&&doc.getElementById('setlist-count').textContent==='(8 tunes)','adding a heading preserves its text without number or warning');doc.getElementById('setlist-undo').click();
+   let saved;view.w.fetch=async(url,opts)=>{if(opts&&opts.method==='POST'){saved=JSON.parse(opts.body);return {ok:true,json:async()=>({gig:Object.assign({},boot.selected,{tunes:saved.tunes}),gigs:boot.gigs})};}return {ok:true,json:async()=>({csrf:'fixture'})};};
+   doc.getElementById('gig-form').dispatchEvent(new view.w.Event('submit',{cancelable:true}));await tick();await tick();
+   ok(saved&&JSON.stringify(saved.tunes)===JSON.stringify(headingTunes),'save preserves exact headings, tune IDs, order and repetitions');
+   ok(JSON.stringify(orders(doc))===JSON.stringify(expected),'saved response renders headings without numbers');
+  }
+  ok(view.errors.length===0,mode+': heading UI has no uncaught errors');view.dom.window.close();
+ }
+ const notes=setup('admin',{tunes:['First heading','','Second heading']});
+ ok(orders(notes.d).every(n=>n==='')&&notes.d.getElementById('setlist-count').textContent==='(0 tunes)','consecutive headings and blank breaks remain unnumbered');notes.dom.window.close();
+ const empty=setup('admin',{tunes:[]});ok(!empty.d.querySelector('#setlist .nadin-order')&&empty.d.getElementById('setlist-count').textContent==='(0 tunes)','empty setlist has no tune numbers');empty.dom.window.close();
+ function drag(view,source,target,after=false){
+  const transfer={setData(){},effectAllowed:'',dropEffect:''};
+  function event(type){const e=new view.w.Event(type,{bubbles:true,cancelable:true});Object.defineProperties(e,{dataTransfer:{value:transfer},clientY:{value:after?1:-1}});return e;}
+  source.dispatchEvent(event('dragstart'));target.dispatchEvent(event('dragover'));target.dispatchEvent(event('drop'));view.d.dispatchEvent(event('dragend'));
+ }
+ const drop=setup('admin',{tunes:headingTunes.slice()}),dd=drop.d;
+ drag(drop,dd.querySelector('[data-catalog-tune="Anna_Swings_Best"]'),dd.querySelector('#setlist [data-row="6"]'));
+ ok(orders(dd).filter(Boolean).length===9&&dd.querySelector('#setlist [data-row="6"] .nadin-setlist-title').textContent.includes('Anna'),'library drag inserts a tune before the chosen heading');dd.getElementById('setlist-undo').click();
+ drag(drop,dd.querySelector('[data-catalog-tune="Berta_Has_The_Blues"]'),dd.querySelector('#setlist [data-row="0"]'),true);
+ ok(dd.querySelector('#setlist [data-row="1"] .nadin-setlist-title').textContent.includes('Berta')&&orders(dd)[0]==='','library drag inserts after a heading without numbering that heading');dd.getElementById('setlist-undo').click();
+ drag(drop,dd.querySelector('#setlist [data-row="0"]'),dd.querySelector('#setlist [data-row="2"]'),true);
+ ok(dd.querySelector('#setlist [data-row="2"]').classList.contains('nadin-setlist-note')&&orders(dd).filter(Boolean).join(',')==='1,2,3,4,5,6,7,8','setlist drag still reorders headings and keeps tune numbering');dd.getElementById('setlist-undo').click();
+ ok(JSON.stringify(orders(dd))===JSON.stringify(expected),'undo restores a dragged setlist');
+ ok(!dd.querySelector('.nadin-drop-before,.nadin-drop-after,.nadin-drop-target'),'drop indicators clear after dropping');drop.dom.window.close();
+ const blank=setup('admin',{tunes:[]});drag(blank,blank.d.querySelector('[data-catalog-tune="Anna_Swings_Best"]'),blank.d.getElementById('setlist'));
+ ok(orders(blank.d).join(',')==='1','library tune can be dropped into an empty setlist');blank.dom.window.close();
+ const readonly=setup('admin',{mode:'archive',tunes:headingTunes.slice()});
+ ok(readonly.d.querySelectorAll('[data-catalog-tune][draggable=true]').length===0,'library drag is disabled for archived gigs');readonly.dom.window.close();
  const u=setup('users'),ud=u.d,uw=u.w;
  ok(ud.querySelectorAll('[name=rights]').length===14,'all standard permissions have controls');ok(ud.querySelector('[name=email]').readOnly,'existing account email remains immutable');
  const adminRights=ud.querySelectorAll('[name=rights]:checked').length;ok(adminRights===14,'admin permissions render exactly');
