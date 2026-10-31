@@ -187,14 +187,16 @@ final class NadinAdmin {
         });
     }
     public function people() {
-        $text=file_get_contents($this->root.'/userdatei/userdatei.txt'); $rows=array();
-        foreach (preg_split('/\r\n|\n|\r/',$text) as $line) {
-            $member=nadinMemberLine($line); if (!$member) continue; $d=$member['date'];
+        $text=file_get_contents($this->root.'/userdatei/userdatei.txt'); $rows=array(); $review=array();
+        foreach (preg_split('/\r\n|\n|\r/',$text) as $number=>$line) {
+            $member=nadinMemberLine($line);
+            if (!$member) { if (nadinMemberNeedsReview($line)) $review[]=array('line'=>$number+1,'text'=>nadinText($line)); continue; }
+            $d=$member['date'];
             $rows[]=array('email'=>$member['email'],'name'=>nadinText($member['name']),'expiry'=>$d ? $d->format('Y-m-d') : '',
                 'expired'=>!$d || $d->getTimestamp()<time(),'rights'=>array_keys($member['rights']),'revision'=>hash('sha256',$line));
         }
         usort($rows,function($a,$b){return strnatcasecmp($a['name'],$b['name']);});
-        return array('rows'=>$rows,'unparsed'=>0);
+        return array('rows'=>$rows,'unparsed'=>count($review),'unparsed_rows'=>$review);
     }
     public function savePerson($data,$auth,$actor) {
         return $this->locked(function() use($data,$auth,$actor) {
@@ -205,7 +207,7 @@ final class NadinAdmin {
             if ($delete && $original===$actor) throw new InvalidArgumentException('You cannot remove your own account.');
             if (!$delete) {
                 $email=strtolower(trim($data['email'] ?? '')); $name=trim($data['name'] ?? ''); $expiry=$data['expiry'] ?? ''; $rights=$data['rights'] ?? array();
-                if (!is_string($name) || $name==='' || strlen($name)>160 || preg_match('/[,\x00-\x1f]/',$name) || !filter_var($email,FILTER_VALIDATE_EMAIL)) throw new InvalidArgumentException('Enter a name and a valid email address. Commas are not allowed in names.');
+                if (!is_string($name) || $name==='' || strlen($name)>160 || preg_match('/[\x00-\x1f\x7f]/',$name) || !filter_var($email,FILTER_VALIDATE_EMAIL)) throw new InvalidArgumentException('Enter a name and a valid email address.');
                 if ($original!=='' && $original!==$email) throw new InvalidArgumentException('Email addresses identify accounts. Add the new address as a new person to keep passwords unambiguous.');
                 $d=DateTimeImmutable::createFromFormat('!Y-m-d',$expiry);
                 if (!$d || $d->format('Y-m-d')!==$expiry) throw new InvalidArgumentException('Choose a valid expiry date.');
@@ -216,8 +218,8 @@ final class NadinAdmin {
                 if ($email===$actor && (!in_array('musers',$rights,true) || $d->getTimestamp()<time())) throw new InvalidArgumentException('Keep your own account active with permission to manage people.');
                 foreach ($lines as $i=>$line) { $member=nadinMemberLine($line); if ($i!==$index && $member && $member['email']===$email) throw new DomainException('This email already belongs to a person.'); }
                 // Preserve extension-defined permissions not represented by the standard UI.
-                if ($index!==null) foreach (array_slice(explode(',',$lines[$index]),3) as $r) if (preg_match('/^\s*([a-z]+)\s*=\s*1\s*$/i',$r,$m) && !isset(self::rights()[strtolower($m[1])])) $existingRights[]=strtolower($m[1]);
-                $new=$name.', '.$email.', '.$d->format('d.m.Y').', '.implode(', ',array_map(function($r){return $r.'=1';},array_merge($rights,$existingRights))).',';
+                if ($index!==null) { $previous=nadinMemberLine($lines[$index]); $existingRights=array_values(array_diff(array_keys($previous['rights']),array_keys(self::rights()))); }
+                $new=nadinMemberNameField($name).', '.$email.', '.$d->format('d.m.Y').', '.implode(', ',array_map(function($r){return $r.'=1';},array_merge($rights,$existingRights))).',';
                 if ($index===null) $lines[]=$new; else $lines[$index]=$new;
             } else { if ($index===null) throw new InvalidArgumentException('Choose a person.'); unset($lines[$index]); }
             $result=implode("\n",$lines);
