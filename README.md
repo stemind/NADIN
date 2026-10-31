@@ -8,14 +8,16 @@ Version notes: [V8 — compact original interface](docs/V8.md).
 
 [V9 — forScore setlists and reusable notes](docs/V9-forScore.md), based on V8.
 
-Version notes: [V11 — personal passwords and simple onboarding](docs/V11.md).
+Version notes: [V10 — personal passwords and simple onboarding](docs/V10.md).
 
-[V12 — compact gig administration, clear permissions and safer downloads](docs/V12.md), based on V11.
+[V11 — compact gig administration, clear permissions and safer downloads](docs/V11.md), based on V10.
 
-[V13 — progressive brute-force protection with a clear retry countdown](docs/V13.md), including all V12 improvements.
+[V12 — progressive brute-force protection with a clear retry countdown](docs/V12.md), including all V11 improvements.
 
-[V14 — compact, readable ZIP downloads](docs/V14.md), based on V13.
+[V13 — compact, readable ZIP downloads](docs/V13.md), based on V12.
 
-[V15 — a cleaner, consistent interface with compact spacing](docs/V15.md), including V14 downloads.
+[V14 — a cleaner, consistent interface with compact spacing](docs/V14.md), including V13 downloads.
 
-[V16 — optional SAML/OIDC, verified ZIP downloads and a Main-to-V15 regression review](docs/V16.md). Local onboarding stays unchanged; federation setup is documented [here](docs/V16-federation.md).
+[V15 — optional SAML/OIDC, verified ZIP downloads and a Main-to-V14 regression review](docs/V15.md). Local onboarding stays unchanged; federation setup is documented [here](docs/V15-federation.md).
+
+Version numbering was made consecutive on 31 October 2026: former V11–V16 are now V10–V15. See [the exact mapping](docs/version-numbering.md). Historical commit messages retain their original labels.
