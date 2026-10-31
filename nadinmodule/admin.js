@@ -41,6 +41,7 @@ function listRows(){
  const q=normal(document.getElementById('admin-search').value);
  const found=rows.filter(r=>normal(people?r.name+' '+r.email:r.title).includes(q));
  list.innerHTML=found.map(r=>{const id=people?r.email:r.id,selected=current&&(people?current.email===id:current.id===id);return '<button type="button" data-select="'+h(id)+'" '+(selected?'aria-current="true"':'')+'><span>'+h(people?r.name:r.title)+'</span>'+(people?'<small>'+h(r.email)+' · '+(r.expired?'Expired':r.rights.includes('musers')?'People admin':r.rights.includes('mgigs')?'Gig manager':'Member')+'</small>':'')+'</button>';}).join('')||'<p class="nadin-hint">'+(q?'No matches.':'No entries yet.')+'</p>';
+ if(people&&boot.people.unparsed_rows&&boot.people.unparsed_rows.length){const review=document.createElement('details'),summary=document.createElement('summary');review.className='nadin-hint';summary.textContent='Entries to review ('+boot.people.unparsed_rows.length+')';review.appendChild(summary);boot.people.unparsed_rows.forEach(row=>{const p=document.createElement('p');p.textContent='Line '+row.line+': '+row.text;review.appendChild(p);});list.appendChild(review);}
 }
 async function select(id){
  if(busy||!await canLeave())return;
@@ -71,7 +72,7 @@ function renderGig(){
   document.getElementById('gig-form').addEventListener('submit',saveGig);
   editor.querySelectorAll('input:not([type=file]),textarea').forEach(el=>el.addEventListener('input',mark));
   document.getElementById('setlist-undo').addEventListener('click',()=>{if(!undo.length)return;current.tunes=undo.pop();mark();renderSetlist();});
-  document.getElementById('setlist-note').addEventListener('click',async()=>{const r=await confirmDialog('Heading or break','<label>Text<input name="note" required maxlength="200" placeholder="e.g. Set 2 / Break"></label>','Add');if(r){remember();current.tunes.push(r.note);mark();renderSetlist();}});
+  document.getElementById('setlist-note').addEventListener('click',async()=>{const r=await confirmDialog('Heading or break','<label>Text (leave empty for a break)<input name="note" maxlength="200" placeholder="e.g. Set 2 / Break"></label>','Add');if(r){remember();current.tunes.push(r.note);mark();renderSetlist();}});
   const upload=document.getElementById('gig-pdf');if(upload)upload.addEventListener('change',async()=>{if(!upload.files[0])return;if(dirty){fail(new Error('Save the gig before attaching a PDF.'));upload.value='';return;}try{const r=await request({action:'attachment',id:current.id,revision:current.revision},true,upload.files[0]);current=r.gig;clean('PDF saved');renderGig();}catch(e){fail(e);upload.value='';}});
  }
  renderSetlist();renderCatalog();
@@ -81,7 +82,7 @@ function renderSetlist(){
  const editable=current.mode==='current';
  let tuneNumber=0;
  document.getElementById('setlist-count').textContent='('+current.tunes.filter(t=>catalogMap.has(t)).length+' tunes)';
- document.getElementById('setlist').innerHTML=current.tunes.map((t,i)=>{const item=catalogMap.get(t);return '<li data-row="'+i+'" '+(editable?'draggable="true"':'')+' class="'+(item?'':'nadin-setlist-note')+'"><span class="nadin-order">'+(item?++tuneNumber:'')+'</span><span class="nadin-setlist-title">'+h(item?item.title:t||'—')+'</span>'+(editable?'<span class="nadin-row-actions"><button type="button" data-move="-1" data-index="'+i+'" aria-label="Move '+h(t)+' up" '+(i===0?'disabled':'')+'>↑</button><button type="button" data-move="1" data-index="'+i+'" aria-label="Move '+h(t)+' down" '+(i===current.tunes.length-1?'disabled':'')+'>↓</button><button type="button" data-remove="'+i+'" aria-label="Remove '+h(t)+'">×</button></span>':'')+'</li>';}).join('')||'<li class="nadin-empty">Add tunes from the library. Their order here is the playing order.</li>';
+ document.getElementById('setlist').innerHTML=current.tunes.map((t,i)=>{const item=catalogMap.get(t);return '<li data-row="'+i+'" '+(editable?'draggable="true"':'')+' class="'+(item?'':'nadin-setlist-note')+'"><span class="nadin-order">'+(item?++tuneNumber:'')+'</span><span class="nadin-setlist-title">'+h(item?item.title:t||'—')+'</span>'+(editable?'<span class="nadin-row-actions">'+(!item?'<button type="button" data-edit-note="'+i+'" aria-label="Edit heading '+h(t)+'" title="Edit heading or break">✎</button>':'')+'<button type="button" data-move="-1" data-index="'+i+'" aria-label="Move '+h(t)+' up" '+(i===0?'disabled':'')+'>↑</button><button type="button" data-move="1" data-index="'+i+'" aria-label="Move '+h(t)+' down" '+(i===current.tunes.length-1?'disabled':'')+'>↓</button><button type="button" data-remove="'+i+'" aria-label="Remove '+h(t)+'">×</button></span>':'')+'</li>';}).join('')||'<li class="nadin-empty">Add tunes from the library. Their order here is the playing order.</li>';
  const un=document.getElementById('setlist-undo');if(un)un.disabled=!undo.length;
  renderCatalog();
 }
@@ -150,6 +151,7 @@ async function deletePerson(){
  try{const result=await request({action:'delete',original:current.original,revision:current.revision},true);rows=result.people.rows;boot.people=result.people;current=null;clean('Person removed');editor.innerHTML='<p>Select a person.</p>';listRows();}catch(e){fail(e);}
 }
 editor.addEventListener('click',async e=>{
+ const editNote=e.target.closest('[data-edit-note]');if(editNote&&!busy&&current&&current.mode==='current'){const index=Number(editNote.dataset.editNote),before=current.tunes[index];const r=await confirmDialog('Edit heading or break','<label>Text (leave empty for a break)<input name="note" maxlength="200" value="'+h(before)+'"></label>','Apply');if(r&&r.note!==before){remember();current.tunes[index]=r.note;mark();renderSetlist();const button=editor.querySelector('[data-edit-note="'+index+'"]');if(button)button.focus();}return;}
  const reload=e.target.closest('[data-reload]');if(reload){if(current&&(people?current.revision:current.id))select(people?current.email:current.id);return;}
  const action=e.target.closest('[data-gig-action]');if(action){gigAction(action.dataset.gigAction);return;}
  const move=e.target.closest('[data-move]'),remove=e.target.closest('[data-remove]');if((move||remove)&&!busy){remember();if(remove)current.tunes.splice(Number(remove.dataset.remove),1);else{const from=Number(move.dataset.index),to=from+Number(move.dataset.move);const [t]=current.tunes.splice(from,1);current.tunes.splice(to,0,t);}mark();renderSetlist();const next=remove?editor.querySelector('[data-remove="'+Math.min(Number(remove.dataset.remove),current.tunes.length-1)+'"]'):editor.querySelector('[data-move="'+move.dataset.move+'"][data-index="'+(Number(move.dataset.index)+Number(move.dataset.move))+'"]');if(next&&!next.disabled)next.focus();}
