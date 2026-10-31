@@ -16,7 +16,7 @@ else { $boot['gigs']=$store->gigs(); $boot['catalog']=$store->catalog(); $select
 <div id="admin-items" class="nadin-choice-list"></div>
 </aside>
 <section id="admin-editor" class="nadin-admin-editor" aria-label="<?php echo $people ? 'Person editor' : 'Gig editor'; ?>"><p>Select an entry or create a new one.</p></section>
-<?php if (!$people) { ?><aside class="nadin-catalog"><h4>Score & Media Library</h4><input type="search" id="catalog-search" aria-label="Find a tune to add" placeholder="Find a tune…"><p class="nadin-hint">Add a tune with +. Move it in the setlist with the arrows or by dragging.</p><div id="catalog-items" class="nadin-choice-list"></div></aside><?php } ?>
+<?php if (!$people) { ?><aside class="nadin-catalog"><h4>Score & Media Library</h4><input type="search" id="catalog-search" aria-label="Find a tune to add" placeholder="Find a tune…"><p class="nadin-hint">Drag a tune into the setlist or add it with +. Reorder entries with the arrows or by dragging.</p><div id="catalog-items" class="nadin-choice-list"></div></aside><?php } ?>
 </div>
 <noscript><p>The editors need JavaScript. Enable it to edit gigs and permissions.</p></noscript>
 </main>

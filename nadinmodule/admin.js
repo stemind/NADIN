@@ -66,7 +66,7 @@ function renderGig(){
  '<details class="nadin-gig-info"'+(fresh?' open':'')+'><summary>Gig information'+(current.attachment?' · PDF attached':'')+'</summary><label class="nadin-sr-only" for="gig-infos">Gig information</label><textarea id="gig-infos" name="infos" rows="4" '+(!editable?'readonly':'')+' placeholder="Meeting time, location, dress code…">'+h(current.infos)+'</textarea>'+
  (current.attachment&&current.mode!=='trash'?'<a href="'+h(current.attachment_url)+'" target="_blank" rel="noopener">Open PDF attachment ↗</a> ':'')+
  (editable&&!fresh?'<label class="nadin-upload-label">'+(current.attachment?'Replace':'Add')+' PDF <input type="file" id="gig-pdf" accept="application/pdf,.pdf"></label><span class="nadin-hint">Save your setlist before uploading.</span>':'')+'</details>'+
- '<div class="nadin-toolbar"><h4>Setlist <small id="setlist-count"></small></h4>'+(editable?'<button type="button" id="setlist-undo" disabled>Undo</button><button type="button" id="setlist-note">+ Heading / break</button>':'')+'</div><ol id="setlist" class="nadin-setlist"></ol><p id="setlist-warning" class="nadin-hint"></p></form>';
+ '<div class="nadin-toolbar"><h4>Setlist <small id="setlist-count"></small></h4>'+(editable?'<button type="button" id="setlist-undo" disabled>Undo</button><button type="button" id="setlist-note">+ Heading / break</button>':'')+'</div><ul id="setlist" class="nadin-setlist"></ul></form>';
  if(editable){
   document.getElementById('gig-form').addEventListener('submit',saveGig);
   editor.querySelectorAll('input:not([type=file]),textarea').forEach(el=>el.addEventListener('input',mark));
@@ -79,19 +79,21 @@ function renderGig(){
 function remember(){undo.push(current.tunes.slice());if(undo.length>50)undo.shift();}
 function renderSetlist(){
  const editable=current.mode==='current';
+ let tuneNumber=0;
  document.getElementById('setlist-count').textContent='('+current.tunes.filter(t=>catalogMap.has(t)).length+' tunes)';
- document.getElementById('setlist').innerHTML=current.tunes.map((t,i)=>{const item=catalogMap.get(t);return '<li data-row="'+i+'" '+(editable?'draggable="true"':'')+' class="'+(item?'':'nadin-setlist-note')+'"><span class="nadin-order">'+(i+1)+'</span><span class="nadin-setlist-title">'+h(item?item.title:t||'—')+(!item?'<small>Heading / unavailable tune</small>':'')+'</span>'+(editable?'<span class="nadin-row-actions"><button type="button" data-move="-1" data-index="'+i+'" aria-label="Move '+h(t)+' up" '+(i===0?'disabled':'')+'>↑</button><button type="button" data-move="1" data-index="'+i+'" aria-label="Move '+h(t)+' down" '+(i===current.tunes.length-1?'disabled':'')+'>↓</button><button type="button" data-remove="'+i+'" aria-label="Remove '+h(t)+'">×</button></span>':'')+'</li>';}).join('')||'<li class="nadin-empty">Add tunes from the library. Their order here is the playing order.</li>';
+ document.getElementById('setlist').innerHTML=current.tunes.map((t,i)=>{const item=catalogMap.get(t);return '<li data-row="'+i+'" '+(editable?'draggable="true"':'')+' class="'+(item?'':'nadin-setlist-note')+'"><span class="nadin-order">'+(item?++tuneNumber:'')+'</span><span class="nadin-setlist-title">'+h(item?item.title:t||'—')+'</span>'+(editable?'<span class="nadin-row-actions"><button type="button" data-move="-1" data-index="'+i+'" aria-label="Move '+h(t)+' up" '+(i===0?'disabled':'')+'>↑</button><button type="button" data-move="1" data-index="'+i+'" aria-label="Move '+h(t)+' down" '+(i===current.tunes.length-1?'disabled':'')+'>↓</button><button type="button" data-remove="'+i+'" aria-label="Remove '+h(t)+'">×</button></span>':'')+'</li>';}).join('')||'<li class="nadin-empty">Add tunes from the library. Their order here is the playing order.</li>';
  const un=document.getElementById('setlist-undo');if(un)un.disabled=!undo.length;
- document.getElementById('setlist-warning').textContent=current.tunes.some(t=>!catalogMap.has(t))?'Headings and breaks are kept. Check entries that should be tunes but are missing from the library.':'';
  renderCatalog();
 }
 function renderCatalog(){
  const q=normal(document.getElementById('catalog-search').value),counts=new Map();if(current)(current.tunes||[]).forEach(t=>counts.set(t,(counts.get(t)||0)+1));
- document.getElementById('catalog-items').innerHTML=catalog.filter(t=>normal(t.title).includes(q)).map(t=>'<div class="nadin-catalog-row"><span><strong>'+h(t.title)+'</strong><small>'+h(t.files.join(' · ')||'No media yet')+(counts.has(t.id)?' · In setlist'+(counts.get(t.id)>1?' ×'+counts.get(t.id):''):'')+'</small></span><button type="button" data-add="'+h(t.id)+'" aria-label="Add '+h(t.title)+(counts.has(t.id)?' again':'')+'" title="'+(counts.has(t.id)?'Add again':'Add to setlist')+'" '+(!current||current.mode!=='current'?'disabled':'')+'>+</button></div>').join('')||'<p class="nadin-hint">No matching tunes.</p>';
+ const editable=current&&current.mode==='current';
+ document.getElementById('catalog-items').innerHTML=catalog.filter(t=>normal(t.title).includes(q)).map(t=>'<div class="nadin-catalog-row" data-catalog-tune="'+h(t.id)+'" draggable="'+!!editable+'"><span><strong>'+h(t.title)+'</strong><small>'+h(t.files.join(' · ')||'No media yet')+(counts.has(t.id)?' · In setlist'+(counts.get(t.id)>1?' ×'+counts.get(t.id):''):'')+'</small></span><button type="button" data-add="'+h(t.id)+'" aria-label="Add '+h(t.title)+(counts.has(t.id)?' again':'')+'" title="'+(counts.has(t.id)?'Add again':'Add to setlist')+'" '+(!editable?'disabled':'')+'>+</button></div>').join('')||'<p class="nadin-hint">No matching tunes.</p>';
 }
 if(!people){
  document.getElementById('catalog-search').addEventListener('input',renderCatalog);
  document.getElementById('catalog-items').addEventListener('click',e=>{const b=e.target.closest('[data-add]');if(b&&current&&current.mode==='current'&&!busy){remember();current.tunes.push(b.dataset.add);mark();renderSetlist();}});
+ document.getElementById('catalog-items').addEventListener('dragstart',e=>{const row=e.target.closest('[data-catalog-tune]');if(!row||!current||current.mode!=='current'||busy){e.preventDefault();return;}dragged={tune:row.dataset.catalogTune};e.dataTransfer.effectAllowed='copy';e.dataTransfer.setData('text/plain',row.dataset.catalogTune);});
  document.getElementById('gig-mode').addEventListener('change',async e=>{const value=e.target.value;if(!await canLeave()){e.target.value=mode;return;}try{const r=await request({mode:value});rows=r.gigs;mode=value;current=null;clean('Ready');editor.innerHTML='<p>Select a gig.</p>';listRows();renderCatalog();}catch(err){e.target.value=mode;fail(err);}});
 }
 async function saveGig(e){
@@ -125,7 +127,6 @@ function renderPerson(){
  editor.querySelectorAll('[name=rights]').forEach(el=>el.addEventListener('change',()=>{dependencies(el.value,el.checked);rightsSummary();}));
  editor.querySelectorAll('[data-preset]').forEach(el=>el.addEventListener('click',()=>preset(el.dataset.preset)));
  const del=document.getElementById('person-delete');if(del)del.addEventListener('click',deletePerson);rightsSummary();
- if(boot.people.unparsed){error.hidden=false;error.textContent='Some legacy user lines could not be displayed. They are preserved unchanged. Check userdatei.txt before editing those entries.';}
 }
 function right(code){return editor.querySelector('[name=rights][value="'+code+'"]');}
 function dependencies(code,checked){
@@ -154,10 +155,22 @@ editor.addEventListener('click',async e=>{
  const move=e.target.closest('[data-move]'),remove=e.target.closest('[data-remove]');if((move||remove)&&!busy){remember();if(remove)current.tunes.splice(Number(remove.dataset.remove),1);else{const from=Number(move.dataset.index),to=from+Number(move.dataset.move);const [t]=current.tunes.splice(from,1);current.tunes.splice(to,0,t);}mark();renderSetlist();const next=remove?editor.querySelector('[data-remove="'+Math.min(Number(remove.dataset.remove),current.tunes.length-1)+'"]'):editor.querySelector('[data-move="'+move.dataset.move+'"][data-index="'+(Number(move.dataset.index)+Number(move.dataset.move))+'"]');if(next&&!next.disabled)next.focus();}
 });
 let dragged=null;
-editor.addEventListener('dragstart',e=>{const row=e.target.closest('[data-row]');if(row&&!busy){dragged=Number(row.dataset.row);e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',String(dragged));}});
-editor.addEventListener('dragover',e=>{if(dragged!==null&&e.target.closest('[data-row]'))e.preventDefault();});
-editor.addEventListener('drop',e=>{const row=e.target.closest('[data-row]');if(dragged===null||!row||busy)return;e.preventDefault();const target=Number(row.dataset.row);if(target!==dragged){remember();const [t]=current.tunes.splice(dragged,1);current.tunes.splice(target,0,t);mark();renderSetlist();}dragged=null;});
-editor.addEventListener('dragend',()=>dragged=null);
+function clearDropTarget(){editor.querySelectorAll('.nadin-drop-before,.nadin-drop-after,.nadin-drop-target').forEach(el=>el.classList.remove('nadin-drop-before','nadin-drop-after','nadin-drop-target'));}
+function dropPosition(e){
+ const target=e.target.closest('#setlist');if(!target||dragged===null||busy||!current||current.mode!=='current')return null;
+ const row=e.target.closest('[data-row]'),after=row&&e.clientY>=row.getBoundingClientRect().top+row.getBoundingClientRect().height/2;
+ return {target,row,after,index:row?Number(row.dataset.row)+(after?1:0):current.tunes.length};
+}
+editor.addEventListener('dragstart',e=>{const row=e.target.closest('[data-row]');if(row&&current&&current.mode==='current'&&!busy){dragged={index:Number(row.dataset.row)};e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',String(dragged.index));}});
+editor.addEventListener('dragover',e=>{const position=dropPosition(e);clearDropTarget();if(!position)return;e.preventDefault();e.dataTransfer.dropEffect=dragged.tune?'copy':'move';if(position.row)position.row.classList.add(position.after?'nadin-drop-after':'nadin-drop-before');else position.target.classList.add('nadin-drop-target');});
+editor.addEventListener('dragleave',e=>{if(!editor.contains(e.relatedTarget))clearDropTarget();});
+editor.addEventListener('drop',e=>{
+ const position=dropPosition(e);clearDropTarget();if(!position)return;e.preventDefault();const source=dragged;dragged=null;let index=position.index;
+ if(source.tune){if(!catalogMap.has(source.tune))return;remember();current.tunes.splice(index,0,source.tune);}
+ else{if(source.index<index)index--;if(source.index===index)return;remember();const [t]=current.tunes.splice(source.index,1);current.tunes.splice(index,0,t);}
+ mark();renderSetlist();
+});
+document.addEventListener('dragend',()=>{dragged=null;clearDropTarget();});
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'&&!dialog.open){e.preventDefault();const form=editor.querySelector('form');if(form&&!busy)form.requestSubmit();}});
 listRows();if(!people)renderCatalog();
