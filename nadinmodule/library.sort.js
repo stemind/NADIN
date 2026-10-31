@@ -50,9 +50,9 @@
             seen[alphaLetter] = true;
             var link = document.createElement('a');
             link.href = '#' + alphaLetter;
+            link.setAttribute('aria-label', 'Tunes beginning with ' + alphaLetter);
             link.appendChild(document.createTextNode(alphaLetter));
             alphabet.appendChild(link);
-            alphabet.appendChild(document.createElement('br'));
         }
     }
 
