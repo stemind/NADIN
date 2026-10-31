@@ -10,6 +10,6 @@ try {
  if(!is_file($root.'/'.$mode.'/'.$gig)){$mode='gigrepsarchiv';auth('varchiv');}
  $file=nadin_zip_bundle($root,$gig,$m[1],$mode);
  header('Content-Type: application/zip');header('X-Content-Type-Options: nosniff');header('Cache-Control: private, no-store');
- header('Content-Disposition: attachment; filename="NADIN.zip"; filename*=UTF-8\'\''.rawurlencode(basename($file)));header('Content-Length: '.filesize($file));readfile($file);
+ header('Content-Disposition: attachment; filename="NADIN.zip"; filename*=UTF-8\'\''.rawurlencode(nadinText(basename($file))));header('Content-Length: '.filesize($file));readfile($file);
 }catch(InvalidArgumentException $e){http_response_code(404);echo htmlspecialchars($e->getMessage(),ENT_QUOTES,'UTF-8');}
 catch(Throwable $e){http_response_code(500);echo 'The download could not be prepared. Please try again.';error_log('NADIN ZIP: '.$e->getMessage());}
