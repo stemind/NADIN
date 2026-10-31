@@ -1,17 +1,4 @@
-<?php require('config.inc.php'); require_once('nadinmodule/functions.inc.php'); auth('mgigs'); ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="style.css" />
-<script src="shortcut.js"></script>
-<script>
-shortcut.add("Ctrl+S",function() {
-	if(document.form)document.form.submit();
-})
-</script>
-</head>
-<body style="backgound:#D9F1FF">
+<?php require('config.inc.php');require_once('nadinmodule/functions.inc.php');auth('mgigs');require_once('nadinmodule/popup-ui.inc.php');nadinPopupStart('Gig preview',''); ?>
 <?php 
 $c=@file_get_contents('gigreps/'.basename($_GET['gig']));
 $c=explode($delimiter2,$c);
