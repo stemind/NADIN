@@ -18,6 +18,8 @@ function setup(name){
  const a=setup('admin'),{w,d}=a;
  ok(d.querySelectorAll('#setlist li[data-row]').length===12,'server initial gig renders without network');
  ok(d.querySelectorAll('#catalog-items [data-add]').length===12,'complete tune catalog renders');
+ const boot=JSON.parse(d.getElementById('nadin-admin-data').textContent);
+ ok(d.querySelector('#gig-form a[target=_blank]').getAttribute('href')===boot.selected.view_url,'gig link uses server-encoded filesystem name');
  const original=d.querySelector('#setlist').textContent;
  d.querySelector('[data-add="Anna_Swings_Best"]').click();ok(d.querySelectorAll('#setlist li[data-row]').length===13,'add repeated tune');
  d.getElementById('setlist-undo').click();ok(d.querySelector('#setlist').textContent===original,'undo restores exact setlist');
