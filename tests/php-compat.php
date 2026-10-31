@@ -3,7 +3,7 @@
 require __DIR__.'/runtime-guard.php';
 $source=dirname(__DIR__);$temp=sys_get_temp_dir().'/nadin-compat-'.bin2hex(random_bytes(8));
 mkdir($temp.'/nadinmodule',0700,true);mkdir($temp.'/userdatei');
-foreach (array('functions.inc.php','auth.inc.php','members.inc.php','federation.inc.php') as $file) copy($source.'/nadinmodule/'.$file,$temp.'/nadinmodule/'.$file);
+foreach (array('functions.inc.php','encoding.inc.php','auth.inc.php','members.inc.php','federation.inc.php') as $file) copy($source.'/nadinmodule/'.$file,$temp.'/nadinmodule/'.$file);
 file_put_contents($temp.'/userdatei/userdatei.txt','');
 $salt='fixture';$timeout=3600;$sticksessiontoip='no';$_COOKIE=$_POST=array();
 $checks=0;
@@ -22,7 +22,7 @@ try {
     compat_ok(mkascii('A🎵B.pdf')==='AB.pdf','hosting substitution cannot change filenames');
     compat_ok(mb_substitute_character()===0x25a1,'conversion restores hosting substitution');mb_substitute_character($sub);
     compat_ok(mkascii("A\xffB.pdf")==='AB.pdf','malformed UTF-8 keeps legacy safe filename');
-    compat_ok(htmlXspecialchars("M\xfcller & Co")==="M\xfcller &amp; Co",'legacy single-byte HTML is unchanged');
+    compat_ok(htmlXspecialchars("M\xfcller & Co")==="M\xc3\xbcller &amp; Co",'legacy single-byte HTML is converted to valid UTF-8');
     compat_ok(hms(0)==='00.00' && hms(3661)==='61.01','duration formatting');
     // Verify that the guard observes errors even when the application hides warnings.
     error_reporting(0);
