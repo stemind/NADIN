@@ -12,29 +12,7 @@ unlink('abo/zip/alltrumpets/'.str_replace('.txt','',basename($_GET['c'])).'_allt
 unlink('abo/zip/allrhythm/'.str_replace('.txt','',basename($_GET['c'])).'_allrhythm.zip');
 unlink('abo/zip/allother/'.str_replace('.txt','',basename($_GET['c'])).'_allother.zip');
 ?>
-<?php if ($rendergiglistontheleft=='yes') { ?>
-<script>
-h3=document.getElementsByTagName('h3')[0];
-h3.innerHTML=h3.innerHTML.replace(/ &nbsp; /g,'<br>');
-h3.style.marginTop='-11px';
-h3.style.marginRight='11px';
-h3.style.fontSize='85%';
-h3.style.width='<? echo $ifleftthenthiswidth?>';
-h3.style.float='left';
-document.getElementById('infoarea').style.display='none';
-
-body=document.getElementsByTagName('body')[0];
-body.style.minWidth='1200px';
-
-function arch() {
-h3.style.maxHeight='50000px';
-h3.style.minHeight='600px';
-h3.style.height=window.innerHeight-150+'px';
-setTimeout("arch()",777);
-}
-arch();
-</script>
-<?php } ?>
+<?php if ($gigListOnLeft) { ?><style>#infoarea { display:none; }</style><script>if (document.getElementById('infoarea')) document.getElementById('infoarea').style.display='none';</script><?php } ?>
 <script>
 if (document.getElementById('id<?php echo md5($_GET['c'])?>')) {
 document.getElementById('id<?php echo md5($_GET['c'])?>').style.background='yellow';
