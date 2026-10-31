@@ -10,10 +10,11 @@ auth('mgigs');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../style.css"><title>Upload files - NADIN</title>
 </head>
 
-<body id="body" bgcolor="#009900" text="#FFFFFF" style="font-family:Arial, Helvetica, sans-serif">
+<body id="body" class="nadin-media-frame">
 <?php 
 $time=date('YmdHis');
 $ext=explode('.',$_FILES['userfile']['name']);

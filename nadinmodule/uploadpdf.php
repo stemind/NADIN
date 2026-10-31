@@ -7,41 +7,18 @@ auth('uppdf');
 <?php
 require_once('../config.inc.php');
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<script src="../shortcut.js"></script>
-<script>
-shortcut.add("Ctrl+S",function() {
-	if(document.form)document.form.submit();
-})
-</script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
-<link rel="stylesheet" type="text/css" href="../style.css" />
-<link rel="icon" href="../favicon.ico" type="image/x-icon" />
-<title>manage <?php echo htmlXspecialchars(str_replace('_',' ',$_GET['tune'])) ?> - NADIN</title>
-<?php 
-require_once('../config.inc.php');
-require_once('functions.inc.php');
-
-?></head>
-
-<body>
-
-<?php 
-echo '<h1>'.htmlXspecialchars(str_replace('_',' ',$_GET['tune'])).'</h1>';?>
+<?php require_once __DIR__.'/popup-ui.inc.php'; nadinPopupStart(str_replace('_',' ',$_GET['tune'])); ?>
 
 <?php require('uploadnavi.inc.php'); ?>
 <h2>Existing files</h2>
-<iframe src="PDFfiles.php?name=<?php echo rawurlencode($_GET['tune'])?>" name="files" frameborder="0" width="100%" height="220"></iframe>
+<iframe title="Existing files" src="PDFfiles.php?name=<?php echo rawurlencode($_GET['tune'])?>" name="files" frameborder="0" width="100%" height="220"></iframe>
 
 
 <h2>Upload further files</h2>
-<iframe src="PDFsendfile.php?name=<?php echo rawurlencode($_GET['tune'])?>" frameborder="0" width="100%" height="88"></iframe>
+<iframe title="Upload files" src="PDFsendfile.php?name=<?php echo rawurlencode($_GET['tune'])?>" frameborder="0" width="100%" height="88"></iframe>
 <span style="font-size:70%"><?php include('inigetmultiple.inc.php')?></span>
 <p>
-<div style="background:#eee;padding:3px">
+<div class="nadin-popup-help">
 <small>
 <b style="font-size:11px">Recommended file names:</b>
 <table style="font-size:11px">

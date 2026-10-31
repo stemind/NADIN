@@ -18,8 +18,8 @@ $files=array();foreach (new DirectoryIterator($dir) as $entry) {
 }
 if($kind==='audio')krsort($files,SORT_STRING);else ksort($files,SORT_STRING);
 ?>
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../style.css"><title>NADIN files</title></head><body>
-<table><tbody>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../style.css"><title>NADIN files</title></head><body class="nadin-media-frame">
+<table class="nadin-media-table"><tbody>
 <?php
 $recommendedCount=0;$durationForms='';
 foreach($files as $file=>$details){
@@ -42,11 +42,11 @@ if($kind==='audio'&&$files&&$recommendedCount!==1)echo '<p role="status">Mark ex
 echo $durationForms;
 require __DIR__.'/legacy-ui.inc.php';
 ?>
+<script src="media-dialog.js"></script>
 <script>
 document.addEventListener('click',function(e){
  var b=e.target.closest('button[data-rename],button[data-delete]');if(!b)return;
- if(b.dataset.rename){var value=prompt('New file name (including extension):',b.dataset.name);if(value===null||!value.trim())return;nadinMutation(b.dataset.rename+'&n='+encodeURIComponent(value));}
- else if(confirm('Delete '+b.dataset.name+'?'))nadinMutation(b.dataset.delete);
+ nadinMediaDialog(b,function(value){nadinMutation(b.dataset.rename?b.dataset.rename+'&n='+encodeURIComponent(value):b.dataset.delete);});
 });
 (function(){var id=<?php echo json_encode(is_string($_GET['m'] ?? null)?$_GET['m']:'',JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_AMP); ?>;var el=document.getElementById(id);if(el){el.style.background='yellow';el.focus();}}());
 </script></body></html>

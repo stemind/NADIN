@@ -20,8 +20,8 @@ $data=str_replace("\r\n\r\n\r\n","\r\n\r\n",$data);
 $data=str_replace("\n\n\n","\n\n",$data);
 if (file_put_contents('../library/'.$foldername.'/infos.txt',$data)) echo "ok<script>
 
-parent.document.getElementById('save').style.background='lightgreen';
-parent.document.getElementById('save').style.color='black';
+parent.document.getElementById('save').classList.remove('nadin-unsaved');
+parent.document.getElementById('save').classList.add('nadin-saved');
 parent.document.getElementById('save').innerHTML='save';
 parent.document.getElementById('save').title='save [Ctrl s]';
 parent.document.getElementById('changes').value=0;

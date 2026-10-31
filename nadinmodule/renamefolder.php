@@ -4,48 +4,22 @@ require('refreshcookies2.inc.php');
 require_once('functions.inc.php');
 auth('uppdf');
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<script src="../shortcut.js"></script>
-<script>
-shortcut.add("Ctrl+S",function() {
-	if(document.form)document.form.submit();
-})
-</script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
-<link rel="stylesheet" type="text/css" href="../style.css" />
-<link rel="icon" href="../favicon.ico" type="image/x-icon" />
-<title>manage <?php echo htmlXspecialchars(str_replace('_',' ',$_GET['tune'])) ?> - NADIN</title>
-<?php 
-require_once('../config.inc.php');
-
-?></head>
-
-<body>
-
-<?php 
-echo '<h1>'.htmlXspecialchars(str_replace('_',' ',$_GET['tune'])).'</h2>';
-?>
+<?php require_once __DIR__.'/popup-ui.inc.php'; nadinPopupStart(str_replace('_',' ',$_GET['tune'])); ?>
 
 <?php require('uploadnavi.inc.php'); ?>
 
-<h2>Rename <?php echo htmlXspecialchars($_GET['tune'])?></h1>
+<h2>Rename tune</h2>
 
-<form name="form" action="renamefolder2.php?tune=<?php echo rawurlencode($_GET['tune'])?>" method="post">
+<form class="nadin-popup-form" name="form" action="renamefolder2.php?tune=<?php echo rawurlencode($_GET['tune'])?>" method="post">
 
-New name:
+<label for="tune-name">New name</label>
+<input id="tune-name" type="text" name="tune" size="50" value="<?php echo htmlXspecialchars($_GET['tune']) ?>" />
 
-  <input type="text" name="tune" size="50" value="<?php echo htmlXspecialchars($_GET['tune']) ?>" />
-
-<input type="submit" value="rename" />
+<input class="nadin-primary" type="submit" value="Rename tune" />
 
 </form>
 
 <script>setTimeout("document.form.tune.focus()",555);setTimeout("document.form.tune.select()",666);</script>
 
-</body>
-</html>
-
 <?php require __DIR__.'/legacy-ui.inc.php'; ?>
+</body></html>

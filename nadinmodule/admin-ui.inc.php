@@ -20,6 +20,6 @@ else { $boot['gigs']=$store->gigs(); $boot['catalog']=$store->catalog(); $select
 </div>
 <noscript><p>The editors need JavaScript. Enable it to edit gigs and permissions.</p></noscript>
 </main>
-<dialog id="admin-dialog" class="nadin-dialog"><form method="dialog" id="admin-dialog-form"><h3 id="dialog-title"></h3><div id="dialog-fields"></div><div class="nadin-toolbar"><button type="button" id="dialog-cancel">Cancel</button><button id="dialog-confirm" value="confirm" class="nadin-primary">Continue</button></div></form></dialog>
+<dialog id="admin-dialog" class="nadin-dialog" aria-labelledby="dialog-title"><form method="dialog" id="admin-dialog-form"><h3 id="dialog-title"></h3><div id="dialog-fields"></div><div class="nadin-toolbar"><button type="button" id="dialog-cancel">Cancel</button><button id="dialog-confirm" value="confirm" class="nadin-primary">Continue</button></div></form></dialog>
 <script type="application/json" id="nadin-admin-data"><?php echo json_encode($boot,JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_INVALID_UTF8_SUBSTITUTE); ?></script>
 <script src="nadinmodule/admin.js"></script>

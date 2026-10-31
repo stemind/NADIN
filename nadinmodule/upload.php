@@ -4,27 +4,8 @@ require('refreshcookies2.inc.php');
 require_once('functions.inc.php');
 auth('upaudio');
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<script src="../shortcut.js"></script>
-<script>
-shortcut.add("Ctrl+S",function() {
-	if(document.form)document.form.submit();
-})
-</script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
-<link rel="stylesheet" type="text/css" href="../style.css" />
-<link rel="icon" href="../favicon.ico" type="image/x-icon" />
-<title>manage <?php echo htmlXspecialchars(str_replace('_',' ',$_GET['tune'])) ?> - NADIN</title>
-<?php 
-require_once('../config.inc.php');
-require_once('functions.inc.php');
+<?php require_once __DIR__.'/popup-ui.inc.php'; nadinPopupStart(str_replace('_',' ',$_GET['tune'])); ?>
 
-?></head>
-
-<body>
 
 <?php 
 
@@ -36,26 +17,23 @@ $c=explode($delimiter2,$c);
 $infos=$c[0];
 $links=$c[1] ?? '';
 
-echo '<h1>'.htmlXspecialchars(str_replace('_',' ',$_GET['tune'])).'</h1>';
+
 ?>
 
 <?php require('uploadnavi.inc.php'); ?>
 
-<p><button title="save [Ctrl s]" id="save" type="button" onclick="document.form.submit()">save</button>
-&nbsp;
-<button style="display:none" type="button" onclick="self.close()">close</button>
-
-
+<p class="nadin-toolbar"><button title="save [Ctrl s]" id="save" class="nadin-primary" type="button" onclick="document.form.submit()">save</button>
+</p>
 
 <form name="form" action="uploadsave.php?i=<?php echo htmlXspecialchars($_GET['i'] ?? '')?>" method="post" target="su">
 
-<h2>Tips &amp; info about the tune</h2>
+<h2><label for="infos">Tips &amp; info about the tune</label></h2>
 <?php echo nadinPathField('foldername', $_GET['tune']); ?>
 <textarea style="width:100%;height:200px" name="infos" id="infos">
 <?php echo htmlXspecialchars(trim($infos)) ?>
 </textarea>
 
-<h2>External links referring to the tune</h2>
+<h2><label for="links">External links referring to the tune</label></h2>
 <textarea style="width:100%;height:200px" name="links" id="links">
 <?php 
 $links = $links ?? '';
@@ -78,11 +56,10 @@ setTimeout("getchanges()",100);
 function alertchanges() {
 changes=1;	
 if (parent.document.getElementById('changes')) parent.document.getElementById('changes').value=1;
-document.getElementById('save').style.background='pink';
-document.getElementById('save').style.color='red';
-document.getElementById('save').style.fontWeight='bold';
+document.getElementById('save').classList.remove('nadin-saved');
+document.getElementById('save').classList.add('nadin-unsaved');
 document.getElementById('save').innerHTML='save*';
-document.getElementById('save').title='save [Ctrl s]; The sign * is displayed when unsaved changes are presen.';
+document.getElementById('save').title='save [Ctrl s]; The sign * is displayed when unsaved changes are present.';
 }
 
 </script>
@@ -96,7 +73,7 @@ if (document.getElementById('changes').value==1) return('You have unsaved change
 self.focus();
 }
 </script>
-</body>
-</html>
+
 
 <?php require __DIR__.'/legacy-ui.inc.php'; ?>
+</body></html>
