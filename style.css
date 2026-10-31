@@ -375,3 +375,21 @@ div, h3 {
 .nadin-account-panel .nadin-password-visibility { display:flex;align-items:center;gap:7px;font-size:13px;margin-top:10px; }
 .nadin-account-panel .nadin-password-visibility input { width:16px;min-width:16px;padding:0; }
 @media(max-width:700px){.nadin-account-email{display:none}.nadin-header img{display:none}.nadin-account{font-size:11px}.nadin-header h1{font-size:25px}}
+
+/* The legacy config switch also works with the compact interface. */
+@media screen {
+.nadin-layout.nadin-gig-list-top { display:block; }
+.nadin-gig-list-top .nadin-sidebar { display:flex;position:relative;inset:auto;float:none;box-sizing:border-box;width:100%;max-width:none;max-height:200px;flex-wrap:wrap;align-items:center;gap:3px;box-shadow:none; }
+.nadin-gig-list-top .nadin-sidebar>a { display:inline-block;max-width:100%; }
+.nadin-gig-list-top .nadin-sidebar>.nadin-search-label { flex-basis:100%; }
+.nadin-gig-list-top .nadin-content { margin-top:6px; }
+}
+
+/* Clear import intent and automatic selection updates, within each line's theme. */
+.nadin-forscore-controls { display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 12px;margin:10px 0; }
+.nadin-forscore-controls label { display:flex;flex-direction:column;gap:3px;max-width:100%; }
+.nadin-forscore-controls select { box-sizing:border-box;max-width:100%; }
+.nadin-forscore-inventory { padding:7px;border:1px solid var(--nadin-line,#ddd);border-radius:3px;margin:8px 0; }
+.nadin-forscore [hidden] { display:none !important; }
+.nadin-forscore form[aria-busy=true] { opacity:.65;pointer-events:none; }
+.nadin-forscore [data-review-status] { color:var(--nadin-muted,#666); }
