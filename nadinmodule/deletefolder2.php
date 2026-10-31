@@ -31,11 +31,11 @@ echo '<h1>'.htmlXspecialchars(str_replace('_',' ',$_GET['tune'])).'</h2>';
 <h2>Delete result</h1>
 <?php 
 
-$tune=mkascii($_POST['tune']);
+$tune=basename($_GET['tune']);
 
 if (strlen($tune)<3) die('<script>alert("The name must be at least 3 characters long.");history.go(-1);</script>');
 
-if ($_POST['tune']!=$_GET['tune']) die('<script>alert("The tune you partially entered manually\n'.htmlXspecialchars($tune).' does not match the tune you clicked before\n'.htmlXspecialchars($_GET['tune']).'");history.go(-1);</script>');
+if (nadinText($_POST['tune'])!==nadinText($_GET['tune'])) die('<script>alert("The tune you partially entered manually\n'.htmlXspecialchars($tune).' does not match the tune you clicked before\n'.htmlXspecialchars($_GET['tune']).'");history.go(-1);</script>');
 
 if (!file_exists('../library/'.$_GET['tune'])) die('<script>alert("The tune (source name) '.htmlXspecialchars($_GET['tune']).' does not exist.");history.go(-1);</script>');
 
