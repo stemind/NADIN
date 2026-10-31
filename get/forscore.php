@@ -108,12 +108,9 @@ try {
     // A complete recomputed preview can be reviewed again after a stale download.
 }
 $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps', 'gigrepsarchiv', 'library'), true) ? $module : 'gigreps', 'c' => $rep));
+require_once __DIR__.'/../nadinmodule/popup-ui.inc.php';
+nadinPopupStart('forScore export', '../', 'nadin-forscore');
 ?>
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="../style.css"><title>forScore export — NADIN V9</title></head>
-<body class="nadin-page nadin-forscore">
-<h2>forScore <small>— NADIN V9</small></h2>
 <p><a href="<?php echo nadinHtml($back); ?>">&larr; Back to NADIN</a></p>
 <?php if ($error !== '') { ?>
 <p role="alert" class="nadin-forscore-error"><?php echo nadinHtml($error); ?></p>
@@ -160,7 +157,7 @@ $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps'
 <?php if ($missingNotes) { ?>
 <p><label><input type="checkbox" name="placeholders" value="1"<?php if ($placeholders) echo ' checked'; ?>> Keep tunes with missing or inaccessible notes as visible placeholders.</label></p>
 <?php } ?>
-<button name="action" value="download">Download .4ss</button>
+<button class="nadin-primary" name="action" value="download">Download .4ss</button>
 <input type="hidden" name="form_complete" value="yes">
 </form>
 <details class="nadin-forscore-help"><summary>Import and updates</summary>
