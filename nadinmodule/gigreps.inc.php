@@ -2,7 +2,7 @@
 require_once('config.inc.php');
 require_once('nadinmodule/functions.inc.php');
 auth('vgigs');
-$gigListOnLeft = !isset($rendergiglistontheleft) || $rendergiglistontheleft == 'yes';
+$gigListOnLeft = isset($rendergiglistontheleft) && $rendergiglistontheleft == 'yes';
 $gigListWidth = isset($ifleftthenthiswidth) ? (int)$ifleftthenthiswidth : 300;
 if ($gigListWidth < 1) $gigListWidth = 300;
 ?>
