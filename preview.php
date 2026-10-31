@@ -16,7 +16,8 @@ shortcut.add("Ctrl+S",function() {
 $c=@file_get_contents('gigreps/'.basename($_GET['gig']));
 $c=explode($delimiter2,$c);
 $infos=$c[0];
-$rep=$c[1];
+$rep=$c[1] ?? '';
+$_GET['m']='gigreps';
 
 $small='style="font-size:80%"';
 

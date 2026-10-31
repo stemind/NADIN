@@ -20,4 +20,6 @@ Version notes: [V10 — personal passwords and simple onboarding](docs/V10.md).
 
 [V15 — optional SAML/OIDC, verified ZIP downloads and a Main-to-V14 regression review](docs/V15.md). Local onboarding stays unchanged; federation setup is documented [here](docs/V15-federation.md).
 
+[V16 — PHP 8.5 validation and preparation for PHP 9](docs/V16.md), based on the reviewed V15. Requires `mbstring`; native PHP 9 and federation dependency approval remain a future release gate.
+
 Version numbering was made consecutive on 31 October 2026: former V11–V16 are now V10–V15. See [the exact mapping](docs/version-numbering.md). Historical commit messages retain their original labels.

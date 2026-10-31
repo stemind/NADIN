@@ -4,9 +4,10 @@
   "type": "project",
   "require": {
     "php": "^8.0",
-    "ext-openssl": "*",
-    "ext-dom": "*",
     "ext-curl": "*",
+    "ext-dom": "*",
+    "ext-mbstring": "*",
+    "ext-openssl": "*",
     "firebase/php-jwt": "^7.2.1",
     "onelogin/php-saml": "^4.3.2"
   },

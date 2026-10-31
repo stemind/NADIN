@@ -2,6 +2,16 @@
 require('nadinmodule/refreshcookies.inc.php'); 
 require_once('config.inc.php');
 header('Cache-Control: private, no-store');
+if (!isset($_GET['m']) || !is_string($_GET['m']) || !in_array($_GET['m'], array('gigreps', 'gigrepsarchiv', 'reclist', 'library', 'users', 'managegigs'), true)) $_GET['m']='gigreps';
+
+if ($_GET['m']==='library' && ($_GET['c'] ?? '')==='admin') $_GET['m']='managegigs';
+if ($_GET['m']==='gigreps' && !role('vgigs')) {
+    foreach (array('reclist'=>'vreclist','library'=>'vlibrary','managegigs'=>'mgigs','users'=>'musers') as $module=>$right) if (role($right)) { $_GET['m']=$module; break; }
+}
+$moduleRights=array('gigreps'=>'vgigs','gigrepsarchiv'=>'varchiv','reclist'=>'vreclist','library'=>'vlibrary','users'=>'musers','managegigs'=>'mgigs');
+auth($moduleRights[$_GET['m']]);
+if ($_GET['m']==='gigrepsarchiv') auth('vgigs');
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -25,17 +35,11 @@ shortcut.add("Ctrl+S",function() {
 <body class="nadin-page">
 <header class="nadin-header">
 <button type="button" class="nadin-sidebar-toggle" id="nadin-sidebar-toggle" aria-expanded="false" aria-controls="nadin-sidebar" aria-label="Open list">&#9776;</button>
-<h1>NADIN <small class="nadin-version">V15</small></h1>
+<h1>NADIN <small class="nadin-version">V16</small></h1>
 <div class="nadin-account"><span class="nadin-account-email"><?php echo htmlXspecialchars($uc) ?></span> | <a href="password.php">password</a> | <a href="logout.php">logout</a></div>
 <img src="nadin.svg" width="40" height="40" alt="" />
 </header>
 <?php
-if (!isset($_GET['m']) || !is_string($_GET['m']) || !in_array($_GET['m'], array('gigreps', 'gigrepsarchiv', 'reclist', 'library', 'users', 'managegigs'), true)) $_GET['m']='gigreps';
-
-if ($_GET['m']==='library' && ($_GET['c'] ?? '')==='admin') $_GET['m']='managegigs';
-if ($_GET['m']==='gigreps' && !role('vgigs')) {
-    foreach (array('reclist'=>'vreclist','library'=>'vlibrary','managegigs'=>'mgigs','users'=>'musers') as $module=>$right) if (role($right)) { $_GET['m']=$module; break; }
-}
 require_once('nadinmodule/navigation.inc.php');
 
 if (file_exists('nadinmodule/'.basename($_GET['m']).'.inc.php')) require_once('nadinmodule/'.basename($_GET['m']).'.inc.php');
