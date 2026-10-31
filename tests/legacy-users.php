@@ -34,5 +34,20 @@ try {
  legacy_ok($auth->session($token)==='admin@example.invalid','editing an imported member does not revoke another account session');
  legacy_ok(count(glob($root.'/userdatei/revisions/*.php'))===1,'conversion keeps an exact safety copy');
  try{$admin->savePerson($data,$auth,'admin@example.invalid');legacy_ok(false,'stale save rejected');}catch(DomainException $e){legacy_ok(true,'stale save rejected');}
+ $quoted='"Müller, ""Anna""", anna@example.invalid, 31.12.2099, vgigs=1, customright=1,';
+ file_put_contents($root.'/userdatei/userdatei.txt',$saved."\n".$quoted."\n");
+ $imported=array_column($admin->people()['rows'],null,'email')['anna@example.invalid'];
+ legacy_ok($imported['name']==='Müller, "Anna"','quoted comma and double quotes appear in the person editor');
+ $initial=$auth->initial($imported['email']);$session=$auth->login($imported['email'],$initial);
+ legacy_ok(is_string($session),'quoted-name account can log in');
+ $password='Personal quoted-name password 42';$personal=$auth->change($session,$initial,$password,$password);
+ legacy_ok(is_string($personal),'quoted-name account can choose a personal password');
+ $edit=array('action'=>'save','original'=>$imported['email'],'revision'=>$imported['revision'],'name'=>'Müller, "Anna Maria"','email'=>$imported['email'],'expiry'=>$imported['expiry'],'rights'=>array('vgigs'));
+ $admin->savePerson($edit,$auth,'admin@example.invalid');
+ $after=array_column($admin->people()['rows'],null,'email')['anna@example.invalid'];
+ legacy_ok($after['name']===$edit['name']&&in_array('customright',$after['rights'],true),'editing quoted name preserves its complete spelling and extension rights');
+ legacy_ok(is_string($auth->login($edit['email'],$password))&&!$auth->login($edit['email'],$initial),'saving imported account retains its personal password');
+ file_put_contents($root.'/userdatei/userdatei.txt',file_get_contents($root.'/userdatei/userdatei.txt')."\nUnknown, one@example.invalid, two@example.invalid, 31.12.2099, vgigs=1,\n");
+ $review=$admin->people();legacy_ok($review['unparsed']===1&&count($review['unparsed_rows'])===1,'ambiguous account-like row remains visible for review');
  echo 'PASS: '.$checks." legacy user conversion checks\n";
 } finally {legacy_clean($root);}
