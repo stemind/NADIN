@@ -19,7 +19,7 @@ with tempfile.TemporaryDirectory(prefix='nadin-runtime-') as temp:
  sources=[p for p in ROOT.rglob('*.php') if not any(x in p.relative_to(ROOT).parts for x in ['vendor','.git'])]
  for path in sources:run([str(wrapper),'-l',str(path)],env=env,stdout=subprocess.DEVNULL)
  print(f'PASS: {len(sources)} PHP syntax checks',flush=True)
- tests=['auth.php','bruteforce.php','auth-http.py','admin-http.py','forscore.php','federation.php','federation-http.py','zip.php','v16-http.py','review-http.py','php-compat.php','php-compat-http.py']
+ tests=['auth.php','bruteforce.php','auth-http.py','admin-http.py','legacy-users.php','forscore.php','federation.php','federation-http.py','zip.php','v16-http.py','review-http.py','php-compat.php','php-compat-http.py']
  for name in tests:run([str(wrapper) if name.endswith('.php') else sys.executable,'tests/'+name],env=env)
  preview=temp/'preview';run([sys.executable,'tests/render-preview.py',str(preview)],env=env)
  run(['node','tests/admin-dom.cjs',str(preview/'views')],env=env);run(['node','tests/login-dom.cjs'],env=env)

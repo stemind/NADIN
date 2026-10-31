@@ -3,7 +3,7 @@
 require __DIR__.'/runtime-guard.php';
 $source=dirname(__DIR__);$temp=sys_get_temp_dir().'/nadin-compat-'.bin2hex(random_bytes(8));
 mkdir($temp.'/nadinmodule',0700,true);mkdir($temp.'/userdatei');
-foreach (array('functions.inc.php','auth.inc.php','federation.inc.php') as $file) copy($source.'/nadinmodule/'.$file,$temp.'/nadinmodule/'.$file);
+foreach (array('functions.inc.php','auth.inc.php','members.inc.php','federation.inc.php') as $file) copy($source.'/nadinmodule/'.$file,$temp.'/nadinmodule/'.$file);
 file_put_contents($temp.'/userdatei/userdatei.txt','');
 $salt='fixture';$timeout=3600;$sticksessiontoip='no';$_COOKIE=$_POST=array();
 $checks=0;
