@@ -8,11 +8,11 @@ echo '<div style="float:right">';
 include('configlinks.inc.php');
 echo '</div>';
 
-echo '<div id="info'.md5($infos.$fmt).'" class="infos"><a style="font-size:70%" href="javascript:void(0)" onclick="ionoff(\'info'.md5($infos.$fmt).'\')">show/hide infos</a><span id="infoarea" '.$small.'><br>'.nl2br(autohref($infos));
+echo '<div id="info'.md5($infos.$fmt).'" class="infos"><a style="font-size:70%" href="javascript:void(0)" onclick="ionoff(\'info'.md5($infos.$fmt).'\')">show/hide infos</a><span id="infoarea" '.$small.'><br>'.nl2br(autohref(nadinText($infos)));
 
-if (file_exists('abo/zip/'.str_replace('.txt','',$_GET['gig']).'.pdf')) echo '<a target="_blank" href="get/setlist.php?c='.str_replace('.txt','',$_GET['gig']).'.pdf">PDF-Anhang '.date('Y-m-d h:i',$fmt).'</a></small>';
+if (file_exists('abo/zip/'.str_replace('.txt','',$_GET['gig']).'.pdf')) echo '<a target="_blank" href="get/setlist.php?c='.rawurlencode(str_replace('.txt','',$_GET['gig']).'.pdf').'">PDF-Anhang '.date('Y-m-d h:i',$fmt).'</a></small>';
 
-if (file_exists('abo/zip/'.str_replace('.txt','',$_GET['c']).'.pdf')) echo '<a target="_blank" href="get/setlist.php?c='.str_replace('.txt','',$_GET['c']).'.pdf">PDF-Anhang '.date('Y-m-d h:i',$fmt).'</a></small>';
+if (file_exists('abo/zip/'.str_replace('.txt','',$_GET['c']).'.pdf')) echo '<a target="_blank" href="get/setlist.php?c='.rawurlencode(str_replace('.txt','',$_GET['c']).'.pdf').'">PDF-Anhang '.date('Y-m-d h:i',$fmt).'</a></small>';
 
 echo '</span></div><br />';  
 ?>
