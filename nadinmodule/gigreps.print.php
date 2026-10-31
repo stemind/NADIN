@@ -29,7 +29,7 @@ if (!isset($_GET['c'])) $_GET['c']=$gigs[0];
 <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
 <link rel="stylesheet" type="text/css" href="../style.css" />
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
-<title><?php echo htmlXspecialchars($bb.': '.str_replace('.txt','',$_GET['c']))?> &mdash; NADIN</title>
+<title><?php echo $bb.': '.str_replace('.txt','',$_GET['c'])?> &mdash; NADIN</title>
 <?php require_once('../config.inc.php');
 require_once('../nadinmodule/functions.inc.php')
 ?></head>

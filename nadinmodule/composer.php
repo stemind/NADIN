@@ -75,7 +75,6 @@ document.form.tunes.value=document.form.tunes.value.trim();
 }
 </script>
 <form name="form" method="post" action="savegig.php">
-<?php echo nadinPathMarker('gig'); ?>
 
 <h5>Gig <small><span style="float:right"><input style="margin-right:-3px" type="checkbox" id="move" onchange="if(this.checked)document.cookie='move=yes; expires=Thu, 31 Dec 2037 12:00:00 GMT; path=/';else {document.cookie='move=no; expires=Thu, 31 Dec 2037 12:00:00 GMT; path=/';parent.rescale()}"/>&#128204;</span>
 <?php if($_COOKIE['move']=='yes')echo"<script>if(document.getElementById('move'))document.getElementById('move').checked=true</script>"; ?>
@@ -139,11 +138,11 @@ for ($i=0; $i<count($gigs);$i++) {
 $selected='';
 if (trim($_GET['gig'])=='') $_GET['gig']=$gigs[$i];
 if ($_GET['gig']==$gigs[$i]) $selected='selected="selected"';
-echo '<option '.$selected.' value="'.rawurlencode($gigs[$i]).'">'.htmlXspecialchars(str_replace('.txt','',$gigs[$i])).'</option>';
+echo '<option '.$selected.' value="'.htmlXspecialchars($gigs[$i]).'">'.htmlXspecialchars(str_replace('.txt','',$gigs[$i])).'</option>';
 }
 ?>
 </select>
-<?php echo '<script>getgig='.json_encode(rawurlencode($_GET['gig'])).'</script>';  ?>
+<?php echo '<script>getgig="'.$_GET['gig'].'"</script>'; ?>
 <div id="mehr" style="display:none">
 
 <p><h5>Register new gig</h5>
@@ -185,7 +184,7 @@ rsort($gigs);
 for ($i=0; $i<count($gigs);$i++) {
 $selected='';
 if ($_GET['gig']==$gigs[$i]) $selected='selected="selected"';
-echo '<option '.$selected.' value="'.rawurlencode($gigs[$i]).'">'.htmlXspecialchars(str_replace('.txt','',$gigs[$i])).'</option>';
+echo '<option '.$selected.' value="'.htmlXspecialchars($gigs[$i]).'">'.htmlXspecialchars(str_replace('.txt','',$gigs[$i])).'</option>';
 }
 
 
@@ -215,7 +214,7 @@ $tunes=$c[1];
 
 ?>
 
-<h5>Infos <small><a href="javascript:void(0)" onclick="f1=window.open('uploadatt.php?gig=<?php echo rawurlencode($_GET['gig'])?>','_blank','toolbar=0,location=0,status=1,top=0,left=700,menubar=0,scrollbars=1,resizable=1,width=800,height=830');">PDF attachment</a></small></h5>
+<h5>Infos <small><a href="javascript:void(0)" onclick="f1=window.open('uploadatt.php?gig=<?php echo $_GET['gig']?>','_blank','toolbar=0,location=0,status=1,top=0,left=700,menubar=0,scrollbars=1,resizable=1,width=800,height=830');">PDF attachment</a></small></h5>
 
 <textarea style="width:100%;height:120px" name="infos" id="infos">
 <?php echo htmlXspecialchars($infos) ?>
@@ -329,7 +328,7 @@ document.getElementById('save').innerHTML='s*';
 document.getElementById('save').title='save [Ctrl s]; The sign * is displayed when unsaved changes are present.';
 }
 
-if (parent.ifrp) parent.ifrp.location.replace('../preview.php?gig=<?php echo rawurlencode($_GET['gig'])?>');
+if (parent.ifrp) parent.ifrp.location.replace('../preview.php?gig=<?php echo $_GET['gig']?>');
 if (parent.document.getElementById('changes')) parent.document.getElementById('changes').value=0;
 if (document.form.gig.value=='') document.getElementById("hider").style.display='none';
 if (document.form.gig.value=='') document.getElementById("noold").style.display='none';

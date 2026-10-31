@@ -68,7 +68,7 @@ else $randomnumber='';
 
 if (role('upaudio')) $upnow='&nbsp;<span style="color:#eee;font-weight:bold;cursor:pointer" onmouseover="this.style.background=\'green\'" onmouseout="this.style.background=\'#fff\'" title="manage Infos, Links, Files in'."\n".htmlXspecialchars(strtoupper(str_replace('_',' ',$rec[1]))).'" onclick="f1=window.open(\'nadinmodule/managetune.php?i='.$i.'&tune='.rawurlencode($rec[1]).'&m='.mkid2($rec[0]).'\',\'manage'.$randomnumber.'\',\'toolbar=0,location=0,status=1,top=0,left=700,menubar=0,scrollbars=1,resizable=1,width=800,height=830\');f1.focus()">&nbsp;&#9998;&nbsp;</span>';
 
-if ($bbrecs[$i]!='') echo '<a id="'.mkid2($rec[0]).'" href="get/file.php?c='.rawurlencode($rec[1].'/'.$rec[0]).'" target="_blank">'.htmlXspecialchars(str_replace($letter,'',$rec[0])).'</a>'.$upnow.'<br />';
+if ($bbrecs[$i]!='') echo '<a id="'.mkid2($rec[0]).'" href="get/file.php?c='.str_replace('library/','',$path).$rec[1].'/'.$rec[0].'" target="_blank">'.str_replace($letter,'',$rec[0]).'</a>'.$upnow.'<br />';	
 
 			 $time=explode('(',$rec[0]);
 			 $time=explode(')',$time[count($time)-1]);

@@ -24,7 +24,7 @@ if (!isset($_GET['c'])) $_GET['c']=$gigs[0];
 }
 
 for ($i=0; $i<count($gigs);$i++) {
-echo '<a id="id'.md5($gigs[$i]).'" href="./?m='.$_GET['m'].'&c='.rawurlencode($gigs[$i]).'">'.str_replace('.txt','',str_replace(' ','&nbsp;',str_replace('-','&#8209;',htmlXspecialchars($gigs[$i])))).'</a> &nbsp; ';
+echo '<a id="id'.md5($gigs[$i]).'" href="./?m='.$_GET['m'].'&c='.$gigs[$i].'">'.str_replace('.txt','',str_replace(' ','&nbsp;',str_replace('-','&#8209;',$gigs[$i]))).'</a> &nbsp; ';
 }
 ?>
 </h3>
@@ -43,7 +43,8 @@ $tunes=explode("\n",$rep);
 ?>
 <div style="float:right;line-height:28px;text-align:right">
 <a style="text-decoration:none" href="nadinmodule/gigreps.xls.php?<?php echo $_SERVER['QUERY_STRING']?>" target="_blank">xls&darr;</a><br />
-<a style="text-decoration:none" href="nadinmodule/gigreps.print.php?<?php echo $_SERVER['QUERY_STRING']?>" target="_blank">print&darr;</a>
+<a style="text-decoration:none" href="nadinmodule/gigreps.print.php?<?php echo $_SERVER['QUERY_STRING']?>" target="_blank">print&darr;</a><br />
+<?php if (role('vgigs')) { ?><a style="text-decoration:none" href="get/forscore.php?<?php echo htmlspecialchars(http_build_query(array('m' => $_GET['m'], 'c' => $_GET['c'])), ENT_QUOTES, 'UTF-8'); ?>" target="_blank">forScore&darr;</a><?php } ?>
 </div>
 
 <div id="includes">

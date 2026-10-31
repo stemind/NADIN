@@ -8,7 +8,8 @@ else $neu='';
 <h3 id="alphabet" style="position:fixed; padding:5px; top:111px; left:7px;"><?php echo $neu ?><a style="font-size:10px" onmouseover="location.href='#top'" href="#top">top</a><br/><span id="library-alphabet-links"<?php if (isset($_GET['sort']) && $_GET['sort'] === 'newest') echo ' style="display:none"'; ?>></span></h3>
 <div style="float:right;line-height:28px;text-align:right">
 <a id="library-xls-link" style="text-decoration:none" href="nadinmodule/library.xls.php?<?php echo $_SERVER['QUERY_STRING']?>" target="_blank">xls&darr;</a><br />
-<a id="library-print-link" style="text-decoration:none" href="nadinmodule/library.print.php?<?php echo $_SERVER['QUERY_STRING']?>" target="_blank">print&darr;</a>
+<a id="library-print-link" style="text-decoration:none" href="nadinmodule/library.print.php?<?php echo $_SERVER['QUERY_STRING']?>" target="_blank">print&darr;</a><br />
+<?php if (role('vgigs')) { ?><a style="text-decoration:none" href="get/forscore.php?<?php echo htmlspecialchars(http_build_query(array('m' => 'library')), ENT_QUOTES, 'UTF-8'); ?>" target="_blank">forScore&darr;</a><?php } ?>
 </div>
 <style>
 #library-sort-form[data-library-sort="alpha"] { margin:33px 0 -77px 77px; }
@@ -54,7 +55,7 @@ foreach ($_GET as $libraryQueryName => $libraryQueryValue) {
 </form>
 <?php
 
-// Viewing the library must never rename existing files or directories.
+require('ascii.inc.php');
 $libraryClientSorting = true;
 require('table.inc.inc.php');
 

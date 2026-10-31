@@ -26,7 +26,7 @@ $filename=str_replace(' ','',mkname(substr($bb.str_replace('.txt','',$_GET['c'])
 header('Content-Type: text/x-csv; charset=UTF-8'); 
 header("Content-Disposition:attachment;filename=".$filename."_".date('Y-m-d_His').".csv");
 
-echo "\xEF\xBB\xBF".nadinText($bb.' '.str_replace('.txt','',$_GET['c'])).';';
+echo "\xEF\xBB\xBF".$bb.' '.str_replace('.txt','',$_GET['c']).';';
  
 $c=@file_get_contents('../'.basename($_GET['m']).'/'.basename($_GET['c']));
 $c=explode($delimiter2,$c);

@@ -71,11 +71,11 @@ if ($ext=='pdf') $vorschlag=basename($path).' '.$xyz.' .'.$ext;
 else $vorschlag=basename($path).'_HDDN amytext .'.$ext;
 
 	echo '<tr bgcolor="#eeeeee" onmouseover="this.style.background=\'lightyellow\'" onmouseout="this.style.background=\'#eeeeee\'">
-	<td><a target="_blank" href="../get/setlist.php?c='.rawurlencode($file[$i]).'">'.htmlXspecialchars($file[$i]).'</a></td>
+	<td><a target="_blank" href="../get/setlist.php?c='.str_replace('abo/zip/','',$path).'/'.$file[$i].'">'.$file[$i].'</a></td>
 	<td>'.date('d.m.Y H:i:s',filemtime($path.'/'.$file[$i])).'</td>
 	<td align="right">&nbsp;'.$filesize.$mass.'&nbsp</td>
 	<td> </td>
-	<td><a href="javascript:void(0)" onclick="cf=confirm(\'Do you really want to delete '.htmlXspecialchars($file[$i]).'\');if (cf) location.replace(\'ATTdeletefile.php?p='.rawurlencode(basename($path)).'&f='.rawurlencode(basename($file[$i])).'\')">delete</a></td></tr>';
+	<td><a href="javascript:void(0)" onclick="cf=confirm(\'Do you really want to delete '.$file[$i].'\');if (cf) location.replace(\'ATTdeletefile.php?p='.basename($path).'&f='.basename($file[$i]).'\')">delete</a></td></tr>';
 }
 
 }

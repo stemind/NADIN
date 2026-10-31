@@ -6,27 +6,27 @@ if(isset($_GET['m']))$marker='&m='.$_GET['m'];
 if (str_replace(' ','',trim($_GET['tune']))!=$_GET['tune']) $leers='By the way: There is whitespace in the name that could be problematic.';
 if (str_replace(' ','',trim($_GET['tune']))=='' || !file_exists('../library/'.$_GET['tune']))echo'<script>alert("'.htmlXspecialchars($_GET['tune']).'\\n\\ndoes not exist in\\n\\n'.$bibliothek.'\\n\\nor it is not spelled identically.\\n\\nTo enable uploads, you must create the corresponding object there.\\n\\n'.$leers.'");self.close();</script>';
 ?>
-<a style="text-decoration:underline" href="upload.php?tune=<?php echo rawurlencode($_GET['tune']).$marker?>" id="upload">infos &amp; links</a>
+<a style="text-decoration:underline" href="upload.php?tune=<?php echo $_GET['tune'].$marker?>" id="upload">infos &amp; links</a>
 
 &nbsp;&nbsp;
 
-<a style="text-decoration:underline" href="uploadaudio.php?tune=<?php echo rawurlencode($_GET['tune']).$marker?>" id="uploadaudio">audio files</a>
+<a style="text-decoration:underline" href="uploadaudio.php?tune=<?php echo $_GET['tune'].$marker?>" id="uploadaudio">audio files</a>
 
 &nbsp;&nbsp;
 
 <?php if (role('uppdf')) {?>
 
-<a style="text-decoration:underline" href="uploadpdf.php?tune=<?php echo rawurlencode($_GET['tune']).$marker?>" id="uploadpdf">PDFs &amp; other files</a>
+<a style="text-decoration:underline" href="uploadpdf.php?tune=<?php echo $_GET['tune'].$marker?>" id="uploadpdf">PDFs &amp; other files</a>
 
 &nbsp;&nbsp;
 
 Folder:
 
-<a style="text-decoration:underline" href="renamefolder.php?tune=<?php echo rawurlencode($_GET['tune']).$marker?>" id="renamefolder">rename</a>
+<a style="text-decoration:underline" href="renamefolder.php?tune=<?php echo $_GET['tune'].$marker?>" id="renamefolder">rename</a>
 
 |
 
-<a style="text-decoration:underline" href="deletefolder.php?tune=<?php echo rawurlencode($_GET['tune']).$marker?>" id="deletefolder">delete</a>
+<a style="text-decoration:underline" href="deletefolder.php?tune=<?php echo $_GET['tune'].$marker?>" id="deletefolder">delete</a>
 
 <?php } ?>
 
