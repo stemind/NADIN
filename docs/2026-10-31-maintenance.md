@@ -1,3 +1,5 @@
+> Historical maintenance draft. The final source, release scope and independently executed results are described in [EVOLUTION-AUDIT.md](EVOLUTION-AUDIT.md). In particular, the Library forScore entry is retained and the missing classic layout flag keeps the original top position.
+
 # Main-to-V16 maintenance review — 31 October 2026
 
 The reference is maintained `main` at `6f0f7073ed66091a90c0e6a70153c5740e82e489`, with the original 7.x file model and UI. The conservative forScore line starts directly at `v7.6`, while V8–V16 are successive development stages. Shared fixes are applied to the existing affected lines, preserving their visual designs and stable authentication/storage identifiers.
