@@ -49,8 +49,8 @@ function setup(name,selected,reviewRows){
    ok(doc.querySelectorAll('[data-edit-note]').length===2,'current headings have direct edit buttons');
    doc.querySelector('[data-edit-note="0"]').click();ok(doc.querySelector('[name=note]').value==='Aus Gigrep:','heading edit opens with its complete text');doc.querySelector('[name=note]').value='Discarded';doc.getElementById('admin-dialog').close('cancel');await tick();
    ok(doc.querySelector('#setlist [data-row="0"] .nadin-setlist-title').textContent==='Aus Gigrep:','cancel keeps the original heading');
-   doc.querySelector('[data-edit-note="0"]').click();doc.querySelector('[name=note]').value="Set 2: Müller & O'Connor";doc.getElementById('admin-dialog').close('confirm');await tick();
-   ok(doc.querySelector('#setlist [data-row="0"] .nadin-setlist-title').textContent==="Set 2: Müller & O'Connor"&&JSON.stringify(orders(doc))===JSON.stringify(expected),'heading edit retains special characters, position and tune numbers');doc.getElementById('setlist-undo').click();
+   doc.querySelector('[data-edit-note="0"]').click();doc.querySelector('[name=note]').value="Set 2 / Pause: Müller & O'Connor";doc.getElementById('admin-dialog').close('confirm');await tick();
+   ok(doc.querySelector('#setlist [data-row="0"] .nadin-setlist-title').textContent==="Set 2 / Pause: Müller & O'Connor"&&JSON.stringify(orders(doc))===JSON.stringify(expected),'heading edit retains special characters, position and tune numbers');doc.getElementById('setlist-undo').click();
    ok(doc.querySelector('#setlist [data-row="0"] .nadin-setlist-title').textContent==='Aus Gigrep:','undo restores the original heading text');
    doc.querySelector('[data-edit-note="0"]').click();doc.querySelector('[name=note]').value='';doc.getElementById('admin-dialog').close('confirm');await tick();
    ok(orders(doc)[0]===''&&doc.querySelector('#setlist [data-row="0"] .nadin-setlist-title').textContent==='—','heading can become a blank unnumbered break');doc.getElementById('setlist-undo').click();
