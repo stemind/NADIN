@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/members.inc.php';
 /** File-based credentials and revocable sessions. No changes to userdatei.txt's format. */
 final class NadinAuth {
     private $root, $salt, $timeout, $bindIp, $ip;
@@ -15,17 +16,11 @@ final class NadinAuth {
         if ($text === false) throw new RuntimeException('The user list cannot be read.');
         $members = array();
         foreach (preg_split('/\r\n|\n|\r/', $text) as $line) {
-            $fields = array_map('trim', explode(',', strtolower($line)));
-            if (count($fields) < 3 || !filter_var($fields[1], FILTER_VALIDATE_EMAIL)) continue;
-            $date = DateTimeImmutable::createFromFormat('!d.m.Y', $fields[2]);
-            $errors = DateTimeImmutable::getLastErrors();
-            if (!$date || ($errors && ($errors['warning_count'] || $errors['error_count']))) continue;
-            $rights = array(); foreach (array_slice($fields, 3) as $right) {
-                if (preg_match('/^([a-z]+)\s*=\s*1$/', $right, $m)) $rights[$m[1]] = true;
-            }
+            $member=nadinMemberLine($line);
+            if (!$member || !$member['date']) continue;
             // Preserve the legacy access-expiry boundary (midnight at the given date).
-            $members[$fields[1]] = array('expires'=>$date->getTimestamp(), 'rights'=>$rights,
-                'stamp'=>hash('sha256', implode(',', $fields)));
+            $members[$member['email']] = array('expires'=>$member['date']->getTimestamp(), 'rights'=>$member['rights'],
+                'stamp'=>$member['stamp']);
         }
         return $members;
     }
