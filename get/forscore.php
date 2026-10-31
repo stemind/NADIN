@@ -113,7 +113,7 @@ $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps'
 ?>
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="../style.css"><title>forScore export — NADIN 7.7.1</title><style>
+<link rel="stylesheet" href="../style.css"><title>forScore export — NADIN 7.7.2</title><style>
 /* Local styles: the existing NADIN 7.6 stylesheet remains unchanged. */
 .nadin-forscore { margin:8px; }
 .nadin-forscore form { max-width:1100px; }
@@ -129,7 +129,7 @@ $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps'
 </style>
 </head>
 <body class="nadin-page nadin-forscore">
-<h2>forScore <small>— NADIN 7.7.1</small></h2>
+<h2>forScore <small>— NADIN 7.7.2</small></h2>
 <p><a href="<?php echo nadinHtml($back); ?>">&larr; Back to NADIN</a></p>
 <?php if ($error !== '') { ?>
 <p role="alert" class="nadin-forscore-error"><?php echo nadinHtml($error); ?></p>
