@@ -1,13 +1,6 @@
 <?php
 // Shared helpers for the existing, file-based NADIN interface.
-function nadinText($value) {
-    $value = (string)$value;
-    if (!preg_match('//u', $value) && function_exists('iconv')) {
-        $converted = iconv('Windows-1252', 'UTF-8//IGNORE', $value);
-        if ($converted !== false) $value = $converted;
-    }
-    return $value;
-}
+require_once __DIR__.'/encoding.inc.php';
 function nadinHtml($value) {
     return htmlspecialchars(nadinText($value), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
