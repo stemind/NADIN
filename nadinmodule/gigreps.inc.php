@@ -1,8 +1,21 @@
 <?php 
 require_once('config.inc.php');
 require_once('nadinmodule/functions.inc.php');
-auth('vgigs')?>
-<h3 style="max-height:200px;overflow-x:hidden;overflow-y:auto">
+auth('vgigs');
+// Keep the legacy switch: only an explicit 'yes' enables the left-hand list.
+$gigListOnLeft = isset($rendergiglistontheleft) && $rendergiglistontheleft == 'yes';
+$gigListWidth = isset($ifleftthenthiswidth) ? (int)$ifleftthenthiswidth : 300;
+if ($gigListWidth < 1) $gigListWidth = 300;
+?>
+<?php if ($gigListOnLeft) { ?>
+<style>
+body { min-width:1200px; }
+#nadin-gig-list { margin-top:-11px;margin-right:11px;font-size:85%;width:<?php echo $gigListWidth; ?>px;float:left;min-height:600px;height:calc(100vh - 150px); }
+#includes { margin-left:<?php echo $gigListWidth + 20; ?>px; }
+#nadin-gig-list ~ .infos { margin-left:<?php echo $gigListWidth; ?>px; }
+</style>
+<?php } ?>
+<h3 id="nadin-gig-list" style="max-height:<?php echo $gigListOnLeft ? 'none' : '200px'; ?>;overflow-x:hidden;overflow-y:auto">
 <?php
 $path='./'.basename($_GET['m']);
 $gigs='';
@@ -24,7 +37,7 @@ if (!isset($_GET['c'])) $_GET['c']=$gigs[0];
 }
 
 for ($i=0; $i<count($gigs);$i++) {
-echo '<a id="id'.md5($gigs[$i]).'" href="./?m='.$_GET['m'].'&c='.$gigs[$i].'">'.str_replace('.txt','',str_replace(' ','&nbsp;',str_replace('-','&#8209;',$gigs[$i]))).'</a> &nbsp; ';
+echo '<a id="id'.md5($gigs[$i]).'" href="./?m='.$_GET['m'].'&c='.$gigs[$i].'">'.str_replace('.txt','',str_replace(' ','&nbsp;',str_replace('-','&#8209;',$gigs[$i]))).'</a>'.($gigListOnLeft ? '<br>' : ' &nbsp; ');
 }
 ?>
 </h3>
@@ -57,29 +70,6 @@ if($_GET['m']!='gigrepsarchiv') require('abo.inc.inc.php');
 
 <br /><br /><br />
 
-<?php if ($rendergiglistontheleft=='yes') { ?>
-<script>
-h3=document.getElementsByTagName('h3')[0];
-h3.innerHTML=h3.innerHTML.replace(/ &nbsp; /g,'<br>');
-h3.style.marginTop='-11px';
-h3.style.marginRight='11px';
-h3.style.fontSize='85%';
-h3.style.width='<?php echo $ifleftthenthiswidth?>';
-h3.style.float='left';
-
-body=document.getElementsByTagName('body')[0];
-body.style.minWidth='1200px';
-
-function arch() {
-h3.style.maxHeight='50000px';
-h3.style.minHeight='600px';
-h3.style.height=window.innerHeight-150+'px';
-document.getElementById('includes').style.marginLeft='<?php echo ((str_replace('px','',$ifleftthenthiswidth)+20).'px') ?>';
-setTimeout("arch()",777);
-}
-arch();
-</script>
-<?php } ?>
 <script>
 if (document.getElementById('id<?php echo md5($_GET['c'])?>')) {
 document.getElementById('id<?php echo md5($_GET['c'])?>').style.background='yellow';
