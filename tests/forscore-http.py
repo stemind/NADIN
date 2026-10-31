@@ -333,8 +333,8 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
                        NADIN_TEST_COOKIES=json.dumps(session.cookies.get_dict()))
             subprocess.run(['node', 'tests/forscore-browser.cjs'], cwd=ROOT, env=env, check=True)
         library_page = BeautifulSoup(session.get(base + '/', params={'m': 'library', 'c': ''}).text, 'html.parser')
-        ok(library_page.find('a', href=lambda href: href and 'forscore.php' in href) is None,
-           'Library has no bulk forScore entry point')
+        ok(library_page.find('a', href=lambda href: href and 'forscore.php' in href) is not None,
+           'Library retains its forScore entry point')
         ok(library_page.find('a', href=lambda href: href and 'library.print.php' in href) is not None
            and library_page.find('a', href=lambda href: href and 'library.xls.php' in href) is not None,
            'Library retains Print and XLS links')

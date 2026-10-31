@@ -61,7 +61,7 @@ with tempfile.TemporaryDirectory(prefix='nadin-gig-layout-') as temp:
        ok(('nadin-gig-list-top' in soup.select_one('.nadin-layout').get('class',[]))==(side=='no'),'PHP applies config orientation before scripts')
        ok('--nadin-sidebar-width:'+str(width)+'px' in soup.select_one('.nadin-layout')['style'],'configured desktop width is retained')
       else:
-       ok((nav.find('br') is not None)==(side!='no'),'PHP renders vertical separators without JavaScript')
+       ok((nav.find('br') is not None)==(side=='yes'),'PHP renders vertical separators without JavaScript')
       cases.append({'html':response.text,'side':side,'width':width,'module':module,'role':role,'modern':modern})
   (temp/'cases.json').write_text(json.dumps(cases))
   script=ROOT/'tests/gig-layout-dom.cjs'
