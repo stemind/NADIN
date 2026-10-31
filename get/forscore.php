@@ -1,5 +1,7 @@
 <?php
 require_once('../config.inc.php');
+// Override legacy server defaults before authentication or preview output.
+header('Content-Type: text/html; charset=UTF-8');
 require_once('../nadinmodule/functions.inc.php');
 require_once('../nadinmodule/forscore.inc.php');
 auth('vgigs');
