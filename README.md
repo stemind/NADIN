@@ -24,10 +24,10 @@ NADIN is a file-based PHP application for big bands. It manages sheet music, rec
 
 ## Branches and releases
 
-See [the complete branch map](docs/BRANCHES.md) for the stages, historical numbering, integration status and current release. [NADIN 7.7.3](https://github.com/stemind/NADIN/releases/tag/v7.7.3) is the current classic-interface release with guided forScore export.
+See [the complete branch map](docs/BRANCHES.md) for the stages, historical numbering, integration status and current release. [NADIN 7.7.4](https://github.com/stemind/NADIN/releases/tag/v7.7.4) is the current classic-interface release with guided forScore export.
 
 ## Installation and verification
 
 Use this line's complete source files together and preserve your configuration, salt, member/authentication files, music, Reps, attachments and hidden forScore metadata. The new shared PHP/JavaScript helpers are required alongside the updated controllers. Optional federation uses `composer install` with the committed lock file; ordinary local login does not need those optional packages. Keep the installation's configured data permissions.
 
-V17 retains V16's PHP compatibility preparation. Native PHP 9 compatibility is not claimed. See [V17 verification](docs/V17-VERIFICATION.md) for the runtimes and features actually exercised, [the earlier evolution audit](docs/EVOLUTION-AUDIT.md) for the inherited corrections, and [7.7.3 notes](docs/7.7.3.md) for classic-interface patch packages.
+V17 retains V16's PHP compatibility preparation. Native PHP 9 compatibility is not claimed. See [V17 verification](docs/V17-VERIFICATION.md) for the runtimes and features actually exercised, [the earlier evolution audit](docs/EVOLUTION-AUDIT.md) for the inherited corrections, and [7.7.4 notes](docs/7.7.4.md) for classic-interface patch packages.

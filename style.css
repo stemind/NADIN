@@ -757,7 +757,7 @@ button,a,input,select,textarea,summary { -webkit-tap-highlight-color:#2458a326; 
 .nadin-forscore-summary p { margin:5px 0; }
 .nadin-forscore-file { overflow-wrap:anywhere;min-width:0; }
 .nadin-forscore [hidden] { display:none !important; }
-.nadin-forscore form[aria-busy=true] { opacity:.65;pointer-events:none; }
+.nadin-forscore form[aria-busy=true] { pointer-events:none;cursor:progress; }
 .nadin-forscore [data-review-status] { color:var(--nadin-muted,#666); }
 .nadin-forscore button:disabled { opacity:.6;cursor:default; }
 .nadin-choice-list>button { border:0;border-bottom:1px solid #e1e6ed;border-radius:0;background:transparent; }
@@ -778,3 +778,8 @@ button,a,input,select,textarea,summary { -webkit-tap-highlight-color:#2458a326; 
 .nadin-tune-row>.nadin-desktop-actions a { display:inline-flex;align-items:center;justify-content:center;min-width:24px;min-height:24px;padding:1px 3px;margin-right:2px;box-sizing:border-box; }
 .nadin-export-links a { display:inline-flex;align-items:center;min-height:24px;min-width:24px; }
 .nadin-mobile-actions summary { min-height:26px; }
+
+/* Separate the action from optional help; validate fields after an attempted download. */
+.nadin-forscore .nadin-forscore-help { margin-top:24px;padding-top:12px;border-top:1px solid var(--nadin-line,#ddd); }
+.nadin-forscore [aria-invalid=true] { outline:2px solid #b42318;outline-offset:2px; }
+.nadin-forscore form[aria-busy=true] button[value=download] { pointer-events:auto; }
