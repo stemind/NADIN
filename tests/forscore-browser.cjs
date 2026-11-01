@@ -33,18 +33,18 @@ function ok(value, label) { assert(value, label); checks++; }
       await link.click();
       const popup = await popupEvent;
       await popup.waitForLoadState();
-      ok(await popup.getByRole('heading', { name: 'forScore — NADIN 7.7.2' }).isVisible(),
+      ok(await popup.getByRole('heading', { name: 'forScore — NADIN 7.7.3' }).isVisible(),
         'forScore opens in its own tab from ' + module);
       await popup.close();
     }
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({ width, height: 1000 });
       await page.goto(base + '/get/forscore.php?m=gigreps&c=Headings.txt&profile=sx');
-      ok(await page.getByRole('button', { name: 'Download .4ss', exact: true }).isVisible(),
+      ok(await page.getByRole('button', { name: 'Download forScore setlist (.4ss)', exact: true }).isVisible(),
         'download remains reachable at ' + width + 'px');
       ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
         'new export page has no horizontal overflow at ' + width + 'px');
     }
-    console.log('PASS:', checks, 'NADIN 7.7.2 Chromium checks');
+    console.log('PASS:', checks, 'NADIN 7.7.3 Chromium checks');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });
