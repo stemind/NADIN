@@ -1,6 +1,22 @@
 /* Native form submissions preserve the existing permission/preview checks. */
 (function () {
     'use strict';
+    // The original NADIN page stays open; only its export tab is closed.
+    var back = document.querySelector('[data-forscore-return]');
+    if (back) {
+        var links = [back];
+        var brand = document.querySelector('.nadin-popup-brand[href]');
+        if (brand) { brand.href = back.href; links.push(brand); }
+        if (back.getAttribute('data-forscore-return') === 'close') links.forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+                event.preventDefault();
+                try { window.close(); } catch (ignore) {}
+                // Direct/bookmarked tabs and browser UI openings may refuse close.
+                window.setTimeout(function () { if (!window.closed) window.location.assign(back.href); }, 150);
+            });
+        });
+    }
     var form = document.getElementById('nadin-forscore-form');
     if (!form) return;
     var review = form.querySelector('[data-review]');
