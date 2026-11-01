@@ -40,3 +40,5 @@ The skipped V10 was closed by renumbering former V11–V16 to V10–V15. The cur
 The final executed checks and concrete collateral corrections are recorded in [the evolution audit](EVOLUTION-AUDIT.md). The [7.7.2 release notes](7.7.2.md) describe its deliberately smaller source delta and upgrade packages.
 
 The [7.7.3 release notes](7.7.3.md) describe the current forScore workflow release and update packages.
+
+The current classic release is [7.7.4](7.7.4.md). Active download and required-field guidance are backported to all forScore lines, including V17.
