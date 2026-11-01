@@ -17,25 +17,36 @@ function ok(value, label) { assert(value, label); checks++; }
         page.on('pageerror', e => errors.push(e.message));
         await page.route('**/*', route => route.request().url().startsWith(base) ? route.continue() : route.abort());
         const endpoint = base + '/get/forscore.php?m=gigreps&c=Headings.txt';
-        const button = page.locator('[value=download]');
+        const button = page.locator('[data-download=top]'), bottomButton = page.locator('[data-download=bottom]');
         const count = async key => Number(await page.locator('[data-count="' + key + '"]').textContent());
         async function select(name, value) {
             await Promise.all([page.waitForNavigation({waitUntil:'domcontentloaded'}), page.locator('[name="' + name + '"]').selectOption(value)]);
         }
         async function expectMissingField(name, label) {
-            ok(await button.isEnabled(), label + ': download is active');
-            const before = posts;
-            await button.click();
-            const focus = await page.evaluate(() => {
-                const el = document.activeElement, r = el.getBoundingClientRect();
-                return {name:el.name, invalid:el.getAttribute('aria-invalid'), visible:r.top >= 0 && r.bottom <= innerHeight,
-                    message:el.validationMessage};
-            });
-            ok(focus.name === name && focus.invalid === 'true' && focus.visible && !!focus.message,
-                label + ': click focuses and scrolls to the obligatory field with a clear message');
-            ok(posts === before, label + ': incomplete form is not submitted');
+            for (const action of [button, bottomButton]) {
+                const position = await action.getAttribute('data-download');
+                ok(await action.isEnabled(), label + '/' + position + ': download is active');
+                const before = posts;
+                await action.click();
+                const focus = await page.evaluate(() => {
+                    const el = document.activeElement, r = el.getBoundingClientRect();
+                    return {name:el.name, invalid:el.getAttribute('aria-invalid'), visible:r.top >= 0 && r.bottom <= innerHeight,
+                        message:el.validationMessage};
+                });
+                ok(focus.name === name && focus.invalid === 'true' && focus.visible && !!focus.message,
+                    label + '/' + position + ': click focuses and scrolls to the obligatory field with a clear message');
+                ok(posts === before, label + '/' + position + ': incomplete form is not submitted');
+            }
+        }
+        function contrast(a, b) {
+            const light = rgb => {
+                const c = rgb.match(/[\d.]+/g).slice(0,3).map(v => {v = Number(v)/255; return v <= .04045 ? v/12.92 : Math.pow((v+.055)/1.055,2.4);});
+                return .2126*c[0]+.7152*c[1]+.0722*c[2];
+            };
+            const x=light(a), y=light(b); return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);
         }
         await page.goto(endpoint + '&profile=sx');
+        ok(await page.locator('[value=download]').count() === 2, 'exactly two download actions share one form');
         ok(!(await page.locator('[data-review]').isVisible()) && await button.isEnabled(), 'download is active even before choosing an import option; manual Review is absent');
         await expectMissingField('workflow', 'missing import intent');
         await select('profile', 'parts');
@@ -49,6 +60,9 @@ function ok(value, label) { assert(value, label); checks++; }
         const firstEvent = page.waitForEvent('download'); await button.click();
         const first = await firstEvent, firstXml = await fs.readFile(await first.path(), 'utf8');
         ok((firstXml.match(/ data="/g) || []).length === 2, 'actual browser download embeds each new PDF once');
+        const bottomEvent = page.waitForEvent('download'); await bottomButton.click();
+        const bottomDownload = await bottomEvent;
+        ok(await fs.readFile(await bottomDownload.path(), 'utf8') === firstXml, 'top and bottom actions download the same reviewed setlist and PDF bytes');
         await select('workflow', 'update');
         ok(await button.isEnabled() && await page.locator('[data-inventory-panel]').isVisible(), 'following import shows the required inventory with an active download button');
         await expectMissingField('csv', 'missing inventory CSV');
@@ -58,7 +72,7 @@ function ok(value, label) { assert(value, label); checks++; }
         await Promise.all([page.waitForNavigation({waitUntil:'domcontentloaded'}), page.locator('[name=csv]').setInputFiles({
             name:'current-notes.csv', mimeType:'text/csv', buffer:Buffer.from('Filename\n' + paths.join('\n') + '\n')})]);
         ok(await button.isEnabled() && await count('included') === 0 && await count('reused') === 2, 'CSV selection automatically refreshes to reuse the annotated originals');
-        const updateEvent = page.waitForEvent('download'); await button.click();
+        const updateEvent = page.waitForEvent('download'); await bottomButton.click();
         const update = await updateEvent, updateXml = await fs.readFile(await update.path(), 'utf8');
         ok(!updateXml.includes(' data="'), 'actual update download contains references to existing PDFs');
         await page.goto(base + '/get/forscore.php?m=gigreps&c=Ambiguous.txt&profile=sx&workflow=first');
@@ -77,7 +91,27 @@ function ok(value, label) { assert(value, label); checks++; }
             await page.setViewportSize({width, height:900});
             await page.goto(endpoint + '&profile=sx&workflow=first');
             ok(await button.isVisible() && await button.isEnabled(), 'download is visible and active at ' + width + 'px');
-            const gap = await page.locator('.nadin-forscore-help').evaluate(el => el.getBoundingClientRect().top - document.querySelector('[value=download]').getBoundingClientRect().bottom);
+            const geometry = await button.evaluate(el => {
+                const r=el.getBoundingClientRect(), style=getComputedStyle(el), controls=document.querySelector('.nadin-forscore-controls').getBoundingClientRect(), rows=document.querySelector('.nadin-forscore-rows').getBoundingClientRect();
+                return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,height:r.height,viewport:innerHeight,controls:controls.top,rows:rows.top,appearance:style.appearance,bg:style.backgroundColor,fg:style.color};
+            });
+            ok(geometry.top >= 0 && geometry.bottom <= geometry.viewport && geometry.bottom <= geometry.controls && geometry.bottom <= geometry.rows, 'primary download is in the initial viewport, before setup and tunes at ' + width + 'px');
+            ok(geometry.appearance === 'none' && geometry.height >= 44 && contrast(geometry.bg, geometry.fg) >= 4.5, 'download uses an explicit accessible design independent of Windows native grey at ' + width + 'px');
+            const rgb=geometry.bg.match(/[\d.]+/g).map(Number);
+            ok(rgb[2] > rgb[0]+20, 'download retains NADIN blue at ' + width + 'px');
+            await button.hover();
+            ok(await button.evaluate(el => getComputedStyle(el).backgroundColor) !== geometry.bg, 'hover visibly responds at ' + width + 'px');
+            await button.focus(); await page.keyboard.press('Tab'); await page.keyboard.press('Shift+Tab');
+            ok(await button.evaluate(el => el.matches(':focus-visible') && parseFloat(getComputedStyle(el).outlineWidth) >= 2), 'keyboard focus has a visible ring at ' + width + 'px');
+            await page.mouse.move(0,0); await page.locator('h1,h2').first().click();
+
+            if (width <= 390) {
+                ok(await page.locator('.nadin-forscore-row input[data-pdf-choice]').first().evaluate(input => {
+                    const row=input.closest('.nadin-forscore-row'), tune=row.querySelector('span[id^=tune-]'), file=row.querySelector('.nadin-forscore-file');
+                    return file.getBoundingClientRect().top >= tune.getBoundingClientRect().bottom-1;
+                }), 'tune and PDF filename have separate readable lines on a phone at ' + width + 'px');
+            }
+            const gap = await page.locator('.nadin-forscore-help').evaluate(el => el.getBoundingClientRect().top - document.querySelector('[data-download=bottom]').getBoundingClientRect().bottom);
             ok(gap >= 20, 'optional help has a clear gap from the button at ' + width + 'px');
             ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'no horizontal overflow at ' + width + 'px');
             if (process.env.NADIN_SCREENSHOTS) {
@@ -85,7 +119,7 @@ function ok(value, label) { assert(value, label); checks++; }
                 await page.screenshot({path:process.env.NADIN_SCREENSHOTS + '/forscore-' + width + '.png', fullPage:true});
             }
         }
-        ok(new URL(await page.locator('link[rel=icon]').getAttribute('href'), page.url()).pathname === new URL(base + '/favicon.ico').pathname, 'favicon belongs to NADIN rather than its parent site');
+        ok(new URL(await page.locator('link[rel=icon]').first().getAttribute('href'), page.url()).pathname === new URL(base + '/favicon.ico').pathname, 'favicon belongs to NADIN rather than its parent site');
         await page.goto(base + '/get/forscore.php?m=gigreps&c=Long%20required.txt&profile=sx');
         await expectMissingField('workflow', 'long page import choice');
         ok(await page.evaluate(() => scrollY < 500), 'clicking the bottom action on a long page returns to the missing import choice near the top');
@@ -95,11 +129,13 @@ function ok(value, label) { assert(value, label); checks++; }
         const plain = await nojs.newPage();
         await plain.goto(endpoint + '&profile=sx');
         ok(await plain.locator('[data-review]').isVisible(), 'manual refresh remains available without JavaScript');
-        await plain.locator('[value=download]').click();
-        ok(await plain.evaluate(() => document.activeElement.name === 'workflow'), 'without JavaScript the active download also focuses the required import choice');
+        for (const position of ['top','bottom']) {
+            await plain.locator('[data-download=' + position + ']').click();
+            ok(await plain.evaluate(() => document.activeElement.name === 'workflow'), 'without JavaScript the ' + position + ' action focuses the required import choice');
+        }
         await plain.locator('[name=workflow]').selectOption('first');
         await Promise.all([plain.waitForNavigation({waitUntil:'domcontentloaded'}), plain.locator('[data-review]').click()]);
-        ok((await plain.locator('[data-export-next]').textContent()).startsWith('Ready.'), 'no-JavaScript refresh produces a correct download summary');
+        ok((await plain.locator('[data-export-next]').textContent()) === 'Ready to download.', 'no-JavaScript refresh produces a correct download summary');
         await nojs.close();
         console.log('PASS:', checks, 'forScore workflow Chromium checks');
     } finally { await browser.close(); }
