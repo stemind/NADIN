@@ -174,7 +174,7 @@ nadinPopupStart('forScore export (V17)', '../', 'nadin-forscore');
 <p class="postscriptum">Your section is remembered on this browser. Section PDFs are preferred; Parts is used when needed.</p>
 <div class="nadin-forscore-controls">
 <label>Section <select name="profile" data-auto-review><?php foreach ($allowed as $key => $value) echo '<option value="' . nadinHtml($key) . '"' . ($key === $profile ? ' selected' : '') . '>' . nadinHtml($value['label']) . '</option>'; ?></select></label>
-<label>Import <select name="workflow" required data-auto-review>
+<label>Import <select name="workflow" required data-required-message="Choose how to import this setlist." data-auto-review>
 <option value=""<?php if ($workflow === '') echo ' selected'; ?>>Choose an import option</option>
 <option value="first"<?php if ($workflow === 'first') echo ' selected'; ?>>First NADIN import - include PDFs</option>
 <option value="update"<?php if ($workflow === 'update') echo ' selected'; ?>>Add to existing notes - use inventory CSV</option>
@@ -190,7 +190,7 @@ elseif ($workflow === 'references') echo 'This creates the setlist without PDF d
 else echo 'Choose how to import this setlist. Section and CSV changes update the selection automatically.';
 ?></p>
 <div class="nadin-forscore-inventory" data-inventory-panel<?php if ($workflow !== 'update') echo ' hidden'; ?>>
-<label>Current forScore library CSV <input type="file" name="csv" accept=".csv,.tsv,text/csv,text/tab-separated-values" data-auto-review<?php if ($workflow === 'update' && !$loaded) echo ' required'; ?>></label>
+<label>Current forScore library CSV <input type="file" name="csv" data-required-message="Upload a current forScore library CSV." accept=".csv,.tsv,text/csv,text/tab-separated-values" data-auto-review<?php if ($workflow === 'update' && !$loaded) echo ' required'; ?>></label>
 <p class="postscriptum">Export a fresh metadata CSV from forScore’s Backup panel. The CSV stays on this NADIN server for this request; it is not saved.</p>
 </div>
 <?php if ($loaded) echo '<p class="postscriptum">Inventory loaded' . ($inventoryName !== '' ? ': ' . nadinHtml($inventoryName) : '') . ' - ' . count($names) . ' PDFs identified. Existing filenames do not prove that local PDF contents are unchanged.</p>'; ?>
@@ -207,7 +207,7 @@ else echo 'Choose how to import this setlist. Section and CSV changes update the
 <input type="hidden" name="choice[<?php echo $key; ?>]" value="<?php echo nadinHtml($row['selected']); ?>" data-pdf-choice data-path="<?php echo nadinHtml($selected['path']); ?>" data-known="<?php echo $selected['known'] ? '1' : '0'; ?>">
 <span class="nadin-forscore-file" id="choice-<?php echo $key; ?>"><?php echo nadinHtml($selected['asset']['file']); ?></span>
 <?php } elseif ($row['options']) { ?>
-<select id="choice-<?php echo $key; ?>" name="choice[<?php echo $key; ?>]" data-pdf-choice aria-labelledby="tune-<?php echo $key; ?>">
+<select id="choice-<?php echo $key; ?>" name="choice[<?php echo $key; ?>]" data-pdf-choice required data-required-message="Choose a PDF for this tune." aria-labelledby="tune-<?php echo $key; ?>">
 <option value="">Choose PDF</option>
 <?php foreach ($row['options'] as $id => $option) echo '<option value="' . nadinHtml($id) . '" data-path="' . nadinHtml($option['path']) . '" data-known="' . ($option['known'] ? '1' : '0') . '" data-summary="' . nadinHtml(fsOptionSummary($option, $profiles, $mode, $workflow)) . '"' . ($id === $row['selected'] ? ' selected' : '') . '>' . nadinHtml($option['label']) . '</option>'; ?>
 </select>
@@ -218,7 +218,7 @@ else echo 'Choose how to import this setlist. Section and CSV changes update the
 <?php } ?>
 </div>
 <?php if ($missingNotes) { ?>
-<p><label><input type="checkbox" name="placeholders" value="1"<?php if ($placeholders) echo ' checked'; ?>> Keep tunes with missing or inaccessible notes as visible placeholders.</label></p>
+<p><label><input type="checkbox" name="placeholders" value="1" required data-required-message="Confirm that tunes with missing notes may be kept as placeholders."<?php if ($placeholders) echo ' checked'; ?>> Keep tunes with missing or inaccessible notes as visible placeholders.</label></p>
 <?php } ?>
 <?php $summary = fsExportSummary($plan, $mode); ?>
 <div class="nadin-forscore-summary" data-export-summary role="status" aria-live="polite">
@@ -249,5 +249,5 @@ else echo 'Ready. Download the setlist and open it in forScore.';
 <p>All Rep entries retain their order, including repeated tunes. Each new PDF is embedded once; subsequent occurrences and other Reps reuse it. After checking an imported Rep, remove the previous setlist if forScore keeps both; removing a setlist does not remove its notes. Renaming files in forScore can prevent automatic matching.</p>
 </details>
 <?php } ?>
-<script src="../nadinmodule/forscore.js" defer></script>
+<script src="../nadinmodule/forscore.js?v=7.7.4" defer></script>
 </main></body></html>
