@@ -19,8 +19,11 @@ with tempfile.TemporaryDirectory(prefix='nadin-runtime-') as temp:
  sources=[p for p in ROOT.rglob('*.php') if not any(x in p.relative_to(ROOT).parts for x in ['vendor','.git'])]
  for path in sources:run([str(wrapper),'-l',str(path)],env=env,stdout=subprocess.DEVNULL)
  print(f'PASS: {len(sources)} PHP syntax checks',flush=True)
- tests=['encoding.php','encoding-http.py','auth.php','bruteforce.php','auth-http.py','admin-http.py','shared-data-http.py','member-format.php','legacy-users.php','forscore.php','federation.php','federation-http.py','zip.php','v16-http.py','review-http.py','php-compat.php','php-compat-http.py']
+ tests=['encoding.php','encoding-http.py','auth.php','bruteforce.php','auth-http.py','admin-http.py','shared-data-http.py','member-format.php','legacy-users.php','forscore.php','federation.php','federation-http.py','zip.php','v16-http.py','v17-http.py','main-parity-http.py','gig-layout-http.py','forscore-http.py','review-http.py','php-compat.php','php-compat-http.py']
  for name in tests:run([str(wrapper) if name.endswith('.php') else sys.executable,'tests/'+name],env=env)
  preview=temp/'preview';run([sys.executable,'tests/render-preview.py',str(preview)],env=env)
  run(['node','tests/admin-dom.cjs',str(preview/'views')],env=env);run(['node','tests/login-dom.cjs'],env=env)
+ if env.get('NADIN_CHROMIUM'):
+  run(['node','tests/ui-browser.cjs',str(preview/'views')],env=env)
+  run([sys.executable,'tests/v17-browser.py'],env=env)
  print('PASS: complete runtime suite ('+('PHP 9 simulation; not a PHP 9 runtime' if args.simulate_php9 else 'native PHP')+')',flush=True)

@@ -17,7 +17,7 @@ from bs4 import BeautifulSoup
 ROOT = Path(__file__).resolve().parents[1]
 PHP = os.environ.get('NADIN_PHP', 'php')
 DEFAULT_CHARSET = os.environ.get('NADIN_DEFAULT_CHARSET', 'UTF-8')
-EXPECTED_VERSION = 'V16'
+EXPECTED_VERSION = os.environ.get('NADIN_EXPECTED_VERSION', 'V17')
 SEPARATOR = '* - * - * - * * * - * - * - *'
 checks = 0
 

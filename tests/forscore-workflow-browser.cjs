@@ -60,7 +60,7 @@ function ok(value, label) { assert(value, label); checks++; }
                 await page.screenshot({path:process.env.NADIN_SCREENSHOTS + '/forscore-' + width + '.png', fullPage:true});
             }
         }
-        ok(new URL(await page.locator('link[rel=icon]').getAttribute('href'), page.url()).pathname === new URL(base + '/favicon.ico').pathname, 'favicon belongs to NADIN rather than its parent site');
+        ok(new URL(await page.locator('link[rel=icon]').first().getAttribute('href'), page.url()).pathname === new URL(base + '/favicon.ico').pathname, 'favicon belongs to NADIN rather than its parent site');
         ok(errors.length === 0, 'workflow has no browser JavaScript errors');
         const nojs = await browser.newContext({javaScriptEnabled:false});
         await nojs.addCookies(cookies);
