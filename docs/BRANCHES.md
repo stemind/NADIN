@@ -6,7 +6,7 @@ The numbered branches describe successive functional stages. Common repairs have
 | --- | --- | --- | --- |
 | main | [`main`](https://github.com/stemind/NADIN/tree/main) | 7.6 | Maintained 7.x baseline |
 | 7.7 | [`7.7-original-interface-forScore`](https://github.com/stemind/NADIN/tree/7.7-original-interface-forScore) | 7.6 | Original interface with forScore development |
-| 7.7.2 | [`7.7.2-css-gigrep-layout`](https://github.com/stemind/NADIN/tree/7.7.2-css-gigrep-layout) | 7.7.1 | classic GigRep layout |
+| 7.7 classic release | [`7.7.2-css-gigrep-layout`](https://github.com/stemind/NADIN/tree/7.7.2-css-gigrep-layout) | 7.6 | Classic CSS GigRep layout and guided forScore export |
 | V8 | [`V8-compact-interface`](https://github.com/stemind/NADIN/tree/V8-compact-interface) | 7.x baseline | Compact original interface |
 | V9 | [`V9-forScore-export`](https://github.com/stemind/NADIN/tree/V9-forScore-export) | V8 | forScore export |
 | V10 | [`V10-personal-passwords`](https://github.com/stemind/NADIN/tree/V10-personal-passwords) | V9 | Personal passwords and onboarding |
@@ -20,15 +20,15 @@ The numbered branches describe successive functional stages. Common repairs have
 
 ## Integration and release status
 
-- `main` is the maintained legacy comparison baseline. The later interface, account and federation stages are not all merged into it.
-- `v7.7.1` remains the previous immutable release snapshot. `v7.7.2` added the conservative CSS-layout maintenance. `v7.7.3` builds on that release with the guided forScore workflow, on `7.7.2-css-gigrep-layout`.
-- `7.7-original-interface-forScore` retains its own classic layout. The remembered-section and guided forScore workflow are applied to both classic lines and V8–V16; each keeps its visual stage.
-- V8–V16 retain their individual visual stages. Shared fixes preserve literal headings, Library forScore access, section/Parts permissions, custom markers, source order, file identities and required directories.
-- Current/archive GigRep position is controlled by `rendergiglistontheleft`. Only explicit `yes` enables the classic left list; a missing classic flag retains the original top position. Compact branches retain left as their default when no flag is provided. A positive pixel width remains configurable.
-- iTunes/RSS routes have been retired in the V10-and-later development lines. Ordinary PDF/recording downloads, ZIPs and `abo/zip` gig attachments remain. This historical feature decision is distinct from the 7.7.2 layout maintenance.
-- Federation is optional in V15/V16. Install the versions in `composer.lock` with Composer to enable and test it; local login works without those optional dependencies.
+- `main` is the maintained legacy comparison baseline and has no forScore exporter. Later interface, account and federation stages are separate development lines.
+- The consolidated classic release is [NADIN 7.7](7.7.md), sourced from `7.7.2-css-gigrep-layout` (historical branch name). It includes the earlier patch corrections and supplies one cumulative `NADIN-7.6-to-7.7.zip` update.
+- `7.7-original-interface-forScore` retains its classic development layout. Both classic lines and V8–V17 share the guided forScore workflow and active-download validation, while each retains its visual stage.
+- In every branch, only the literal string `rendergiglistontheleft='no'` puts current/archive GigRep navigation above the tunes. Missing, empty, `yes` and other values use the left vertical column. A positive pixel width remains configurable.
+- Shared fixes preserve literal headings, Library forScore access, section/Parts permissions, custom markers, source order, file identities and required directories.
+- iTunes/RSS routes have been retired in V10 and later. Ordinary PDF/recording downloads, ZIPs and `abo/zip` gig attachments remain.
+- Federation is optional in V15 and later. Install dependencies from `composer.lock` to use it; local login works without them.
 
-Use one line's complete source files. Preserve installation configuration and salt, member/authentication files, music, Reps, attachments and hidden forScore identity metadata. Do not replace a production configuration file with the repository example.
+Use one line's complete source files. Preserve installation configuration and salt, member/authentication files, music, Reps, attachments and hidden forScore identity metadata. Do not replace production configuration with the repository example.
 
 ## Historical numbering
 
@@ -36,8 +36,4 @@ The skipped V10 was closed by renumbering former V11–V16 to V10–V15. The cur
 
 ## Verification
 
-The final executed checks and concrete collateral corrections are recorded in [the evolution audit](EVOLUTION-AUDIT.md). The [7.7.2 release notes](7.7.2.md) describe its deliberately smaller source delta and upgrade packages.
-
-The [7.7.3 release notes](7.7.3.md) describe the current forScore workflow release and update packages.
-
-The current classic release is [7.7.4](7.7.4.md). Active download and required-field guidance are backported to all forScore lines, including V17.
+Current defaults, package and workflow verification are described in [the consolidated 7.7 guide](7.7.md). The [evolution audit](EVOLUTION-AUDIT.md) records earlier executed checks and their historical scope.
