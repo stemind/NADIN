@@ -174,20 +174,12 @@ div, h3 {
 .nadin-recording-duration { font-size:12px; }
 .nadin-manage-recording { color:#888; }
 .nadin-mobile-actions, .nadin-nav-short, .nadin-sidebar-toggle, .nadin-recording-symbol, .nadin-sidebar-backdrop { display:none; }
-.nadin-downloads { margin-top:12px;padding-top:7px;border-top:1px solid #d5d5d5;font-size:13px;line-height:1.4; }
-.nadin-downloads summary { display:list-item;cursor:pointer;font-weight:600;width:fit-content;max-width:100%; }
-.nadin-downloads summary:focus-visible { outline:2px solid royalblue;outline-offset:3px; }
-.nadin-downloads-hint { margin-left:8px;font-size:11px;font-weight:normal;color:#666; }
-.nadin-zip-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,172px),1fr));gap:5px;margin-top:7px; }
-.nadin-zip-link { display:flex;align-items:center;gap:9px;min-width:0;min-height:46px;box-sizing:border-box;padding:5px 8px;border:1px solid #d3d5da;border-radius:3px;background:#f6f7f8; }
-.nadin-zip-link:visited { color:blue; }
-.nadin-zip-link:hover { background:lightyellow;border-color:#9ca8c3;color:blue;text-decoration:none; }
-.nadin-zip-link:focus-visible { outline:2px solid royalblue;outline-offset:2px; }
-.nadin-zip-badge { flex:none;font-size:10px;font-weight:600;color:#536078; }
-.nadin-zip-text { min-width:0; }
-.nadin-zip-text strong { display:block;font-size:12px;line-height:17px;overflow-wrap:anywhere; }
-.nadin-zip-text small { display:block;font-size:10px;line-height:15px;color:#59616c;overflow-wrap:anywhere; }
-.nadin-zip-note { margin:5px 0 0;font-size:11px;color:#666; }
+/* Keep whole-set downloads as a compact row of ordinary links. */
+.nadin-downloads { display:flex;align-items:baseline;flex-wrap:wrap;gap:0 12px;margin-top:6px;font-size:12px;line-height:24px; }
+.nadin-downloads-label { color:var(--nadin-muted,#666);white-space:nowrap; }
+.nadin-zip-link,.nadin-zip-link:visited { display:inline-block;white-space:nowrap;color:var(--nadin-blue,blue); }
+.nadin-zip-link:hover { color:var(--nadin-blue,blue);text-decoration:underline; }
+.nadin-zip-link:focus-visible { outline:2px solid var(--nadin-blue,royalblue);outline-offset:2px; }
 .nadin-info-inner > br { display:none; }
 @media (max-width:1000px) {
     .nadin-layout { grid-template-columns:minmax(140px,22vw) minmax(0,1fr); }
@@ -227,8 +219,7 @@ div, h3 {
     .nadin-action-menu > div { line-height:26px; }
     .nadin-action-menu a { display:inline-block; margin-right:8px; font-size:13px; }
     .nadin-detail-row > td { overflow-wrap:anywhere; }
-    .nadin-downloads summary { min-height:28px;line-height:28px; }
-    .nadin-zip-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .nadin-downloads { line-height:28px; }
     .nadin-recording-row > a:first-child { display:inline-block; max-width:calc(100% - 22px); vertical-align:bottom; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 }
 @media print {
@@ -429,12 +420,6 @@ button,input,select,textarea { font-family:var(--nadin-font); }
 .nadin-library-letter h4 { color:var(--nadin-muted);font-size:14px; }
 .nadin-library-letter td>br { display:none; }
 .nadin-recording-row { border-bottom:1px solid #edf0f4; }
-.nadin-downloads { border-color:var(--nadin-line);margin-top:10px; }
-.nadin-downloads-hint,.nadin-zip-note { color:var(--nadin-muted); }
-.nadin-zip-link,.nadin-zip-link:visited { background:var(--nadin-surface);border-color:var(--nadin-line);border-radius:4px;color:var(--nadin-blue);min-height:44px; }
-.nadin-zip-link:hover { background:#fff7d7;border-color:#c8b56b;color:#173f7c; }
-.nadin-zip-badge { color:var(--nadin-blue);border-right:1px solid var(--nadin-line);padding-right:7px; }
-.nadin-zip-text small { color:var(--nadin-muted); }
 .nadin-admin-heading { background:var(--nadin-surface);border:1px solid var(--nadin-line);border-radius:5px;padding:4px 7px;margin-bottom:7px; }
 .nadin-admin-heading h3 { background:transparent;font-size:15px;font-weight:650;line-height:21px; }
 .nadin-admin-workspace { gap:10px; }
@@ -508,7 +493,6 @@ button,input,select,textarea { font-family:var(--nadin-font); }
  .nadin-navigation>a { padding-inline:5px; }
  .nadin-rights { grid-template-columns:minmax(0,1fr); }
  .nadin-rights fieldset:first-child { display:block; }
- .nadin-zip-link { gap:6px;padding-inline:6px; }
 }
 @media print {
  body,.nadin-page { margin:0;color:#000;background:#fff; }
