@@ -129,9 +129,9 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
 
         response = preview('Headings.txt')
         version_page = BeautifulSoup(response.text, 'html.parser')
-        ok(EXPECTED_VERSION in version_page.title.get_text(),
-           'export window title renders the current branch/release version')
-        ok(any(EXPECTED_VERSION in h.get_text(' ', strip=True) for h in version_page.find_all(['h1', 'h2'])),
+        ok(version_page.title.get_text() in ('forScore – NADIN', 'forScore - NADIN'),
+           'export window title has a simple task name without a version')
+        ok(any(h.get_text(' ', strip=True) == 'forScore' for h in version_page.find_all(['h1', 'h2'])),
            'export heading renders the current branch/release version')
         ok('Heading — included automatically as a text placeholder.' in response.text and 'forScore’s Backup panel' in response.text,
            'browser decoding preserves punctuation in static interface text')
