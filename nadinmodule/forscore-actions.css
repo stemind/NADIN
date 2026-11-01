@@ -1,0 +1,47 @@
+/* Shared forScore actions; scoped to the export page in every visual stage. */
+.nadin-forscore { overflow-wrap:anywhere; }
+.nadin-forscore .nadin-forscore-action-bar {
+    display:flex; flex-wrap:wrap; align-items:center; gap:12px 18px;
+    box-sizing:border-box; margin:12px 0 18px; padding:12px 14px;
+    border:1px solid var(--nadin-line,#ccd4df); border-radius:6px;
+    background:var(--nadin-surface,#f3f5f8);
+}
+.nadin-forscore .nadin-forscore-action-bar .nadin-forscore-summary {
+    flex:1 1 22rem; min-width:0; margin:0; padding:0; border:0; background:transparent;
+}
+.nadin-forscore .nadin-forscore-action-bar [data-export-next] {
+    font-weight:600; color:var(--nadin-ink,#26374b);
+}
+.nadin-forscore button.nadin-forscore-download {
+    appearance:none; -webkit-appearance:none; display:inline-flex;
+    align-items:center; justify-content:center; gap:8px;
+    box-sizing:border-box; max-width:100%; min-height:44px; padding:10px 15px;
+    border:1px solid var(--nadin-blue,#174a7e); border-radius:5px;
+    background:var(--nadin-blue,#174a7e); color:#fff;
+    font:inherit; font-weight:600; line-height:1.35; text-align:center;
+    white-space:normal; cursor:pointer; box-shadow:0 1px 3px rgba(20,40,65,.18);
+}
+.nadin-forscore button.nadin-forscore-download svg {
+    width:18px; height:18px; flex:0 0 18px;
+}
+.nadin-forscore button.nadin-forscore-download:hover:not(:disabled) {
+    background:#123b68; border-color:#123b68; color:#fff;
+    box-shadow:0 2px 5px rgba(20,40,65,.24);
+}
+.nadin-forscore button.nadin-forscore-download:focus-visible {
+    outline:3px solid var(--nadin-blue,#174a7e); outline-offset:3px;
+}
+.nadin-forscore button.nadin-forscore-download:active:not(:disabled) {
+    background:#0e3157; border-color:#0e3157; box-shadow:none;
+}
+.nadin-forscore .nadin-forscore-bottom-action { margin:18px 0 0; }
+@media(max-width:640px) {
+    .nadin-forscore .nadin-forscore-action-bar { flex-direction:column; align-items:stretch; padding:11px; }
+    .nadin-forscore .nadin-forscore-action-bar .nadin-forscore-summary { flex-basis:auto; }
+    .nadin-forscore button.nadin-forscore-download { width:100%; }
+    .nadin-forscore .nadin-forscore-row > span[id^="tune-"],
+    .nadin-forscore .nadin-forscore-row > .nadin-forscore-file { display:block; }
+}
+@media(forced-colors:active) {
+    .nadin-forscore button.nadin-forscore-download { border:2px solid ButtonText; }
+}
