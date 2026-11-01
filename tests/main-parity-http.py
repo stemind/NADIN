@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 
 ROOT=Path(os.environ.get('NADIN_APP_ROOT',Path(__file__).resolve().parents[1])).resolve()
 PHP=os.environ.get('NADIN_PHP','php'); checks=0
-EXPECTED_VERSION=os.environ.get('NADIN_EXPECTED_VERSION', '7.7.2')
+EXPECTED_VERSION=os.environ.get('NADIN_EXPECTED_VERSION', '7.7')
 SEP='* - * - * - * * * - * - * - *'
 def ok(value,label):
     global checks

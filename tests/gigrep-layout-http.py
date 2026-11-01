@@ -37,7 +37,7 @@ with tempfile.TemporaryDirectory(prefix='nadin-classic-layout-') as folder:
     if os.environ.get('NADIN_LAYOUT_BASELINE'):
         roots.append(('baseline', Path(os.environ['NADIN_LAYOUT_BASELINE'])))
     for label, root in roots:
-        for side in ['yes', 'no', 'missing']:
+        for side in ['yes', 'no', 'missing', '', 'auto']:
             for width in [240, 375]:
                 case_id = label + '-' + side + '-' + str(width)
                 app = temp / case_id / 'nadin'

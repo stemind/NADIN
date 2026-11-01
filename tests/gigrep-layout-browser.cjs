@@ -38,15 +38,15 @@ const near = (a, b) => Math.abs(a - b) < 2;
           });
           for (const viewport of [{width:1440,height:1000}, {width:1280,height:1200}, {width:800,height:520}]) {
             await page.setViewportSize(viewport);
-            if (c.side === 'yes') {
+            if (c.side !== 'no') {
               await page.waitForFunction(height => {
                 const nav = document.querySelector('#nadin-gig-list') || document.querySelector('h3');
                 return Math.abs(nav.getBoundingClientRect().height - Math.max(600, height - 150)) < 2;
               }, viewport.height);
             }
             const m = await metrics();
-            ok(c.side === 'yes' ? m.float === 'left' : m.float === 'none', 'configured orientation ' + c.id);
-            if (c.side === 'yes') {
+            ok(c.side !== 'no' ? m.float === 'left' : m.float === 'none', 'configured orientation ' + c.id);
+            if (c.side !== 'no') {
               ok(near(m.nav.width, c.width), 'configured sidebar width ' + c.id);
               ok(m.content.x >= m.nav.right && near(m.content.x - m.nav.x, c.width + 20), 'tunes clear the list ' + c.id);
               ok(near(m.info.x - m.nav.x, c.width), 'info block clears the list ' + c.id);
@@ -60,7 +60,7 @@ const near = (a, b) => Math.abs(a - b) < 2;
           }
           ok(await content.getByText('Layout_Tune', {exact:true}).count() >= 2, 'ordered repeated tunes remain visible');
           ok(await page.getByRole('link', {name:'forScore↓',exact:true}).isVisible(), 'forScore remains available');
-          if (scripts && c.label === 'release' && c.side === 'yes') {
+          if (scripts && c.label === 'release' && c.side !== 'no') {
             if (module === 'gigrepsarchiv') {
               ok(!(await page.locator('#infoarea').isVisible()), 'archive info initially closed');
               await info.getByRole('link', {name:'show/hide infos',exact:true}).click();
