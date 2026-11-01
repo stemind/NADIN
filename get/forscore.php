@@ -151,12 +151,13 @@ try {
     http_response_code(400);
     // A complete recomputed preview can be reviewed again after a stale download.
 }
+$returnToNadinTab = (($_POST['from_nadin'] ?? $_GET['from_nadin'] ?? '') === '1');
 $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps', 'gigrepsarchiv', 'library'), true) ? $module : 'gigreps', 'c' => $rep));
 ?>
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/x-icon" href="../favicon.ico">
-<link rel="stylesheet" href="../style.css"><title>forScore export — NADIN 7.7</title><style>
+<link rel="stylesheet" href="../style.css"><title>forScore – NADIN</title><style>
 /* Local styles: the existing NADIN 7.6 stylesheet remains unchanged. */
 .nadin-forscore { margin:8px; }
 .nadin-forscore form { max-width:1100px; }
@@ -191,8 +192,8 @@ $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps'
 <link rel="stylesheet" href="../nadinmodule/forscore-actions.css?v=top-actions">
 </head>
 <body class="nadin-page nadin-forscore">
-<h2>forScore <small>— NADIN 7.7</small></h2>
-<p><a href="<?php echo nadinHtml($back); ?>">&larr; Back to NADIN</a></p>
+<h2>forScore</h2>
+<p><a href="<?php echo nadinHtml($back); ?>" data-forscore-return="<?php echo $returnToNadinTab ? 'close' : 'navigate'; ?>">&larr; Back to NADIN</a></p>
 <?php if ($error !== '') { ?>
 <p role="alert" class="nadin-forscore-error"><?php echo nadinHtml($error); ?></p>
 <?php } ?>
@@ -200,6 +201,7 @@ $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps'
 <?php } else { ?>
 <p><strong><?php echo nadinHtml($title); ?></strong></p>
 <form id="nadin-forscore-form" data-context="<?php echo hash('sha256', $module . '|' . $rep); ?>" method="post" enctype="multipart/form-data" accept-charset="UTF-8">
+<input type="hidden" name="from_nadin" value="<?php echo $returnToNadinTab ? '1' : '0'; ?>">
 <input type="hidden" name="csrf" value="<?php echo nadinHtml($csrf); ?>">
 <input type="hidden" name="m" value="<?php echo nadinHtml($module); ?>">
 <input type="hidden" name="rep" value="<?php echo nadinHtml(base64_encode($rep)); ?>">
@@ -289,5 +291,5 @@ else echo 'Choose how to import this setlist. Section and CSV changes update the
 <p>All Rep entries retain their order, including repeated tunes. Each new PDF is embedded once; subsequent occurrences and other Reps reuse it. After checking an imported Rep, remove the previous setlist if forScore keeps both; removing a setlist does not remove its notes. Renaming files in forScore can prevent automatic matching.</p>
 </details>
 <?php } ?>
-<script src="../nadinmodule/forscore.js?v=top-actions" defer></script>
+<script src="../nadinmodule/forscore.js?v=tab-return" defer></script>
 </body></html>
