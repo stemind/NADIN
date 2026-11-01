@@ -212,10 +212,17 @@ class MP3File
 }
 ?>
 <script>
+// Duration annotation refreshes the list, without discarding an editor's pending upload.
+if(parent&&parent.parent&&parent.parent.NadinTask){
+ var editor=parent.parent;
+ editor.clearTimeout(editor.nadinAudioDurationRefresh);
+ editor.nadinAudioDurationRefresh=editor.setTimeout(function(){editor.NadinTask.refreshFiles();editor.NadinTask.notifyOpener();},150);
+}else{
 if(parent)if(parent.parent)if(parent.parent.location.href.indexOf('&m')>0)palohref=parent.parent.location.href.split('&m')[0]+'&m=<?php echo mkid2($filenamewithtime)?>';
 if(parent)if(parent.parent)if(parent.parent.location.href.indexOf('&m')<0)palohref=parent.parent.location.href;
 setTimeout("if(parent)if(parent.parent)parent.parent.location.href=palohref;",1000);
 setTimeout("if(parent)if(parent.parent)if(parent.parent.opener)if(parent.parent.opener.fresh)parent.parent.opener.fresh();",500);
+}
 </script>
 </body>
 </html>

@@ -17,9 +17,9 @@
   const heading=document.createElement('h3');heading.textContent='Check the highlighted fields';summary.appendChild(heading);const list=document.createElement('ul');summary.appendChild(list);
   invalid.forEach((field,i)=>{if(!field.id)field.id='nadin-field-'+i;const id='nadin-error-'+field.id;const hint=document.createElement('span');hint.id=id;hint.className='nadin-field-error';hint.textContent=field.validationMessage;field.insertAdjacentElement('afterend',hint);field.setAttribute('aria-invalid','true');field.setAttribute('aria-describedby',((field.getAttribute('aria-describedby')||'')+' '+id).trim());const item=document.createElement('li'),link=document.createElement('a');link.href='#'+field.id;link.textContent=(field.labels&&field.labels[0]?field.labels[0].childNodes[0].textContent.trim()+': ':'')+field.validationMessage;link.addEventListener('click',e=>{e.preventDefault();field.focus();});item.appendChild(link);list.appendChild(item);});summary.focus();return false;
  }
- async function send(url,data){
+ async function send(url,data,timeout=120000){
   const target=new URL(url,location.href);if(target.origin!==location.origin)throw new Error('Use a file editor on this NADIN installation.');
-  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),120000);
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeout);
   try{
    const auth=await fetch(tokenURL,{cache:'no-store',credentials:'same-origin',signal:controller.signal}),session=await auth.json();if(!auth.ok)throw new Error(session.error||'Please sign in in another tab, then retry.');
    data.set('csrf',session.csrf);data.set('_nadin_async','1');
@@ -45,9 +45,10 @@
   box('nadin-task-error','alert').hidden=true;form.dataset.busy='true';form.setAttribute('aria-busy','true');
   const data=new FormData(form),focused=document.activeElement;
   const controls=Array.from(form.querySelectorAll('button,input,textarea,select')).map(el=>[el,el.disabled]);controls.forEach(([el])=>el.disabled=true);
-  report(form.dataset.nadinAsync==='upload'?'Uploading… Keep this window open.':'Saving…');
+  const converting=file&&form.dataset.audioConversion==='yes'&&file.files.length&& !/\.mp3$/i.test(file.files[0].name);
+  report(converting?'Uploading and converting audio to MP3… Keep this window open.':(form.dataset.nadinAsync==='upload'?'Uploading… Keep this window open.':'Saving…'));
   try{
-   const reply=await send(form.action,data);
+   const reply=await send(form.action,data,converting?240000:120000);
    if(reply.revision&&form.elements.revision)form.elements.revision.value=reply.revision;
    dirty(form,false);report(reply.message);form.dataset.saved='true';
    if(file){form.reset();const selection=form.querySelector('[data-upload-selection]');if(selection)selection.textContent='';refreshFiles();}
