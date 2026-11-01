@@ -156,7 +156,7 @@ $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps'
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/x-icon" href="../favicon.ico">
-<link rel="stylesheet" href="../style.css"><title>forScore export — NADIN 7.7.4</title><style>
+<link rel="stylesheet" href="../style.css"><title>forScore export — NADIN 7.7</title><style>
 /* Local styles: the existing NADIN 7.6 stylesheet remains unchanged. */
 .nadin-forscore { margin:8px; }
 .nadin-forscore form { max-width:1100px; }
@@ -190,7 +190,7 @@ $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps'
 </style>
 </head>
 <body class="nadin-page nadin-forscore">
-<h2>forScore <small>— NADIN 7.7.4</small></h2>
+<h2>forScore <small>— NADIN 7.7</small></h2>
 <p><a href="<?php echo nadinHtml($back); ?>">&larr; Back to NADIN</a></p>
 <?php if ($error !== '') { ?>
 <p role="alert" class="nadin-forscore-error"><?php echo nadinHtml($error); ?></p>
@@ -285,5 +285,5 @@ else echo 'Ready. Download the setlist and open it in forScore.';
 <p>All Rep entries retain their order, including repeated tunes. Each new PDF is embedded once; subsequent occurrences and other Reps reuse it. After checking an imported Rep, remove the previous setlist if forScore keeps both; removing a setlist does not remove its notes. Renaming files in forScore can prevent automatic matching.</p>
 </details>
 <?php } ?>
-<script src="../nadinmodule/forscore.js?v=7.7.4" defer></script>
+<script src="../nadinmodule/forscore.js?v=7.7" defer></script>
 </body></html>
