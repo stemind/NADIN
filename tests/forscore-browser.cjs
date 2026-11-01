@@ -33,7 +33,7 @@ function ok(value, label) { assert(value, label); checks++; }
       await link.click();
       const popup = await popupEvent;
       await popup.waitForLoadState();
-      ok(await popup.getByRole('heading', { name: 'forScore — NADIN 7.7' }).isVisible(),
+      ok(await popup.getByRole('heading', { name: 'forScore', exact: true }).isVisible(),
         'forScore opens in its own tab from ' + module);
       await popup.close();
     }
