@@ -99,7 +99,7 @@
     });
     form.addEventListener('submit', function (event) {
         // Enter in a setup field must refresh rather than download a stale selection.
-        if (busy && event.submitter !== review) event.preventDefault();
+        if (busy && event.submitter && event.submitter !== review) event.preventDefault();
     });
     review.hidden = true;
     inventoryPanel();
