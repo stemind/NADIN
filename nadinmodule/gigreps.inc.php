@@ -56,7 +56,7 @@ $tunes=explode("\n",$rep);
 <div style="float:right;line-height:28px;text-align:right">
 <a style="text-decoration:none" href="nadinmodule/gigreps.xls.php?<?php echo $_SERVER['QUERY_STRING']?>" target="_blank">xls&darr;</a><br />
 <a style="text-decoration:none" href="nadinmodule/gigreps.print.php?<?php echo $_SERVER['QUERY_STRING']?>" target="_blank">print&darr;</a><br />
-<?php if (role('vgigs')) { ?><a style="text-decoration:none" href="get/forscore.php?<?php echo htmlspecialchars(http_build_query(array('m' => $_GET['m'], 'c' => $_GET['c'])), ENT_QUOTES, 'UTF-8'); ?>" target="_blank">forScore&darr;</a><?php } ?>
+<?php if (role('vgigs')) { ?><a style="text-decoration:none" href="get/forscore.php?<?php echo htmlspecialchars(http_build_query(array('m' => $_GET['m'], 'c' => $_GET['c'], 'from_nadin' => '1')), ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noopener">forScore&darr;</a><?php } ?>
 </div>
 
 <div id="includes">
