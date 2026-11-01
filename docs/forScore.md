@@ -1,5 +1,7 @@
 # NADIN V8: forScore export
 
+Current interaction and cookie behaviour: [forScore workflow](forScore-workflow.md). This supersedes the manual Review steps below.
+
 forScore is backported to V8 without changing its version or existing layout. Current and archived GigReps have a compact **forScore** link. The Library retains Print/XLS without a bulk export link. No WebDAV server, separate cloud account, or iPad helper app is required.
 
 ## Workflow
