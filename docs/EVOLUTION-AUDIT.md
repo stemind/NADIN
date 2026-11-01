@@ -1,5 +1,7 @@
 # NADIN evolution audit — 31 October 2026
 
+Historical audit: the results below describe the source and layout contract at that time. The current [consolidated 7.7 guide](7.7.md) supersedes the old release instructions and missing-flag behaviour: only `no` selects the top list.
+
 **Result:** all 278 final suite executions pass on PHP 8.3.6 and PHP 8.5.12 after the corrections below. The final matrix contains 27,688 numbered assertions, including 3,356 PHP syntax checks. It covers the maintained Main baseline, the conservative 7.7 development line, release 7.7.2 and V8–V16. The corrected runtime/test source fingerprints match the tested working trees.
 
 The source reference is historical `v7.6`; its functional HTTP contract also passes. That historical tag still displays 7.5 in its login footer. The maintained Main baseline displays 7.6; historical tags are not rewritten.
