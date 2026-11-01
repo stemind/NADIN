@@ -1,4 +1,6 @@
-> Historical maintenance draft. The final source, release scope and independently executed results are described in [EVOLUTION-AUDIT.md](EVOLUTION-AUDIT.md). In particular, the Library forScore entry is retained and the missing classic layout flag keeps the original top position.
+> Historical maintenance draft. The final source, release scope and independently executed results are described in [EVOLUTION-AUDIT.md](EVOLUTION-AUDIT.md). The layout-default decision recorded here is historical; the current contract is left by default and top only for an explicit `no`.
+
+Historical maintenance record. For the current release, layout defaults and single update package, see [NADIN 7.7](7.7.md).
 
 # Main-to-V16 maintenance review — 31 October 2026
 
