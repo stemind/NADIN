@@ -59,7 +59,7 @@ $autoclosepopups='no'; //automatically close popup windows when main window (ope
 
 $allowmultiplepopups='yes'; //when you click the pencil symbol to manage tunes, a popup will be opened; set to $allowmultiplepopups='no' replaces this popup with the next you are going to open
 
-$rendergiglistontheleft='yes';
+$rendergiglistontheleft='yes'; // Default: left column; only the literal 'no' selects the top list.
 $ifleftthenthiswidth='300px'; // e. g. $ifleftthenthiswidth='300px';
 
 /*
