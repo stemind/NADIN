@@ -88,4 +88,11 @@ $delimiter2='* - * - * - * * * - * - * - *'; // // This string indicates the cha
 $nadin='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']; //Calculation of internet address pointing to itself. If SSL is used, change the protocol to https://
 
 //The external links you'll find in the top right corner of NADIN's yellowish info box may be configured in configlinks.inc.php
+
+// V18: optional server-side audio conversion. Missing settings use these defaults.
+// 'auto' finds FFmpeg with libmp3lame; an absolute path selects it; '' disables conversion.
+$audioffmpeg='auto';
+$audioconversiontimeout=90; // seconds, maximum 90; upload time is additional
+$audiomaxseconds=1800; // converted audio duration, maximum 30 minutes
+
 ?>

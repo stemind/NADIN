@@ -25,13 +25,13 @@ if ($_GET['m']==='gigrepsarchiv') auth('vgigs');
 <?php 
 require_once('nadinmodule/functions.inc.php')
 ?>
-<script src="nadinmodule/task.js" defer></script>
+<script src="nadinmodule/task.js?v=audio-v18" defer></script>
 </head>
 <body class="nadin-page" data-nadin-page="<?php echo htmlspecialchars($_GET['m'],ENT_QUOTES,'UTF-8'); ?>">
 <a class="nadin-skip-link" href="#nadin-primary-content">Skip to content</a>
 <header class="nadin-header">
 <button type="button" class="nadin-sidebar-toggle" id="nadin-sidebar-toggle" aria-expanded="false" aria-controls="nadin-sidebar" aria-label="Open list">&#9776;</button>
-<h1>NADIN <small class="nadin-version">V17</small></h1>
+<h1>NADIN <small class="nadin-version">V18</small></h1>
 <div class="nadin-account"><span class="nadin-account-email"><?php echo htmlXspecialchars($uc) ?></span> | <a href="password.php">password</a> | <a href="logout.php">logout</a></div>
 <img src="nadin.svg" width="40" height="40" alt="" />
 </header>

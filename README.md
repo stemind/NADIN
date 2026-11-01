@@ -1,22 +1,23 @@
-# NADIN V17 — coherent interface and task workflows
+# NADIN V18 — automatic audio upload conversion
 
-V17 brings the music library, standalone editing windows, gig management and member administration into one compact interface. Its design follows the actual work: find and play music, add or correct files, build a setlist, give a substitute access, and recover from an error without losing the draft.
+V18 adds optional audio conversion to the V17 interface and task workflows. In **Recordings**, upload an MP3 unchanged or choose WAV, AIFF, M4A/AAC, FLAC, Ogg/Opus or WMA and let the server convert it to high-quality MP3. Without a working converter, the established MP3 upload remains available.
 
-**Branch:** `V17-unified-interface-and-workflows`
+**Branch:** `V18-audio-upload-conversion`
+**Starting point:** V17 at `324cbea70556eead3ca4414f7f94c8fac36415b9`, including the guided forScore workflow and intentional absence of a forScore link in the media Library.
+**Status:** Separate development line. It does not replace V17 or the released classic 7.7 package.
 
-**Starting point:** V16 at `ab802d7`, including compact ZIP links and the guided forScore workflow
-**Status:** Separate development line. It does not replace a released classic-interface package.
+## V18 audio uploads
 
-## What changes
+- Existing MP3s keep their exact bytes. Other supported formats use optional server-side FFmpeg with the LAME MP3 encoder. No external conversion service receives files.
+- Explicit upload, visible conversion feedback, retained selection after errors and MP3-only fallback when conversion is unavailable.
+- A recording is replaced only after successful conversion and staging; its previous bytes remain recoverable. Runtime-annotated filenames are recognised, and ambiguous duplicates are reported instead of guessed.
+- Conversion has time, duration and size limits. It does not hold the global media-write lock while encoding. Existing playback and audio ZIPs continue to use MP3.
 
-- A shared task frame for scores, recordings, attachments, tune notes, tune actions, access details and previews. File selection is followed by an explicit Upload action. Confirmed results and recoverable errors stay beside the task.
-- Focused dialogs with named actions, keyboard focus, Escape and retained input after a failed operation. Notes and administration offer Save and continue; pending gig PDFs are protected too.
-- Gig management keeps three working areas on a wide screen and switches directly between them on a phone. Visual and text setlist views share the same ordered draft, including headings, breaks and repeated tunes. Add buttons and movement arrows remain alternatives to dragging.
-- People management adds roster filters, a concise rights summary and quieter account actions. Initial passwords are revealed individually; personal passwords remain private.
+See [V18 audio setup, behaviour and verification](docs/V18-AUDIO.md). Existing installations keep their configuration and data; missing optional settings use defaults. No data migration is required.
 
-The familiar music rows, configurable GigRep position, compact wrapping ZIP row, section permissions, source order and forScore identities remain. V17 adds no external UI framework, font or analytics dependency and requires no data migration.
+## Inherited V17 interface
 
-See the [design decisions, actual use cases and primary research](docs/V17-DESIGN.md) and the [executed checks and test limits](docs/V17-VERIFICATION.md).
+The shared task frame, explicit file uploads, focused dialogs, draft protection, mobile gig/member workspaces and visual/text setlist editing remain. Music rows, configurable GigRep position, compact wrapping ZIP links, permissions, source order and forScore identities are retained. See the [V17 design decisions](docs/V17-DESIGN.md) and [historical V17 verification](docs/V17-VERIFICATION.md).
 
 ## Project
 
