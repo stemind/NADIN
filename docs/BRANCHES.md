@@ -24,7 +24,7 @@ The numbered branches describe successive functional stages. Common repairs have
 - The consolidated classic release is [NADIN 7.7](7.7.md), sourced from `7.7.2-css-gigrep-layout` (historical branch name). It includes the earlier patch corrections and supplies one cumulative `NADIN-7.6-to-7.7.zip` update.
 - `7.7-original-interface-forScore` retains its classic development layout. Both classic lines and V8–V17 share the guided forScore workflow and active-download validation, while each retains its visual stage.
 - In every branch, only the literal string `rendergiglistontheleft='no'` puts current/archive GigRep navigation above the tunes. Missing, empty, `yes` and other values use the left vertical column. A positive pixel width remains configurable.
-- Shared fixes preserve literal headings, Library forScore access, section/Parts permissions, custom markers, source order, file identities and required directories.
+- Shared fixes preserve literal headings, GigRep/archive forScore access, section/Parts permissions, custom markers, source order, file identities and required directories.
 - iTunes/RSS routes have been retired in V10 and later. Ordinary PDF/recording downloads, ZIPs and `abo/zip` gig attachments remain.
 - Federation is optional in V15 and later. Install dependencies from `composer.lock` to use it; local login works without them.
 
@@ -37,3 +37,5 @@ The skipped V10 was closed by renumbering former V11–V16 to V10–V15. The cur
 ## Verification
 
 Current defaults, package and workflow verification are described in [the consolidated 7.7 guide](7.7.md). The [evolution audit](EVOLUTION-AUDIT.md) records earlier executed checks and their historical scope.
+
+The media Library intentionally has no forScore link. Do not restore it as a missing feature; its Excel and Print exports remain available.
