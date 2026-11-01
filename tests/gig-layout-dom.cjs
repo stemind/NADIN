@@ -8,7 +8,7 @@ for(const c of cases)for(const viewport of [1440,390])for(const scripts of [fals
  w.matchMedia=()=>({matches:viewport<700,addEventListener(){},removeEventListener(){},addListener(){},removeListener(){}});
  const links=()=>Array.from(w.document.querySelectorAll('a[href]'),e=>e.getAttribute('href')).sort();const before=links();
  if(scripts){for(const s of w.document.querySelectorAll('script:not([src])')){try{w.eval(s.textContent)}catch(e){errors.push(e.message)}}if(c.modern){try{w.eval(fs.readFileSync(process.env.NADIN_LAYOUT_JS,'utf8'))}catch(e){errors.push(e.message)}}}
- const side=c.modern ? c.side!=='no' : c.side==='yes';
+ const side=c.side!=='no';
  if(c.modern){const root=w.document.querySelector('.nadin-layout'),nav=w.document.querySelector('[data-sidebar]'),toggle=w.document.getElementById('nadin-sidebar-toggle');
   ok(root.classList.contains('nadin-gig-list-top')===!side,'modern mode remains config-controlled');
   if(scripts&&!side)ok(toggle.hidden&&toggle.style.display==='none','inline gig bar does not expose an inert sidebar toggle');

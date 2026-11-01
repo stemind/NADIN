@@ -46,7 +46,7 @@ with tempfile.TemporaryDirectory(prefix='nadin-gig-layout-') as temp:
    user=role+'@example.invalid';data.update(u=user,p=hashlib.sha1((user+'layout-fixture').encode()).hexdigest()[7:13])
    response=session.post(base+'/login2.php',data=data,allow_redirects=False)
    ok(response.status_code in [302,303],'fixture login works: '+role)
-   for side in ['yes','no','missing']:
+   for side in ['yes','no','missing','','auto']:
     for width in [240,375]:
      text=re.sub(r"(?m)^\$rendergiglistontheleft\s*=.*$",'' if side=='missing' else "$rendergiglistontheleft='"+side+"';",original)
      text=re.sub(r"(?m)^(\$ifleftthenthiswidth\s*=\s*)'[^']*'",r"\g<1>'"+str(width)+"px'",text)
@@ -61,7 +61,7 @@ with tempfile.TemporaryDirectory(prefix='nadin-gig-layout-') as temp:
        ok(('nadin-gig-list-top' in soup.select_one('.nadin-layout').get('class',[]))==(side=='no'),'PHP applies config orientation before scripts')
        ok('--nadin-sidebar-width:'+str(width)+'px' in soup.select_one('.nadin-layout')['style'],'configured desktop width is retained')
       else:
-       ok((nav.find('br') is not None)==(side=='yes'),'PHP renders vertical separators without JavaScript')
+       ok((nav.find('br') is not None)==(side!='no'),'PHP renders vertical separators without JavaScript')
       cases.append({'html':response.text,'side':side,'width':width,'module':module,'role':role,'modern':modern})
   (temp/'cases.json').write_text(json.dumps(cases))
   script=ROOT/'tests/gig-layout-dom.cjs'
