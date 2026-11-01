@@ -239,8 +239,7 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
            'downloaded XML retains exact Unicode heading text')
 
         # The two existing screens gain only a link in the Print export block.
-        for module, name in (('gigreps', 'Headings.txt'), ('gigrepsarchiv', 'Headings.txt'),
-                             ('library', '')):
+        for module, name in (('gigreps', 'Headings.txt'), ('gigrepsarchiv', 'Headings.txt')):
             screen = session.get(base + '/', params={'m': module, 'c': name})
             soup = BeautifulSoup(screen.text, 'html.parser')
             link = soup.find('a', href=lambda href: href and href.startswith('get/forscore.php?'))
@@ -250,6 +249,10 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
                'forScore sits immediately below Print in ' + module)
             ok(link.get('style') == print_link.get('style') and link.get('target') == '_blank',
                'forScore retains Print styling and target in ' + module)
+
+        library_page = BeautifulSoup(session.get(base + '/', params={'m': 'library'}).text, 'html.parser')
+        ok(library_page.find('a', href=lambda href: href and 'forscore.php' in href) is None,
+           'media Library has no forScore link')
 
         # Initial-import confirmation, section changes and an actual changed PDF.
         response = preview('Headings.txt')

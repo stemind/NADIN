@@ -14,7 +14,7 @@ function ok(value, label) { assert(value, label); checks++; }
     const page = await context.newPage();
     await page.route('**/*', route => route.request().url().startsWith(base)
       ? route.continue() : route.abort());
-    for (const module of ['gigreps', 'gigrepsarchiv', 'library']) {
+    for (const module of ['gigreps', 'gigrepsarchiv']) {
       await page.goto(base + '/?m=' + module + '&c=Headings.txt');
       const link = page.getByRole('link', { name: 'forScore↓', exact: true });
       const print = page.getByRole('link', { name: 'print↓', exact: true });
