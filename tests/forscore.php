@@ -61,6 +61,12 @@ ok(row($dangling,'Dangling')['kind']==='tune','dangling source symlink is not a 
 fails(function()use($dangling){output($dangling);},'dangling source cannot bypass missing-notes confirmation');
 $repBefore=file_get_contents($root.'/gigreps/Headings.txt');output($headings);
 ok(file_get_contents($root.'/gigreps/Headings.txt')===$repBefore,'export does not migrate or rewrite the source Rep');
+rep('Text headings.txt',array('Set 2 / Pause:','../text only','<b>Grüsse & Zugabe</b>','A'));
+$textHeadings=simplexml_load_string(output($service->plan('gigreps','Text headings.txt','sx',array())));
+ok(count($textHeadings->placeholder)===3,'punctuated headings remain text without file lookups');
+ok((string)$textHeadings->placeholder[0]['title']==='Set 2 / Pause:','slash-separated heading text remains exact');
+ok((string)$textHeadings->placeholder[1]['title']==='../text only','path-like heading is inert text');
+ok((string)$textHeadings->placeholder[2]['title']==='<b>Grüsse & Zugabe</b>','heading markup is escaped without loss');
 $names=array(selected($p,'A')['path'],selected($p,'B')['path']);
 $p2=$service->plan('gigreps','Two.txt','sx',$names);ok(count(simplexml_load_string(output($p2))->xpath('score[@data]'))===0,'cross-Rep reuse');
 ok(selected($p2,'A')['path']===selected($p,'A')['path'],'stable filenames');
