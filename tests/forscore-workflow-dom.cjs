@@ -1,27 +1,58 @@
-/* Software DOM verification of automatic native form submission. */
-const assert=require('assert'),fs=require('fs'),{JSDOM}=require('jsdom');
-const input=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));let checks=0;
-function ok(value,label){assert(value,label);checks++;}
-function page(html){const d=new JSDOM(html,{url:'http://fixture.invalid/nadin/get/forscore.php?m=gigreps&c=Headings.txt',runScripts:'outside-only'}),w=d.window,calls=[];w.scrollTo=()=>{};const form=w.document.getElementById('nadin-forscore-form');form.requestSubmit=button=>calls.push({name:button.name,value:button.value,novalidate:button.formNoValidate});w.eval(fs.readFileSync(process.env.NADIN_FORSCORE_JS,'utf8'));return{d,w,form,calls};}
-for(const html of [input.blank,input.first,input.update]){
- const p=page(html),{w,form,calls}=p,review=form.querySelector('[data-review]'),download=form.querySelector('[value=download]'),status=form.querySelector('[data-review-status]');
- ok(review.hidden,'manual refresh is hidden only once the automatic handler is active');
- ok(form.elements.workflow.required,'a download requires one explicit import choice');
- ok(!form.hasAttribute('aria-busy')&&!download.disabled,'initial page is interactive');
- const profile=form.elements.profile;profile.value='parts';profile.dispatchEvent(new w.Event('change',{bubbles:true}));
- ok(calls.length===1&&calls[0].value==='review'&&calls[0].novalidate,'register change automatically refreshes even before an import option is chosen');
- ok(form.getAttribute('aria-busy')==='true'&&download.disabled&&!status.hidden,'stale download is unavailable during the refresh');
- ok(new w.FormData(form).has('profile')&&new w.FormData(form).has('csrf'),'refresh does not disable fields needed for the native POST');
- w.dispatchEvent(new w.Event('pageshow'));ok(!download.disabled&&!form.hasAttribute('aria-busy')&&status.hidden,'back/forward restores usable controls');
- form.elements.workflow.value='update';form.elements.workflow.dispatchEvent(new w.Event('change',{bubbles:true}));
- ok(calls.length===2&&!form.querySelector('[data-inventory-panel]').hidden,'inventory option reveals the uploader and refreshes automatically');
- w.dispatchEvent(new w.Event('pageshow'));
- const csv=form.elements.csv;Object.defineProperty(csv,'files',{configurable:true,value:[]});csv.dispatchEvent(new w.Event('change',{bubbles:true}));ok(calls.length===2,'cancelling the file chooser keeps the existing state');
- form.elements.inventory.value='previous-inventory';form.elements.inventory_loaded.value='1';form.elements.inventory_name.value='old.csv';
- Object.defineProperty(csv,'files',{configurable:true,value:[new w.File(['Filename\nA.pdf\n'],'new.csv',{type:'text/csv'})]});csv.dispatchEvent(new w.Event('change',{bubbles:true}));
- ok(calls.length===3&&form.elements.inventory.value==='W10='&&form.elements.inventory_loaded.value==='0','new CSV auto-refreshes without resending the previous large inventory');
- w.dispatchEvent(new w.Event('pageshow'));
- const choice=form.querySelector('[data-pdf-choice]');if(choice){const option=Array.from(choice.options).find(o=>o.value);choice.value=option.value;choice.dispatchEvent(new w.Event('change',{bubbles:true}));ok(calls.length===3&&choice.closest('.nadin-forscore-row').querySelector('[data-pdf-status]').textContent===option.dataset.summary,'PDF choice updates its status immediately without resetting scroll through another review');}
- p.d.window.close();
+/* Interaction checks against actual HTTP-rendered forms; no native browser implied. */
+const assert = require('assert'), fs = require('fs'), {JSDOM} = require('jsdom');
+const input = JSON.parse(fs.readFileSync(process.argv[2], 'utf8')); let checks = 0;
+function ok(value, label) { assert(value, label); checks++; }
+function page(html) {
+    const d = new JSDOM(html, {url:'http://fixture.invalid/band/nadin/get/forscore.php', runScripts:'outside-only'});
+    const w = d.window, calls = [], form = w.document.getElementById('nadin-forscore-form');
+    w.scrollTo = () => {};
+    form.requestSubmit = button => calls.push({value:button.value, novalidate:button.formNoValidate});
+    w.eval(fs.readFileSync(process.env.NADIN_FORSCORE_JS, 'utf8'));
+    return {d, w, form, calls};
 }
-console.log('PASS:',checks,'automatic forScore workflow software-DOM checks');
+function change(p, field) { field.dispatchEvent(new p.w.Event('change', {bubbles:true})); }
+function count(p, name) { return Number(p.form.querySelector('[data-count="' + name + '"]').textContent); }
+for (const name of ['blank', 'first', 'update', 'references']) {
+    const p = page(input[name]), {w, form, calls} = p;
+    const review = form.querySelector('[data-review]'), download = form.querySelector('[value=download]');
+    const status = form.querySelector('[data-review-status]');
+    ok(review.hidden, 'manual refresh is hidden after the automatic handler is active');
+    ok(!form.hasAttribute('aria-busy') && download.disabled === (name === 'blank'), 'only a complete import choice enables the initial download');
+    ok(count(p, 'entries') === 6 && count(p, 'headings') === 3, 'summary retains repeated tune and heading positions');
+    if (name !== 'blank') ok(count(p, name === 'first' ? 'included' : name === 'update' ? 'reused' : 'references') === 2, 'summary counts unique PDF filenames for this import intent');
+    form.elements.profile.value = 'parts'; change(p, form.elements.profile);
+    ok(calls.length === 1 && calls[0].value === 'review' && calls[0].novalidate, 'section change refreshes even before other required choices are made');
+    ok(form.getAttribute('aria-busy') === 'true' && download.disabled && !status.hidden, 'download is unavailable during automatic refresh');
+    ok(new w.FormData(form).has('profile') && new w.FormData(form).has('csrf'), 'automatic refresh preserves submitted fields');
+    w.dispatchEvent(new w.Event('pageshow'));
+    ok(!form.hasAttribute('aria-busy') && status.hidden, 'back/forward resets the pending state');
+    form.elements.workflow.value = 'update'; change(p, form.elements.workflow);
+    ok(calls.length === 2 && !form.querySelector('[data-inventory-panel]').hidden, 'following import reveals CSV uploader and refreshes');
+    w.dispatchEvent(new w.Event('pageshow'));
+    const csv = form.elements.csv;
+    Object.defineProperty(csv, 'files', {configurable:true, value:[]}); change(p, csv);
+    ok(calls.length === 2, 'cancelling the file chooser leaves the current preview intact');
+    form.elements.inventory.value = 'previous'; form.elements.inventory_loaded.value = '1';
+    Object.defineProperty(csv, 'files', {configurable:true, value:[new w.File(['Filename\nA.pdf\n'], 'fresh.csv')]}); change(p, csv);
+    ok(calls.length === 3 && form.elements.inventory.value === 'W10=' && form.elements.inventory_loaded.value === '0', 'replacement CSV refreshes without resending a stale inventory');
+    p.d.window.close();
+}
+{
+    const p = page(input.ambiguous), {form} = p, field = form.querySelector('select[data-pdf-choice]');
+    const download = form.querySelector('[value=download]');
+    ok(download.disabled && count(p, 'unresolved') === 1, 'ambiguous PDFs block download with a visible remaining-choice count');
+    field.value = Array.from(field.options).find(o => o.value).value; change(p, field);
+    ok(!download.disabled && count(p, 'unresolved') === 0 && count(p, 'included') === 1, 'choosing a PDF updates summary and enables download without review');
+    ok(p.calls.length === 0, 'manual PDF choice does not reload the page');
+    field.value = ''; change(p, field);
+    ok(download.disabled && count(p, 'unresolved') === 1, 'clearing the PDF selection updates the summary immediately');
+    p.d.window.close();
+}
+{
+    const p = page(input.missing), {form} = p, download = form.querySelector('[value=download]');
+    ok(download.disabled && count(p, 'missing') === 4, 'missing notes need explicit confirmation');
+    form.elements.placeholders.checked = true; change(p, form.elements.placeholders);
+    ok(!download.disabled && p.calls.length === 0, 'confirming placeholders enables download without review');
+    p.d.window.close();
+}
+console.log('PASS:', checks, 'forScore workflow software-DOM checks');
