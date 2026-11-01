@@ -36,3 +36,8 @@ function nadinInfoHtml($value) {
     }
     return $out.nadinHtml(substr($text,$offset));
 }
+
+function nadinGigListPosition() {
+    global $rendergiglistontheleft;
+    return !isset($rendergiglistontheleft) || $rendergiglistontheleft == 'yes' ? 'left' : 'top';
+}

@@ -7,7 +7,9 @@ header('Content-Type: text/html; charset=UTF-8');header('Cache-Control: private,
 $name=$kind==='attachment'?($_GET['gig'] ?? ''):($_GET['name'] ?? '');
 if (!is_string($name)||$name===''||$name[0]==='.'||basename($name)!==$name||preg_match('/[\\\\\x00-\x1f\x7f]/',$name)) {http_response_code(404);exit('Folder not found.');}
 $root=dirname(__DIR__);$dir=$kind==='attachment'?$root.'/abo/zip':$root.'/library/'.$name;
-if (!is_dir($dir)||is_link($dir)) {http_response_code(404);exit('Folder not found.');}
+// Installation-owned abo/zip may point at a shared attachment directory.
+// Individual linked files remain excluded by the DirectoryIterator checks below.
+if (!is_dir($dir)||($kind!=='attachment' && is_link($dir))) {http_response_code(404);exit('Folder not found.');}
 if ($kind==='attachment' && !is_file($root.'/gigreps/'.$name.'.txt') && !is_file($root.'/gigrepsarchiv/'.$name.'.txt')) {http_response_code(404);exit('Gig not found.');}
 $files=array();foreach (new DirectoryIterator($dir) as $entry) {
     $file=$entry->getFilename();if($entry->isDot()||$entry->isLink()||!$entry->isFile()||$file[0]==='.'||strpos($file,'zzDEL!')===0||$file==='infos.txt')continue;
