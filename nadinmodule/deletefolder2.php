@@ -6,5 +6,4 @@ foreach(new DirectoryIterator($dir) as $file){if($file->isDot())continue;$name=$
 foreach(array('gigreps','gigrepsarchiv','gigrepsdeleted') as $folder)foreach(nadinRepFiles($root.'/'.$folder) as $id){list($info,$entries)=nadinReadRep($root.'/'.$folder.'/'.$id,$delimiter2);if(in_array($tune,array_map('trim',$entries),true))nadin_legacy_error(409,'This tune is still used by a setlist: '.substr($id,0,-4).'. Remove the reference first.');}
 $dest=$root.'/filesdeleted/'.time().'_'.bin2hex(random_bytes(4)).'!'.$tune;
 if(!rename($dir,$dest))nadin_legacy_error(500,'The tune could not be moved to the deleted-files folder.');
-nadinPopupStart('Tune removed');
-echo '<p role="status">The empty tune folder was moved to filesdeleted and can be recovered from there.</p><button type="button" onclick="window.close()">Close</button><script>if(opener&&typeof opener.fresh==="function")opener.fresh();</script></body></html>';
+nadin_media_reply(true,'The empty tune was moved to deleted files. Its notes and identity metadata are retained for administrator recovery.',array('next_url'=>'../?m=library','next_label'=>'Return to the library'));

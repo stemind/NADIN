@@ -1,16 +1,10 @@
-<?php require_once('../config.inc.php');require_once('functions.inc.php');require_once __DIR__.'/popup-ui.inc.php';nadinPopupStart('Timeout / wrong login'); ?>
-Please log in again.
-<p>
-<a href="javascript:einloggen()">next</a>
-<script>
-function einloggen() {
-if(!opener)window.open('../login.php');
-if(opener)opener.location.reload();
-if(opener)opener.focus();
-document.title='close';
-document.getElementById('body').style.display='none';
-self.close();
-}
-</script>
-</body>
-</html>
+<?php
+require_once '../config.inc.php';
+require_once 'functions.inc.php';
+require_once __DIR__.'/popup-ui.inc.php';
+nadinPopupStart('Sign in to continue');
+?>
+<p>This window could not authenticate your request. Sign in, then return to your editor and retry the action.</p>
+<p><a href="../login.php" target="_blank" rel="noopener">Log in in another tab</a></p>
+<p><a href="../">Back to NADIN</a></p>
+</main></body></html>

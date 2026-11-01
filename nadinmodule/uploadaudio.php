@@ -1,27 +1,11 @@
-<?php 
-setcookie('upos', 'uploadaudio', time()+3600*24*365*10, '/');
-require('refreshcookies2.inc.php');
-require_once('functions.inc.php');
-auth('upaudio');
-?>
 <?php
-require_once('../config.inc.php');
+require __DIR__.'/refreshcookies2.inc.php';require_once __DIR__.'/popup-ui.inc.php';require_once __DIR__.'/media-form.inc.php';auth('upaudio');
+setcookie('upos','uploadaudio',time()+3600*24*365*10,'/');$name=$_GET['tune'] ?? '';nadinPopupStart(str_replace('_',' ',$name));require __DIR__.'/uploadnavi.inc.php';
 ?>
-<?php require_once __DIR__.'/popup-ui.inc.php'; nadinPopupStart(str_replace('_',' ',$_GET['tune'])); ?>
-
-<?php require('uploadnavi.inc.php'); ?>
-<h2>Existing files</h2>
-<iframe title="Existing recordings" src="AUDfiles.php?name=<?php echo rawurlencode($_GET['tune'])?>&m=<?php echo $_GET['m'] ?>" name="files" frameborder="0" width="100%" height="250"></iframe>
-
-
-<h2>Upload further files</h2>
-<iframe title="Upload a recording" src="AUDsendfile.php?name=<?php echo rawurlencode($_GET['tune'])?>" frameborder="0" width="100%" height="88"></iframe>
-<span style="font-size:70%"><?php include('iniget.inc.php')?></span>
-<p>
-<div class="nadin-popup-help">
-<small>Mark the recording that best fits the arrangement with the string RCMD in the filename! Mark only one tune per arrangement that way!</small>
-<p><small>Name your audio file in a self-explanatory way before uploading it, or, after uploading, with Rename; in both cases, use an as-yet unused name.<p><font color=red>PLEASE NOTE:</font> <?php echo $bb ?> recordings are recordings of your band and must be named in the following manner:<br><b><?php echo $bb ?>_2014-12-31_optGigName_TuneName.mp3</b> or (see above) <b><?php echo $bb ?>_2014-12-31_optGigName_TuneName_<?php echo $recommended ?>.mp3</b>.</small>
-</div>
-
-</body>
-</html>
+<section class="nadin-media-section" aria-labelledby="media-files-heading"><h2 id="media-files-heading">Recordings</h2>
+<iframe data-nadin-file-list data-nadin-auto-size title="Existing recordings" src="AUDfiles.php?name=<?php echo rawurlencode($name); ?>" name="files" width="100%" height="180"></iframe></section>
+<section class="nadin-media-section" aria-labelledby="media-upload-heading"><h2 id="media-upload-heading">Upload files</h2>
+<?php nadin_media_form('audio',$name); ?></section>
+<details class="nadin-task-help"><summary>Recording names and recommendations</summary><p>Mark exactly one recommended recording per tune with <strong><?php echo nadinHtml($recommended); ?></strong> in its filename. It becomes the direct listening link beside the tune.</p><p>For a band recording, use <code><?php echo nadinHtml($bb); ?>_YYYY-MM-DD_Gig_Tune.mp3</code>. Other recordings can use a descriptive name. Duration is measured automatically; it does not need to be typed into the filename.</p></details>
+<?php require __DIR__.'/legacy-ui.inc.php'; ?>
+</main></body></html>

@@ -12,6 +12,7 @@ $oldletter='';
    $libraryBackgroundFrames = '';
    $libraryTableAttributes = $libraryInteractive ? ' id="nadin-library-table" data-library-sort="'.$librarySort.'"' : '';
    echo '<table class="nadin-tunes" '.$small.$libraryTableAttributes.'>';
+   echo '<caption class="nadin-sr-only">Tunes, sheet music, recordings and information</caption><thead class="nadin-sr-only"><tr>'.($_GET['m']!=='library'?'<th scope="col">Number</th>':'').'<th scope="col">Tune</th><th scope="col">Score</th><th scope="col">Section and Parts</th><th scope="col">Recording</th><th scope="col">Other files and links</th><th scope="col">Notes and editing</th></tr></thead>';
 
    for ($i=0;$i<count($tunes);$i++) {
 
@@ -88,7 +89,7 @@ $basket='';
 
 
 
-      echo '<tr class="nadin-tune-row" style="background:#eee" onmouseover="this.style.background=\'lightyellow\'" onmouseout="this.style.background=\'#eee\'">'.($libraryInteractive ? '' : '</td>');
+      echo '<tr class="nadin-tune-row" style="background:#eee" onmouseover="this.style.background=\'lightyellow\'" onmouseout="this.style.background=\'#eee\'">';
          if($_GET['m']!='library') {
 			 if($scorepdf!='' || $saxespdf!='' || $bonespdf!='' || $trumpetspdf!='' || $rhythmpdf!='' || $otherpdf!='' || $partspdf!='')echo'<td class="nadin-number" align="right">'.$inumber++.'</td>';
 		     else echo '<td class="nadin-number"></td>';
@@ -151,17 +152,17 @@ $basket='';
          echo '</td>';
 
          echo '<td nowrap="nowrap">';
-         echo '<a id="weitereaufnahmen'.$i.'" href="javascript:void(0)" onclick="if (document.getElementById(\'td1'.$i.'\').style.display!=\'block\') {document.getElementById(\'td1'.$i.'\').style.display=\'block\'} else {document.getElementById(\'td1'.$i.'\').style.display=\'none\'}"></a>';
+         echo '<button type="button" class="nadin-link-button" id="weitereaufnahmen'.$i.'" data-nadin-disclosure="files" aria-controls="td1'.$i.'" aria-expanded="false"></button>';
          echo '</td>';
 
 if(($_COOKIE['multipop'] ?? '')=='yes') $randomnumber=rand(0,999999999);
 else $randomnumber='';
 
-if (role('upaudio')) $upnow='&nbsp;<span style="color:white;background:#ddd;font-weight:bold;cursor:pointer" onmouseover="this.style.background=\'green\'" onmouseout="this.style.background=\'#ddd\'" title="manage Infos, Links, Files in'."\n".htmlXspecialchars(strtoupper(str_replace('_',' ',$tunes[$i]))).'" onclick="if(location.href.indexOf(\'&c=admin\')>0 && typeof ifrc!==\'undefined\' && ifrc.changes && ifrc.changes>0 && ifrc.document.getElementById(\'plus\').style.display!=\'none\')alert(\'There are unsaved changes in the blue manage Gigs area. You have to save them before clicking on a pencil in the white area.\');else{f1=window.open(\'nadinmodule/managetune.php?i='.$i.'&tune='.rawurlencode($tunes[$i]).'\',\'manage'.$randomnumber.'\',\'toolbar=0,location=0,status=1,top=0,left=\'+windowleft+\',menubar=0,scrollbars=1,resizable=1,width=800,height=830\');f1.focus()}">&nbsp;&#9998;&nbsp;</span>';
+if (role('upaudio')) $upnow=' <a class="nadin-edit-tune" href="nadinmodule/managetune.php?i='.$i.'&amp;tune='.rawurlencode($tunes[$i]).'" target="_blank" data-nadin-window="manage'.$randomnumber.'" aria-label="Edit '.htmlXspecialchars(str_replace('_',' ',$tunes[$i])).'" title="Edit notes and media">&#9998;</a>';
 
 
          echo '<td align="right">';
-         echo '<a id="mehrinfos'.$i.'" href="javascript:void(0)" onclick="if (document.getElementById(\'td2'.$i.'\').style.display!=\'block\') {document.getElementById(\'td2'.$i.'\').style.display=\'block\'} else {document.getElementById(\'td2'.$i.'\').style.display=\'none\'}"></a>';
+         echo '<button type="button" class="nadin-link-button" id="mehrinfos'.$i.'" data-nadin-disclosure="notes" aria-controls="td2'.$i.'" aria-expanded="false"></button>';
          echo $upnow.'</td>';
 
 
@@ -169,11 +170,11 @@ if (role('upaudio')) $upnow='&nbsp;<span style="color:white;background:#ddd;font
 
       echo '</tr>';
 
-      echo '<tr class="nadin-detail-row"><td align="right" colspan="6" class="mehr"><span style="display:none;" id="td2'.$i.'"><b>'.$humaninfos.':</b> ';
+      echo '<tr class="nadin-detail-row"><td align="right" colspan="'.($libraryInteractive?6:7).'" class="mehr"><span style="display:none;" id="td2'.$i.'"><b>'.$humaninfos.':</b> ';
       include('mehrinfos.inc.inc.php');    
 	  echo '</span></td></tr>';
 
-      echo '<tr class="nadin-detail-row"><td align="right" colspan="6" class="mehr"><span style="display:none;" id="td1'.$i.'"><b>'.$humanfilesandlinks.':</b> ';
+      echo '<tr class="nadin-detail-row"><td align="right" colspan="'.($libraryInteractive?6:7).'" class="mehr"><span style="display:none;" id="td1'.$i.'"><b>'.$humanfilesandlinks.':</b> ';
       include('weitereaufnahmen.inc.inc.php');    
 	  echo '</span></td></tr>'; 
       if ($libraryInteractive) echo '</tbody>';

@@ -20,8 +20,9 @@ $files=array();foreach (new DirectoryIterator($dir) as $entry) {
 }
 if($kind==='audio')krsort($files,SORT_STRING);else ksort($files,SORT_STRING);
 ?>
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../style.css"><title>NADIN files</title></head><body class="nadin-media-frame">
-<table class="nadin-media-table"><tbody>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../style.css"><script src="task.js" defer></script><title>NADIN files</title></head><body class="nadin-media-frame" data-async-media><main>
+<div class="nadin-file-toolbar"><label for="nadin-media-search">Find a file</label><input type="search" id="nadin-media-search"><span id="nadin-media-count" role="status"><?php echo count($files); ?> files</span></div>
+<table class="nadin-media-table"><caption class="nadin-sr-only">Files in <?php echo nadinHtml($name); ?></caption><thead><tr><th scope="col">File</th><th scope="col">Modified</th><th scope="col">Size</th><th scope="col">Actions</th></tr></thead><tbody>
 <?php
 $recommendedCount=0;$durationForms='';
 foreach($files as $file=>$details){
@@ -29,8 +30,8 @@ foreach($files as $file=>$details){
     $prefix=$kind==='audio'?'AUD':($kind==='attachment'?'ATT':'PDF');
     $query=http_build_query(array('p'=>$kind==='attachment'?'zip':$name,'f'=>$file));
     echo '<tr><td><a id="'.mkid2($file).'" target="_blank" rel="noopener" href="'.nadinHtml($url).'">'.nadinHtml($file).'</a></td><td>'.date('d.m.Y H:i',$details['time']).'</td><td style="text-align:right">'.number_format($details['size']/1024,0).' kB</td><td>';
-    if($kind!=='attachment')echo '<button type="button" data-rename="'.nadinHtml($prefix.'renamefile.php?'.$query).'" data-name="'.nadinHtml($kind==='audio'?striptime($file):$file).'">rename</button> ';
-    echo '<button type="button" data-delete="'.nadinHtml($prefix.'deletefile.php?'.$query).'" data-name="'.nadinHtml($file).'">delete</button></td></tr>';
+    if($kind!=='attachment')echo '<button type="button" data-rename="'.nadinHtml($prefix.'renamefile.php?'.$query).'" data-name="'.nadinHtml($kind==='audio'?striptime($file):$file).'">Rename</button> ';
+    echo '<button type="button" data-delete="'.nadinHtml($prefix.'deletefile.php?'.$query).'" data-name="'.nadinHtml($file).'">Remove…</button></td></tr>';
     if($kind==='audio'){
         if($recommended!==''&&strpos($file,$recommended)!==false)$recommendedCount++;
         if(striptime($file)===$file)$durationForms.=nadin_audio_time_form($name,$file);
@@ -48,7 +49,7 @@ require __DIR__.'/legacy-ui.inc.php';
 <script>
 document.addEventListener('click',function(e){
  var b=e.target.closest('button[data-rename],button[data-delete]');if(!b)return;
- nadinMediaDialog(b,function(value){nadinMutation(b.dataset.rename?b.dataset.rename+'&n='+encodeURIComponent(value):b.dataset.delete);});
+ nadinMediaDialog(b,function(value){return nadinMutation(b.dataset.rename?b.dataset.rename+'&n='+encodeURIComponent(value):b.dataset.delete);}).then(function(changed){if(changed&&window.NadinTask){NadinTask.notifyOpener();location.reload();}});
 });
 (function(){var id=<?php echo json_encode(is_string($_GET['m'] ?? null)?$_GET['m']:'',JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_AMP); ?>;var el=document.getElementById(id);if(el){el.style.background='yellow';el.focus();}}());
-</script></body></html>
+</script></main></body></html>

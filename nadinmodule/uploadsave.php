@@ -1,37 +1,12 @@
-<?php require_once __DIR__.'/legacy-write.inc.php'; ?>
-<?php require('refreshcookies2.inc.php') ?>
-<?php require_once('functions.inc.php')?>
-<?php setcookie('i', $_GET['i'] ?? '', time()+$timeout, '/'); ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="../style.css" />
-</head>
-
-<body style="backgound:#D9F1FF">
-<?php 
-require_once('../config.inc.php');
-require_once('functions.inc.php');
-auth('upaudio');
-$foldername=basename($_POST['foldername']);
-$data=trim($_POST['infos']."\r\n".$delimiter2."\r\n".$_POST['links']);
-$data=str_replace("\r\n\r\n\r\n","\r\n\r\n",$data);
-$data=str_replace("\n\n\n","\n\n",$data);
-if (file_put_contents('../library/'.$foldername.'/infos.txt',$data)) echo "ok<script>
-
-parent.document.getElementById('save').classList.remove('nadin-unsaved');
-parent.document.getElementById('save').classList.add('nadin-saved');
-parent.document.getElementById('save').innerHTML='save';
-parent.document.getElementById('save').title='save [Ctrl s]';
-parent.document.getElementById('changes').value=0;
-if(parent)if(parent.opener)parent.opener.fresh();
-parent.startmyfocus();
-</script>";
-else echo '<script>alert("Could not save. The server must have write permissions in the folder library recursively including all subfolders and files (e. g. chmod 777).")</script>';
-?>
-</body>
-</html>
 <?php
-if(isset($data,$foldername) && is_file('../library/'.$foldername.'/infos.txt') && file_get_contents('../library/'.$foldername.'/infos.txt')===$data) echo '<script>if(parent.document.form && parent.document.form.elements.revision)parent.document.form.elements.revision.value='.json_encode(hash('sha256',$data)).';</script>';
-?>
+require_once __DIR__.'/legacy-write.inc.php';
+$foldername=basename($_POST['foldername']);
+$infos=$_POST['infos'] ?? '';$links=$_POST['links'] ?? '';
+if(!is_string($infos)||!is_string($links))nadin_legacy_error(400,'Enter plain text for the tune information and links.');
+$data=trim($infos."\r\n".$delimiter2."\r\n".$links);$data=str_replace(array("\r\n\r\n\r\n","\n\n\n"),array("\r\n\r\n","\n\n"),$data);
+$path=dirname(__DIR__).'/library/'.$foldername.'/infos.txt';
+if(is_link($path)||!is_dir(dirname($path)))nadin_legacy_error(400,'The tune information path is not available.');
+$tmp=dirname($path).'/.notes-'.bin2hex(random_bytes(10));
+$saved=false;try{if(file_put_contents($tmp,$data)===strlen($data)){if(is_file($path))@chmod($tmp,fileperms($path)&0777);$saved=rename($tmp,$path);}}finally{if(is_file($tmp))@unlink($tmp);}
+if(!$saved)nadin_legacy_error(500,'Could not save the notes. Check storage permissions; your changes remain in the editor.');
+nadin_media_reply(true,'Tune notes saved.',array('revision'=>hash('sha256',$data),'next_url'=>'upload.php?tune='.rawurlencode($foldername)));

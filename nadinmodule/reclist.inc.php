@@ -39,7 +39,7 @@ foreach ($recordings as $group => $items) {
         echo '<div class="nadin-recording-row"><a id="' . mkid2($file) . '" href="get/file.php?c=' . rawurlencode($item['tune'] . '/' . $file) . '" target="_blank">' . nadinHtml(substr($file, strlen($group))) . '</a>';
         if (role('upaudio')) {
             $manageUrl = 'nadinmodule/managetune.php?' . http_build_query(array('tune' => $item['tune'], 'm' => mkid2($file)));
-            echo ' <a class="nadin-manage-recording" title="manage ' . nadinHtml(str_replace('_', ' ', $item['tune'])) . '" href="' . nadinHtml($manageUrl) . '" target="_blank">&#9998;</a>';
+            echo ' <a class="nadin-manage-recording" data-nadin-window="recording-editor" aria-label="Edit recording" title="manage ' . nadinHtml(str_replace('_', ' ', $item['tune'])) . '" href="' . nadinHtml($manageUrl) . '" target="_blank">&#9998;</a>';
         }
         echo '</div>';
         if (preg_match('/\((\d+)\.(\d{2})\)/', $file, $duration)) $totalseconds += (int)$duration[1] * 60 + (int)$duration[2];

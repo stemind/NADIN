@@ -2,7 +2,7 @@
 require_once('config.inc.php');
 require_once('nadinmodule/functions.inc.php');
 auth('vlibrary'); 
-if (role('uppdf') && role('upaudio') && $_GET['m']=='library') $neu = '<a class="nadin-library-new" href="nadinmodule/new.php" target="_blank" rel="noopener" title="Create a tune" onclick="window.open(this.href,\'_blank\',\'toolbar=0,location=0,status=1,top=0,left=700,menubar=0,scrollbars=1,resizable=1,width=800,height=830\');return false;">+ Tune</a>';
+if (role('uppdf') && role('upaudio') && $_GET['m']=='library') $neu = '<a class="nadin-library-new" href="nadinmodule/new.php" target="_blank" rel="noopener" title="Create a tune" data-nadin-window="_blank">+ Tune</a>';
 else $neu='';
 ?>
 <div class="nadin-layout nadin-library-layout">

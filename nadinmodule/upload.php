@@ -1,79 +1,17 @@
-<?php 
-setcookie('upos', 'upload', time()+3600*24*365*10, '/');
-require('refreshcookies2.inc.php');
-require_once('functions.inc.php');
-auth('upaudio');
+<?php
+require __DIR__.'/refreshcookies2.inc.php';require_once __DIR__.'/popup-ui.inc.php';auth('upaudio');
+setcookie('upos','upload',time()+3600*24*365*10,'/');$name=$_GET['tune'] ?? '';
+$infoPath=dirname(__DIR__).'/library/'.$name.'/infos.txt';$raw=is_file($infoPath)?file_get_contents($infoPath):'';$pieces=explode($delimiter2,$raw,2);
+nadinPopupStart(str_replace('_',' ',$name));require __DIR__.'/uploadnavi.inc.php';
 ?>
-<?php require_once __DIR__.'/popup-ui.inc.php'; nadinPopupStart(str_replace('_',' ',$_GET['tune'])); ?>
-
-
-<?php 
-
-$infos='';
-$links='';
-$infoPath='../library/'.basename($_GET['tune']).'/infos.txt';
-$c=is_file($infoPath) ? file_get_contents($infoPath) : '';
-$c=explode($delimiter2,$c);
-$infos=$c[0];
-$links=$c[1] ?? '';
-
-
-?>
-
-<?php require('uploadnavi.inc.php'); ?>
-
-<p class="nadin-toolbar"><button title="save [Ctrl s]" id="save" class="nadin-primary" type="button" onclick="document.form.submit()">save</button>
-</p>
-
-<form name="form" action="uploadsave.php?i=<?php echo htmlXspecialchars($_GET['i'] ?? '')?>" method="post" target="su">
-
-<h2><label for="infos">Tips &amp; info about the tune</label></h2>
-<?php echo nadinPathField('foldername', $_GET['tune']); ?>
-<textarea style="width:100%;height:200px" name="infos" id="infos">
-<?php echo htmlXspecialchars(trim($infos)) ?>
-</textarea>
-
-<h2><label for="links">External links referring to the tune</label></h2>
-<textarea style="width:100%;height:200px" name="links" id="links">
-<?php 
-$links = $links ?? '';
-echo htmlXspecialchars(trim($links)) 
-?>
-</textarea>
-
-</form>
-
-<script>
-function getchanges() {
-$oldinfos=document.form.infos.value;
-$oldlinks=document.form.links.value;
-setTimeout("if (document.form.infos.value!=$oldinfos) alertchanges()",500);	
-setTimeout("if (document.form.links.value!=$oldlinks) alertchanges()",500);	
-setTimeout("getchanges()",501);
-}
-setTimeout("getchanges()",100);
-
-function alertchanges() {
-changes=1;	
-if (parent.document.getElementById('changes')) parent.document.getElementById('changes').value=1;
-document.getElementById('save').classList.remove('nadin-saved');
-document.getElementById('save').classList.add('nadin-unsaved');
-document.getElementById('save').innerHTML='save*';
-document.getElementById('save').title='save [Ctrl s]; The sign * is displayed when unsaved changes are present.';
-}
-
-</script>
-
-<iframe name="su" frameborder="0" width="0" height="0"></iframe>
-<input type="hidden" id="changes" />
-
-<script>
-window.onbeforeunload = function() {
-if (document.getElementById('changes').value==1) return('You have unsaved changes which will be lost if you are proceeding.');
-self.focus();
-}
-</script>
-
-
+<form name="form" class="nadin-notes-form" data-nadin-async="notes" method="post" action="uploadsave.php">
+<div class="nadin-toolbar nadin-editor-toolbar"><button id="save" class="nadin-primary" type="submit">Save notes</button><span class="nadin-hint">Ctrl / ⌘ + S · changes stay here until saved</span></div>
+<input type="hidden" name="csrf" value="<?php echo nadinHtml(nadin_auth()->csrf('media-v12',nadin_session_token())); ?>">
+<input type="hidden" name="revision" value="<?php echo hash('sha256',$raw); ?>">
+<?php echo nadinPathField('foldername',$name); ?>
+<label for="infos">Tips and information about the tune</label><textarea name="infos" id="infos" rows="8"><?php echo nadinHtml(trim($pieces[0])); ?></textarea>
+<label for="links">External links</label><textarea name="links" id="links" rows="5" aria-describedby="links-hint"><?php echo nadinHtml(trim($pieces[1] ?? '')); ?></textarea>
+<p id="links-hint" class="nadin-hint">One web address per line. An optional label can precede it: Arrangement: https://example.org/</p>
+</form><input type="hidden" id="changes" value="0">
 <?php require __DIR__.'/legacy-ui.inc.php'; ?>
-</body></html>
+</main></body></html>

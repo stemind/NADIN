@@ -1,33 +1,5 @@
 <?php
-include('iniset.inc.php');
-require ('refreshcookies2.inc.php');
-require_once('../config.inc.php');
-require_once('functions.inc.php');
-auth('mgigs');
+require __DIR__.'/refreshcookies2.inc.php';require_once __DIR__.'/popup-ui.inc.php';require_once __DIR__.'/media-form.inc.php';auth('mgigs');nadinPopupStart('Upload pdf attachment');
+$name=preg_replace('/\.txt$/','',$_GET['gig'] ?? '');nadin_media_form('attachment',$name);require __DIR__.'/legacy-ui.inc.php';
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Upload files - NADIN</title>
-<link rel="stylesheet" type="text/css" href="../style.css" />
-<script src="../shortcut.js"></script>
-<script>
-shortcut.add("Ctrl+S",function() {
-	if(document.form)document.form.submit();
-})
-</script>
-</head>
-
-<body class="nadin-media-frame">
-<form name="form1" enctype="multipart/form-data" action="ATTsendfile2.php?gig=<?php echo rawurlencode($_GET['gig'])?>" method="post">
-<!--<input type="hidden" name="MAX_FILE_SIZE" value="999999999999" />-->
-<?php require('submit.inc.php') ?>
-<?php echo nadinPathField('name', $_GET['name'] ?? ''); ?>
-<!--<input type="submit" name="submit" value="upload "/>-->
-</form>
-
-
-<?php require __DIR__.'/legacy-ui.inc.php'; ?>
-</body></html>
+</main></body></html>

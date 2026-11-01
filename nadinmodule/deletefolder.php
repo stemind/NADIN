@@ -10,7 +10,7 @@ auth('uppdf');
 
 <h2>Delete tune</h2>
 
-<form name="form" action="deletefolder2.php?tune=<?php echo rawurlencode($_GET['tune'])?>" method="post">
+<form data-nadin-async="complete" name="form" action="deletefolder2.php?tune=<?php echo rawurlencode($_GET['tune'])?>" method="post">
 
 <p>Only an empty tune that is no longer used in a setlist can be removed. Its folder is kept in the deleted-files folder.</p>
 <?php echo nadinPathField('tune', $_GET['tune']); ?>
@@ -19,4 +19,4 @@ auth('uppdf');
 </form>
 
 <?php require __DIR__.'/legacy-ui.inc.php'; ?>
-</body></html>
+</main></body></html>

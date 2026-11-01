@@ -2,10 +2,10 @@
     'use strict';
     var nav = document.querySelector('[data-sidebar]');
     var toggle = document.getElementById('nadin-sidebar-toggle');
-    if (!nav) { if (toggle) toggle.hidden = true; return; }
+    var mobile = window.matchMedia('(max-width:700px)');
+    if (nav && toggle) {
     var inlineAlphabet = nav.classList.contains('nadin-library-alphabet') || Boolean(nav.closest('.nadin-gig-list-top'));
     if (inlineAlphabet && toggle) { toggle.hidden = true; toggle.style.display = 'none'; }
-    var mobile = window.matchMedia('(max-width:700px)');
     var backdrop = document.createElement('div');
     backdrop.className = 'nadin-sidebar-backdrop';
     document.body.appendChild(backdrop);
@@ -26,7 +26,6 @@
     document.addEventListener('keydown', function (event) {
         if (event.key !== 'Escape') return;
         if (document.body.classList.contains('nadin-sidebar-open')) closeList(true);
-        document.querySelectorAll('.nadin-mobile-actions details[open]').forEach(function (menu) { menu.open = false; menu.querySelector('summary').focus(); });
     });
     nav.addEventListener('click', function (event) { if (event.target.closest('a') && mobile.matches) closeList(false); });
     var gigSearch=document.getElementById('nadin-gig-search');
@@ -54,6 +53,7 @@
         }
     }
     window.addEventListener('hashchange', markAnchor); markAnchor();
+    } else if (toggle) toggle.hidden = true;
     // Keep the original links and handlers; only their container changes on phones.
     var rowMenus = [];
     document.querySelectorAll('.nadin-tune-row').forEach(function (row) {
@@ -104,6 +104,11 @@
     arrangeRows();
     window.addEventListener('resize', function () { rowMenus.forEach(function (entry) { entry.menu.open = false; }); });
     mobile.addEventListener('change', arrangeRows);
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') rowMenus.forEach(function (entry) {
+            if (entry.menu.open) { entry.menu.open = false; entry.menu.querySelector('summary').focus(); }
+        });
+    });
     document.addEventListener('click', function (event) {
         rowMenus.forEach(function (entry) { if (!entry.menu.contains(event.target)) entry.menu.open = false; });
     });
