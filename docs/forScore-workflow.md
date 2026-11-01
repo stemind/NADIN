@@ -1,6 +1,8 @@
 # forScore workflow
 
-The export keeps the interface of each NADIN branch. The classic line keeps its original controls; V14 and later inherit the refined interface, and V16 keeps its popup frame. Every standalone export explicitly loads NADIN's own favicon.
+The export keeps the interface of each NADIN branch. The classic line keeps its original controls; V14 and later inherit the refined interface, and V16 keeps its popup frame. Every standalone export explicitly loads NADIN's own favicon. The title and heading show forScore without a release number.
+
+Open forScore in a new tab. **Back to NADIN** closes the export tab, revealing the original NADIN page with its selected view and scroll position intact. This also works after automatic selection refreshes and downloads. Directly opened pages, or browsers refusing to close a tab, follow the normal NADIN return link as a fallback.
 
 1. Choose your section. A one-year, HTTP-only cookie remembers it for this installation and account in this browser. Explicit section choices take precedence; unavailable saved sections are ignored. No inventory or import confirmation is stored in that cookie.
 2. Choose the import intent: first NADIN import with PDFs, update using a fresh forScore inventory CSV, or setlist only. Section, import and CSV changes refresh automatically. With JavaScript disabled, use **Update selection**.
@@ -12,4 +14,4 @@ The first-import option is deliberately not remembered: a download does not esta
 
 The optional **Import and updates** help has its own separated area below the download action. The busy refresh state does not grey out the button. A click during a pending refresh announces that the selection is still being updated.
 
-The export page loads `nadinmodule/forscore-actions.css` for its scoped action styling. Existing classic 7.7 installations can copy just that new file, `nadinmodule/forscore.js` and `get/forscore.php` from the cumulative update, retaining any local calendar customisation in `nadinmodule/infos.inc.php`. The release version remains 7.7.
+The export page loads `nadinmodule/forscore-actions.css` for its scoped action styling. Existing classic 7.7 installations can copy just that new file, `nadinmodule/forscore.js`, `get/forscore.php`, `nadinmodule/gigreps.inc.php` and `nadinmodule/library.inc.php` from the cumulative update, retaining any local calendar customisation in `nadinmodule/infos.inc.php`. The release version remains 7.7.
