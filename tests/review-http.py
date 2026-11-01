@@ -152,6 +152,28 @@ with tempfile.TemporaryDirectory(prefix='nadin-review-') as temp:
         (tune / 'alias.mp3').symlink_to(tune / 'renamed.MP3')
         result = s.post(base + '/nadinmodule/AUDrenamefile.php', data={'p': 'Review[A]', 'f': 'alias.mp3', 'n': 'moved.mp3', 'csrf': token})
         ok(result.status_code == 404 and (tune / 'alias.mp3').is_symlink(), 'audio rename rejects symlink source')
+        # A configured top-level attachment root can be shared between installations.
+        shared_attachments = Path(temp) / 'shared-attachments'
+        (app / 'abo/zip').rename(shared_attachments)
+        (app / 'abo/zip').symlink_to(shared_attachments, target_is_directory=True)
+        (app / 'gigreps/Shared attachment.txt').write_text('Shared attachment\n' + separator + '\nReview[A]')
+        (shared_attachments / 'Shared attachment.pdf').write_bytes(b'%PDF-shared-attachment')
+        attachment_page = s.get(base + '/nadinmodule/ATTfiles.php', params={'gig': 'Shared attachment'})
+        attachment_doc = BeautifulSoup(attachment_page.text, 'html.parser')
+        attachment_link = attachment_doc.find('a', href=lambda value: value and 'get/setlist.php' in value)
+        ok(attachment_page.status_code == 200 and attachment_link is not None,
+           'attachment popup lists a configured shared top-level ZIP directory')
+        if attachment_link:
+            from urllib.parse import urljoin
+            downloaded = s.get(urljoin(attachment_page.url, attachment_link['href']))
+            ok(downloaded.status_code == 200 and downloaded.content == b'%PDF-shared-attachment',
+               'shared attachment popup link downloads the exact PDF')
+        (app / 'gigreps/Child attachment.txt').write_text('Child attachment\n' + separator + '\nReview[A]')
+        (shared_attachments / 'Child attachment.pdf').symlink_to(shared_attachments / 'Shared attachment.pdf')
+        child_page = s.get(base + '/nadinmodule/ATTfiles.php', params={'gig': 'Child attachment'})
+        child_doc = BeautifulSoup(child_page.text, 'html.parser')
+        ok(child_page.status_code == 200 and child_doc.find('a', href=lambda value: value and 'get/setlist.php' in value) is None,
+           'shared attachment root never exposes child file symlinks')
         # Optional federation failure must leave a usable local login.
         cfg = app / 'userdatei/federation.php'
         for contents in ['<?php return false;', '<?php throw new RuntimeException("fixture");', '<?php invalid syntax !']:
