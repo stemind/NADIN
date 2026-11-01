@@ -4,7 +4,8 @@
     var form = document.getElementById('nadin-forscore-form');
     if (!form) return;
     var review = form.querySelector('[data-review]');
-    var download = form.querySelector('[name=action][value=download]');
+    var downloads = form.querySelectorAll('[name=action][value=download]');
+    function enableDownloads() { downloads.forEach(function (button) { button.disabled = false; }); }
     var status = form.querySelector('[data-review-status]');
     var workflow = form.elements.namedItem('workflow');
     var csv = form.elements.namedItem('csv');
@@ -20,7 +21,7 @@
     }
     function updateSummary() {
         // Cached pages from the previous workflow keep working during an update.
-        if (!form.querySelector('[data-export-counts]')) { download.disabled = false; return; }
+        if (!form.querySelector('[data-export-counts]')) { enableDownloads(); return; }
         var counts = {entries:0, headings:0, included:0, reused:0, references:0, missing:0, unresolved:0};
         var paths = Object.create(null);
         form.querySelectorAll('.nadin-forscore-row').forEach(function (row) {
@@ -45,12 +46,13 @@
         });
         form.querySelector('[data-export-counts]').hidden = workflow.value === '';
         var next = '';
-        if (!workflow.value) next = 'Choose an import option above.';
-        else if (workflow.value === 'update' && form.elements.namedItem('inventory_loaded').value !== '1') next = 'Upload a current forScore inventory CSV above.';
-        else if (counts.unresolved) next = 'Choose a PDF for each unresolved tune above.';
-        else if (counts.missing && (!placeholders || !placeholders.checked)) next = 'Confirm the missing-note placeholders above.';
-        form.querySelector('[data-export-next]').textContent = next || 'Ready. Download the setlist and open it in forScore.';
-        download.disabled = false;
+        if (!workflow.value) next = 'Choose an import option.';
+        else if (workflow.value === 'update' && form.elements.namedItem('inventory_loaded').value !== '1') next = 'Upload a current forScore inventory CSV.';
+        else if (counts.unresolved) next = 'Choose a PDF for each unresolved tune.';
+        else if (counts.missing && (!placeholders || !placeholders.checked)) next = 'Confirm the missing-note placeholders.';
+        if (busy) next = 'Updating selection. Please wait.';
+        form.querySelector('[data-export-next]').textContent = next || 'Ready to download.';
+        enableDownloads();
     }
     function resetBusy() {
         busy = false;
@@ -79,7 +81,7 @@
         busy = true;
         form.setAttribute('aria-busy', 'true');
         status.hidden = false;
-        download.disabled = false;
+        enableDownloads();
         try {
             if (typeof form.requestSubmit === 'function') form.requestSubmit(review);
             else review.click();
@@ -113,11 +115,14 @@
         }
     }, true);
     form.addEventListener('input', function (event) { clearFieldError(event.target); });
-    download.addEventListener('click', function (event) {
-        if (!busy) return;
-        event.preventDefault();
-        status.hidden = false;
-        status.textContent = 'Updating selection. Please wait.';
+    downloads.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+            if (!busy) return;
+            event.preventDefault();
+            status.hidden = false;
+            status.textContent = 'Updating selection. Please wait.';
+            updateSummary();
+        });
     });
     form.addEventListener('change', function (event) {
         clearFieldError(event.target);
