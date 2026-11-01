@@ -2,7 +2,7 @@
 
 The export keeps the interface of each NADIN branch. The classic line keeps its original controls; V14 and later inherit the refined interface, and V16 keeps its popup frame. Every standalone export explicitly loads NADIN's own favicon. The title and heading show forScore without a release number.
 
-Open forScore in a new tab. **Back to NADIN** closes the export tab, revealing the original NADIN page with its selected view and scroll position intact. This also works after automatic selection refreshes and downloads. Directly opened pages, or browsers refusing to close a tab, follow the normal NADIN return link as a fallback.
+Open forScore from a current GigRep or the archive in a new tab. The media Library has no forScore link; its Excel and Print exports remain available. **Back to NADIN** closes the export tab, revealing the original NADIN page with its selected view and scroll position intact. This also works after automatic selection refreshes and downloads. Directly opened pages, or browsers refusing to close a tab, follow the normal NADIN return link as a fallback.
 
 1. Choose your section. A one-year, HTTP-only cookie remembers it for this installation and account in this browser. Explicit section choices take precedence; unavailable saved sections are ignored. No inventory or import confirmation is stored in that cookie.
 2. Choose the import intent: first NADIN import with PDFs, update using a fresh forScore inventory CSV, or setlist only. Section, import and CSV changes refresh automatically. With JavaScript disabled, use **Update selection**.
