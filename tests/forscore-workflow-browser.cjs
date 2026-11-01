@@ -22,6 +22,11 @@ function ok(value, label) { assert(value, label); checks++; }
         async function select(name, value) {
             await Promise.all([page.waitForNavigation({waitUntil:'domcontentloaded'}), page.locator('[name="' + name + '"]').selectOption(value)]);
         }
+        async function closeExport(exporter, link) {
+            const closed = exporter.waitForEvent('close');
+            try { await link.click(); } catch (error) { if (!exporter.isClosed()) throw error; }
+            await closed;
+        }
         async function expectMissingField(name, label) {
             for (const action of [button, bottomButton]) {
                 const position = await action.getAttribute('data-download');
@@ -123,6 +128,49 @@ function ok(value, label) { assert(value, label); checks++; }
         await page.goto(base + '/get/forscore.php?m=gigreps&c=Long%20required.txt&profile=sx');
         await expectMissingField('workflow', 'long page import choice');
         ok(await page.evaluate(() => scrollY < 500), 'clicking the bottom action on a long page returns to the missing import choice near the top');
+        await page.setViewportSize({width:1200, height:900});
+        for (const module of ['gigreps', 'gigrepsarchiv', 'library']) {
+            await page.goto(base + '/?m=' + module + '&c=Headings.txt');
+            const link = page.locator('a[href*="get/forscore.php"]').first();
+            await link.scrollIntoViewIfNeeded();
+            const original = {url:page.url(), top:await page.evaluate(() => scrollY), tabs:context.pages().length};
+            ok(await link.getAttribute('target') === '_blank', module + ': forScore keeps NADIN open in its original tab');
+            const opened = page.waitForEvent('popup'); await link.click();
+            const exporter = await opened; await exporter.waitForLoadState('domcontentloaded');
+            ok(await exporter.locator('h1,h2').filter({hasText:/^forScore$/}).count() === 1 &&
+                ['forScore – NADIN', 'forScore - NADIN'].includes(await exporter.title()), module + ': title and heading have no release number');
+            const nextProfile = 'sx';
+            await Promise.all([exporter.waitForNavigation({waitUntil:'domcontentloaded'}), exporter.locator('[name=profile]').selectOption(nextProfile)]);
+            await Promise.all([exporter.waitForNavigation({waitUntil:'domcontentloaded'}), exporter.locator('[name=workflow]').selectOption('references')]);
+            ok(await exporter.locator('[name=from_nadin]').inputValue() === '1', module + ': return context survives automatic form refreshes');
+            if (module !== 'library') {
+                const downloadEvent = exporter.waitForEvent('download'); await exporter.locator('[data-download=top]').click();
+                const downloaded = await downloadEvent;
+                ok((await fs.readFile(await downloaded.path(), 'utf8')).includes('<forScore '), module + ': a real download leaves the export tab ready to return');
+            }
+            const back = exporter.getByRole('link', {name:'← Back to NADIN', exact:true});
+            ok(await back.isVisible(), module + ': existing Back to NADIN wording is retained');
+            await closeExport(exporter, back);
+            ok(!page.isClosed() && page.url() === original.url && await page.evaluate(() => scrollY) === original.top && context.pages().length === original.tabs,
+                module + ': Back closes the export and preserves the original NADIN view without a duplicate tab');
+        }
+        // An export error has no form, but still needs the same return behaviour.
+        await page.goto(base + '/?m=gigreps&c=Headings.txt');
+        const errorEvent = page.waitForEvent('popup'); await page.locator('a[href*="get/forscore.php"]').first().click();
+        const errorTab = await errorEvent;
+        await errorTab.goto(base + '/get/forscore.php?m=gigreps&c=Absent.txt&from_nadin=1');
+        ok(await errorTab.locator('form').count() === 0 && await errorTab.locator('.nadin-forscore-error').isVisible(), 'error fixture has no export form');
+        await closeExport(errorTab, errorTab.getByRole('link',{name:'← Back to NADIN',exact:true}));
+        ok(!page.isClosed(), 'Back also closes a failed export without losing NADIN');
+        const direct = await context.newPage();
+        await direct.goto(endpoint);
+        await Promise.all([direct.waitForURL(base + '/?m=gigreps&c=Headings.txt'), direct.getByRole('link',{name:'← Back to NADIN',exact:true}).click()]);
+        ok(!direct.isClosed(), 'a directly opened export navigates back in its existing tab');
+        await direct.goto(endpoint + '&from_nadin=1');
+        await direct.evaluate(() => {window.close = function () {};});
+        await Promise.all([direct.waitForURL(base + '/?m=gigreps&c=Headings.txt'), direct.getByRole('link',{name:'← Back to NADIN',exact:true}).click()]);
+        ok(!direct.isClosed(), 'a browser refusing close receives a working NADIN navigation fallback');
+        await direct.close();
         ok(errors.length === 0, 'workflow has no browser JavaScript errors');
         const nojs = await browser.newContext({javaScriptEnabled:false});
         await nojs.addCookies(cookies);
