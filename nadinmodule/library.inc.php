@@ -9,7 +9,6 @@ else $neu='';
 <nav id="nadin-sidebar" class="nadin-library-alphabet" aria-label="Library alphabet" data-sidebar="library"><?php echo $neu ?><a href="#top">Top</a><span id="library-alphabet-links"<?php if (isset($_GET['sort']) && $_GET['sort'] === 'newest') echo ' style="display:none"'; ?>></span></nav>
 <main class="nadin-content">
 <div class="nadin-export-links nadin-library-export">
-<a href="get/forscore.php?m=library&amp;from_nadin=1" target="_blank" rel="noopener">forScore</a>
 <a id="library-xls-link" style="text-decoration:none" href="nadinmodule/library.xls.php?<?php echo htmlXspecialchars(http_build_query(array('m'=>'library','sort'=>($_GET['sort'] ?? '')==='newest'?'newest':'alpha')))?>" target="_blank">xls&darr;</a>
 <a id="library-print-link" style="text-decoration:none" href="nadinmodule/library.print.php?<?php echo htmlXspecialchars(http_build_query(array('m'=>'library','sort'=>($_GET['sort'] ?? '')==='newest'?'newest':'alpha')))?>" target="_blank">print&darr;</a>
 </div>
