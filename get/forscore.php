@@ -156,7 +156,8 @@ $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps'
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/x-icon" href="../favicon.ico">
-<link rel="stylesheet" href="../style.css"><title>forScore export — NADIN V10</title></head>
+<link rel="stylesheet" href="../style.css"><title>forScore export — NADIN V10</title><link rel="stylesheet" href="../nadinmodule/forscore-actions.css?v=top-actions">
+</head>
 <body class="nadin-page nadin-forscore">
 <h2>forScore <small>— NADIN V10</small></h2>
 <p><a href="<?php echo nadinHtml($back); ?>">&larr; Back to NADIN</a></p>
@@ -175,6 +176,27 @@ $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps'
 <input type="hidden" name="inventory_loaded" value="<?php echo $loaded ? '1' : '0'; ?>">
 <input type="hidden" name="inventory" value="<?php echo nadinHtml(base64_encode(json_encode($names))); ?>">
 <input type="hidden" name="view" value="<?php echo nadinHtml($signature); ?>">
+<div class="nadin-forscore-action-bar">
+<?php $summary = fsExportSummary($plan, $mode); ?>
+<div class="nadin-forscore-summary" data-export-summary role="status" aria-live="polite">
+<strong>Download summary</strong>
+<p data-export-counts<?php if ($workflow === '') echo ' hidden'; ?>>Setlist entries: <span data-count="entries"><?php echo $summary['entries']; ?></span>
+<span data-metric="headings"<?php if (!$summary['headings']) echo ' hidden'; ?>> · Headings: <span data-count="headings"><?php echo $summary['headings']; ?></span></span>
+<span data-metric="included"<?php if (!$summary['included']) echo ' hidden'; ?>> · PDFs included: <span data-count="included"><?php echo $summary['included']; ?></span></span>
+<span data-metric="reused"<?php if (!$summary['reused']) echo ' hidden'; ?>> · Existing PDFs reused: <span data-count="reused"><?php echo $summary['reused']; ?></span></span>
+<span data-metric="references"<?php if (!$summary['references']) echo ' hidden'; ?>> · PDF references only: <span data-count="references"><?php echo $summary['references']; ?></span></span>
+<span data-metric="missing"<?php if (!$summary['missing']) echo ' hidden'; ?>> · Missing-note entries: <span data-count="missing"><?php echo $summary['missing']; ?></span></span>
+<span data-metric="unresolved"<?php if (!$summary['unresolved']) echo ' hidden'; ?>> · PDF choices remaining: <span data-count="unresolved"><?php echo $summary['unresolved']; ?></span></span></p>
+<p id="nadin-forscore-next" data-export-next><?php
+if ($workflow === '') echo 'Choose an import option.';
+elseif ($workflow === 'update' && !$loaded) echo 'Upload a current forScore inventory CSV.';
+elseif ($summary['unresolved']) echo 'Choose a PDF for each unresolved tune.';
+elseif ($summary['missing'] && !$placeholders) echo 'Confirm the missing-note placeholders.';
+else echo 'Ready to download.';
+?></p>
+</div>
+<button class="nadin-primary nadin-forscore-download" name="action" value="download" data-download="top" aria-describedby="nadin-forscore-next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v12m-5-5 5 5 5-5M5 16v5h14v-5"/></svg><span>Download forScore setlist (.4ss)</span></button>
+</div>
 <p class="postscriptum">Your section is remembered on this browser. Section PDFs are preferred; Parts is used when needed.</p>
 <div class="nadin-forscore-controls">
 <label>Section <select name="profile" data-auto-review><?php foreach ($allowed as $key => $value) echo '<option value="' . nadinHtml($key) . '"' . ($key === $profile ? ' selected' : '') . '>' . nadinHtml($value['label']) . '</option>'; ?></select></label>
@@ -224,25 +246,7 @@ else echo 'Choose how to import this setlist. Section and CSV changes update the
 <?php if ($missingNotes) { ?>
 <p><label><input type="checkbox" name="placeholders" value="1" required data-required-message="Confirm that tunes with missing notes may be kept as placeholders."<?php if ($placeholders) echo ' checked'; ?>> Keep tunes with missing or inaccessible notes as visible placeholders.</label></p>
 <?php } ?>
-<?php $summary = fsExportSummary($plan, $mode); ?>
-<div class="nadin-forscore-summary" data-export-summary role="status" aria-live="polite">
-<strong>Download summary</strong>
-<p data-export-counts<?php if ($workflow === '') echo ' hidden'; ?>>Setlist entries: <span data-count="entries"><?php echo $summary['entries']; ?></span>
-<span data-metric="headings"<?php if (!$summary['headings']) echo ' hidden'; ?>> · Headings: <span data-count="headings"><?php echo $summary['headings']; ?></span></span>
-<span data-metric="included"<?php if (!$summary['included']) echo ' hidden'; ?>> · PDFs included: <span data-count="included"><?php echo $summary['included']; ?></span></span>
-<span data-metric="reused"<?php if (!$summary['reused']) echo ' hidden'; ?>> · Existing PDFs reused: <span data-count="reused"><?php echo $summary['reused']; ?></span></span>
-<span data-metric="references"<?php if (!$summary['references']) echo ' hidden'; ?>> · PDF references only: <span data-count="references"><?php echo $summary['references']; ?></span></span>
-<span data-metric="missing"<?php if (!$summary['missing']) echo ' hidden'; ?>> · Missing-note entries: <span data-count="missing"><?php echo $summary['missing']; ?></span></span>
-<span data-metric="unresolved"<?php if (!$summary['unresolved']) echo ' hidden'; ?>> · PDF choices remaining: <span data-count="unresolved"><?php echo $summary['unresolved']; ?></span></span></p>
-<p data-export-next><?php
-if ($workflow === '') echo 'Choose an import option above.';
-elseif ($workflow === 'update' && !$loaded) echo 'Upload a current forScore inventory CSV above.';
-elseif ($summary['unresolved']) echo 'Choose a PDF for each unresolved tune above.';
-elseif ($summary['missing'] && !$placeholders) echo 'Confirm the missing-note placeholders above.';
-else echo 'Ready. Download the setlist and open it in forScore.';
-?></p>
-</div>
-<button name="action" value="download">Download forScore setlist (.4ss)</button>
+<div class="nadin-forscore-bottom-action"><button class="nadin-primary nadin-forscore-download" name="action" value="download" data-download="bottom" aria-describedby="nadin-forscore-next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v12m-5-5 5 5 5-5M5 16v5h14v-5"/></svg><span>Download forScore setlist (.4ss)</span></button></div>
 <input type="hidden" name="form_complete" value="yes">
 </form>
 <details class="nadin-forscore-help"><summary>Import and updates</summary>
@@ -253,5 +257,5 @@ else echo 'Ready. Download the setlist and open it in forScore.';
 <p>All Rep entries retain their order, including repeated tunes. Each new PDF is embedded once; subsequent occurrences and other Reps reuse it. After checking an imported Rep, remove the previous setlist if forScore keeps both; removing a setlist does not remove its notes. Renaming files in forScore can prevent automatic matching.</p>
 </details>
 <?php } ?>
-<script src="../nadinmodule/forscore.js?v=7.7.4" defer></script>
+<script src="../nadinmodule/forscore.js?v=top-actions" defer></script>
 </body></html>
