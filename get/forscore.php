@@ -151,11 +151,12 @@ try {
     http_response_code(400);
     // A complete recomputed preview can be reviewed again after a stale download.
 }
+$returnToNadinTab = (($_POST['from_nadin'] ?? $_GET['from_nadin'] ?? '') === '1');
 $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps', 'gigrepsarchiv', 'library'), true) ? $module : 'gigreps', 'c' => $rep));
 require_once __DIR__.'/../nadinmodule/popup-ui.inc.php';
-nadinPopupStart('forScore export (V17)', '../', 'nadin-forscore', array('nadinmodule/forscore-actions.css?v=top-actions'));
+nadinPopupStart('forScore', '../', 'nadin-forscore', array('nadinmodule/forscore-actions.css?v=top-actions'));
 ?>
-<p><a href="<?php echo nadinHtml($back); ?>">&larr; Back to NADIN</a></p>
+<p><a href="<?php echo nadinHtml($back); ?>" data-forscore-return="<?php echo $returnToNadinTab ? 'close' : 'navigate'; ?>">&larr; Back to NADIN</a></p>
 <?php if ($error !== '') { ?>
 <p role="alert" class="nadin-forscore-error"><?php echo nadinHtml($error); ?></p>
 <?php } ?>
@@ -163,6 +164,7 @@ nadinPopupStart('forScore export (V17)', '../', 'nadin-forscore', array('nadinmo
 <?php } else { ?>
 <p><strong><?php echo nadinHtml($title); ?></strong></p>
 <form id="nadin-forscore-form" data-context="<?php echo hash('sha256', $module . '|' . $rep); ?>" method="post" enctype="multipart/form-data" accept-charset="UTF-8">
+<input type="hidden" name="from_nadin" value="<?php echo $returnToNadinTab ? '1' : '0'; ?>">
 <input type="hidden" name="csrf" value="<?php echo nadinHtml($csrf); ?>">
 <input type="hidden" name="m" value="<?php echo nadinHtml($module); ?>">
 <input type="hidden" name="rep" value="<?php echo nadinHtml(base64_encode($rep)); ?>">
@@ -252,5 +254,5 @@ else echo 'Choose how to import this setlist. Section and CSV changes update the
 <p>All Rep entries retain their order, including repeated tunes. Each new PDF is embedded once; subsequent occurrences and other Reps reuse it. After checking an imported Rep, remove the previous setlist if forScore keeps both; removing a setlist does not remove its notes. Renaming files in forScore can prevent automatic matching.</p>
 </details>
 <?php } ?>
-<script src="../nadinmodule/forscore.js?v=top-actions" defer></script>
+<script src="../nadinmodule/forscore.js?v=tab-return" defer></script>
 </main></body></html>
