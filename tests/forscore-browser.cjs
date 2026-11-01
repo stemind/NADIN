@@ -38,7 +38,7 @@ function ok(value, label) { assert(value, label); checks++; }
       await popup.close();
     }
     await page.goto(base + '/?m=library&c=');
-    ok(await page.getByRole('link', { name: 'forScore↓', exact: true }).count() === 1, 'Library retains its forScore link');
+    ok(await page.getByRole('link', { name: 'forScore↓', exact: true }).count() === 0, 'Media Library has no forScore link');
     ok(await page.getByRole('link', { name: 'print↓', exact: true }).isVisible(), 'Library Print remains visible');
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({ width, height: 1000 });
