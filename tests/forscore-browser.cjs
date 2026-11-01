@@ -43,7 +43,7 @@ function ok(value, label) { assert(value, label); checks++; }
     for (const width of [1440, 390, 320]) {
       await page.setViewportSize({ width, height: 1000 });
       await page.goto(base + '/get/forscore.php?m=gigreps&c=Headings.txt&profile=sx');
-      ok(await page.getByRole('button', { name: 'Download forScore setlist (.4ss)', exact: true }).isVisible(),
+      ok(await page.locator('[data-download=top]').isVisible(),
         'download remains reachable at ' + width + 'px');
       ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
         'new export page has no horizontal overflow at ' + width + 'px');
