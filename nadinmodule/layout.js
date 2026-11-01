@@ -3,7 +3,7 @@
     var nav = document.querySelector('[data-sidebar]');
     var toggle = document.getElementById('nadin-sidebar-toggle');
     if (!nav) { if (toggle) toggle.hidden = true; return; }
-    var inlineAlphabet = nav.classList.contains('nadin-library-alphabet');
+    var inlineAlphabet = nav.classList.contains('nadin-library-alphabet') || Boolean(nav.closest('.nadin-gig-list-top'));
     if (inlineAlphabet && toggle) { toggle.hidden = true; toggle.style.display = 'none'; }
     var mobile = window.matchMedia('(max-width:700px)');
     var backdrop = document.createElement('div');
