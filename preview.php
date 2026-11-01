@@ -14,9 +14,10 @@ $tunes=explode("\n",$rep);
 
 require('nadinmodule/table.inc.inc.php');
 ?>
-<iframe name="general" width="0" height="0" frameborder="0"></iframe>
+<iframe name="general" title="Background status updates" aria-hidden="true" width="0" height="0" frameborder="0"></iframe>
 <?php 
 require_once('nadinmodule/findpos.js.php');
 ?>
+<script src="nadinmodule/layout.js"></script>
 
-</body></html>
+</main></body></html>
