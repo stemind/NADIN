@@ -33,7 +33,7 @@ function ok(value, label) { assert(value, label); checks++; }
       await link.click();
       const popup = await popupEvent;
       await popup.waitForLoadState();
-      ok(await popup.getByRole('heading', { name: 'forScore — NADIN 7.7.3' }).isVisible(),
+      ok(await popup.getByRole('heading', { name: 'forScore — NADIN 7.7.4' }).isVisible(),
         'forScore opens in its own tab from ' + module);
       await popup.close();
     }
@@ -45,6 +45,6 @@ function ok(value, label) { assert(value, label); checks++; }
       ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
         'new export page has no horizontal overflow at ' + width + 'px');
     }
-    console.log('PASS:', checks, 'NADIN 7.7.3 Chromium checks');
+    console.log('PASS:', checks, 'NADIN 7.7.4 Chromium checks');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });
