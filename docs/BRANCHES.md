@@ -16,6 +16,7 @@ The numbered branches describe successive functional stages. Common repairs have
 | V14 | [`V14-refined-interface`](https://github.com/stemind/NADIN/tree/V14-refined-interface) | V13 | Refined compact interface |
 | V15 | [`V15-oidc-saml-reliable-zips`](https://github.com/stemind/NADIN/tree/V15-oidc-saml-reliable-zips) | V14 | Optional federation and reliable ZIPs |
 | V16 | [`V16-php85-php9-preparation`](https://github.com/stemind/NADIN/tree/V16-php85-php9-preparation) | V15 | PHP 8.5 validation and PHP 9 preparation |
+| V17 | [`V17-unified-interface-and-workflows`](https://github.com/stemind/NADIN/tree/V17-unified-interface-and-workflows) | V16 | Unified interface and workflows |
 
 ## Integration and release status
 
@@ -38,3 +39,5 @@ The skipped V10 was closed by renumbering former V11–V16 to V10–V15. The cur
 The final executed checks and concrete collateral corrections are recorded in [the evolution audit](EVOLUTION-AUDIT.md). The [7.7.2 release notes](7.7.2.md) describe its deliberately smaller source delta and upgrade packages.
 
 The [7.7.3 release notes](7.7.3.md) describe the current forScore workflow release and update packages.
+
+The current classic release is [7.7.4](7.7.4.md). Active download and required-field guidance are backported to all forScore lines, including V17.
