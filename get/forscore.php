@@ -13,9 +13,25 @@ function fsInput($source, $key, $default = '') {
     if (!is_string($source[$key]) || strlen($source[$key]) > 4096) throw new RuntimeException('Invalid request field.');
     return $source[$key];
 }
-function fsOptionSummary($option, $profiles, $mode) {
+function fsOptionSummary($option, $profiles, $mode, $workflow) {
     $status = $option['known'] ? ($option['old'] ? 'keep your local version' : 'reuse your existing PDF') : ($mode === 'new' ? 'PDF will be included' : 'reference only; no PDF included');
+    if ($workflow === '') $status = 'choose an import option';
     return nadinText($profiles[$option['asset']['type']]['label']) . ' · ' . $status;
+}
+function fsExportSummary($plan, $mode) {
+    $summary = array('entries' => count($plan['entries']), 'headings' => 0, 'included' => 0,
+        'reused' => 0, 'references' => 0, 'missing' => 0, 'unresolved' => 0);
+    $seen = array();
+    foreach ($plan['entries'] as $key) {
+        $row = $plan['rows'][$key];
+        if ($row['kind'] === 'heading') { $summary['headings']++; continue; }
+        if ($row['selected'] === '') { $summary[$row['options'] ? 'unresolved' : 'missing']++; continue; }
+        $option = $row['options'][$row['selected']];
+        if (isset($seen[$option['path']])) continue;
+        $seen[$option['path']] = true;
+        $summary[$option['known'] ? 'reused' : ($mode === 'new' ? 'included' : 'references')]++;
+    }
+    return $summary;
 }
 function fsInventoryState($encoded) {
     if (!is_string($encoded) || strlen($encoded) > 8 * 1024 * 1024) throw new RuntimeException('Invalid library inventory.');
@@ -53,6 +69,10 @@ $rights = array();
 foreach (array('vgigs', 'varchiv', 'vlibrary', 'musers', 'vsaxes', 'vbones', 'vtrumpets', 'vrhythm', 'vother', 'vscore') as $right) $rights[$right] = role($right);
 $exporter = new NadinForScore(dirname(__DIR__), $delimiter2, $profiles, $rights);
 $allowed = $exporter->allowedProfiles();
+// Keep only a section preference, separately for each installation and account.
+$sectionCookie = 'nadin_forscore_section_' . substr(hash('sha256', __DIR__ . '|' . $uc), 0, 20);
+$savedProfile = isset($_COOKIE[$sectionCookie]) && is_string($_COOKIE[$sectionCookie]) && isset($allowed[$_COOKIE[$sectionCookie]])
+    ? $_COOKIE[$sectionCookie] : (string)array_key_first($allowed);
 $secret = hash('sha256', $salt . '|' . $uc . '|' . $pmd5c);
 $csrf = hash_hmac('sha256', 'NADIN forScore export', $secret);
 try {
@@ -75,7 +95,7 @@ try {
     $module = fsInput($input, 'm', 'gigreps');
     $rep = $post ? base64_decode(fsInput($input, 'rep'), true) : fsInput($input, 'c');
     if ($rep === false) throw new RuntimeException('Invalid GigRep.');
-    $profile = fsInput($input, 'profile', (string)array_key_first($allowed));
+    $profile = fsInput($input, 'profile', $savedProfile);
     if ($post && isset($_POST['inventory'])) {
         $names = fsInventoryState($_POST['inventory']);
         $loaded = fsInput($_POST, 'inventory_loaded') === '1';
@@ -101,6 +121,10 @@ try {
     }
     $plan = $exporter->plan($module, $rep, $profile, $names, $choices);
     foreach ($plan['rows'] as $row) if ($row['kind'] === 'tune' && !$row['options']) $missingNotes = true;
+    $cookiePath = rtrim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME']))), '/') . '/';
+    setcookie($sectionCookie, $profile, array('expires' => time() + 365 * 86400,
+        'path' => $cookiePath, 'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+        'httponly' => true, 'samesite' => 'Lax'));
     $signature = fsSignature($plan, $module, $rep, $profile, $names, $secret);
     $placeholders = fsInput($input, 'placeholders') === '1';
     $title = ($module === 'library' ? $bb . ' — Library' : substr(nadinText($rep), 0, -4)) . ' — ' . nadinText($allowed[$profile]['label']);
@@ -131,6 +155,7 @@ $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps'
 ?>
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
 <link rel="stylesheet" href="../style.css"><title>forScore export — NADIN V12</title></head>
 <body class="nadin-page nadin-forscore">
 <h2>forScore <small>— NADIN V12</small></h2>
@@ -150,6 +175,7 @@ $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps'
 <input type="hidden" name="inventory_loaded" value="<?php echo $loaded ? '1' : '0'; ?>">
 <input type="hidden" name="inventory" value="<?php echo nadinHtml(base64_encode(json_encode($names))); ?>">
 <input type="hidden" name="view" value="<?php echo nadinHtml($signature); ?>">
+<p class="postscriptum">Your section is remembered on this browser. Section PDFs are preferred; Parts is used when needed.</p>
 <div class="nadin-forscore-controls">
 <label>Section <select name="profile" data-auto-review><?php foreach ($allowed as $key => $value) echo '<option value="' . nadinHtml($key) . '"' . ($key === $profile ? ' selected' : '') . '>' . nadinHtml($value['label']) . '</option>'; ?></select></label>
 <label>Import <select name="workflow" required data-auto-review>
@@ -174,20 +200,23 @@ else echo 'Choose how to import this setlist. Section and CSV changes update the
 <?php if ($loaded) echo '<p class="postscriptum">Inventory loaded' . ($inventoryName !== '' ? ': ' . nadinHtml($inventoryName) : '') . ' - ' . count($names) . ' PDFs identified. Existing filenames do not prove that local PDF contents are unchanged.</p>'; ?>
 <p class="postscriptum" role="status" aria-live="polite" data-review-status hidden>Updating selection...</p>
 <div class="nadin-forscore-rows">
-<?php foreach ($plan['rows'] as $key => $row) { ?>
-<div class="nadin-forscore-row<?php if ($row['kind'] === 'heading') echo ' nadin-forscore-heading'; ?>">
+<?php $occurrences = array_count_values($plan['entries']); foreach ($plan['rows'] as $key => $row) { ?>
+<div class="nadin-forscore-row<?php if ($row['kind'] === 'heading') echo ' nadin-forscore-heading'; ?>" data-kind="<?php echo $row['kind']; ?>" data-occurrences="<?php echo $occurrences[$key]; ?>">
 <?php if ($row['kind'] === 'heading') { ?>
 <strong><?php echo nadinHtml($row['tune']); ?></strong>
 <small>Heading — included automatically as a text placeholder.</small>
 <?php } else { ?>
-<label for="choice-<?php echo $key; ?>"><?php echo nadinHtml(str_replace('_', ' ', $row['tune'])); ?></label>
-<?php if ($row['options']) { ?>
-<select id="choice-<?php echo $key; ?>" name="choice[<?php echo $key; ?>]" data-pdf-choice>
+<span id="tune-<?php echo $key; ?>"><?php echo nadinHtml(str_replace('_', ' ', $row['tune'])); ?></span>
+<?php if (count($row['options']) === 1 && $row['selected'] !== '') { $selected = $row['options'][$row['selected']]; ?>
+<input type="hidden" name="choice[<?php echo $key; ?>]" value="<?php echo nadinHtml($row['selected']); ?>" data-pdf-choice data-path="<?php echo nadinHtml($selected['path']); ?>" data-known="<?php echo $selected['known'] ? '1' : '0'; ?>">
+<span class="nadin-forscore-file" id="choice-<?php echo $key; ?>"><?php echo nadinHtml($selected['asset']['file']); ?></span>
+<?php } elseif ($row['options']) { ?>
+<select id="choice-<?php echo $key; ?>" name="choice[<?php echo $key; ?>]" data-pdf-choice aria-labelledby="tune-<?php echo $key; ?>">
 <option value="">Choose PDF</option>
-<?php foreach ($row['options'] as $id => $option) echo '<option value="' . nadinHtml($id) . '" data-summary="' . nadinHtml(fsOptionSummary($option, $profiles, $mode)) . '"' . ($id === $row['selected'] ? ' selected' : '') . '>' . nadinHtml($option['label']) . '</option>'; ?>
+<?php foreach ($row['options'] as $id => $option) echo '<option value="' . nadinHtml($id) . '" data-path="' . nadinHtml($option['path']) . '" data-known="' . ($option['known'] ? '1' : '0') . '" data-summary="' . nadinHtml(fsOptionSummary($option, $profiles, $mode, $workflow)) . '"' . ($id === $row['selected'] ? ' selected' : '') . '>' . nadinHtml($option['label']) . '</option>'; ?>
 </select>
 <?php } else { ?><span class="nadin-forscore-warning"><?php echo nadinHtml($row['reason']); ?> — placeholder required</span><?php } ?>
-<?php if ($row['options']) { ?><small data-pdf-status><?php echo $row['selected'] !== '' ? nadinHtml(fsOptionSummary($row['options'][$row['selected']], $profiles, $mode)) : nadinHtml($row['reason']); ?></small><?php } ?>
+<?php if ($row['options']) { ?><small data-pdf-status><?php echo $row['selected'] !== '' ? nadinHtml(fsOptionSummary($row['options'][$row['selected']], $profiles, $mode, $workflow)) : nadinHtml($row['reason']); ?></small><?php } ?>
 <?php } ?>
 </div>
 <?php } ?>
@@ -195,7 +224,25 @@ else echo 'Choose how to import this setlist. Section and CSV changes update the
 <?php if ($missingNotes) { ?>
 <p><label><input type="checkbox" name="placeholders" value="1"<?php if ($placeholders) echo ' checked'; ?>> Keep tunes with missing or inaccessible notes as visible placeholders.</label></p>
 <?php } ?>
-<button name="action" value="download">Download .4ss</button>
+<?php $summary = fsExportSummary($plan, $mode); ?>
+<div class="nadin-forscore-summary" data-export-summary role="status" aria-live="polite">
+<strong>Download summary</strong>
+<p data-export-counts<?php if ($workflow === '') echo ' hidden'; ?>>Setlist entries: <span data-count="entries"><?php echo $summary['entries']; ?></span>
+<span data-metric="headings"<?php if (!$summary['headings']) echo ' hidden'; ?>> · Headings: <span data-count="headings"><?php echo $summary['headings']; ?></span></span>
+<span data-metric="included"<?php if (!$summary['included']) echo ' hidden'; ?>> · PDFs included: <span data-count="included"><?php echo $summary['included']; ?></span></span>
+<span data-metric="reused"<?php if (!$summary['reused']) echo ' hidden'; ?>> · Existing PDFs reused: <span data-count="reused"><?php echo $summary['reused']; ?></span></span>
+<span data-metric="references"<?php if (!$summary['references']) echo ' hidden'; ?>> · PDF references only: <span data-count="references"><?php echo $summary['references']; ?></span></span>
+<span data-metric="missing"<?php if (!$summary['missing']) echo ' hidden'; ?>> · Missing-note entries: <span data-count="missing"><?php echo $summary['missing']; ?></span></span>
+<span data-metric="unresolved"<?php if (!$summary['unresolved']) echo ' hidden'; ?>> · PDF choices remaining: <span data-count="unresolved"><?php echo $summary['unresolved']; ?></span></span></p>
+<p data-export-next><?php
+if ($workflow === '') echo 'Choose an import option above.';
+elseif ($workflow === 'update' && !$loaded) echo 'Upload a current forScore inventory CSV above.';
+elseif ($summary['unresolved']) echo 'Choose a PDF for each unresolved tune above.';
+elseif ($summary['missing'] && !$placeholders) echo 'Confirm the missing-note placeholders above.';
+else echo 'Ready. Download the setlist and open it in forScore.';
+?></p>
+</div>
+<button name="action" value="download">Download forScore setlist (.4ss)</button>
 <input type="hidden" name="form_complete" value="yes">
 </form>
 <details class="nadin-forscore-help"><summary>Import and updates</summary>
