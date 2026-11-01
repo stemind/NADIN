@@ -588,3 +588,13 @@ button,input,select,textarea { font-family:var(--nadin-font); }
  .nadin-popup-header,.nadin-popup-nav { display:none; }
  .nadin-popup { margin:0; }
 }
+
+/* The legacy config switch also works with the compact interface. */
+@media screen {
+.nadin-layout.nadin-gig-list-top { display:block; }
+.nadin-gig-list-top .nadin-sidebar { display:flex;position:relative;inset:auto;float:none;box-sizing:border-box;width:100%;max-width:none;max-height:200px;flex-wrap:wrap;align-items:center;gap:3px;box-shadow:none; }
+.nadin-gig-list-top .nadin-sidebar>a { display:inline-block;max-width:100%; }
+.nadin-gig-list-top .nadin-sidebar>.nadin-search-label { flex-basis:100%; }
+.nadin-gig-list-top .nadin-content { margin-top:6px; }
+}
+

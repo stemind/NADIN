@@ -41,7 +41,8 @@ $autoclosepopups='no'; //automatically close popup windows when main window (ope
 
 $allowmultiplepopups='yes'; //when you click the pencil symbol to manage tunes, a popup will be opened; set to $allowmultiplepopups='no' replaces this popup with the next you are going to open
 
-// The left sidebar is now the only layout (the former switch is obsolete).
+// Keep the existing installation's GigRep list position.
+$rendergiglistontheleft='yes'; // 'no' places the list above the tunes.
 $ifleftthenthiswidth='300px'; // e. g. $ifleftthenthiswidth='300px';
 
 //IDENTIFICATION OF PDF FILES PER REGISTER ...
