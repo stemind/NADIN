@@ -16,10 +16,11 @@
         var show = workflow.value === 'update';
         panel.hidden = !show;
         csv.required = show && form.elements.namedItem('inventory_loaded').value !== '1';
+        if (!csv.required) clearFieldError(csv);
     }
     function updateSummary() {
         // Cached pages from the previous workflow keep working during an update.
-        if (!form.querySelector('[data-export-counts]')) { download.disabled = busy; return; }
+        if (!form.querySelector('[data-export-counts]')) { download.disabled = false; return; }
         var counts = {entries:0, headings:0, included:0, reused:0, references:0, missing:0, unresolved:0};
         var paths = Object.create(null);
         form.querySelectorAll('.nadin-forscore-row').forEach(function (row) {
@@ -49,7 +50,7 @@
         else if (counts.unresolved) next = 'Choose a PDF for each unresolved tune above.';
         else if (counts.missing && (!placeholders || !placeholders.checked)) next = 'Confirm the missing-note placeholders above.';
         form.querySelector('[data-export-next]').textContent = next || 'Ready. Download the setlist and open it in forScore.';
-        download.disabled = busy || !!next;
+        download.disabled = false;
     }
     function resetBusy() {
         busy = false;
@@ -78,7 +79,7 @@
         busy = true;
         form.setAttribute('aria-busy', 'true');
         status.hidden = false;
-        download.disabled = true;
+        download.disabled = false;
         try {
             if (typeof form.requestSubmit === 'function') form.requestSubmit(review);
             else review.click();
@@ -87,7 +88,39 @@
             review.hidden = false;
         }
     }
+    function clearFieldError(field) {
+        if (!field || typeof field.setCustomValidity !== 'function') return;
+        field.setCustomValidity('');
+        field.removeAttribute('aria-invalid');
+    }
+    // Native validation prevents the POST and takes the musician to the first
+    // missing field. Automatic refresh deliberately uses the formnovalidate button.
+    form.addEventListener('invalid', function (event) {
+        var field = event.target;
+        if (field.validity && field.validity.valueMissing) {
+            var message = field.getAttribute('data-required-message');
+            if (message) field.setCustomValidity(message);
+        }
+        field.setAttribute('aria-invalid', 'true');
+        var first = null;
+        for (var i = 0; i < form.elements.length; i++) {
+            var candidate = form.elements[i];
+            if (candidate.willValidate && candidate.validity && !candidate.validity.valid) { first = candidate; break; }
+        }
+        if (field === first) {
+            try { field.scrollIntoView({block:'center', behavior:'auto'}); } catch (ignore) {}
+            try { field.focus({preventScroll:true}); } catch (ignore) { field.focus(); }
+        }
+    }, true);
+    form.addEventListener('input', function (event) { clearFieldError(event.target); });
+    download.addEventListener('click', function (event) {
+        if (!busy) return;
+        event.preventDefault();
+        status.hidden = false;
+        status.textContent = 'Updating selection. Please wait.';
+    });
     form.addEventListener('change', function (event) {
+        clearFieldError(event.target);
         if (event.target.matches('[data-auto-review]')) updateSelection(event.target);
         if (event.target.matches('select[data-pdf-choice]')) {
             var option = event.target.options[event.target.selectedIndex];
