@@ -39,5 +39,5 @@ function nadinInfoHtml($value) {
 
 function nadinGigListPosition() {
     global $rendergiglistontheleft;
-    return !isset($rendergiglistontheleft) || $rendergiglistontheleft == 'yes' ? 'left' : 'top';
+    return ($rendergiglistontheleft ?? 'yes') === 'no' ? 'top' : 'left';
 }
