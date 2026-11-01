@@ -16,16 +16,18 @@ The numbered branches describe successive functional stages. Common repairs have
 | V14 | [`V14-refined-interface`](https://github.com/stemind/NADIN/tree/V14-refined-interface) | V13 | Refined compact interface |
 | V15 | [`V15-oidc-saml-reliable-zips`](https://github.com/stemind/NADIN/tree/V15-oidc-saml-reliable-zips) | V14 | Optional federation and reliable ZIPs |
 | V16 | [`V16-php85-php9-preparation`](https://github.com/stemind/NADIN/tree/V16-php85-php9-preparation) | V15 | PHP 8.5 validation and PHP 9 preparation |
+| V17 | [`V17-unified-interface-and-workflows`](https://github.com/stemind/NADIN/tree/V17-unified-interface-and-workflows) | V16 | Coherent compact task windows, explicit uploads, draft protection, mobile administration and visual/text setlists |
 
 ## Integration and release status
 
 - `main` is the maintained legacy comparison baseline. The later interface, account and federation stages are not all merged into it.
 - `v7.7.1` remains the previous immutable release snapshot. `v7.7.2` added the conservative CSS-layout maintenance. `v7.7.3` builds on that release with the guided forScore workflow, on `7.7.2-css-gigrep-layout`.
-- `7.7-original-interface-forScore` retains its own classic layout. The remembered-section and guided forScore workflow are applied to both classic lines and V8–V16; each keeps its visual stage.
+- `7.7-original-interface-forScore` retains its own classic layout. The remembered-section and guided forScore workflow are applied to both classic lines and V8–V17; each keeps its visual stage.
 - V8–V16 retain their individual visual stages. Shared fixes preserve literal headings, Library forScore access, section/Parts permissions, custom markers, source order, file identities and required directories.
 - Current/archive GigRep position is controlled by `rendergiglistontheleft`. Only explicit `yes` enables the classic left list; a missing classic flag retains the original top position. Compact branches retain left as their default when no flag is provided. A positive pixel width remains configurable.
 - iTunes/RSS routes have been retired in the V10-and-later development lines. Ordinary PDF/recording downloads, ZIPs and `abo/zip` gig attachments remain. This historical feature decision is distinct from the 7.7.2 layout maintenance.
-- Federation is optional in V15/V16. Install the versions in `composer.lock` with Composer to enable and test it; local login works without those optional dependencies.
+- Federation is optional in V15–V17. Install the versions in `composer.lock` with Composer to enable and test it; local login works without those optional dependencies.
+- V17 builds on V16, including the compact ZIP row and current guided forScore export. Its [design rationale](V17-DESIGN.md) and [verification](V17-VERIFICATION.md) describe its distinct scope; it is not merged into the classic release lines.
 
 Use one line's complete source files. Preserve installation configuration and salt, member/authentication files, music, Reps, attachments and hidden forScore identity metadata. Do not replace a production configuration file with the repository example.
 

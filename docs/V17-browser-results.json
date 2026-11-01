@@ -1,0 +1,106 @@
+{
+  "checks": 80,
+  "audits": [
+    {
+      "name": "current gigs",
+      "violations": []
+    },
+    {
+      "name": "score file task",
+      "violations": []
+    },
+    {
+      "name": "recording task on mobile",
+      "violations": []
+    },
+    {
+      "name": "gig editing on mobile",
+      "violations": []
+    },
+    {
+      "name": "gig editing on desktop",
+      "violations": []
+    },
+    {
+      "name": "people and permissions",
+      "violations": []
+    },
+    {
+      "name": "people editor on mobile",
+      "violations": []
+    },
+    {
+      "name": "forScore on mobile",
+      "violations": []
+    },
+    {
+      "name": "scores task at 320px",
+      "violations": []
+    },
+    {
+      "name": "recordings task at 320px",
+      "violations": []
+    },
+    {
+      "name": "notes task at 320px",
+      "violations": []
+    },
+    {
+      "name": "rename task at 320px",
+      "violations": []
+    },
+    {
+      "name": "remove task at 320px",
+      "violations": []
+    },
+    {
+      "name": "new task at 320px",
+      "violations": []
+    },
+    {
+      "name": "attachment task at 320px",
+      "violations": []
+    },
+    {
+      "name": "access task at 320px",
+      "violations": []
+    },
+    {
+      "name": "score-alias task at 320px",
+      "violations": []
+    },
+    {
+      "name": "audio-alias task at 320px",
+      "violations": []
+    },
+    {
+      "name": "attachment-alias task at 320px",
+      "violations": []
+    },
+    {
+      "name": "password at 320px",
+      "violations": []
+    },
+    {
+      "name": "recovery at 320px",
+      "violations": []
+    },
+    {
+      "name": "request-access at 320px",
+      "violations": []
+    },
+    {
+      "name": "login at 320px",
+      "violations": []
+    },
+    {
+      "name": "timeout at 320px",
+      "violations": []
+    },
+    {
+      "name": "preview at 320px",
+      "violations": []
+    }
+  ],
+  "browserErrors": []
+}
