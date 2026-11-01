@@ -240,6 +240,12 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
         # Current UI: one explicit import choice; no manual review dependency.
         workflow_blank = preview('Headings.txt')
         workflow_soup = BeautifulSoup(workflow_blank.text, 'html.parser')
+        buttons = workflow_soup.select('button[name="action"][value="download"]')
+        ok(len(buttons) == 2 and [b.get('data-download') for b in buttons] == ['top', 'bottom'],
+           'top and bottom download actions share the authenticated form')
+        action_css = workflow_soup.select_one('head link[href*="forscore-actions.css"]')
+        ok(action_css is not None and session.get(base + '/nadinmodule/forscore-actions.css').status_code == 200,
+           'scoped download styling is included in the head and actually served')
         ok(workflow_soup.find('select', attrs={'name': 'workflow', 'required': True}) is not None,
            'import intent is one required selection')
         ok(workflow_soup.find('select', attrs={'name': 'mode'}) is None

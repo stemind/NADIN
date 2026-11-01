@@ -17,6 +17,8 @@ for (const name of ['blank', 'first', 'update', 'references']) {
     const p = page(input[name]), {w, form, calls} = p;
     const review = form.querySelector('[data-review]'), download = form.querySelector('[value=download]');
     const status = form.querySelector('[data-review-status]');
+    const downloads = Array.from(form.querySelectorAll('[value=download]'));
+    ok(downloads.length === 2 && downloads.every(b => b.form === form && !b.disabled), 'both download buttons use the same complete form');
     ok(review.hidden, 'manual refresh is hidden after the automatic handler is active');
     ok(!form.hasAttribute('aria-busy') && !download.disabled, 'download remains active before all obligatory choices are complete');
     ok(count(p, 'entries') === 6 && count(p, 'headings') === 3, 'summary retains repeated tune and heading positions');
@@ -24,6 +26,11 @@ for (const name of ['blank', 'first', 'update', 'references']) {
     form.elements.profile.value = 'parts'; change(p, form.elements.profile);
     ok(calls.length === 1 && calls[0].value === 'review' && calls[0].novalidate, 'section change refreshes even before other required choices are made');
     ok(form.getAttribute('aria-busy') === 'true' && !download.disabled && !status.hidden, 'download stays active while the refresh status is visible');
+    for (const action of downloads) {
+        const click = new w.MouseEvent('click', {bubbles:true,cancelable:true});
+        ok(!action.dispatchEvent(click) && !action.disabled && calls.length === 1, 'each active download waits for the current automatic refresh without a second submission');
+    }
+    ok(form.querySelector('[data-export-next]').textContent === 'Updating selection. Please wait.', 'the top summary reports a pending refresh instead of a stale ready state');
     const legacySubmit = new w.Event('submit', {bubbles:true, cancelable:true});
     ok(form.dispatchEvent(legacySubmit) && new w.FormData(form).has('profile') && new w.FormData(form).has('csrf'), 'automatic refresh accepts older submit events and preserves submitted fields');
     w.dispatchEvent(new w.Event('pageshow'));
