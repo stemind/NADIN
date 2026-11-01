@@ -153,7 +153,7 @@ try {
 }
 $back = '../?' . http_build_query(array('m' => in_array($module, array('gigreps', 'gigrepsarchiv', 'library'), true) ? $module : 'gigreps', 'c' => $rep));
 require_once __DIR__.'/../nadinmodule/popup-ui.inc.php';
-nadinPopupStart('forScore export (V16)', '../', 'nadin-forscore');
+nadinPopupStart('forScore export (V17)', '../', 'nadin-forscore');
 ?>
 <p><a href="<?php echo nadinHtml($back); ?>">&larr; Back to NADIN</a></p>
 <?php if ($error !== '') { ?>
@@ -250,4 +250,4 @@ else echo 'Ready. Download the setlist and open it in forScore.';
 </details>
 <?php } ?>
 <script src="../nadinmodule/forscore.js" defer></script>
-</body></html>
+</main></body></html>
