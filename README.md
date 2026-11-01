@@ -1,19 +1,19 @@
-https://yuba.ch/nadin: NADIN is a PHP program made to provide big band musicians with the needed sheet music and recordings thereof by means of personal access data.
-To that end, the PDF files can be taken apart to make them available selectively, so that e.g. saxophonists can only obtain the saxophone score etc. This ensures that the arrangements are protected and do not spread uncontrollably. Substitutes can be registered in the system, too; they receive a login carrying an expiration date.
-In NADIN, a band’s complete music library can be managed. NADIN administrators can put together the set lists of gigs by mouse clicks and make them available to the band members, including download links for the appropriate notes and recordings. Past gigs can be archived. In the administration, user rights can be defined (e.g. access only to the sax score for the current gigs, but not to archived gigs, and not to the music library).
+# NADIN — Refined compact interface
 
-NADIN is purely file-based; therefore, it needs no database. It was developed by Urs Petermann and Stefan Minder for the Uptown Big Band Bern and is available to all interested parties free of charge. Any warranty and liability is excluded.
+A more consistent compact theme and controls while retaining the accumulated music, editing, account and export functions.
 
-Version notes: [V8 — compact original interface](docs/V8.md).
+**Branch:** `V14-refined-interface`  
+**Starting point:** V13  
+**Status:** Development line; shared collateral corrections are backported without taking over the later visual stages.
 
-[V9 — forScore setlists and reusable notes](docs/V9-forScore.md), based on V8.
+## Project
 
-Version notes: [V11 — personal passwords and simple onboarding](docs/V11.md).
+NADIN is a file-based PHP application for big bands. It manages sheet music, recordings, member permissions and current/archived gig setlists without a database. It was developed by Urs Petermann and Stefan Minder for the Uptown Big Band Bern. Any warranty and liability is excluded. Project information: https://yuba.ch/nadin.
 
-[V12 — compact gig administration, clear permissions and safer downloads](docs/V12.md), based on V11.
+## Branches and releases
 
-[V13 — progressive brute-force protection with a clear retry countdown](docs/V13.md), including all V12 improvements.
+See [the complete branch map](docs/BRANCHES.md) for the stages, historical numbering, integration status and current release. [NADIN 7.7.2](https://github.com/stemind/NADIN/releases/tag/v7.7.2) is the conservative classic-interface maintenance release.
 
-[V14 — compact, readable ZIP downloads](docs/V14.md), based on V13.
+## Installation and verification
 
-[V15 — a cleaner, consistent interface with compact spacing](docs/V15.md), including V14 downloads.
+Use the selected line's source files together and preserve your configuration, salt, member/authentication files, music, Reps, attachments and hidden forScore metadata. See [the executed evolution audit](docs/EVOLUTION-AUDIT.md) for the checks and corrected collateral issues, and [7.7.2 notes](docs/7.7.2.md) for that release's patch packages.
