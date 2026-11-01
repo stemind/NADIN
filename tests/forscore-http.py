@@ -17,7 +17,7 @@ from bs4 import BeautifulSoup
 ROOT = Path(__file__).resolve().parents[1]
 PHP = os.environ.get('NADIN_PHP', 'php')
 DEFAULT_CHARSET = os.environ.get('NADIN_DEFAULT_CHARSET', 'UTF-8')
-EXPECTED_VERSION = '7.7.3'
+EXPECTED_VERSION = '7.7.4'
 SEPARATOR = '* - * - * - * * * - * - * - *'
 checks = 0
 
@@ -77,6 +77,7 @@ with tempfile.TemporaryDirectory(prefix='nadin-forscore-http-') as temp:
     asset('Ambiguous_Heading_Tune', 'Ambiguous_Heading_Tune_Two_SXS.pdf')
     rep('Ambiguous.txt', ['Start:', 'Ambiguous_Heading_Tune'])
     rep('Switch.txt', ['Switch_Heading'])
+    rep('Long required.txt', ['Heading ' + str(i) + ':' for i in range(80)] + ['Ambiguous_Heading_Tune'])
     escaped_heading = '<img src=x onerror=alert(1)>'
     rep('Escaped.txt', [escaped_heading])
     rep('Müller – Probe.txt', [heading, 'Heading_A'])
