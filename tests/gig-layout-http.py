@@ -46,7 +46,7 @@ with tempfile.TemporaryDirectory(prefix='nadin-gig-layout-') as temp:
    user=role+'@example.invalid';data.update(u=user,p=hashlib.sha1((user+'layout-fixture').encode()).hexdigest()[7:13])
    response=session.post(base+'/login2.php',data=data,allow_redirects=False)
    ok(response.status_code in [302,303],'fixture login works: '+role)
-   for side in ['yes','no','missing']:
+   for side in ['yes','no','missing','','auto']:
     for width in [240,375]:
      text=re.sub(r"(?m)^\$rendergiglistontheleft\s*=.*$",'' if side=='missing' else "$rendergiglistontheleft='"+side+"';",original)
      text=re.sub(r"(?m)^(\$ifleftthenthiswidth\s*=\s*)'[^']*'",r"\g<1>'"+str(width)+"px'",text)
