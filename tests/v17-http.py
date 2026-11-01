@@ -38,7 +38,7 @@ with tempfile.TemporaryDirectory(prefix='nadin-v17-http-') as temp:
         ok(admin.post(base+'/nadinmodule/media-token.php').status_code==405,'token endpoint is read-only')
         page=admin.get(base+'/index.php?m=library');ok(page.status_code==200 and (app/'library/x').read_bytes()==b'keep-this-file','viewing a page preserves pre-existing x file')
         for route in ['upload.php?tune=Task_Test','uploadpdf.php?tune=Task_Test','uploadaudio.php?tune=Task_Test','uploadatt.php?gig=2026-11-07%20Task%20gig','new.php','renamefolder.php?tune=Task_Test','deletefolder.php?tune=Task_Test','p.php']:
-            response=admin.get(base+'/nadinmodule/'+route);doc=BeautifulSoup(response.text,'html.parser');ok(response.status_code==200 and doc.select_one('script[src="../nadinmodule/task.js"]') and doc.select_one('link[href="../nadin.svg"]'),'shared task shell '+route)
+            response=admin.get(base+'/nadinmodule/'+route);doc=BeautifulSoup(response.text,'html.parser');ok(response.status_code==200 and doc.select_one('script[src^="../nadinmodule/task.js"]') and doc.select_one('link[href="../nadin.svg"]'),'shared task shell '+route)
         original=(tune/'First_SXS.pdf').read_bytes()
         response=post('PDFrenamefile.php',{'p':'Task_Test','f':'First_SXS.pdf','n':'Second_SXS.pdf'});ok(response.status_code==409 and response.json()['ok'] is False,'rename collision has structured failure')
         ok((tune/'First_SXS.pdf').read_bytes()==original and (tune/'Second_SXS.pdf').read_bytes()==b'%PDF-second','failed rename preserves both files')
