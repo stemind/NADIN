@@ -92,10 +92,7 @@ with tempfile.TemporaryDirectory(prefix='nadin-main-parity-') as temp:
             lib=session.get(base+'index.php?m=library');libdoc=soup(lib)
             ok(lib.status_code==200 and all(libdoc.find('a',href=lambda x:x and 'library.'+kind+'.php' in x) for kind in ['print','xls']),'Library Print/XLS '+label)
             library_export=libdoc.find('a',href=lambda x:x and 'forscore.php' in x)
-            ok(bool(library_export)==(app/'get/forscore.php').is_file(),'Library forScore capability remains reachable '+label)
-            if library_export:
-                exported=session.get(urljoin(base,library_export['href']))
-                ok(exported.status_code==200 and 'reviewed_profile' in exported.text,'Library forScore export opens '+label)
+            ok(library_export is None,'Media Library has no forScore link '+label)
             rec=session.get(base+'index.php?m=reclist');recdoc=soup(rec)
             recurl=next(a['href'] for a in recdoc.select('a[href*="get/file.php"]') if 'Parity_A' in a['href'])
             ok(session.get(urljoin(base,recurl)).content==b'Recording fixture','recordings download '+label)

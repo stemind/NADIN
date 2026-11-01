@@ -128,8 +128,20 @@ function ok(value, label) { assert(value, label); checks++; }
         await page.goto(base + '/get/forscore.php?m=gigreps&c=Long%20required.txt&profile=sx');
         await expectMissingField('workflow', 'long page import choice');
         ok(await page.evaluate(() => scrollY < 500), 'clicking the bottom action on a long page returns to the missing import choice near the top');
+        for (const width of [1200, 390]) {
+            await page.setViewportSize({width, height:900});
+            for (const sort of ['alpha', 'newest']) {
+                await page.goto(base + '/?m=library&sort=' + sort);
+                ok(await page.locator('a[href*="forscore.php"]').count() === 0,
+                    'media Library has no forScore link at ' + width + 'px/' + sort);
+                ok(await page.locator('#library-xls-link,#library-print-link').count() === 2,
+                    'media Library retains its Excel and Print exports at ' + width + 'px/' + sort);
+                if (process.env.NADIN_SCREENSHOTS && width === 390 && sort === 'alpha')
+                    await page.screenshot({path:process.env.NADIN_SCREENSHOTS + '/library-no-forscore-390.png', fullPage:true});
+            }
+        }
         await page.setViewportSize({width:1200, height:900});
-        for (const module of ['gigreps', 'gigrepsarchiv', 'library']) {
+        for (const module of ['gigreps', 'gigrepsarchiv']) {
             await page.goto(base + '/?m=' + module + '&c=Headings.txt');
             const link = page.locator('a[href*="get/forscore.php"]').first();
             await link.scrollIntoViewIfNeeded();
@@ -143,7 +155,7 @@ function ok(value, label) { assert(value, label); checks++; }
             await Promise.all([exporter.waitForNavigation({waitUntil:'domcontentloaded'}), exporter.locator('[name=profile]').selectOption(nextProfile)]);
             await Promise.all([exporter.waitForNavigation({waitUntil:'domcontentloaded'}), exporter.locator('[name=workflow]').selectOption('references')]);
             ok(await exporter.locator('[name=from_nadin]').inputValue() === '1', module + ': return context survives automatic form refreshes');
-            if (module !== 'library') {
+            {
                 const downloadEvent = exporter.waitForEvent('download'); await exporter.locator('[data-download=top]').click();
                 const downloaded = await downloadEvent;
                 ok((await fs.readFile(await downloaded.path(), 'utf8')).includes('<forScore '), module + ': a real download leaves the export tab ready to return');
@@ -184,6 +196,8 @@ function ok(value, label) { assert(value, label); checks++; }
         await plain.locator('[name=workflow]').selectOption('first');
         await Promise.all([plain.waitForNavigation({waitUntil:'domcontentloaded'}), plain.locator('[data-review]').click()]);
         ok((await plain.locator('[data-export-next]').textContent()) === 'Ready to download.', 'no-JavaScript refresh produces a correct download summary');
+        await plain.goto(base + '/?m=library');
+        ok(await plain.locator('a[href*="forscore.php"]').count() === 0, 'media Library has no forScore link without JavaScript');
         await nojs.close();
         console.log('PASS:', checks, 'forScore workflow Chromium checks');
     } finally { await browser.close(); }
