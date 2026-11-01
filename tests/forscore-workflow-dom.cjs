@@ -23,7 +23,8 @@ for (const name of ['blank', 'first', 'update', 'references']) {
     form.elements.profile.value = 'parts'; change(p, form.elements.profile);
     ok(calls.length === 1 && calls[0].value === 'review' && calls[0].novalidate, 'section change refreshes even before other required choices are made');
     ok(form.getAttribute('aria-busy') === 'true' && download.disabled && !status.hidden, 'download is unavailable during automatic refresh');
-    ok(new w.FormData(form).has('profile') && new w.FormData(form).has('csrf'), 'automatic refresh preserves submitted fields');
+    const legacySubmit = new w.Event('submit', {bubbles:true, cancelable:true});
+    ok(form.dispatchEvent(legacySubmit) && new w.FormData(form).has('profile') && new w.FormData(form).has('csrf'), 'automatic refresh accepts older submit events and preserves submitted fields');
     w.dispatchEvent(new w.Event('pageshow'));
     ok(!form.hasAttribute('aria-busy') && status.hidden, 'back/forward resets the pending state');
     form.elements.workflow.value = 'update'; change(p, form.elements.workflow);
