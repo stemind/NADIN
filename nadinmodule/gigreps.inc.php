@@ -2,8 +2,8 @@
 require_once('config.inc.php');
 require_once('nadinmodule/functions.inc.php');
 auth('vgigs');
-// Keep the legacy switch: only an explicit 'yes' enables the left-hand list.
-$gigListOnLeft = isset($rendergiglistontheleft) && $rendergiglistontheleft == 'yes';
+// Default to the left column; only the literal 'no' selects the top list.
+$gigListOnLeft = ($rendergiglistontheleft ?? 'yes') !== 'no';
 $gigListWidth = isset($ifleftthenthiswidth) ? (int)$ifleftthenthiswidth : 300;
 if ($gigListWidth < 1) $gigListWidth = 300;
 ?>
