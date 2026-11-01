@@ -191,7 +191,7 @@ class NadinForScore {
             // An existing entry (including an empty folder or a blocked symlink) is
             // still a tune whose missing notes require explicit confirmation.
             $directory = $this->root . '/library/' . $tune;
-            $heading = $module !== 'library' && $this->component($tune) && !file_exists($directory) && !is_link($directory);
+            $heading = $module !== 'library' && (!$this->component($tune) || (!file_exists($directory) && !is_link($directory)));
             $row = array('tune' => nadinText($tune), 'key' => $key, 'kind' => $heading ? 'heading' : 'tune', 'options' => array(), 'selected' => '', 'reason' => '');
             if ($heading) { $rows[$key] = $row; continue; }
             $assets = $this->assets($tune);
