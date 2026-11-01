@@ -12,7 +12,7 @@ unlink('abo/zip/alltrumpets/'.str_replace('.txt','',basename($_GET['c'])).'_allt
 unlink('abo/zip/allrhythm/'.str_replace('.txt','',basename($_GET['c'])).'_allrhythm.zip');
 unlink('abo/zip/allother/'.str_replace('.txt','',basename($_GET['c'])).'_allother.zip');
 ?>
-<?php if ($rendergiglistontheleft=='yes') { ?>
+<?php if (($rendergiglistontheleft ?? 'yes') !== 'no') { ?>
 <script>
 h3=document.getElementsByTagName('h3')[0];
 h3.innerHTML=h3.innerHTML.replace(/ &nbsp; /g,'<br>');

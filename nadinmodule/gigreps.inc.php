@@ -56,7 +56,7 @@ if($_GET['m']!='gigrepsarchiv') require('abo.inc.inc.php');
 
 <br /><br /><br />
 
-<?php if ($rendergiglistontheleft=='yes') { ?>
+<?php if (($rendergiglistontheleft ?? 'yes') !== 'no') { ?>
 <script>
 h3=document.getElementsByTagName('h3')[0];
 h3.innerHTML=h3.innerHTML.replace(/ &nbsp; /g,'<br>');
