@@ -1,5 +1,7 @@
 # NADIN V9: forScore export
 
+Current interaction and cookie behaviour: [forScore workflow](forScore-workflow.md). This supersedes the manual Review steps below.
+
 V9 builds directly on V8. Current and archived GigReps have a compact **forScore** link. The Library retains its existing Print and XLS actions. No WebDAV server, separate cloud account, or iPad helper app is required.
 
 ## Workflow
