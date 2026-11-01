@@ -18,11 +18,13 @@ The numbered branches describe successive functional stages. Common repairs have
 | V16 | [`V16-php85-php9-preparation`](https://github.com/stemind/NADIN/tree/V16-php85-php9-preparation) | V15 | PHP 8.5 validation and PHP 9 preparation |
 | V17 | [`V17-unified-interface-and-workflows`](https://github.com/stemind/NADIN/tree/V17-unified-interface-and-workflows) | V16 | Coherent compact task windows, explicit uploads, draft protection, mobile administration and visual/text setlists |
 
+| V18 | [`V18-audio-upload-conversion`](https://github.com/stemind/NADIN/tree/V18-audio-upload-conversion) | V17 | Optional conversion of audio uploads to MP3, unchanged MP3 passthrough, atomic replacement and MP3-only fallback |
+
 ## Integration and release status
 
 - `main` is the maintained legacy comparison baseline and has no forScore exporter. Later interface, account and federation stages are separate development lines.
 - The consolidated classic release is [NADIN 7.7](7.7.md), sourced from `7.7.2-css-gigrep-layout` (historical branch name). It includes the earlier patch corrections and supplies one cumulative `NADIN-7.6-to-7.7.zip` update.
-- `7.7-original-interface-forScore` retains its classic development layout. Both classic lines and V8–V17 share the guided forScore workflow and active-download validation, while each retains its visual stage.
+- `7.7-original-interface-forScore` retains its classic development layout. Both classic lines and V8–V18 share the guided forScore workflow and active-download validation, while each retains its visual stage.
 - In every branch, only the literal string `rendergiglistontheleft='no'` puts current/archive GigRep navigation above the tunes. Missing, empty, `yes` and other values use the left vertical column. A positive pixel width remains configurable.
 - Shared fixes preserve literal headings, GigRep/archive forScore access, section/Parts permissions, custom markers, source order, file identities and required directories.
 - iTunes/RSS routes have been retired in V10 and later. Ordinary PDF/recording downloads, ZIPs and `abo/zip` gig attachments remain.
