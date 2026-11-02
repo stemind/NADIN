@@ -34,7 +34,7 @@ NADIN tests the actual encoder capability. A missing executable, unavailable pro
 
 The converter receives an argument array, without a shell. User filenames are not executable command text. Input is the uploaded temporary local file, using a forced demuxer from a fixed extension allowlist. Network protocols, playlists, video inputs and MOV external data references are not enabled. MP3 output is prepared in private temporary storage before it is staged and committed to the Library.
 
-The slow conversion runs outside the existing global media-write lock. The lock is reacquired before committing, and the destination is checked again. Conversion errors and deadlines clean temporary output; a failed conversion never causes the previous recording to be moved to recovery. Existing authentication, `upaudio`, POST and CSRF checks still apply before conversion.
+The slow conversion runs outside the existing global media-write lock. The lock is reacquired before committing. The destination directory identity and the previous recording path/bytes must still match their pre-conversion snapshot; a concurrent change returns HTTP 409 before any replacement. Conversion errors and deadlines clean temporary output; a failed conversion never causes the previous recording to be moved to recovery. Existing authentication, `upaudio`, POST and CSRF checks still apply before conversion.
 
 ## Verification
 
@@ -67,3 +67,5 @@ The V18 implementation was exercised with PHP 8.3.6, FFmpeg 6.1.1 with libmp3lam
 | PHP compatibility preparation | 16 checks passed |
 
 Changed PHP/JavaScript files pass syntax checks. The PHP 9 preparation suite is not a claim of testing a native PHP 9 runtime. The customer's hosting environment has not been changed or tested; its converter capability is detected at runtime.
+
+The [2 November audit](EVOLUTION-AUDIT-2026-11-02.md) expands the audio HTTP suite to 63 passing checks, including changed-recording and recreated-directory races.
