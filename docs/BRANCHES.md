@@ -17,6 +17,7 @@ The numbered branches describe successive functional stages. Common repairs have
 | V15 | [`V15-oidc-saml-reliable-zips`](https://github.com/stemind/NADIN/tree/V15-oidc-saml-reliable-zips) | V14 | Optional federation and reliable ZIPs |
 | V16 | [`V16-php85-php9-preparation`](https://github.com/stemind/NADIN/tree/V16-php85-php9-preparation) | V15 | PHP 8.5 validation and PHP 9 preparation |
 | V17 | [`V17-unified-interface-and-workflows`](https://github.com/stemind/NADIN/tree/V17-unified-interface-and-workflows) | V16 | Unified interface and workflows |
+| V18 | [`V18-audio-upload-conversion`](https://github.com/stemind/NADIN/tree/V18-audio-upload-conversion) | V17 | Optional MP3 conversion of audio uploads, MP3 passthrough and concurrent-change protection |
 
 ## Integration and release status
 
@@ -39,3 +40,5 @@ The skipped V10 was closed by renumbering former V11–V16 to V10–V15. The cur
 Current defaults, package and workflow verification are described in [the consolidated 7.7 guide](7.7.md). The [evolution audit](EVOLUTION-AUDIT.md) records earlier executed checks and their historical scope.
 
 The media Library intentionally has no forScore link. Do not restore it as a missing feature; its Excel and Print exports remain available.
+
+The [2 November 2026 audit](EVOLUTION-AUDIT-2026-11-02.md) records the current 14-branch preservation check and repairs.
