@@ -138,6 +138,38 @@ with tempfile.TemporaryDirectory(prefix='nadin-audio-v18-') as temporary:
                     ok(True,'slow conversion releases the global media-write lock for other tasks')
                 finally:fcntl.flock(lock,fcntl.LOCK_UN);release.write_text('continue')
             ok(pending.result().status_code==200,'conversion reacquires the write lock and commits successfully')
+        # A conversion must still belong to the same tune and recording when it finishes.
+        def conversion_race(filename, mutate):
+            flag.unlink(missing_ok=True);release.unlink(missing_ok=True)
+            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+                pending=pool.submit(upload,filename,source.read_bytes())
+                try:
+                    for attempt in range(200):
+                        if flag.exists():break
+                        time.sleep(.01)
+                    ok(flag.exists(),'concurrent-change fixture reaches conversion: '+filename)
+                    with (app/'userdatei/admin-v12-lock.php').open('r+b') as lock:
+                        fcntl.flock(lock,fcntl.LOCK_EX)
+                        try:mutate()
+                        finally:fcntl.flock(lock,fcntl.LOCK_UN)
+                finally:release.write_text('continue')
+                return pending.result()
+        newer=b'A newer recording saved while conversion was running'
+        try:
+            response=conversion_race('Replace.wav',lambda:(tune/'Replace.mp3').write_bytes(newer))
+            ok(response.status_code==409,'a completed conversion rejects a recording changed by another task')
+            ok((tune/'Replace.mp3').read_bytes()==newer,'conversion conflict preserves the newer recording bytes')
+        finally:(tune/'Replace.mp3').write_bytes(replacement)
+        moved=tune.with_name('Moved_Audio_Test')
+        def replace_tune_directory():
+            tune.rename(moved);tune.mkdir();(tune/'keep.txt').write_bytes(b'NEW TUNE')
+        try:
+            response=conversion_race('Wrong_tune.wav',replace_tune_directory)
+            ok(response.status_code==409,'a completed conversion rejects a replacement directory with the same name')
+            ok(list(tune.iterdir())==[tune/'keep.txt'] and (tune/'keep.txt').read_bytes()==b'NEW TUNE','conversion never writes into a recreated tune directory')
+            ok(not (moved/'Wrong_tune.mp3').exists(),'renamed original tune receives no unexpected upload')
+        finally:
+            if moved.exists():shutil.rmtree(tune);moved.rename(tune)
         oversized=temp/'oversized.wav'
         with oversized.open('wb') as sparse:sparse.truncate(100*1024*1024+1)
         result=subprocess.run([PHP,'-r',"require $argv[1]; try { nadin_audio_convert($argv[2], 'wav'); exit(1); } catch (NadinAudioException $e) { echo $e->status; }",str(app/'nadinmodule/audio-convert.inc.php'),str(oversized)],capture_output=True,text=True)
