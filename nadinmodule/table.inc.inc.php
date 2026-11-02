@@ -34,19 +34,30 @@ $listento='';
    
       if (!is_link($path) && basename($tunes[$i])===$tunes[$i] && $tunes[$i]!=='' && $tunes[$i][0]!=='.' && ($handle = @opendir($path)))  {
          while (false !== ($file = readdir($handle)))  { 
-      if ($file[0]==='.' || strpos($file,'zzDEL!')===0 || is_link($path.'/'.$file) || !is_file($path.'/'.$file) || ($hidden!=='' && strpos($tunes[$i].'/'.$file,$hidden)!==false && !role('musers'))) continue;
 
-      if (strpos($file,$saxes)>1) {$saxespdf=$file;$allsaxes.=$tunes[$i].'/'.$file.',';}
-      else if (strpos($file,$bones)>1) {$bonespdf=$file;$allbones.=$tunes[$i].'/'.$file.',';}
-	  else if (strpos($file,$trumpets)>1) {$trumpetspdf=$file;$alltrumpets.=$tunes[$i].'/'.$file.',';}
-	  else if (strpos($file,$rhythm)>1) {$rhythmpdf=$file;$allrhythm.=$tunes[$i].'/'.$file.',';}
-	  else if (strpos($file,$other)>1) {$otherpdf=$file;$allother.=$tunes[$i].'/'.$file.',';}
-	  else if (strpos($file,$parts)>1) {$partspdf=$file;$allparts.=$tunes[$i].'/'.$file.',';}
-	  else if (strpos($file,$score)>1) {$scorepdf=$file;$allscore.=$tunes[$i].'/'.$file.',';}
+      if ($file[0]==='.' || strpos($file,'zzDEL!')===0 || !is_file($path.'/'.$file) || is_link($path.'/'.$file)) continue;
+      // Hidden working files belong under more, never in the public section slots or ZIP lists.
+      if ($hidden!=='' && strpos($tunes[$i].'/'.$file,$hidden)!==false) {
+          if (role('musers')) $more.=$file.$delimiter;
+          continue;
+      }
+      $nadinMediaExtension=strtolower(pathinfo($file,PATHINFO_EXTENSION));
+      if ($nadinMediaExtension==='pdf' && $saxes!=='' && strpos($file,$saxes)!==false) {$saxespdf=$file;$allsaxes.=$tunes[$i].'/'.$file.',';}
+      else if ($nadinMediaExtension==='pdf' && $bones!=='' && strpos($file,$bones)!==false) {$bonespdf=$file;$allbones.=$tunes[$i].'/'.$file.',';}
+	  else if ($nadinMediaExtension==='pdf' && $trumpets!=='' && strpos($file,$trumpets)!==false) {$trumpetspdf=$file;$alltrumpets.=$tunes[$i].'/'.$file.',';}
+	  else if ($nadinMediaExtension==='pdf' && $rhythm!=='' && strpos($file,$rhythm)!==false) {$rhythmpdf=$file;$allrhythm.=$tunes[$i].'/'.$file.',';}
+	  else if ($nadinMediaExtension==='pdf' && $other!=='' && strpos($file,$other)!==false) {$otherpdf=$file;$allother.=$tunes[$i].'/'.$file.',';}
+	  else if ($nadinMediaExtension==='pdf' && $parts!=='' && strpos($file,$parts)!==false) {$partspdf=$file;$allparts.=$tunes[$i].'/'.$file.',';}
+	  else if ($nadinMediaExtension==='pdf' && $score!=='' && strpos($file,$score)!==false) {$scorepdf=$file;$allscore.=$tunes[$i].'/'.$file.',';}
 
-      else if (strpos($file,$recommended)>1) {$listento=$file; $alllistento.=$tunes[$i].'/'.$file.',';}
+      else if ($nadinMediaExtension==='mp3' && $recommended!=='' && strpos($file,$recommended)!==false) {$listento=$file; $alllistento.=$tunes[$i].'/'.$file.',';}
 	  
-	  else if (strpos($file,'.txt')>1) $zusatz=$file;						
+	  else if ($file==='infos.txt') $zusatz=$file;
+      else if ($nadinMediaExtension==='txt') {
+          // Keep the historical text-file fallback when no canonical infos.txt exists.
+          if (!is_file($path.'/infos.txt')) $zusatz=$file;
+          $more.=$file.$delimiter;
+      }
       else if ($tunes[$i]!='' && substr($file,0,1)!='.') {
 	  if (role('musers')) $more.=$file.$delimiter; 
 	  else if ($file==str_replace($hidden,'',$file)) $more.=$file.$delimiter; 
