@@ -36,10 +36,11 @@ try{
         $temporary=$dir.'/.upload-'.bin2hex(random_bytes(12));$backup=null;$converted=null;
         try{
             if($audio&&$item['extension']!=='mp3'){
+                $destination=nadin_audio_destination_snapshot($dir,$item['filename']);
                 flock($legacyLock,LOCK_UN);
                 try{$converted=nadin_audio_convert($item['upload']['tmp_name'],$item['extension']);}
                 finally{if(!flock($legacyLock,LOCK_EX))throw new RuntimeException('The file store could not be locked.');}
-                if(!is_dir($dir)||is_link($dir))throw new RuntimeException('The destination folder changed during conversion.');
+                if(nadin_audio_destination_snapshot($dir,$item['filename'])!==$destination)throw new NadinAudioException('The tune or recording changed while audio was being converted. Reload its file list and retry. No recording was replaced.',409);
                 if(!copy($converted,$temporary)||filesize($temporary)!==filesize($converted))throw new RuntimeException('The converted recording could not be staged.');
                 $convertedAudio=true;
             }else{

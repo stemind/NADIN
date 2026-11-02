@@ -23,6 +23,16 @@ function nadin_audio_previous($directory, $filename) {
     if (count($matches)>1) throw new NadinAudioException('Several recordings match this filename. Rename the new upload or the existing recordings first. No recording was changed.',409);
     return $matches ? $matches[0] : null;
 }
+/** Retain the intended tune and recording across the unlocked conversion interval. */
+function nadin_audio_destination_snapshot($directory, $filename) {
+    clearstatcache();
+    $stat=@stat($directory);
+    if (!$stat || !is_dir($directory) || is_link($directory)) throw new NadinAudioException('The tune changed while audio was being converted. Reload its file list and retry. No recording was replaced.',409);
+    $previous=nadin_audio_previous($directory,$filename);
+    $hash=$previous===null ? null : @hash_file('sha256',$previous);
+    if ($hash===false) throw new NadinAudioException('The existing recording could not be checked. Reload its file list and retry. No recording was replaced.',409);
+    return array('device'=>$stat['dev'],'directory'=>$stat['ino'],'previous'=>$previous,'hash'=>$hash);
+}
 function nadin_audio_run($arguments, $seconds, $output = null, $maxDuration = 0) {
     $process = @proc_open($arguments, array(0=>array('pipe','r'), 1=>array('pipe','w'), 2=>array('pipe','w')),
         $pipes, null, null, array('bypass_shell'=>true));

@@ -9,4 +9,4 @@ if(is_link($path)||!is_dir(dirname($path)))nadin_legacy_error(400,'The tune info
 $tmp=dirname($path).'/.notes-'.bin2hex(random_bytes(10));
 $saved=false;try{if(file_put_contents($tmp,$data)===strlen($data)){if(is_file($path))@chmod($tmp,fileperms($path)&0777);$saved=rename($tmp,$path);}}finally{if(is_file($tmp))@unlink($tmp);}
 if(!$saved)nadin_legacy_error(500,'Could not save the notes. Check storage permissions; your changes remain in the editor.');
-nadin_media_reply(true,'Tune notes saved.',array('revision'=>hash('sha256',$data),'next_url'=>'upload.php?tune='.rawurlencode($foldername)));
+nadin_media_reply(true,'Tune notes saved.',array('revision'=>nadin_media_notes_revision($path),'next_url'=>'upload.php?tune='.rawurlencode($foldername)));
