@@ -3,6 +3,8 @@ require_once('config.inc.php');
 require_once('nadinmodule/functions.inc.php');
 auth('varchiv');
 require('gigreps.inc.php');
+// An archived name must never delete a current gig's ZIP cache.
+if (!is_file('gigreps/'.basename($_GET['c']))) {
 unlink('abo/zip/alllistento/'.str_replace('.txt','',basename($_GET['c'])).'_alllistento.zip');
 unlink('abo/zip/allscore/'.str_replace('.txt','',basename($_GET['c'])).'_allscore.zip');
 unlink('abo/zip/allparts/'.str_replace('.txt','',basename($_GET['c'])).'_allparts.zip');
@@ -11,6 +13,7 @@ unlink('abo/zip/allbones/'.str_replace('.txt','',basename($_GET['c'])).'_allbone
 unlink('abo/zip/alltrumpets/'.str_replace('.txt','',basename($_GET['c'])).'_alltrumpets.zip');
 unlink('abo/zip/allrhythm/'.str_replace('.txt','',basename($_GET['c'])).'_allrhythm.zip');
 unlink('abo/zip/allother/'.str_replace('.txt','',basename($_GET['c'])).'_allother.zip');
+}
 ?>
 <?php if ($gigListOnLeft) { ?><style>#infoarea { display:none; }</style><script>if (document.getElementById('infoarea')) document.getElementById('infoarea').style.display='none';</script><?php } ?>
 <script>
