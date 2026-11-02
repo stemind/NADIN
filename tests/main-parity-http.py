@@ -80,6 +80,11 @@ with tempfile.TemporaryDirectory(prefix='nadin-main-parity-') as temp:
             links=[a['href'] for a in doc.select('a[href*="get/file.php"]')]
             pdf=next(u for u in links if 'ZZSX' in u and 'HDDN' not in u)
             ok(session.get(urljoin(base,pdf)).content.startswith(b'%PDF-1.4'),'custom section marker download '+label)
+            hidden_links=[a for a in doc.select('a[href*="get/file.php"]') if 'HDDN' in a['href']]
+            ok(bool(hidden_links)==(label=='admin'),'hidden working files only appear for authorised administrators '+label)
+            ok(all('HDDN' in a.get_text() for a in hidden_links),'hidden working files stay in more instead of replacing a section link '+label)
+            hidden_result=session.get(base+'get/file.php',params={'c':'Parity_A/Parity_A_ZZSX_HDDN.pdf'})
+            ok((hidden_result.content==b'%PDF-hidden')==(label=='admin'),'hidden download enforces its additional permission '+label)
             parts=next(u for u in links if 'ZZPT' in u)
             ok(session.get(urljoin(base,parts)).content.startswith(b'%PDF-1.4'),'Parts download '+label)
             ok(doc.find('a',href='https://example.invalid/music?x=1&y=2') is not None,'tune links '+label)
