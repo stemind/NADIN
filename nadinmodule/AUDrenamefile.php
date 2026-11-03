@@ -5,6 +5,7 @@ require_once('../config.inc.php');
 require_once('functions.inc.php');
 setcookie('rezip', basename($_GET['p']), time()+$timeout, '/');
 auth('upaudio');
+nadin_media_mutation_lock();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -32,7 +33,8 @@ $ext=$ext[count($ext)-1];
 if ($ext!='mp3') die('<script>alert("Only mp3 files are allowed.");parent.location.href=parent.location.href;</script>');
 
 
-if (file_exists('../library/'.$path.'/'.mkascii($new))) die('<script>alert(\'File name already existent!\');parent.location.href=parent.location.href</script>');
+$new=mkascii(striptime($new));
+if (file_exists('../library/'.$path.'/'.$new) || is_link('../library/'.$path.'/'.$new)) die('<script>alert(\'File name already existent!\');parent.location.href=parent.location.href</script>');
 
 ?>
 <script>
@@ -40,7 +42,7 @@ if(parent.location.href.indexOf('&m')>0)palohref=parent.location.href.split('&m'
 else palohref=parent.location.href;
 </script>
 <?php 
-if (rename('../library/'.$path.'/'.$file,'../library/'.$path.'/'.mkascii(striptime($new)))) echo '<script>
+if (rename('../library/'.$path.'/'.$file,'../library/'.$path.'/'.$new)) echo '<script>
 if(parent)if(parent.opener)parent.opener.fresh();
 parent.location.href=palohref;
 </script>';

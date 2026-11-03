@@ -5,6 +5,7 @@ require_once('../config.inc.php');
 require_once('functions.inc.php');
 setcookie('rezip', basename($_POST['name']), time()+$timeout, '/');
 auth('uppdf');
+nadin_media_mutation_lock();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -22,7 +23,12 @@ $file_ary = reArrayFiles($_FILES['userfile']);
 if(count($file_ary)>ini_get('max_file_uploads')-1)die('<script>document.getElementById("body").style.background="red";alert("NOTHING UPLOADED. Reason: You tried to upload more than '.(ini_get('max_file_uploads')-1).' files at once.");parent.location.href=parent.location.href</script>');
 
 
+$destinations=array();
 foreach ($file_ary as $file) {
+$destination=mkascii($file['name']);
+if (isset($destinations[$destination])) die('<script>document.getElementById("body").style.background="red";alert("NOTHING UPLOADED: Two files have the same destination name. Choose distinct names.");parent.location.href=parent.location.href;</script>');
+$destinations[$destination]=true;
+if (($file['error'] ?? UPLOAD_ERR_NO_FILE)!==UPLOAD_ERR_OK || !is_uploaded_file($file['tmp_name'] ?? '')) die('<script>alert("NOTHING UPLOADED: An upload did not arrive completely.");parent.location.href=parent.location.href;</script>');
 $ext=explode('.',$file['name']);
 $ext=$ext[count($ext)-1];
 if ($ext=='mp3') die('<script>document.getElementById("body").style.background="red";alert("NOTHING UPLOADED because your upload contained one or several mp3-files. Do not upload audio files here. Audio files do have a dedicated upload page.");parent.location.href=parent.location.href;</script>');
@@ -46,12 +52,10 @@ if ($ext=='txt') die('<script>document.getElementById("body").style.background="
 require('../configallowedfileextensions.php');
 if (!in_array(strtolower($ext),$okext)) die('<script>document.getElementById("body").style.background="red";alert("This file extension is not white-listed in configallowedfileextensions.php.");parent.location.href=parent.location.href;</script>');
 
-if (!move_uploaded_file($file['tmp_name'], '../library/'.basename($_POST['name']).'/'.$time.mkascii($file['name']))) {
+if (!nadin_media_store_upload($file,'../library/'.basename($_POST['name']),mkascii($file['name']))) {
 echo '<script>document.getElementById("body").style.background="red";alert("Error, no file uploaded");parent.location.href=parent.location.href;</script>';
 }
 else {
-rename('../library/'.basename($_POST['name']).'/'.mkascii($file['name']),'../library/'.basename($_POST['name']).'/zzDEL!'.$time.mkascii($file['name']));
-rename('../library/'.basename($_POST['name']).'/'.$time.mkascii($file['name']),'../library/'.basename($_POST['name']).'/'.mkascii($file['name']));
 
 }
 }
