@@ -119,7 +119,8 @@ with tempfile.TemporaryDirectory(prefix='nadin-v12-') as temp:
   r=s.post(base+'/nadinmodule/PDFrenamefile.php',data={'p':'V12_Media_Test','f':'V12_Media_Test_SXS_.pdf','n':'V12_Media_Test_SXS_Renamed.pdf','csrf':token});ok(r.status_code==200 and (app/'library/V12_Media_Test/V12_Media_Test_SXS_Renamed.pdf').exists(),'PDF rename with POST')
   r=s.post(base+'/nadinmodule/PDFrenamefile.php',data={'p':'V12_Media_Test','f':'V12_Media_Test_SXS_Renamed.pdf','n':'code.php','csrf':token});ok(r.status_code==400 and not (app/'library/V12_Media_Test/code.php').exists(),'executable rename rejected')
   r=s.post(base+'/nadinmodule/AUDdeletefile.php',data={'p':'V12_Media_Test','f':'V12_Media_Test_SXS_Renamed.pdf','csrf':token});ok(r.status_code==403,'audio delete cannot remove a PDF')
-  revision=hashlib.sha256(b'').hexdigest()
+  notes_page=s.get(base+'/nadinmodule/upload.php?tune=V12_Media_Test')
+  revision=json.loads(re.search(r'var revision=("[^"\n]+")',notes_page.text).group(1))
   payload={'foldername':'V12_Media_Test','infos':'Tune notes','links':'https://example.invalid','revision':revision,'csrf':token}
   r=s.post(base+'/nadinmodule/uploadsave.php',data=payload);ok(r.status_code==200 and (app/'library/V12_Media_Test/infos.txt').read_text().startswith('Tune notes'),'tune notes saved')
   r=s.post(base+'/nadinmodule/uploadsave.php',data=payload);ok(r.status_code==409 and 'nadin-media-error' in r.text,'stale tune notes rejected with visible parent error')

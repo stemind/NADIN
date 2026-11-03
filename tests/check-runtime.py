@@ -1,4 +1,4 @@
-"""Run native PHP or --simulate-php9 checks; requires Python requests/bs4/cryptography and Node jsdom."""
+"""Run native PHP or --simulate-php9 checks; requires Python requests/bs4/cryptography/mutagen and Node jsdom."""
 import argparse, os, shlex, shutil, subprocess, sys, tempfile
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
@@ -20,6 +20,8 @@ with tempfile.TemporaryDirectory(prefix='nadin-runtime-') as temp:
  for path in sources:run([str(wrapper),'-l',str(path)],env=env,stdout=subprocess.DEVNULL)
  print(f'PASS: {len(sources)} PHP syntax checks',flush=True)
  tests=['encoding.php','encoding-http.py','auth.php','bruteforce.php','auth-http.py','admin-http.py','shared-data-http.py','member-format.php','legacy-users.php','forscore.php','federation.php','federation-http.py','zip.php','v16-http.py','v17-http.py','main-parity-http.py','gig-layout-http.py','forscore-http.py','review-http.py','php-compat.php','php-compat-http.py']
+ for name in ['concept-assets-http.py','concept-concurrency-http.py','concept-outputs-http.py','evolution-state-http.py','evolution-duration-http.py','evolution-countercheck-http.py']:
+  if (ROOT/'tests'/name).exists():tests.append(name)
  for name in tests:run([str(wrapper) if name.endswith('.php') else sys.executable,'tests/'+name],env=env)
  preview=temp/'preview';run([sys.executable,'tests/render-preview.py',str(preview)],env=env)
  run(['node','tests/admin-dom.cjs',str(preview/'views')],env=env);run(['node','tests/login-dom.cjs'],env=env)
