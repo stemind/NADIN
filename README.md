@@ -1,6 +1,6 @@
 # NADIN — Original interface with forScore development
 
-Classic interface with the forScore exporter and subsequent workflow improvements. This development head contains changes beyond the separately tagged 7.7.2 maintenance release.
+Classic interface with the forScore exporter and subsequent workflow improvements. This remains a separate development line. The consolidated classic 7.7 release source is maintained on `7.7.2-css-gigrep-layout`, whose branch name is historical.
 
 **Branch:** `7.7-original-interface-forScore`
 **Starting point:** 7.6
@@ -26,4 +26,4 @@ See [the 2 November 2026 audit](docs/EVOLUTION-AUDIT-2026-11-02.md) for the 14-b
 
 The [follow-up evolution check of 2 November 2026](docs/EVOLUTION-RECHECK-2026-11-02.md) verifies all fourteen current branch snapshots and documents the additional gig-state, catalogue and audio-duration repairs.
 
-The [repair countercheck of 3 November 2026](docs/REPAIR-COUNTERCHECK-2026-11-03.md) challenges the repairs themselves, corrects three reproduced side effects and records the final 305-suite matrix plus both classic installation paths.
+The [reliability follow-up of 3 November 2026](docs/RELIABILITY-RECHECK-2026-11-03.md) follows the actual audio editor and parallel workers, documents the remaining repairs and records the final 333-suite matrix plus both classic installation paths.
