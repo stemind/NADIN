@@ -57,7 +57,10 @@ final class NadinAdmin {
     private function attachment($mode,$id) { return $mode==='trash' ? $this->folder('trash').'/'.substr($id,0,-4).'.pdf' : $this->root.'/abo/zip/'.substr($id,0,-4).'.pdf'; }
     private function revision($mode,$id) {
         $p=$this->path($mode,$id); $a=$this->attachment($mode,basename($p));
-        return hash('sha256',file_get_contents($p).'|'.(is_file($a) ? hash_file('sha256',$a) : ''));
+        // A same-name, same-content replacement is still a different gig.
+        clearstatcache(true,$p); $identity=stat($p);
+        if (!$identity) throw new RuntimeException('The gig could not be read. Reload before editing.');
+        return hash('sha256',$identity['dev'].':'.$identity['ino']."\0".file_get_contents($p).'|'.(is_file($a) ? hash_file('sha256',$a) : ''));
     }
     private function expected($mode,$id,$revision) {
         if (!is_string($revision) || !hash_equals($this->revision($mode,$id),$revision)) throw new DomainException('This gig changed in another window. Your work is still here. Reload before saving again.');
@@ -75,13 +78,20 @@ final class NadinAdmin {
             'attachment_url'=>'get/setlist.php?'.http_build_query(array('m'=>$module,'c'=>substr($id,0,-4).'.pdf')));
     }
     public function catalog() {
-        global $saxes,$bones,$trumpets,$rhythm,$other,$parts,$score,$recommended;
+        global $saxes,$bones,$trumpets,$rhythm,$other,$parts,$score,$recommended,$hidden;
         $tags=array('sx'=>$saxes,'tb'=>$bones,'tp'=>$trumpets,'rh'=>$rhythm,'ot'=>$other,'Parts'=>$parts,'Score'=>$score,'Audio'=>$recommended);
         $rows=array();
         foreach ((array)glob($this->root.'/library/*',GLOB_ONLYDIR) as $dir) {
             if (is_link($dir)) continue;
             $found=array();
-            foreach ((array)glob($dir.'/*') as $f) if (is_file($f) && !is_link($f)) foreach ($tags as $label=>$tag) if ($tag!=='' && strpos(basename($f),$tag)!==false) $found[$label]=true;
+            foreach (new DirectoryIterator($dir) as $entry) {
+                $name=$entry->getFilename();
+                // Availability describes public section PDFs and recommended MP3s.
+                // Hidden working files remain in the authorised media tools.
+                if ($entry->isDot() || $entry->isLink() || !$entry->isFile() || !$entry->isReadable() || !$entry->getSize() || $name[0]==='.' || strpos($name,'zzDEL!')===0 || ($hidden!=='' && strpos(basename($dir).'/'.$name,$hidden)!==false)) continue;
+                $ext=strtolower(pathinfo($name,PATHINFO_EXTENSION));
+                foreach ($tags as $label=>$tag) if ($tag!=='' && strpos($name,$tag)!==false && $ext===($label==='Audio'?'mp3':'pdf')) $found[$label]=true;
+            }
             $rows[]=array('id'=>nadinText(basename($dir)),'title'=>nadinText(str_replace('_',' ',basename($dir))),'files'=>array_keys($found));
         }
         usort($rows,function($a,$b){return strnatcasecmp($a['title'],$b['title']);}); return $rows;
@@ -142,6 +152,8 @@ final class NadinAdmin {
             if ($id==='') { $id=$this->newName($data['date'] ?? '',$data['title'] ?? ''); $p=$this->folder('current').'/'.$id; }
             else { $p=$this->path('current',$id); $id=basename($p); $this->expected('current',$id,$data['revision'] ?? ''); list($oldInfo,$previous)=nadinReadRep($p,$this->separator); }
             $text=$this->gigText($data['infos'] ?? '',$data['tunes'] ?? array(),$previous);
+            // A genuine no-op keeps other open editors valid and needs no recovery copy.
+            if (is_file($p) && file_get_contents($p)===$text) return $this->gig('current',$id);
             if (is_file($p)) $this->backup($p);
             $this->atomic($p,$text); $this->invalidate($id);
             return $this->gig('current',$id);
