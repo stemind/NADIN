@@ -248,4 +248,52 @@ $path=str_replace('/.','',$path);
 if(strpos('x'.$path,'/.')>0) secure($path);
 else return $path;
 }
+
+// Classic media writes share the duration renamer's existing, read-only marker.
+function nadin_media_mutation_lock() {
+    $until=microtime(true)+0.1;
+    do {
+        $lock=@fopen(dirname(__DIR__).'/abo/zip/donotdeletethisfolder.txt','rb');
+        if ($lock && flock($lock,LOCK_EX|LOCK_NB)) {
+            register_shutdown_function(function() use($lock){flock($lock,LOCK_UN);fclose($lock);});
+            return;
+        }
+        if ($lock) fclose($lock);
+        if (microtime(true)>=$until) {
+            if (function_exists('nadin_legacy_error')) nadin_legacy_error(503,'Media storage is busy. Please retry.');
+            http_response_code(503);exit('Media storage is busy. Please retry.');
+        }
+        usleep(1000);
+    } while (true);
+}
+
+function nadin_media_retained_path($directory,$suffix,$prefix='') {
+    do {$path=$directory.'/'.$prefix.date('YmdHis').'_'.bin2hex(random_bytes(12)).$suffix;}
+    while (file_exists($path) || is_link($path));
+    return $path;
+}
+
+// Retain the established zzDEL history, including rapid replacements.
+// A failed backup must leave the old current file in place.
+function nadin_media_store_upload($file,$directory,$filename) {
+    if (($file['error'] ?? UPLOAD_ERR_NO_FILE)!==UPLOAD_ERR_OK ||
+        !is_uploaded_file($file['tmp_name'] ?? '') || !is_dir($directory) || is_link($directory)) return false;
+    $target=$directory.'/'.$filename;
+    if (is_link($target) || is_dir($target)) return false;
+    $temporary=$directory.'/.upload-'.bin2hex(random_bytes(12));$backup=null;
+    try {
+        if (!move_uploaded_file($file['tmp_name'],$temporary)) return false;
+        clearstatcache(true,$target);
+        if (is_file($target)) {
+            $backup=nadin_media_retained_path($directory,'!'.$filename,'zzDEL!');
+            if (!@rename($target,$backup)) return false;
+        }
+        if (!@rename($temporary,$target)) {
+            if ($backup) @rename($backup,$target);
+            return false;
+        }
+        return true;
+    } finally {if (is_file($temporary)) @unlink($temporary);}
+}
+
 ?>
