@@ -1,5 +1,7 @@
 # NADIN V9: forScore export
 
+Current navigation decision: forScore is opened from current/archived GigReps. The media Library link described in the original workflow below was subsequently removed explicitly; its Print/XLS exports remain.
+
 Current interaction and cookie behaviour: [forScore workflow](forScore-workflow.md). This supersedes the manual Review steps below.
 
 V9 builds directly on V8. Current/archived GigReps and the library have a compact **forScore** link. No WebDAV server, separate cloud account, or iPad helper app is required.
