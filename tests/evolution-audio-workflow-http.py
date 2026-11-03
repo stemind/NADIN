@@ -36,6 +36,9 @@ with tempfile.TemporaryDirectory(prefix='nadin-closure-audio-') as temporary:
   'Mixed Case_RCMD.MP3':short.read_bytes(),
   'Space & plus+_RCMD.mp3':short.read_bytes(),
   'Session (2026.11)_RCMD.mp3':short.read_bytes(),
+  'Session.(2026.11)_RCMD.mp3':short.read_bytes(),
+  'Concert.(123.45)_RCMD.mp3':vbr.read_bytes(),
+  'LongUpper_RCMD.MP3':long.read_bytes(),
  }
  for name,raw in cases.items():(tune/name).write_bytes(raw)
  tagged=tune/'ID3_RCMD.mp3';tagged.write_bytes(vbr.read_bytes());tags=ID3(tagged);tags.add(TIT2(encoding=3,text=['Grüsse & résumé']));tags.add(APIC(encoding=3,mime='image/png',type=3,desc='cover',data=base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aC0cAAAAASUVORK5CYII=')));tags.save(tagged,v2_version=4)
@@ -68,7 +71,7 @@ with tempfile.TemporaryDirectory(prefix='nadin-closure-audio-') as temporary:
     before=session.get(base+'index.php',params=dict(m='gigreps',c='2099-07-01 Closure.txt'));ok(before.status_code==200 and 'Fatal error' not in before.text,'unannotated valid recording leaves the gig view usable for '+role+': '+name)
    ok(sheet_time()=='','unknown duration stays blank in the actual XLS export: '+name)
    source=tune/name;reference=short if name=='APEv2_RCMD.mp3' else source;seconds=int(duration(reference)+.5);stem,ext=name.rsplit('.',1);expected=f'{stem}.({seconds//60:02d}.{seconds%60:02d}).{ext}'
-   if name in ['VBR_RCMD.mp3','Space & plus+_RCMD.mp3']:
+   if name in ['VBR_RCMD.mp3','Space & plus+_RCMD.mp3','Session.(2026.11)_RCMD.mp3','Concert.(123.45)_RCMD.mp3']:
     listing=admin.get(base+'nadinmodule/AUDfiles.php',params={'name':tune.name,'m':''});document=BeautifulSoup(listing.text,'html.parser');form=next((x for x in document.select('form[action]') if 'settime.php' in x['action']),None);frame=next((x for x in document.select('iframe[src]') if 'settime.php' in x['src']),None)
     ok(form is not None or frame is not None,'the real audio file list schedules annotation: '+name)
     if form is not None:
