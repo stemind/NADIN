@@ -42,3 +42,5 @@ See [the 2 November 2026 audit](docs/EVOLUTION-AUDIT-2026-11-02.md) for the 14-b
 The [follow-up evolution check of 2 November 2026](docs/EVOLUTION-RECHECK-2026-11-02.md) verifies all fourteen current branch snapshots and documents the additional gig-state, catalogue and audio-duration repairs.
 
 The [reliability follow-up of 3 November 2026](docs/RELIABILITY-RECHECK-2026-11-03.md) follows the actual audio editor and parallel workers, documents the remaining repairs and records the final 333-suite matrix plus both classic installation paths.
+
+The [latest anti-regression review](docs/ANTI-REGRESSION-2026-11-03.md) repeats the entire current evolution, protects dotted date/numeric title text during audio annotation and records 347 suite executions / 32,371 checks, plus both classic installation paths.
