@@ -1,3 +1,5 @@
+> A later [independent media contract review](MEDIA-CONTRACT-REVIEW-2026-11-03.md) adds file-retention and collision counterexamples, corrections and a newly executed full matrix. The report below records the preceding review.
+
 # NADIN anti-regression review — 3 November 2026
 
 **Final result: 347 suite executions / 32,371 numbered checks pass across all 14 maintained branches**, including 2,023 PHP syntax checks. The two classic installation paths additionally pass **20 suites / 3,064 checks**. Two real Chromium classic upload journeys add **16 checks**. No confirmed failure remains in this executed scope.
