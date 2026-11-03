@@ -91,3 +91,5 @@ Input commit IDs identify the source before these repairs. The SHA-256 values be
 The [branch map](BRANCHES.md) describes the individual stages and their integration status. [7.7.2 notes](7.7.2.md) describe the smaller release delta and upgrade packages.
 
 The [follow-up evolution check of 2 November 2026](EVOLUTION-RECHECK-2026-11-02.md) verifies all fourteen current branch snapshots and documents the additional gig-state, catalogue and audio-duration repairs.
+
+The [repair countercheck of 3 November 2026](REPAIR-COUNTERCHECK-2026-11-03.md) challenges the repairs themselves, corrects three reproduced side effects and records the final 305-suite matrix plus both classic installation paths.
