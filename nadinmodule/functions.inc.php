@@ -151,7 +151,7 @@ return('{SHA}' . $p);
 }
 
 function striptime($s) {
-$s=preg_replace('/\(\d\d\.\d\d\)|(?<=\.)\(\d{3,}\.\d\d\)/','',$s);
+$s=preg_replace('/\(\d\d\.\d\d\)|(?<=\.)\(\d{3,}\.\d\d\)(?=\.[^.]+$|\.$|$)/i','',$s);
 return $s;
 }
 
