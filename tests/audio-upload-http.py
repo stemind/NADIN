@@ -67,8 +67,16 @@ with tempfile.TemporaryDirectory(prefix='nadin-audio-v18-') as temporary:
         ok('.wav' in form.select_one('[type=file]')['accept'] and form.select_one('[data-audio-conversion=yes]'),'conversion-enabled form advertises supported formats')
         mp3=inputs['mp3'].read_bytes();response=upload('Exact.MP3',mp3)
         ok(response.status_code==200 and (tune/'Exact.mp3').read_bytes()==mp3,'existing MP3 is normalised only in filename; all bytes remain unchanged')
+        response=upload('Annotated_mp3.(106.03).MP3',mp3)
+        ok(response.status_code==200 and (tune/'Annotated_mp3.mp3').read_bytes()==mp3,'an uploaded long duration suffix is removed without changing MP3 bytes')
+        response=upload('Title.(2026.11)_mp3.MP3',mp3)
+        ok(response.status_code==200 and (tune/'Title.(2026.11)_mp3.mp3').read_bytes()==mp3,'a dotted date inside the MP3 title is preserved')
         for extension,path in inputs.items():
             if extension=='mp3':continue
+            response=upload('Annotated_'+extension+'.(106.03).'+extension,path.read_bytes())
+            ok(response.status_code==200 and (tune/('Annotated_'+extension+'.mp3')).exists(),'conversion removes an uploaded long duration suffix for '+extension)
+            response=upload('Title.(2026.11)_'+extension+'.'+extension,path.read_bytes())
+            ok(response.status_code==200 and (tune/('Title.(2026.11)_'+extension+'.mp3')).exists(),'conversion preserves a dotted date inside the title for '+extension)
             response=upload('Converted_'+extension+'.'+extension,path.read_bytes())
             ok(response.status_code==200 and response.json()['ok'],'conversion succeeds for '+extension+': '+response.text[:500])
             info=probe(tune/('Converted_'+extension+'.mp3'))
