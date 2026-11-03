@@ -1,35 +1,34 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
-</head>
-<body>
 <?php
-require_once('functions.inc.php');
-$_GET['p']=basename($_GET['p']);
-$_GET['f']=basename($_GET['f']);
-
-$mp3file = new MP3File('../library/'.$_GET['p'].'/'.$_GET['f']);//http://www.npr.org/rss/podcast.php?id=510282
-//$duration1 = $mp3file->getDurationEstimate();//(faster) for CBR only
-$duration2 = $mp3file->getDuration();//(slower) for VBR (or CBR)
-//echo "duration: $duration1 seconds"."\n";
-//echo "estimate: $duration2 seconds"."\n";
-//echo MP3File::formatTime($duration2)."\n";
-
-$ext=explode('.',$_GET['f']);
-$ext=$ext[count($ext)-1];
-if(strtolower($ext)!='mp3') exit;
-
-$snew='';
-$s=explode('.',$_GET['f']);
-for($i=0;$i<count($s)-1;$i++) {
-$snew.=$s[$i].'.';
+require_once dirname(__DIR__).'/config.inc.php';
+require_once __DIR__.'/functions.inc.php';
+auth('upaudio');
+function nadin_duration_error($status,$message) {
+    if (function_exists('nadin_legacy_error')) nadin_legacy_error($status,$message);
+    http_response_code($status);header('Content-Type: text/plain; charset=UTF-8');exit($message);
 }
-$filenamewithtime=striptime($snew).'('.MP3File::formatTime($duration2).').'.$ext;
-if(file_exists('../library/'.$_GET['p'].'/'.$filenamewithtime))copy('../library/'.$_GET['p'].'/'.$filenamewithtime,'../filesdeleted/zzDEL!'.$time.$filenamewithtime);
-rename('../library/'.$_GET['p'].'/'.$_GET['f'],'../library/'.$_GET['p'].'/'.$filenamewithtime);
-
+$durationTune=$_GET['p'] ?? '';$durationFile=$_GET['f'] ?? '';
+foreach (array($durationTune,$durationFile) as $value) {
+    if (!is_string($value) || $value==='' || $value[0]==='.' || basename($value)!==$value || preg_match('/[\\\\\x00-\x1f\x7f]/',$value)) nadin_duration_error(400,'Invalid audio filename.');
+}
+$durationDirectory=dirname(__DIR__).'/library/'.$durationTune;
+$source=$durationDirectory.'/'.$durationFile;
+if (!is_file($source) || is_link($source) || is_link($durationDirectory) || strpos($durationFile,'zzDEL!')===0 || strtolower(pathinfo($source,PATHINFO_EXTENSION))!=='mp3') nadin_duration_error(404,'Audio file not found.');
+if (isset($hidden) && $hidden!=='' && strpos($durationTune.'/'.$durationFile,$hidden)!==false) auth('musers');
+// Lock the source itself: older installations need no additional writable directory.
+$durationLock=@fopen($source,'rb');
+if (!$durationLock || !flock($durationLock,LOCK_EX|LOCK_NB)) nadin_duration_error(503,'The recording is busy. Please retry.');
+try {
+    $mp3file=new MP3File($source);$duration2=$mp3file->getDuration();
+    if ($duration2===false) nadin_duration_error(422,'The recording duration could not be read. Its filename and bytes were left unchanged.');
+    $ext=pathinfo($durationFile,PATHINFO_EXTENSION);
+    $filenamewithtime=striptime(substr($durationFile,0,-strlen($ext))).'('.MP3File::formatTime($duration2).').'.$ext;
+    clearstatcache(true,$source);$current=@stat($source);$locked=fstat($durationLock);
+    if (!$current || $current['dev']!==$locked['dev'] || $current['ino']!==$locked['ino']) nadin_duration_error(409,'The recording changed while its duration was being read. Reload the file list.');
+    if ($filenamewithtime===$durationFile) exit;
+    $destination=$durationDirectory.'/'.$filenamewithtime;
+    if (file_exists($destination) || is_link($destination)) nadin_duration_error(409,'A file with this duration name already exists. Neither recording was replaced.');
+    if (!rename($source,$destination)) nadin_duration_error(500,'The duration filename could not be saved. Check folder permissions.');
+} finally { flock($durationLock,LOCK_UN);fclose($durationLock); }
 
 class MP3File
 {
@@ -59,7 +58,8 @@ class MP3File
     //Read entire file, frame by frame... ie: Variable Bit Rate (VBR)
     public function getDuration($use_cbr_estimate=false)
     {
-        $fd = fopen($this->filename, "rb");
+        $fd = @fopen($this->filename, "rb");
+        if (!$fd) return false;
  
         $duration=0;
         $block = fread($fd, 100);
@@ -73,7 +73,7 @@ class MP3File
             else if ($block[0]=="\xff" && (ord($block[1])&0xe0) )
             {
                 $info = self::parseFrameHeader(substr($block, 0, 4));
-                if (empty($info['Framesize'])) { return $duration; } //some corrupt mp3 files
+                if (empty($info['Framesize']) || $info['Framesize']<10 || empty($info['Samples']) || empty($info['Sampling Rate'])) { fclose($fd);return $duration>0 ? round($duration) : false; } // Retain measured audio when trailing metadata resembles an invalid frame.
                 fseek($fd, $info['Framesize']-10, SEEK_CUR);
                 $duration += ( $info['Samples'] / $info['Sampling Rate'] );
             }
@@ -87,10 +87,10 @@ class MP3File
             }
             if ($use_cbr_estimate && !empty($info))
             { 
-                return $this->estimateDuration($info['Bitrate'],$offset); 
+                $estimate=$this->estimateDuration($info['Bitrate'],$offset);fclose($fd);return $estimate; 
             }
         }
-        return round($duration);
+        fclose($fd);return $duration>0 ? round($duration) : false;
     }
  
     private function estimateDuration($bitrate,$offset)
@@ -102,7 +102,7 @@ class MP3File
  
     private function skipID3v2Tag(&$block)
     {
-        if (substr($block, 0,3)=="ID3")
+        if (strlen($block)>=10 && substr($block, 0,3)=="ID3")
         {
             $id3v2_major_version = ord($block[3]);
             $id3v2_minor_version = ord($block[4]);
@@ -192,16 +192,18 @@ class MP3File
         //$info['Original'] = $original_bit;
         //$info['Emphasis'] = $emphasis;
         $info['Framesize'] = self::framesize($layer, $bitrate, $sample_rate, $padding_bit);
-        $info['Samples'] = $samples[$simple_version][$layer];
+        $info['Samples'] = $samples[$simple_version][$layer] ?? 0;
         return $info;
     }
  
     private static function framesize($layer, $bitrate,$sample_rate,$padding_bit)
     {
+        if (!$sample_rate || !$bitrate) return 0;
         if ($layer==1)
             return intval(((12 * $bitrate*1000 /$sample_rate) + $padding_bit) * 4);
         else //layer 2, 3
-            return intval(((144 * $bitrate*1000)/$sample_rate) + $padding_bit);
+            // MPEG-2/2.5 Layer III uses half the MPEG-1 frame coefficient.
+            return intval((((($layer==3 && $sample_rate<32000) ? 72 : 144) * $bitrate*1000)/$sample_rate) + $padding_bit);
     }
 }
 ?>
