@@ -16,16 +16,31 @@ if (isset($hidden) && $hidden!=='' && strpos($durationTune.'/'.$durationFile,$hi
 $durationLock=@fopen($source,'rb');
 if (!$durationLock || !flock($durationLock,LOCK_EX|LOCK_NB)) nadin_duration_error(503,'The recording is busy. Please retry.');
 try {
-    $mp3file=new MP3File($source);$duration2=$mp3file->getDuration();
+    $mp3file=new MP3File($source);$duration2=$mp3file->getDuration(false,$durationLock);
     if ($duration2===false) nadin_duration_error(422,'The recording duration could not be read. Its filename and bytes were left unchanged.');
     $ext=pathinfo($durationFile,PATHINFO_EXTENSION);
-    $filenamewithtime=striptime(substr($durationFile,0,-strlen($ext))).'('.MP3File::formatTime($duration2).').'.$ext;
-    clearstatcache(true,$source);$current=@stat($source);$locked=fstat($durationLock);
-    if (!$current || $current['dev']!==$locked['dev'] || $current['ino']!==$locked['ino']) nadin_duration_error(409,'The recording changed while its duration was being read. Reload the file list.');
-    if ($filenamewithtime===$durationFile) exit;
-    $destination=$durationDirectory.'/'.$filenamewithtime;
-    if (file_exists($destination) || is_link($destination)) nadin_duration_error(409,'A file with this duration name already exists. Neither recording was replaced.');
-    if (!rename($source,$destination)) nadin_duration_error(500,'The duration filename could not be saved. Check folder permissions.');
+    $durationStem=substr($durationFile,0,-strlen($ext));$untimedStem=striptime($durationStem);
+    // Remove the old annotation separator once; repeated requests keep the same name.
+    if ($untimedStem!==$durationStem && substr($untimedStem,-2)==='..') $untimedStem=substr($untimedStem,0,-1);
+    $filenamewithtime=$untimedStem.'('.MP3File::formatTime($duration2).').'.$ext;
+    // Reuse the required directory marker; never lock a PHP configuration file.
+    // Open/lock retries are bounded, and only cover the final name change.
+    $durationCommitUntil=microtime(true)+0.1;
+    do {
+        $durationCommitLock=@fopen(dirname(__DIR__).'/abo/zip/donotdeletethisfolder.txt','rb');
+        if ($durationCommitLock && flock($durationCommitLock,LOCK_EX|LOCK_NB)) break;
+        if ($durationCommitLock) fclose($durationCommitLock);
+        if (microtime(true)>=$durationCommitUntil) nadin_duration_error(503,'The recording name is busy. Please retry.');
+        usleep(1000);
+    } while (true);
+    try {
+        clearstatcache(true,$source);$current=@stat($source);$locked=fstat($durationLock);
+        if (!$current || $current['dev']!==$locked['dev'] || $current['ino']!==$locked['ino']) nadin_duration_error(409,'The recording changed while its duration was being read. Reload the file list.');
+        if ($filenamewithtime===$durationFile) exit;
+        $destination=$durationDirectory.'/'.$filenamewithtime;
+        if (file_exists($destination) || is_link($destination)) nadin_duration_error(409,'A file with this duration name already exists. Neither recording was replaced.');
+        if (!rename($source,$destination)) nadin_duration_error(500,'The duration filename could not be saved. Check folder permissions.');
+    } finally { flock($durationCommitLock,LOCK_UN);fclose($durationCommitLock); }
 } finally { flock($durationLock,LOCK_UN);fclose($durationLock); }
 
 class MP3File
@@ -54,9 +69,10 @@ class MP3File
     }
  
     //Read entire file, frame by frame... ie: Variable Bit Rate (VBR)
-    public function getDuration($use_cbr_estimate=false)
+    public function getDuration($use_cbr_estimate=false,$stream=null)
     {
-        $fd = @fopen($this->filename, "rb");
+        $ownsStream=!is_resource($stream);
+        $fd = $ownsStream ? @fopen($this->filename, "rb") : $stream;
         if (!$fd) return false;
  
         $duration=0;
@@ -71,7 +87,7 @@ class MP3File
             else if ($block[0]=="\xff" && (ord($block[1])&0xe0) )
             {
                 $info = self::parseFrameHeader(substr($block, 0, 4));
-                if (empty($info['Framesize']) || $info['Framesize']<10 || empty($info['Samples']) || empty($info['Sampling Rate'])) { fclose($fd);return $duration>0 ? round($duration) : false; } // Retain measured audio when trailing metadata resembles an invalid frame.
+                if (empty($info['Framesize']) || $info['Framesize']<10 || empty($info['Samples']) || empty($info['Sampling Rate'])) { if ($ownsStream) fclose($fd);return $duration>0 ? round($duration) : false; } // Retain measured audio when trailing metadata resembles an invalid frame.
                 fseek($fd, $info['Framesize']-10, SEEK_CUR);
                 $duration += ( $info['Samples'] / $info['Sampling Rate'] );
             }
@@ -85,10 +101,10 @@ class MP3File
             }
             if ($use_cbr_estimate && !empty($info))
             { 
-                $estimate=$this->estimateDuration($info['Bitrate'],$offset);fclose($fd);return $estimate; 
+                $estimate=$this->estimateDuration($info['Bitrate'],$offset);if ($ownsStream) fclose($fd);return $estimate; 
             }
         }
-        fclose($fd);return $duration>0 ? round($duration) : false;
+        if ($ownsStream) fclose($fd);return $duration>0 ? round($duration) : false;
     }
  
     private function estimateDuration($bitrate,$offset)

@@ -148,7 +148,9 @@ $basket='';
          if ($listento=='' && ($scorepdf!='' || $saxespdf!='' || $bonespdf!='' || $trumpetspdf!='' || $rhythmpdf!='' || $otherpdf!='' || $partspdf!='')) $secwarn=' (!)';
          if ($listento!='')   {
              $time='';$seconds=0;
-             if (preg_match('/\((\d+)\.(\d{2})\)/',$listento,$duration)) { $time=$duration[1].'.'.$duration[2];$seconds=(int)$duration[1]*60+(int)$duration[2]; }
+             if (striptime($listento)!==$listento && preg_match_all('/\((\d+)\.([0-5]\d)\)/',$listento,$durations,PREG_SET_ORDER)) {
+                 $duration=end($durations);$time=$duration[1].'.'.$duration[2];$seconds=(int)$duration[1]*60+(int)$duration[2];
+             }
              if($seconds<1)$secwarn=' (!!)';
 			 $totalseconds+=$seconds;
              if(striptime($listento)==$listento) {
