@@ -88,10 +88,8 @@ if ($listento!='') echo nsk($humantherec);
 echo ';';
 
 $time='';
-if ($listento!='') {
-$time=explode('(',$listento);
-$time=explode(')',$time[count($time)-1]);
-$time='0:'.str_replace('.',':',$time[0]);
+if ($listento!=='' && striptime($listento)!==$listento && preg_match_all('/\((\d+)\.([0-5]\d)\)/',$listento,$durations,PREG_SET_ORDER)) {
+    $duration=end($durations);$time='0:'.$duration[1].':'.$duration[2];
 }
 
 if ($listento!='') echo nsk($time);
