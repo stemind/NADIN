@@ -1,0 +1,4433 @@
+{
+  "date": "2026-11-03",
+  "summary": {
+    "suite_runs": 333,
+    "assertions": 31509,
+    "php_syntax_checks": 2023,
+    "failures": []
+  },
+  "runtime": "PHP 8.4.27",
+  "browser": "Chrome Headless Shell 156.0.8078.80",
+  "inputs": [
+    {
+      "key": "main",
+      "branch": "main",
+      "sha": "e2b8a46f2a12f7b0bafbf52444371a0103a38bff"
+    },
+    {
+      "key": "7.7",
+      "branch": "7.7-original-interface-forScore",
+      "sha": "7e637aca9b9b24a758ca66987863f72e81b8e93f"
+    },
+    {
+      "key": "7.7.2",
+      "branch": "7.7.2-css-gigrep-layout",
+      "sha": "f9b0cd7c328867f95104908f87c84a6a47387e66"
+    },
+    {
+      "key": "V8",
+      "branch": "V8-compact-interface",
+      "sha": "691175d3388652a3429a4c01a0941a2a6ddb339f"
+    },
+    {
+      "key": "V9",
+      "branch": "V9-forScore-export",
+      "sha": "859430656353f7da8351dc6b8cf835c78b61f898"
+    },
+    {
+      "key": "V10",
+      "branch": "V10-personal-passwords",
+      "sha": "954af94b9da5e8403e20a91747acf238d486fef5"
+    },
+    {
+      "key": "V11",
+      "branch": "V11-gig-user-management",
+      "sha": "bea19e28f151afd758cd1215720a6dc0da3df1bb"
+    },
+    {
+      "key": "V12",
+      "branch": "V12-login-protection",
+      "sha": "47c032d1d3175219493f83e1cf6c00ac4bee9630"
+    },
+    {
+      "key": "V13",
+      "branch": "V13-zip-download-layout",
+      "sha": "fd88128220554e8e0062ad9a51386a563a9f2966"
+    },
+    {
+      "key": "V14",
+      "branch": "V14-refined-interface",
+      "sha": "7fd3a894923172b503b02921dbbae8256c339668"
+    },
+    {
+      "key": "V15",
+      "branch": "V15-oidc-saml-reliable-zips",
+      "sha": "8aa78cbceb905ff46bf5df334b3b6ed08622bc65"
+    },
+    {
+      "key": "V16",
+      "branch": "V16-php85-php9-preparation",
+      "sha": "b0b6d026abc22654c971ebf648004add4b7e37d8"
+    },
+    {
+      "key": "V17",
+      "branch": "V17-unified-interface-and-workflows",
+      "sha": "05e9a41b218570cf98455f6fe2820076046bbaba"
+    },
+    {
+      "key": "V18",
+      "branch": "V18-audio-upload-conversion",
+      "sha": "d0f03cb3969bd027b21522302dfb1bff29a77b1b"
+    }
+  ],
+  "matrix": [
+    {
+      "branch": "main",
+      "key": "main",
+      "source_sha256": "3d4b3d9cca38c7296356369559dd7fac3ba445534144c76f116781c7ad22f2dc",
+      "suite": "syntax",
+      "code": 0,
+      "checks": 125,
+      "output": "PASS: 125 PHP syntax checks\n"
+    },
+    {
+      "branch": "main",
+      "key": "main",
+      "source_sha256": "3d4b3d9cca38c7296356369559dd7fac3ba445534144c76f116781c7ad22f2dc",
+      "suite": "encoding.php",
+      "code": 0,
+      "checks": 23,
+      "seconds": 0.02,
+      "output": "PASS: 23 encoding checks\n"
+    },
+    {
+      "branch": "main",
+      "key": "main",
+      "source_sha256": "3d4b3d9cca38c7296356369559dd7fac3ba445534144c76f116781c7ad22f2dc",
+      "suite": "encoding-http.py",
+      "code": 0,
+      "checks": 92,
+      "seconds": 1.56,
+      "output": "PASS: 92 HTTP encoding checks\n"
+    },
+    {
+      "branch": "main",
+      "key": "main",
+      "source_sha256": "3d4b3d9cca38c7296356369559dd7fac3ba445534144c76f116781c7ad22f2dc",
+      "suite": "main-parity-http.py",
+      "code": 0,
+      "checks": 47,
+      "seconds": 3.54,
+      "output": "PASS: 47 Main concept/HTTP parity checks (main)\n"
+    },
+    {
+      "branch": "main",
+      "key": "main",
+      "source_sha256": "3d4b3d9cca38c7296356369559dd7fac3ba445534144c76f116781c7ad22f2dc",
+      "suite": "gig-defaults-http.py",
+      "code": 0,
+      "checks": 111,
+      "seconds": 4.49,
+      "output": "PASS: 98 default-left Chromium checks\nPASS: 13 default-layout HTTP/setup checks\n"
+    },
+    {
+      "branch": "main",
+      "key": "main",
+      "source_sha256": "3d4b3d9cca38c7296356369559dd7fac3ba445534144c76f116781c7ad22f2dc",
+      "suite": "concept-assets-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 1.47,
+      "output": "PASS: 41 asset-role HTTP checks (main)\n"
+    },
+    {
+      "branch": "main",
+      "key": "main",
+      "source_sha256": "3d4b3d9cca38c7296356369559dd7fac3ba445534144c76f116781c7ad22f2dc",
+      "suite": "concept-outputs-http.py",
+      "code": 0,
+      "checks": 40,
+      "seconds": 1.46,
+      "output": "PASS: 40 output-agreement checks (main)\n"
+    },
+    {
+      "branch": "main",
+      "key": "main",
+      "source_sha256": "3d4b3d9cca38c7296356369559dd7fac3ba445534144c76f116781c7ad22f2dc",
+      "suite": "evolution-duration-http.py",
+      "code": 0,
+      "checks": 32,
+      "seconds": 2.97,
+      "output": "PASS: 32 duration preservation checks (main)\n"
+    },
+    {
+      "branch": "main",
+      "key": "main",
+      "source_sha256": "3d4b3d9cca38c7296356369559dd7fac3ba445534144c76f116781c7ad22f2dc",
+      "suite": "evolution-countercheck-http.py",
+      "code": 0,
+      "checks": 16,
+      "seconds": 3.58,
+      "output": "PASS: 16 independent repair counterchecks (main)\n"
+    },
+    {
+      "branch": "main",
+      "key": "main",
+      "source_sha256": "3d4b3d9cca38c7296356369559dd7fac3ba445534144c76f116781c7ad22f2dc",
+      "suite": "evolution-audio-workflow-http.py",
+      "code": 0,
+      "checks": 59,
+      "seconds": 3.91,
+      "output": "PASS: 59 audio workflow and boundary checks (main)\n"
+    },
+    {
+      "branch": "main",
+      "key": "main",
+      "source_sha256": "3d4b3d9cca38c7296356369559dd7fac3ba445534144c76f116781c7ad22f2dc",
+      "suite": "evolution-duration-concurrency-http.py",
+      "code": 0,
+      "checks": 75,
+      "seconds": 2.73,
+      "output": "PASS: 75 parallel duration and bounded-lock checks (main)\n"
+    },
+    {
+      "branch": "7.7-original-interface-forScore",
+      "key": "7.7",
+      "source_sha256": "4a909f3b35263ce6305c08b9e1a3fdb6e29d314e976596ad9c652b7670c46de1",
+      "suite": "syntax",
+      "code": 0,
+      "checks": 126,
+      "output": "PASS: 126 PHP syntax checks\n"
+    },
+    {
+      "branch": "7.7-original-interface-forScore",
+      "key": "7.7",
+      "source_sha256": "4a909f3b35263ce6305c08b9e1a3fdb6e29d314e976596ad9c652b7670c46de1",
+      "suite": "forscore.php",
+      "code": 0,
+      "checks": 62,
+      "seconds": 0.03,
+      "output": "PASS: 62 forScore regression checks\n"
+    },
+    {
+      "branch": "7.7-original-interface-forScore",
+      "key": "7.7",
+      "source_sha256": "4a909f3b35263ce6305c08b9e1a3fdb6e29d314e976596ad9c652b7670c46de1",
+      "suite": "forscore-http.py",
+      "code": 0,
+      "checks": 294,
+      "seconds": 11.34,
+      "output": "PASS: 16 NADIN 7.7 Chromium checks\nPASS: 66 forScore workflow software-DOM checks\nPASS: 103 forScore workflow Chromium checks\nPASS: 109 NADIN 7.7 forScore HTTP checks (server default: ISO-8859-1)\n"
+    },
+    {
+      "branch": "7.7-original-interface-forScore",
+      "key": "7.7",
+      "source_sha256": "4a909f3b35263ce6305c08b9e1a3fdb6e29d314e976596ad9c652b7670c46de1",
+      "suite": "main-parity-http.py",
+      "code": 0,
+      "checks": 47,
+      "seconds": 3.48,
+      "output": "PASS: 47 Main concept/HTTP parity checks (7.7)\n"
+    },
+    {
+      "branch": "7.7-original-interface-forScore",
+      "key": "7.7",
+      "source_sha256": "4a909f3b35263ce6305c08b9e1a3fdb6e29d314e976596ad9c652b7670c46de1",
+      "suite": "gig-layout-http.py",
+      "code": 0,
+      "checks": 923,
+      "seconds": 6.72,
+      "output": "PASS: 800 Main layout software-DOM checks\nPASS: 123 Main layout HTTP checks\n"
+    },
+    {
+      "branch": "7.7-original-interface-forScore",
+      "key": "7.7",
+      "source_sha256": "4a909f3b35263ce6305c08b9e1a3fdb6e29d314e976596ad9c652b7670c46de1",
+      "suite": "gig-defaults-http.py",
+      "code": 0,
+      "checks": 111,
+      "seconds": 3.93,
+      "output": "PASS: 98 default-left Chromium checks\nPASS: 13 default-layout HTTP/setup checks\n"
+    },
+    {
+      "branch": "7.7-original-interface-forScore",
+      "key": "7.7",
+      "source_sha256": "4a909f3b35263ce6305c08b9e1a3fdb6e29d314e976596ad9c652b7670c46de1",
+      "suite": "concept-assets-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 1.4,
+      "output": "PASS: 41 asset-role HTTP checks (7.7)\n"
+    },
+    {
+      "branch": "7.7-original-interface-forScore",
+      "key": "7.7",
+      "source_sha256": "4a909f3b35263ce6305c08b9e1a3fdb6e29d314e976596ad9c652b7670c46de1",
+      "suite": "concept-outputs-http.py",
+      "code": 0,
+      "checks": 44,
+      "seconds": 1.49,
+      "output": "PASS: 44 output-agreement checks (7.7)\n"
+    },
+    {
+      "branch": "7.7-original-interface-forScore",
+      "key": "7.7",
+      "source_sha256": "4a909f3b35263ce6305c08b9e1a3fdb6e29d314e976596ad9c652b7670c46de1",
+      "suite": "evolution-duration-http.py",
+      "code": 0,
+      "checks": 32,
+      "seconds": 2.88,
+      "output": "PASS: 32 duration preservation checks (7.7)\n"
+    },
+    {
+      "branch": "7.7-original-interface-forScore",
+      "key": "7.7",
+      "source_sha256": "4a909f3b35263ce6305c08b9e1a3fdb6e29d314e976596ad9c652b7670c46de1",
+      "suite": "evolution-countercheck-http.py",
+      "code": 0,
+      "checks": 16,
+      "seconds": 3.6,
+      "output": "PASS: 16 independent repair counterchecks (7.7)\n"
+    },
+    {
+      "branch": "7.7-original-interface-forScore",
+      "key": "7.7",
+      "source_sha256": "4a909f3b35263ce6305c08b9e1a3fdb6e29d314e976596ad9c652b7670c46de1",
+      "suite": "evolution-audio-workflow-http.py",
+      "code": 0,
+      "checks": 59,
+      "seconds": 4.05,
+      "output": "PASS: 59 audio workflow and boundary checks (7.7)\n"
+    },
+    {
+      "branch": "7.7-original-interface-forScore",
+      "key": "7.7",
+      "source_sha256": "4a909f3b35263ce6305c08b9e1a3fdb6e29d314e976596ad9c652b7670c46de1",
+      "suite": "evolution-duration-concurrency-http.py",
+      "code": 0,
+      "checks": 75,
+      "seconds": 2.75,
+      "output": "PASS: 75 parallel duration and bounded-lock checks (7.7)\n"
+    },
+    {
+      "branch": "7.7.2-css-gigrep-layout",
+      "key": "7.7.2",
+      "source_sha256": "65d5b5f61171bde9a77240a79eeb729ce2006fa50502385733cf01fecd94e9e7",
+      "suite": "syntax",
+      "code": 0,
+      "checks": 126,
+      "output": "PASS: 126 PHP syntax checks\n"
+    },
+    {
+      "branch": "7.7.2-css-gigrep-layout",
+      "key": "7.7.2",
+      "source_sha256": "65d5b5f61171bde9a77240a79eeb729ce2006fa50502385733cf01fecd94e9e7",
+      "suite": "forscore.php",
+      "code": 0,
+      "checks": 62,
+      "seconds": 0.03,
+      "output": "PASS: 62 forScore regression checks\n"
+    },
+    {
+      "branch": "7.7.2-css-gigrep-layout",
+      "key": "7.7.2",
+      "source_sha256": "65d5b5f61171bde9a77240a79eeb729ce2006fa50502385733cf01fecd94e9e7",
+      "suite": "forscore-http.py",
+      "code": 0,
+      "checks": 291,
+      "seconds": 11.3,
+      "output": "PASS: 14 NADIN 7.7 Chromium checks\nPASS: 66 forScore workflow software-DOM checks\nPASS: 103 forScore workflow Chromium checks\nPASS: 108 NADIN 7.7 forScore HTTP checks (server default: ISO-8859-1)\n"
+    },
+    {
+      "branch": "7.7.2-css-gigrep-layout",
+      "key": "7.7.2",
+      "source_sha256": "65d5b5f61171bde9a77240a79eeb729ce2006fa50502385733cf01fecd94e9e7",
+      "suite": "main-parity-http.py",
+      "code": 0,
+      "checks": 47,
+      "seconds": 3.53,
+      "output": "PASS: 47 Main concept/HTTP parity checks (7.7.2)\n"
+    },
+    {
+      "branch": "7.7.2-css-gigrep-layout",
+      "key": "7.7.2",
+      "source_sha256": "65d5b5f61171bde9a77240a79eeb729ce2006fa50502385733cf01fecd94e9e7",
+      "suite": "gigrep-layout-http.py",
+      "code": 0,
+      "checks": 1569,
+      "seconds": 34.01,
+      "output": "PASS: 1408 classic GigRep Chromium checks\nPASS: 161 classic GigRep HTTP/source checks\n"
+    },
+    {
+      "branch": "7.7.2-css-gigrep-layout",
+      "key": "7.7.2",
+      "source_sha256": "65d5b5f61171bde9a77240a79eeb729ce2006fa50502385733cf01fecd94e9e7",
+      "suite": "gig-defaults-http.py",
+      "code": 0,
+      "checks": 111,
+      "seconds": 4.13,
+      "output": "PASS: 98 default-left Chromium checks\nPASS: 13 default-layout HTTP/setup checks\n"
+    },
+    {
+      "branch": "7.7.2-css-gigrep-layout",
+      "key": "7.7.2",
+      "source_sha256": "65d5b5f61171bde9a77240a79eeb729ce2006fa50502385733cf01fecd94e9e7",
+      "suite": "concept-assets-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 1.45,
+      "output": "PASS: 41 asset-role HTTP checks (7.7.2)\n"
+    },
+    {
+      "branch": "7.7.2-css-gigrep-layout",
+      "key": "7.7.2",
+      "source_sha256": "65d5b5f61171bde9a77240a79eeb729ce2006fa50502385733cf01fecd94e9e7",
+      "suite": "concept-outputs-http.py",
+      "code": 0,
+      "checks": 44,
+      "seconds": 1.54,
+      "output": "PASS: 44 output-agreement checks (7.7.2)\n"
+    },
+    {
+      "branch": "7.7.2-css-gigrep-layout",
+      "key": "7.7.2",
+      "source_sha256": "65d5b5f61171bde9a77240a79eeb729ce2006fa50502385733cf01fecd94e9e7",
+      "suite": "evolution-duration-http.py",
+      "code": 0,
+      "checks": 32,
+      "seconds": 3.2,
+      "output": "PASS: 32 duration preservation checks (7.7.2)\n"
+    },
+    {
+      "branch": "7.7.2-css-gigrep-layout",
+      "key": "7.7.2",
+      "source_sha256": "65d5b5f61171bde9a77240a79eeb729ce2006fa50502385733cf01fecd94e9e7",
+      "suite": "evolution-countercheck-http.py",
+      "code": 0,
+      "checks": 16,
+      "seconds": 3.64,
+      "output": "PASS: 16 independent repair counterchecks (7.7.2)\n"
+    },
+    {
+      "branch": "7.7.2-css-gigrep-layout",
+      "key": "7.7.2",
+      "source_sha256": "65d5b5f61171bde9a77240a79eeb729ce2006fa50502385733cf01fecd94e9e7",
+      "suite": "evolution-audio-workflow-http.py",
+      "code": 0,
+      "checks": 59,
+      "seconds": 4.07,
+      "output": "PASS: 59 audio workflow and boundary checks (7.7.2)\n"
+    },
+    {
+      "branch": "7.7.2-css-gigrep-layout",
+      "key": "7.7.2",
+      "source_sha256": "65d5b5f61171bde9a77240a79eeb729ce2006fa50502385733cf01fecd94e9e7",
+      "suite": "evolution-duration-concurrency-http.py",
+      "code": 0,
+      "checks": 75,
+      "seconds": 2.73,
+      "output": "PASS: 75 parallel duration and bounded-lock checks (7.7.2)\n"
+    },
+    {
+      "branch": "V8-compact-interface",
+      "key": "V8",
+      "source_sha256": "975236a1d4467c2fc95b30a1d605995c106adf5c9299c6d92d490963d90749aa",
+      "suite": "syntax",
+      "code": 0,
+      "checks": 129,
+      "output": "PASS: 129 PHP syntax checks\n"
+    },
+    {
+      "branch": "V8-compact-interface",
+      "key": "V8",
+      "source_sha256": "975236a1d4467c2fc95b30a1d605995c106adf5c9299c6d92d490963d90749aa",
+      "suite": "encoding.php",
+      "code": 0,
+      "checks": 23,
+      "seconds": 0.02,
+      "output": "PASS: 23 encoding checks\n"
+    },
+    {
+      "branch": "V8-compact-interface",
+      "key": "V8",
+      "source_sha256": "975236a1d4467c2fc95b30a1d605995c106adf5c9299c6d92d490963d90749aa",
+      "suite": "encoding-http.py",
+      "code": 0,
+      "checks": 92,
+      "seconds": 1.47,
+      "output": "PASS: 92 HTTP encoding checks\n"
+    },
+    {
+      "branch": "V8-compact-interface",
+      "key": "V8",
+      "source_sha256": "975236a1d4467c2fc95b30a1d605995c106adf5c9299c6d92d490963d90749aa",
+      "suite": "forscore.php",
+      "code": 0,
+      "checks": 60,
+      "seconds": 0.03,
+      "output": "PASS: 60 forScore regression checks\n"
+    },
+    {
+      "branch": "V8-compact-interface",
+      "key": "V8",
+      "source_sha256": "975236a1d4467c2fc95b30a1d605995c106adf5c9299c6d92d490963d90749aa",
+      "suite": "forscore-http.py",
+      "code": 0,
+      "checks": 262,
+      "seconds": 8.63,
+      "output": "PASS: 66 forScore workflow software-DOM checks\nPASS: 103 forScore workflow Chromium checks\nPASS: 93 forScore HTTP checks (server default: ISO-8859-1)\n"
+    },
+    {
+      "branch": "V8-compact-interface",
+      "key": "V8",
+      "source_sha256": "975236a1d4467c2fc95b30a1d605995c106adf5c9299c6d92d490963d90749aa",
+      "suite": "main-parity-http.py",
+      "code": 0,
+      "checks": 47,
+      "seconds": 3.54,
+      "output": "PASS: 47 Main concept/HTTP parity checks (V8)\n"
+    },
+    {
+      "branch": "V8-compact-interface",
+      "key": "V8",
+      "source_sha256": "975236a1d4467c2fc95b30a1d605995c106adf5c9299c6d92d490963d90749aa",
+      "suite": "gig-layout-http.py",
+      "code": 0,
+      "checks": 723,
+      "seconds": 6.78,
+      "output": "PASS: 560 Main layout software-DOM checks\nPASS: 163 Main layout HTTP checks\n"
+    },
+    {
+      "branch": "V8-compact-interface",
+      "key": "V8",
+      "source_sha256": "975236a1d4467c2fc95b30a1d605995c106adf5c9299c6d92d490963d90749aa",
+      "suite": "gig-defaults-http.py",
+      "code": 0,
+      "checks": 111,
+      "seconds": 4.22,
+      "output": "PASS: 98 default-left Chromium checks\nPASS: 13 default-layout HTTP/setup checks\n"
+    },
+    {
+      "branch": "V8-compact-interface",
+      "key": "V8",
+      "source_sha256": "975236a1d4467c2fc95b30a1d605995c106adf5c9299c6d92d490963d90749aa",
+      "suite": "concept-assets-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 1.44,
+      "output": "PASS: 41 asset-role HTTP checks (V8)\n"
+    },
+    {
+      "branch": "V8-compact-interface",
+      "key": "V8",
+      "source_sha256": "975236a1d4467c2fc95b30a1d605995c106adf5c9299c6d92d490963d90749aa",
+      "suite": "concept-outputs-http.py",
+      "code": 0,
+      "checks": 44,
+      "seconds": 1.55,
+      "output": "PASS: 44 output-agreement checks (V8)\n"
+    },
+    {
+      "branch": "V8-compact-interface",
+      "key": "V8",
+      "source_sha256": "975236a1d4467c2fc95b30a1d605995c106adf5c9299c6d92d490963d90749aa",
+      "suite": "evolution-duration-http.py",
+      "code": 0,
+      "checks": 32,
+      "seconds": 3.23,
+      "output": "PASS: 32 duration preservation checks (V8)\n"
+    },
+    {
+      "branch": "V8-compact-interface",
+      "key": "V8",
+      "source_sha256": "975236a1d4467c2fc95b30a1d605995c106adf5c9299c6d92d490963d90749aa",
+      "suite": "evolution-countercheck-http.py",
+      "code": 0,
+      "checks": 16,
+      "seconds": 3.59,
+      "output": "PASS: 16 independent repair counterchecks (V8)\n"
+    },
+    {
+      "branch": "V8-compact-interface",
+      "key": "V8",
+      "source_sha256": "975236a1d4467c2fc95b30a1d605995c106adf5c9299c6d92d490963d90749aa",
+      "suite": "evolution-audio-workflow-http.py",
+      "code": 0,
+      "checks": 59,
+      "seconds": 4.08,
+      "output": "PASS: 59 audio workflow and boundary checks (V8)\n"
+    },
+    {
+      "branch": "V8-compact-interface",
+      "key": "V8",
+      "source_sha256": "975236a1d4467c2fc95b30a1d605995c106adf5c9299c6d92d490963d90749aa",
+      "suite": "evolution-duration-concurrency-http.py",
+      "code": 0,
+      "checks": 75,
+      "seconds": 2.72,
+      "output": "PASS: 75 parallel duration and bounded-lock checks (V8)\n"
+    },
+    {
+      "branch": "V9-forScore-export",
+      "key": "V9",
+      "source_sha256": "d4a242c36d3b4155b9fc3a1e36e1a2d053768fa02c2bb3e6412acbd17beb591b",
+      "suite": "syntax",
+      "code": 0,
+      "checks": 129,
+      "output": "PASS: 129 PHP syntax checks\n"
+    },
+    {
+      "branch": "V9-forScore-export",
+      "key": "V9",
+      "source_sha256": "d4a242c36d3b4155b9fc3a1e36e1a2d053768fa02c2bb3e6412acbd17beb591b",
+      "suite": "encoding.php",
+      "code": 0,
+      "checks": 23,
+      "seconds": 0.02,
+      "output": "PASS: 23 encoding checks\n"
+    },
+    {
+      "branch": "V9-forScore-export",
+      "key": "V9",
+      "source_sha256": "d4a242c36d3b4155b9fc3a1e36e1a2d053768fa02c2bb3e6412acbd17beb591b",
+      "suite": "encoding-http.py",
+      "code": 0,
+      "checks": 92,
+      "seconds": 1.52,
+      "output": "PASS: 92 HTTP encoding checks\n"
+    },
+    {
+      "branch": "V9-forScore-export",
+      "key": "V9",
+      "source_sha256": "d4a242c36d3b4155b9fc3a1e36e1a2d053768fa02c2bb3e6412acbd17beb591b",
+      "suite": "forscore.php",
+      "code": 0,
+      "checks": 60,
+      "seconds": 0.04,
+      "output": "PASS: 60 forScore regression checks\n"
+    },
+    {
+      "branch": "V9-forScore-export",
+      "key": "V9",
+      "source_sha256": "d4a242c36d3b4155b9fc3a1e36e1a2d053768fa02c2bb3e6412acbd17beb591b",
+      "suite": "forscore-http.py",
+      "code": 0,
+      "checks": 262,
+      "seconds": 9.15,
+      "output": "PASS: 66 forScore workflow software-DOM checks\nPASS: 103 forScore workflow Chromium checks\nPASS: 93 forScore HTTP checks (server default: ISO-8859-1)\n"
+    },
+    {
+      "branch": "V9-forScore-export",
+      "key": "V9",
+      "source_sha256": "d4a242c36d3b4155b9fc3a1e36e1a2d053768fa02c2bb3e6412acbd17beb591b",
+      "suite": "main-parity-http.py",
+      "code": 0,
+      "checks": 47,
+      "seconds": 3.53,
+      "output": "PASS: 47 Main concept/HTTP parity checks (V9)\n"
+    },
+    {
+      "branch": "V9-forScore-export",
+      "key": "V9",
+      "source_sha256": "d4a242c36d3b4155b9fc3a1e36e1a2d053768fa02c2bb3e6412acbd17beb591b",
+      "suite": "gig-layout-http.py",
+      "code": 0,
+      "checks": 723,
+      "seconds": 6.76,
+      "output": "PASS: 560 Main layout software-DOM checks\nPASS: 163 Main layout HTTP checks\n"
+    },
+    {
+      "branch": "V9-forScore-export",
+      "key": "V9",
+      "source_sha256": "d4a242c36d3b4155b9fc3a1e36e1a2d053768fa02c2bb3e6412acbd17beb591b",
+      "suite": "gig-defaults-http.py",
+      "code": 0,
+      "checks": 111,
+      "seconds": 3.76,
+      "output": "PASS: 98 default-left Chromium checks\nPASS: 13 default-layout HTTP/setup checks\n"
+    },
+    {
+      "branch": "V9-forScore-export",
+      "key": "V9",
+      "source_sha256": "d4a242c36d3b4155b9fc3a1e36e1a2d053768fa02c2bb3e6412acbd17beb591b",
+      "suite": "concept-assets-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 1.41,
+      "output": "PASS: 41 asset-role HTTP checks (V9)\n"
+    },
+    {
+      "branch": "V9-forScore-export",
+      "key": "V9",
+      "source_sha256": "d4a242c36d3b4155b9fc3a1e36e1a2d053768fa02c2bb3e6412acbd17beb591b",
+      "suite": "concept-outputs-http.py",
+      "code": 0,
+      "checks": 44,
+      "seconds": 1.5,
+      "output": "PASS: 44 output-agreement checks (V9)\n"
+    },
+    {
+      "branch": "V9-forScore-export",
+      "key": "V9",
+      "source_sha256": "d4a242c36d3b4155b9fc3a1e36e1a2d053768fa02c2bb3e6412acbd17beb591b",
+      "suite": "evolution-duration-http.py",
+      "code": 0,
+      "checks": 32,
+      "seconds": 3.04,
+      "output": "PASS: 32 duration preservation checks (V9)\n"
+    },
+    {
+      "branch": "V9-forScore-export",
+      "key": "V9",
+      "source_sha256": "d4a242c36d3b4155b9fc3a1e36e1a2d053768fa02c2bb3e6412acbd17beb591b",
+      "suite": "evolution-countercheck-http.py",
+      "code": 0,
+      "checks": 16,
+      "seconds": 3.57,
+      "output": "PASS: 16 independent repair counterchecks (V9)\n"
+    },
+    {
+      "branch": "V9-forScore-export",
+      "key": "V9",
+      "source_sha256": "d4a242c36d3b4155b9fc3a1e36e1a2d053768fa02c2bb3e6412acbd17beb591b",
+      "suite": "evolution-audio-workflow-http.py",
+      "code": 0,
+      "checks": 59,
+      "seconds": 3.85,
+      "output": "PASS: 59 audio workflow and boundary checks (V9)\n"
+    },
+    {
+      "branch": "V9-forScore-export",
+      "key": "V9",
+      "source_sha256": "d4a242c36d3b4155b9fc3a1e36e1a2d053768fa02c2bb3e6412acbd17beb591b",
+      "suite": "evolution-duration-concurrency-http.py",
+      "code": 0,
+      "checks": 75,
+      "seconds": 2.7,
+      "output": "PASS: 75 parallel duration and bounded-lock checks (V9)\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "syntax",
+      "code": 0,
+      "checks": 137,
+      "output": "PASS: 137 PHP syntax checks\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "encoding.php",
+      "code": 0,
+      "checks": 23,
+      "seconds": 0.02,
+      "output": "PASS: 23 encoding checks\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "encoding-http.py",
+      "code": 0,
+      "checks": 92,
+      "seconds": 1.0,
+      "output": "PASS: 92 HTTP encoding checks\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "member-format.php",
+      "code": 0,
+      "checks": 35,
+      "seconds": 0.02,
+      "output": "PASS: 35 member-format compatibility checks\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "auth.php",
+      "code": 0,
+      "checks": 67,
+      "seconds": 3.18,
+      "output": "PASS: 67 authentication regression checks\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "auth-http.py",
+      "code": 0,
+      "checks": 40,
+      "seconds": 5.96,
+      "output": "PASS: 40 HTTP account/integration checks\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "forscore.php",
+      "code": 0,
+      "checks": 60,
+      "seconds": 0.03,
+      "output": "PASS: 60 forScore regression checks\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "forscore-http.py",
+      "code": 0,
+      "checks": 262,
+      "seconds": 7.32,
+      "output": "PASS: 66 forScore workflow software-DOM checks\nPASS: 103 forScore workflow Chromium checks\nPASS: 93 forScore HTTP checks (server default: ISO-8859-1)\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "main-parity-http.py",
+      "code": 0,
+      "checks": 47,
+      "seconds": 2.07,
+      "output": "PASS: 47 Main concept/HTTP parity checks (V10)\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "gig-layout-http.py",
+      "code": 0,
+      "checks": 723,
+      "seconds": 5.95,
+      "output": "PASS: 560 Main layout software-DOM checks\nPASS: 163 Main layout HTTP checks\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "gig-defaults-http.py",
+      "code": 0,
+      "checks": 111,
+      "seconds": 2.62,
+      "output": "PASS: 98 default-left Chromium checks\nPASS: 13 default-layout HTTP/setup checks\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "concept-assets-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 0.92,
+      "output": "PASS: 41 asset-role HTTP checks (V10)\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "concept-outputs-http.py",
+      "code": 0,
+      "checks": 44,
+      "seconds": 1.05,
+      "output": "PASS: 44 output-agreement checks (V10)\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "evolution-duration-http.py",
+      "code": 0,
+      "checks": 32,
+      "seconds": 2.57,
+      "output": "PASS: 32 duration preservation checks (V10)\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "evolution-countercheck-http.py",
+      "code": 0,
+      "checks": 16,
+      "seconds": 2.08,
+      "output": "PASS: 16 independent repair counterchecks (V10)\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "evolution-audio-workflow-http.py",
+      "code": 0,
+      "checks": 59,
+      "seconds": 2.88,
+      "output": "PASS: 59 audio workflow and boundary checks (V10)\n"
+    },
+    {
+      "branch": "V10-personal-passwords",
+      "key": "V10",
+      "source_sha256": "1ede5b845469c250ec029a330bcfe8f47c94541b3247aaf55540a6cd546bf173",
+      "suite": "evolution-duration-concurrency-http.py",
+      "code": 0,
+      "checks": 75,
+      "seconds": 1.69,
+      "output": "PASS: 75 parallel duration and bounded-lock checks (V10)\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "syntax",
+      "code": 0,
+      "checks": 146,
+      "output": "PASS: 146 PHP syntax checks\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "encoding.php",
+      "code": 0,
+      "checks": 23,
+      "seconds": 0.02,
+      "output": "PASS: 23 encoding checks\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "encoding-http.py",
+      "code": 0,
+      "checks": 94,
+      "seconds": 1.01,
+      "output": "PASS: 94 HTTP encoding checks\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "member-format.php",
+      "code": 0,
+      "checks": 35,
+      "seconds": 0.02,
+      "output": "PASS: 35 member-format compatibility checks\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "auth.php",
+      "code": 0,
+      "checks": 67,
+      "seconds": 3.19,
+      "output": "PASS: 67 authentication regression checks\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "auth-http.py",
+      "code": 0,
+      "checks": 40,
+      "seconds": 5.96,
+      "output": "PASS: 40 HTTP account/integration checks\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "legacy-users.php",
+      "code": 0,
+      "checks": 21,
+      "seconds": 0.68,
+      "output": "PASS: 21 legacy user conversion checks\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "admin-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 3.0,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "shared-data-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 2.92,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\nPASS: shared user/library/gig/ZIP directory HTTP scenario\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "forscore.php",
+      "code": 0,
+      "checks": 60,
+      "seconds": 0.04,
+      "output": "PASS: 60 forScore regression checks\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "forscore-http.py",
+      "code": 0,
+      "checks": 262,
+      "seconds": 7.74,
+      "output": "PASS: 66 forScore workflow software-DOM checks\nPASS: 103 forScore workflow Chromium checks\nPASS: 93 forScore HTTP checks (server default: ISO-8859-1)\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "main-parity-http.py",
+      "code": 0,
+      "checks": 47,
+      "seconds": 2.04,
+      "output": "PASS: 47 Main concept/HTTP parity checks (V11)\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "gig-layout-http.py",
+      "code": 0,
+      "checks": 723,
+      "seconds": 5.34,
+      "output": "PASS: 560 Main layout software-DOM checks\nPASS: 163 Main layout HTTP checks\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "gig-defaults-http.py",
+      "code": 0,
+      "checks": 111,
+      "seconds": 2.67,
+      "output": "PASS: 98 default-left Chromium checks\nPASS: 13 default-layout HTTP/setup checks\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "concept-assets-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 0.89,
+      "output": "PASS: 41 asset-role HTTP checks (V11)\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "concept-concurrency-http.py",
+      "code": 0,
+      "checks": 16,
+      "seconds": 1.39,
+      "output": "PASS: 16 independent-editor conflict checks (V11)\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "concept-outputs-http.py",
+      "code": 0,
+      "checks": 42,
+      "seconds": 1.07,
+      "output": "PASS: 42 output-agreement checks (V11)\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "evolution-state-http.py",
+      "code": 0,
+      "checks": 74,
+      "seconds": 2.14,
+      "output": "PASS: 74 gig identity and catalogue checks (V11)\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "evolution-duration-http.py",
+      "code": 0,
+      "checks": 32,
+      "seconds": 2.37,
+      "output": "PASS: 32 duration preservation checks (V11)\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "admin-shared-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 2.79,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "render-preview.py",
+      "code": 0,
+      "checks": 0,
+      "seconds": 0.98,
+      "output": "/tmp/nadin-matrix-preview-36ch772b/preview/views\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "admin-dom.cjs",
+      "code": 0,
+      "checks": 77,
+      "seconds": 1.15,
+      "output": "PASS: 77 V12 DOM behavior checks\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "ui-browser.cjs",
+      "code": 0,
+      "checks": 24,
+      "seconds": 1.64,
+      "output": "PASS: 24 Chromium interaction and layout checks\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "evolution-countercheck-http.py",
+      "code": 0,
+      "checks": 23,
+      "seconds": 2.22,
+      "output": "PASS: 23 independent repair counterchecks (V11)\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "evolution-audio-workflow-http.py",
+      "code": 0,
+      "checks": 59,
+      "seconds": 3.26,
+      "output": "PASS: 59 audio workflow and boundary checks (V11)\n"
+    },
+    {
+      "branch": "V11-gig-user-management",
+      "key": "V11",
+      "source_sha256": "ac566c98c972eec6034f4b62cbda7d740da0395b8ac4c6d99b68d2044d38057b",
+      "suite": "evolution-duration-concurrency-http.py",
+      "code": 0,
+      "checks": 75,
+      "seconds": 1.76,
+      "output": "PASS: 75 parallel duration and bounded-lock checks (V11)\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "syntax",
+      "code": 0,
+      "checks": 147,
+      "output": "PASS: 147 PHP syntax checks\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "encoding.php",
+      "code": 0,
+      "checks": 23,
+      "seconds": 0.02,
+      "output": "PASS: 23 encoding checks\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "encoding-http.py",
+      "code": 0,
+      "checks": 94,
+      "seconds": 1.06,
+      "output": "PASS: 94 HTTP encoding checks\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "member-format.php",
+      "code": 0,
+      "checks": 35,
+      "seconds": 0.02,
+      "output": "PASS: 35 member-format compatibility checks\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "auth.php",
+      "code": 0,
+      "checks": 67,
+      "seconds": 3.18,
+      "output": "PASS: 67 authentication regression checks\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "bruteforce.php",
+      "code": 0,
+      "checks": 53,
+      "seconds": 6.2,
+      "output": "PASS: 53 V13 brute-force checks\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "auth-http.py",
+      "code": 0,
+      "checks": 56,
+      "seconds": 14.1,
+      "output": "PASS: 56 HTTP account/integration checks\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "legacy-users.php",
+      "code": 0,
+      "checks": 21,
+      "seconds": 0.7,
+      "output": "PASS: 21 legacy user conversion checks\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "admin-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 2.89,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "shared-data-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 3.02,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\nPASS: shared user/library/gig/ZIP directory HTTP scenario\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "forscore.php",
+      "code": 0,
+      "checks": 60,
+      "seconds": 0.03,
+      "output": "PASS: 60 forScore regression checks\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "forscore-http.py",
+      "code": 0,
+      "checks": 262,
+      "seconds": 7.54,
+      "output": "PASS: 66 forScore workflow software-DOM checks\nPASS: 103 forScore workflow Chromium checks\nPASS: 93 forScore HTTP checks (server default: ISO-8859-1)\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "main-parity-http.py",
+      "code": 0,
+      "checks": 47,
+      "seconds": 2.01,
+      "output": "PASS: 47 Main concept/HTTP parity checks (V12)\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "gig-layout-http.py",
+      "code": 0,
+      "checks": 723,
+      "seconds": 5.43,
+      "output": "PASS: 560 Main layout software-DOM checks\nPASS: 163 Main layout HTTP checks\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "gig-defaults-http.py",
+      "code": 0,
+      "checks": 111,
+      "seconds": 2.87,
+      "output": "PASS: 98 default-left Chromium checks\nPASS: 13 default-layout HTTP/setup checks\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "concept-assets-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 0.96,
+      "output": "PASS: 41 asset-role HTTP checks (V12)\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "concept-concurrency-http.py",
+      "code": 0,
+      "checks": 16,
+      "seconds": 1.42,
+      "output": "PASS: 16 independent-editor conflict checks (V12)\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "concept-outputs-http.py",
+      "code": 0,
+      "checks": 42,
+      "seconds": 1.02,
+      "output": "PASS: 42 output-agreement checks (V12)\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "evolution-state-http.py",
+      "code": 0,
+      "checks": 74,
+      "seconds": 2.2,
+      "output": "PASS: 74 gig identity and catalogue checks (V12)\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "evolution-duration-http.py",
+      "code": 0,
+      "checks": 32,
+      "seconds": 2.87,
+      "output": "PASS: 32 duration preservation checks (V12)\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "admin-shared-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 2.98,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "render-preview.py",
+      "code": 0,
+      "checks": 0,
+      "seconds": 4.07,
+      "output": "/tmp/nadin-matrix-preview-9t28v8sa/preview/views\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "admin-dom.cjs",
+      "code": 0,
+      "checks": 77,
+      "seconds": 1.03,
+      "output": "PASS: 77 V12 DOM behavior checks\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "login-dom.cjs",
+      "code": 0,
+      "checks": 8,
+      "seconds": 0.36,
+      "output": "PASS: 8 V13 login DOM checks\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "ui-browser.cjs",
+      "code": 0,
+      "checks": 24,
+      "seconds": 1.61,
+      "output": "PASS: 24 Chromium interaction and layout checks\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "evolution-countercheck-http.py",
+      "code": 0,
+      "checks": 23,
+      "seconds": 2.15,
+      "output": "PASS: 23 independent repair counterchecks (V12)\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "evolution-audio-workflow-http.py",
+      "code": 0,
+      "checks": 59,
+      "seconds": 3.15,
+      "output": "PASS: 59 audio workflow and boundary checks (V12)\n"
+    },
+    {
+      "branch": "V12-login-protection",
+      "key": "V12",
+      "source_sha256": "d58737567d6812ca0d94b1add9b910eb27c819dfca11fd9d71d5f3137916177c",
+      "suite": "evolution-duration-concurrency-http.py",
+      "code": 0,
+      "checks": 75,
+      "seconds": 1.74,
+      "output": "PASS: 75 parallel duration and bounded-lock checks (V12)\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "syntax",
+      "code": 0,
+      "checks": 147,
+      "output": "PASS: 147 PHP syntax checks\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "encoding.php",
+      "code": 0,
+      "checks": 23,
+      "seconds": 0.02,
+      "output": "PASS: 23 encoding checks\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "encoding-http.py",
+      "code": 0,
+      "checks": 94,
+      "seconds": 0.98,
+      "output": "PASS: 94 HTTP encoding checks\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "member-format.php",
+      "code": 0,
+      "checks": 35,
+      "seconds": 0.02,
+      "output": "PASS: 35 member-format compatibility checks\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "auth.php",
+      "code": 0,
+      "checks": 67,
+      "seconds": 2.95,
+      "output": "PASS: 67 authentication regression checks\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "bruteforce.php",
+      "code": 0,
+      "checks": 53,
+      "seconds": 6.36,
+      "output": "PASS: 53 V13 brute-force checks\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "auth-http.py",
+      "code": 0,
+      "checks": 56,
+      "seconds": 14.2,
+      "output": "PASS: 56 HTTP account/integration checks\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "legacy-users.php",
+      "code": 0,
+      "checks": 21,
+      "seconds": 0.69,
+      "output": "PASS: 21 legacy user conversion checks\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "admin-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 2.88,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "shared-data-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 3.05,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\nPASS: shared user/library/gig/ZIP directory HTTP scenario\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "forscore.php",
+      "code": 0,
+      "checks": 60,
+      "seconds": 0.05,
+      "output": "PASS: 60 forScore regression checks\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "forscore-http.py",
+      "code": 0,
+      "checks": 260,
+      "seconds": 7.4,
+      "output": "PASS: 66 forScore workflow software-DOM checks\nPASS: 103 forScore workflow Chromium checks\nPASS: 91 forScore HTTP checks (server default: ISO-8859-1)\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "main-parity-http.py",
+      "code": 0,
+      "checks": 47,
+      "seconds": 2.06,
+      "output": "PASS: 47 Main concept/HTTP parity checks (V13)\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "gig-layout-http.py",
+      "code": 0,
+      "checks": 723,
+      "seconds": 5.35,
+      "output": "PASS: 560 Main layout software-DOM checks\nPASS: 163 Main layout HTTP checks\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "gig-defaults-http.py",
+      "code": 0,
+      "checks": 111,
+      "seconds": 2.71,
+      "output": "PASS: 98 default-left Chromium checks\nPASS: 13 default-layout HTTP/setup checks\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "concept-assets-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 0.9,
+      "output": "PASS: 41 asset-role HTTP checks (V13)\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "concept-concurrency-http.py",
+      "code": 0,
+      "checks": 16,
+      "seconds": 1.41,
+      "output": "PASS: 16 independent-editor conflict checks (V13)\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "concept-outputs-http.py",
+      "code": 0,
+      "checks": 42,
+      "seconds": 1.09,
+      "output": "PASS: 42 output-agreement checks (V13)\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "evolution-state-http.py",
+      "code": 0,
+      "checks": 74,
+      "seconds": 2.26,
+      "output": "PASS: 74 gig identity and catalogue checks (V13)\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "evolution-duration-http.py",
+      "code": 0,
+      "checks": 32,
+      "seconds": 2.49,
+      "output": "PASS: 32 duration preservation checks (V13)\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "admin-shared-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 2.95,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "render-preview.py",
+      "code": 0,
+      "checks": 0,
+      "seconds": 3.98,
+      "output": "/tmp/nadin-matrix-preview-cpc14ves/preview/views\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "admin-dom.cjs",
+      "code": 0,
+      "checks": 77,
+      "seconds": 1.12,
+      "output": "PASS: 77 V12 DOM behavior checks\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "login-dom.cjs",
+      "code": 0,
+      "checks": 8,
+      "seconds": 0.42,
+      "output": "PASS: 8 V13 login DOM checks\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "ui-browser.cjs",
+      "code": 0,
+      "checks": 24,
+      "seconds": 1.57,
+      "output": "PASS: 24 Chromium interaction and layout checks\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "evolution-countercheck-http.py",
+      "code": 0,
+      "checks": 23,
+      "seconds": 2.17,
+      "output": "PASS: 23 independent repair counterchecks (V13)\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "evolution-audio-workflow-http.py",
+      "code": 0,
+      "checks": 59,
+      "seconds": 2.91,
+      "output": "PASS: 59 audio workflow and boundary checks (V13)\n"
+    },
+    {
+      "branch": "V13-zip-download-layout",
+      "key": "V13",
+      "source_sha256": "dc552be79c63f3c8dedcbc152eb4b7ddadf56bdd5a1600d8337d89609cf32b9d",
+      "suite": "evolution-duration-concurrency-http.py",
+      "code": 0,
+      "checks": 75,
+      "seconds": 1.74,
+      "output": "PASS: 75 parallel duration and bounded-lock checks (V13)\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "syntax",
+      "code": 0,
+      "checks": 147,
+      "output": "PASS: 147 PHP syntax checks\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "encoding.php",
+      "code": 0,
+      "checks": 23,
+      "seconds": 0.02,
+      "output": "PASS: 23 encoding checks\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "encoding-http.py",
+      "code": 0,
+      "checks": 94,
+      "seconds": 1.07,
+      "output": "PASS: 94 HTTP encoding checks\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "member-format.php",
+      "code": 0,
+      "checks": 35,
+      "seconds": 0.02,
+      "output": "PASS: 35 member-format compatibility checks\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "auth.php",
+      "code": 0,
+      "checks": 67,
+      "seconds": 3.09,
+      "output": "PASS: 67 authentication regression checks\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "bruteforce.php",
+      "code": 0,
+      "checks": 53,
+      "seconds": 5.93,
+      "output": "PASS: 53 V13 brute-force checks\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "auth-http.py",
+      "code": 0,
+      "checks": 56,
+      "seconds": 14.24,
+      "output": "PASS: 56 HTTP account/integration checks\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "legacy-users.php",
+      "code": 0,
+      "checks": 21,
+      "seconds": 0.72,
+      "output": "PASS: 21 legacy user conversion checks\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "admin-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 2.9,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "shared-data-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 2.97,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\nPASS: shared user/library/gig/ZIP directory HTTP scenario\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "forscore.php",
+      "code": 0,
+      "checks": 60,
+      "seconds": 0.04,
+      "output": "PASS: 60 forScore regression checks\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "forscore-http.py",
+      "code": 0,
+      "checks": 261,
+      "seconds": 7.29,
+      "output": "PASS: 66 forScore workflow software-DOM checks\nPASS: 103 forScore workflow Chromium checks\nPASS: 92 forScore HTTP checks (server default: ISO-8859-1)\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "main-parity-http.py",
+      "code": 0,
+      "checks": 47,
+      "seconds": 2.06,
+      "output": "PASS: 47 Main concept/HTTP parity checks (V14)\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "gig-layout-http.py",
+      "code": 0,
+      "checks": 723,
+      "seconds": 5.36,
+      "output": "PASS: 560 Main layout software-DOM checks\nPASS: 163 Main layout HTTP checks\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "gig-defaults-http.py",
+      "code": 0,
+      "checks": 111,
+      "seconds": 2.7,
+      "output": "PASS: 98 default-left Chromium checks\nPASS: 13 default-layout HTTP/setup checks\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "concept-assets-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 0.94,
+      "output": "PASS: 41 asset-role HTTP checks (V14)\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "concept-concurrency-http.py",
+      "code": 0,
+      "checks": 16,
+      "seconds": 1.44,
+      "output": "PASS: 16 independent-editor conflict checks (V14)\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "concept-outputs-http.py",
+      "code": 0,
+      "checks": 42,
+      "seconds": 0.98,
+      "output": "PASS: 42 output-agreement checks (V14)\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "evolution-state-http.py",
+      "code": 0,
+      "checks": 74,
+      "seconds": 2.18,
+      "output": "PASS: 74 gig identity and catalogue checks (V14)\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "evolution-duration-http.py",
+      "code": 0,
+      "checks": 32,
+      "seconds": 2.48,
+      "output": "PASS: 32 duration preservation checks (V14)\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "admin-shared-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 2.85,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "render-preview.py",
+      "code": 0,
+      "checks": 0,
+      "seconds": 4.04,
+      "output": "/tmp/nadin-matrix-preview-7pmpxlk7/preview/views\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "admin-dom.cjs",
+      "code": 0,
+      "checks": 77,
+      "seconds": 1.26,
+      "output": "PASS: 77 V12 DOM behavior checks\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "login-dom.cjs",
+      "code": 0,
+      "checks": 8,
+      "seconds": 0.42,
+      "output": "PASS: 8 V13 login DOM checks\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "ui-browser.cjs",
+      "code": 0,
+      "checks": 24,
+      "seconds": 2.11,
+      "output": "PASS: 24 Chromium interaction and layout checks\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "evolution-countercheck-http.py",
+      "code": 0,
+      "checks": 23,
+      "seconds": 2.24,
+      "output": "PASS: 23 independent repair counterchecks (V14)\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "evolution-audio-workflow-http.py",
+      "code": 0,
+      "checks": 59,
+      "seconds": 3.47,
+      "output": "PASS: 59 audio workflow and boundary checks (V14)\n"
+    },
+    {
+      "branch": "V14-refined-interface",
+      "key": "V14",
+      "source_sha256": "e06134f4a6eb1587f3af22adcb84a6b9251fd611ac8be7611c4cbe5dfb914702",
+      "suite": "evolution-duration-concurrency-http.py",
+      "code": 0,
+      "checks": 75,
+      "seconds": 1.97,
+      "output": "PASS: 75 parallel duration and bounded-lock checks (V14)\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "syntax",
+      "code": 0,
+      "checks": 161,
+      "output": "PASS: 161 PHP syntax checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "encoding.php",
+      "code": 0,
+      "checks": 23,
+      "seconds": 0.02,
+      "output": "PASS: 23 encoding checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "encoding-http.py",
+      "code": 0,
+      "checks": 97,
+      "seconds": 1.53,
+      "output": "PASS: 97 HTTP encoding checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "member-format.php",
+      "code": 0,
+      "checks": 35,
+      "seconds": 0.03,
+      "output": "PASS: 35 member-format compatibility checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "auth.php",
+      "code": 0,
+      "checks": 67,
+      "seconds": 3.04,
+      "output": "PASS: 67 authentication regression checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "bruteforce.php",
+      "code": 0,
+      "checks": 53,
+      "seconds": 5.82,
+      "output": "PASS: 53 V13 brute-force checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "auth-http.py",
+      "code": 0,
+      "checks": 56,
+      "seconds": 14.12,
+      "output": "PASS: 56 HTTP account/integration checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "legacy-users.php",
+      "code": 0,
+      "checks": 21,
+      "seconds": 0.7,
+      "output": "PASS: 21 legacy user conversion checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "admin-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 3.11,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "shared-data-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 3.34,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\nPASS: shared user/library/gig/ZIP directory HTTP scenario\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "forscore.php",
+      "code": 0,
+      "checks": 60,
+      "seconds": 0.05,
+      "output": "PASS: 60 forScore regression checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "forscore-http.py",
+      "code": 0,
+      "checks": 261,
+      "seconds": 8.89,
+      "output": "PASS: 66 forScore workflow software-DOM checks\nPASS: 103 forScore workflow Chromium checks\nPASS: 92 forScore HTTP checks (server default: ISO-8859-1)\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "federation.php",
+      "code": 0,
+      "checks": 54,
+      "seconds": 0.27,
+      "output": "PASS: 54 federation signature/storage checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "federation-http.py",
+      "code": 0,
+      "checks": 39,
+      "seconds": 1.95,
+      "output": "PASS: 39 TLS federation HTTP checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "zip.php",
+      "code": 0,
+      "checks": 32,
+      "seconds": 0.2,
+      "output": "PASS: 32 ZIP integrity/concurrency checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "v16-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 2.35,
+      "output": "PASS: 41 V16 HTTP regression checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "main-parity-http.py",
+      "code": 0,
+      "checks": 47,
+      "seconds": 2.56,
+      "output": "PASS: 47 Main concept/HTTP parity checks (V15)\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "gig-layout-http.py",
+      "code": 0,
+      "checks": 723,
+      "seconds": 6.36,
+      "output": "PASS: 560 Main layout software-DOM checks\nPASS: 163 Main layout HTTP checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "gig-defaults-http.py",
+      "code": 0,
+      "checks": 111,
+      "seconds": 3.06,
+      "output": "PASS: 98 default-left Chromium checks\nPASS: 13 default-layout HTTP/setup checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "review-http.py",
+      "code": 0,
+      "checks": 33,
+      "seconds": 2.62,
+      "output": "PASS: 33 final-review HTTP checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "concept-assets-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 0.99,
+      "output": "PASS: 41 asset-role HTTP checks (V15)\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "concept-concurrency-http.py",
+      "code": 0,
+      "checks": 16,
+      "seconds": 1.47,
+      "output": "PASS: 16 independent-editor conflict checks (V15)\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "concept-outputs-http.py",
+      "code": 0,
+      "checks": 42,
+      "seconds": 1.12,
+      "output": "PASS: 42 output-agreement checks (V15)\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "evolution-state-http.py",
+      "code": 0,
+      "checks": 74,
+      "seconds": 2.27,
+      "output": "PASS: 74 gig identity and catalogue checks (V15)\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "evolution-duration-http.py",
+      "code": 0,
+      "checks": 32,
+      "seconds": 2.56,
+      "output": "PASS: 32 duration preservation checks (V15)\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "admin-shared-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 2.98,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "render-preview.py",
+      "code": 0,
+      "checks": 0,
+      "seconds": 4.07,
+      "output": "/tmp/nadin-matrix-preview-snqy706r/preview/views\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "admin-dom.cjs",
+      "code": 0,
+      "checks": 78,
+      "seconds": 1.27,
+      "output": "PASS: 78 V12 DOM behavior checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "login-dom.cjs",
+      "code": 0,
+      "checks": 8,
+      "seconds": 0.38,
+      "output": "PASS: 8 V13 login DOM checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "ui-browser.cjs",
+      "code": 0,
+      "checks": 24,
+      "seconds": 1.63,
+      "output": "PASS: 24 Chromium interaction and layout checks\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "evolution-countercheck-http.py",
+      "code": 0,
+      "checks": 23,
+      "seconds": 2.16,
+      "output": "PASS: 23 independent repair counterchecks (V15)\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "evolution-audio-workflow-http.py",
+      "code": 0,
+      "checks": 59,
+      "seconds": 3.24,
+      "output": "PASS: 59 audio workflow and boundary checks (V15)\n"
+    },
+    {
+      "branch": "V15-oidc-saml-reliable-zips",
+      "key": "V15",
+      "source_sha256": "b79a46de1708c2e8903ab8b36ba1f7c05c5e30b48307da4e9db6e78ddd753320",
+      "suite": "evolution-duration-concurrency-http.py",
+      "code": 0,
+      "checks": 75,
+      "seconds": 1.81,
+      "output": "PASS: 75 parallel duration and bounded-lock checks (V15)\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "syntax",
+      "code": 0,
+      "checks": 164,
+      "output": "PASS: 164 PHP syntax checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "encoding.php",
+      "code": 0,
+      "checks": 23,
+      "seconds": 0.02,
+      "output": "PASS: 23 encoding checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "encoding-http.py",
+      "code": 0,
+      "checks": 93,
+      "seconds": 1.47,
+      "output": "PASS: 93 HTTP encoding checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "member-format.php",
+      "code": 0,
+      "checks": 35,
+      "seconds": 0.03,
+      "output": "PASS: 35 member-format compatibility checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "auth.php",
+      "code": 0,
+      "checks": 67,
+      "seconds": 3.45,
+      "output": "PASS: 67 authentication regression checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "bruteforce.php",
+      "code": 0,
+      "checks": 53,
+      "seconds": 7.12,
+      "output": "PASS: 53 V13 brute-force checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "auth-http.py",
+      "code": 0,
+      "checks": 56,
+      "seconds": 14.46,
+      "output": "PASS: 56 HTTP account/integration checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "legacy-users.php",
+      "code": 0,
+      "checks": 21,
+      "seconds": 0.77,
+      "output": "PASS: 21 legacy user conversion checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "admin-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 3.12,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "shared-data-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 3.12,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\nPASS: shared user/library/gig/ZIP directory HTTP scenario\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "forscore.php",
+      "code": 0,
+      "checks": 60,
+      "seconds": 0.03,
+      "output": "PASS: 60 forScore regression checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "forscore-http.py",
+      "code": 0,
+      "checks": 261,
+      "seconds": 7.88,
+      "output": "PASS: 66 forScore workflow software-DOM checks\nPASS: 103 forScore workflow Chromium checks\nPASS: 92 forScore HTTP checks (server default: ISO-8859-1)\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "federation.php",
+      "code": 0,
+      "checks": 54,
+      "seconds": 0.15,
+      "output": "PASS: 54 federation signature/storage checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "federation-http.py",
+      "code": 0,
+      "checks": 39,
+      "seconds": 1.93,
+      "output": "PASS: 39 TLS federation HTTP checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "zip.php",
+      "code": 0,
+      "checks": 32,
+      "seconds": 0.2,
+      "output": "PASS: 32 ZIP integrity/concurrency checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "v16-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 2.11,
+      "output": "PASS: 41 V16 HTTP regression checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "main-parity-http.py",
+      "code": 0,
+      "checks": 47,
+      "seconds": 2.12,
+      "output": "PASS: 47 Main concept/HTTP parity checks (V16)\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "gig-layout-http.py",
+      "code": 0,
+      "checks": 723,
+      "seconds": 5.68,
+      "output": "PASS: 560 Main layout software-DOM checks\nPASS: 163 Main layout HTTP checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "gig-defaults-http.py",
+      "code": 0,
+      "checks": 111,
+      "seconds": 2.93,
+      "output": "PASS: 98 default-left Chromium checks\nPASS: 13 default-layout HTTP/setup checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "review-http.py",
+      "code": 0,
+      "checks": 36,
+      "seconds": 2.57,
+      "output": "PASS: 36 final-review HTTP checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "php-compat.php",
+      "code": 0,
+      "checks": 16,
+      "seconds": 0.03,
+      "output": "PASS: 16 PHP compatibility checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "php-compat-http.py",
+      "code": 0,
+      "checks": 49,
+      "seconds": 1.59,
+      "output": "PASS: 49 PHP compatibility HTTP checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "concept-assets-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 0.92,
+      "output": "PASS: 41 asset-role HTTP checks (V16)\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "concept-concurrency-http.py",
+      "code": 0,
+      "checks": 16,
+      "seconds": 1.43,
+      "output": "PASS: 16 independent-editor conflict checks (V16)\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "concept-outputs-http.py",
+      "code": 0,
+      "checks": 42,
+      "seconds": 1.04,
+      "output": "PASS: 42 output-agreement checks (V16)\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "evolution-state-http.py",
+      "code": 0,
+      "checks": 74,
+      "seconds": 2.23,
+      "output": "PASS: 74 gig identity and catalogue checks (V16)\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "evolution-duration-http.py",
+      "code": 0,
+      "checks": 32,
+      "seconds": 2.63,
+      "output": "PASS: 32 duration preservation checks (V16)\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "admin-shared-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 3.15,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "render-preview.py",
+      "code": 0,
+      "checks": 0,
+      "seconds": 4.12,
+      "output": "/tmp/nadin-matrix-preview-sz0nmjlq/preview/views\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "admin-dom.cjs",
+      "code": 0,
+      "checks": 78,
+      "seconds": 1.34,
+      "output": "PASS: 78 V12 DOM behavior checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "login-dom.cjs",
+      "code": 0,
+      "checks": 8,
+      "seconds": 0.45,
+      "output": "PASS: 8 V13 login DOM checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "ui-browser.cjs",
+      "code": 0,
+      "checks": 24,
+      "seconds": 1.83,
+      "output": "PASS: 24 Chromium interaction and layout checks\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "evolution-countercheck-http.py",
+      "code": 0,
+      "checks": 23,
+      "seconds": 2.2,
+      "output": "PASS: 23 independent repair counterchecks (V16)\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "evolution-audio-workflow-http.py",
+      "code": 0,
+      "checks": 59,
+      "seconds": 3.01,
+      "output": "PASS: 59 audio workflow and boundary checks (V16)\n"
+    },
+    {
+      "branch": "V16-php85-php9-preparation",
+      "key": "V16",
+      "source_sha256": "20f2610223eda28ad623db58c4e1f61ea22804ff9ea118beb45faac46b35bb20",
+      "suite": "evolution-duration-concurrency-http.py",
+      "code": 0,
+      "checks": 75,
+      "seconds": 1.73,
+      "output": "PASS: 75 parallel duration and bounded-lock checks (V16)\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "syntax",
+      "code": 0,
+      "checks": 169,
+      "output": "PASS: 169 PHP syntax checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "encoding.php",
+      "code": 0,
+      "checks": 23,
+      "seconds": 0.03,
+      "output": "PASS: 23 encoding checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "encoding-http.py",
+      "code": 0,
+      "checks": 89,
+      "seconds": 2.1,
+      "output": "PASS: 89 HTTP encoding checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "member-format.php",
+      "code": 0,
+      "checks": 35,
+      "seconds": 0.06,
+      "output": "PASS: 35 member-format compatibility checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "auth.php",
+      "code": 0,
+      "checks": 67,
+      "seconds": 3.93,
+      "output": "PASS: 67 authentication regression checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "bruteforce.php",
+      "code": 0,
+      "checks": 53,
+      "seconds": 6.45,
+      "output": "PASS: 53 V13 brute-force checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "auth-http.py",
+      "code": 0,
+      "checks": 56,
+      "seconds": 14.42,
+      "output": "PASS: 56 HTTP account/integration checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "legacy-users.php",
+      "code": 0,
+      "checks": 21,
+      "seconds": 0.78,
+      "output": "PASS: 21 legacy user conversion checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "admin-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 2.96,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "shared-data-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 3.07,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\nPASS: shared user/library/gig/ZIP directory HTTP scenario\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "forscore.php",
+      "code": 0,
+      "checks": 60,
+      "seconds": 0.04,
+      "output": "PASS: 60 forScore regression checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "forscore-http.py",
+      "code": 0,
+      "checks": 261,
+      "seconds": 7.49,
+      "output": "PASS: 66 forScore workflow software-DOM checks\nPASS: 103 forScore workflow Chromium checks\nPASS: 92 forScore HTTP checks (server default: ISO-8859-1)\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "federation.php",
+      "code": 0,
+      "checks": 54,
+      "seconds": 0.23,
+      "output": "PASS: 54 federation signature/storage checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "federation-http.py",
+      "code": 0,
+      "checks": 39,
+      "seconds": 1.88,
+      "output": "PASS: 39 TLS federation HTTP checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "zip.php",
+      "code": 0,
+      "checks": 32,
+      "seconds": 0.19,
+      "output": "PASS: 32 ZIP integrity/concurrency checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "v16-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 2.06,
+      "output": "PASS: 41 V16 HTTP regression checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "v17-http.py",
+      "code": 0,
+      "checks": 34,
+      "seconds": 1.5,
+      "output": "PASS: 34 V17 HTTP task checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "main-parity-http.py",
+      "code": 0,
+      "checks": 47,
+      "seconds": 2.1,
+      "output": "PASS: 47 Main concept/HTTP parity checks (V17)\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "gig-layout-http.py",
+      "code": 0,
+      "checks": 723,
+      "seconds": 6.29,
+      "output": "PASS: 560 Main layout software-DOM checks\nPASS: 163 Main layout HTTP checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "gig-defaults-http.py",
+      "code": 0,
+      "checks": 111,
+      "seconds": 3.31,
+      "output": "PASS: 98 default-left Chromium checks\nPASS: 13 default-layout HTTP/setup checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "review-http.py",
+      "code": 0,
+      "checks": 36,
+      "seconds": 2.59,
+      "output": "PASS: 36 final-review HTTP checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "php-compat.php",
+      "code": 0,
+      "checks": 16,
+      "seconds": 0.03,
+      "output": "PASS: 16 PHP compatibility checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "php-compat-http.py",
+      "code": 0,
+      "checks": 49,
+      "seconds": 1.66,
+      "output": "PASS: 49 PHP compatibility HTTP checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "concept-assets-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 0.94,
+      "output": "PASS: 41 asset-role HTTP checks (V17)\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "concept-concurrency-http.py",
+      "code": 0,
+      "checks": 17,
+      "seconds": 1.42,
+      "output": "PASS: 17 independent-editor conflict checks (V17)\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "concept-outputs-http.py",
+      "code": 0,
+      "checks": 42,
+      "seconds": 1.06,
+      "output": "PASS: 42 output-agreement checks (V17)\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "evolution-state-http.py",
+      "code": 0,
+      "checks": 74,
+      "seconds": 2.19,
+      "output": "PASS: 74 gig identity and catalogue checks (V17)\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "evolution-duration-http.py",
+      "code": 0,
+      "checks": 32,
+      "seconds": 2.55,
+      "output": "PASS: 32 duration preservation checks (V17)\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "admin-shared-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 2.86,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "render-preview.py",
+      "code": 0,
+      "checks": 0,
+      "seconds": 3.95,
+      "output": "/tmp/nadin-matrix-preview-nmgjeiec/preview/views\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "admin-dom.cjs",
+      "code": 0,
+      "checks": 78,
+      "seconds": 1.28,
+      "output": "PASS: 78 V12 DOM behavior checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "login-dom.cjs",
+      "code": 0,
+      "checks": 8,
+      "seconds": 0.44,
+      "output": "PASS: 8 V13 login DOM checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "ui-browser.cjs",
+      "code": 0,
+      "checks": 24,
+      "seconds": 1.78,
+      "output": "PASS: 24 Chromium interaction and layout checks\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "v17-browser.py",
+      "code": 0,
+      "checks": 80,
+      "seconds": 19.25,
+      "output": "/tmp/nadin-v17-browser-2onr59sg/fixture/views\nPASS: 80 V17 native Chromium journey checks; 25 accessibility scans\nPASS: V17 browser server produced no PHP warnings, errors or deprecations\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "evolution-countercheck-http.py",
+      "code": 0,
+      "checks": 23,
+      "seconds": 2.18,
+      "output": "PASS: 23 independent repair counterchecks (V17)\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "evolution-audio-workflow-http.py",
+      "code": 0,
+      "checks": 59,
+      "seconds": 2.84,
+      "output": "PASS: 59 audio workflow and boundary checks (V17)\n"
+    },
+    {
+      "branch": "V17-unified-interface-and-workflows",
+      "key": "V17",
+      "source_sha256": "bb762b25048b849ebb2e010e3f62ecddaf1998c3dac7919fed37ce4d5a2fb9c8",
+      "suite": "evolution-duration-concurrency-http.py",
+      "code": 0,
+      "checks": 75,
+      "seconds": 1.71,
+      "output": "PASS: 75 parallel duration and bounded-lock checks (V17)\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "syntax",
+      "code": 0,
+      "checks": 170,
+      "output": "PASS: 170 PHP syntax checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "encoding.php",
+      "code": 0,
+      "checks": 23,
+      "seconds": 0.02,
+      "output": "PASS: 23 encoding checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "encoding-http.py",
+      "code": 0,
+      "checks": 89,
+      "seconds": 1.57,
+      "output": "PASS: 89 HTTP encoding checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "member-format.php",
+      "code": 0,
+      "checks": 35,
+      "seconds": 0.02,
+      "output": "PASS: 35 member-format compatibility checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "auth.php",
+      "code": 0,
+      "checks": 67,
+      "seconds": 3.24,
+      "output": "PASS: 67 authentication regression checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "bruteforce.php",
+      "code": 0,
+      "checks": 53,
+      "seconds": 6.55,
+      "output": "PASS: 53 V13 brute-force checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "auth-http.py",
+      "code": 0,
+      "checks": 56,
+      "seconds": 14.33,
+      "output": "PASS: 56 HTTP account/integration checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "legacy-users.php",
+      "code": 0,
+      "checks": 21,
+      "seconds": 0.69,
+      "output": "PASS: 21 legacy user conversion checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "admin-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 2.93,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "shared-data-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 3.09,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\nPASS: shared user/library/gig/ZIP directory HTTP scenario\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "forscore.php",
+      "code": 0,
+      "checks": 60,
+      "seconds": 0.05,
+      "output": "PASS: 60 forScore regression checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "forscore-http.py",
+      "code": 0,
+      "checks": 261,
+      "seconds": 7.57,
+      "output": "PASS: 66 forScore workflow software-DOM checks\nPASS: 103 forScore workflow Chromium checks\nPASS: 92 forScore HTTP checks (server default: ISO-8859-1)\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "federation.php",
+      "code": 0,
+      "checks": 54,
+      "seconds": 0.22,
+      "output": "PASS: 54 federation signature/storage checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "federation-http.py",
+      "code": 0,
+      "checks": 39,
+      "seconds": 1.91,
+      "output": "PASS: 39 TLS federation HTTP checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "zip.php",
+      "code": 0,
+      "checks": 32,
+      "seconds": 0.21,
+      "output": "PASS: 32 ZIP integrity/concurrency checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "v16-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 2.07,
+      "output": "PASS: 41 V16 HTTP regression checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "v17-http.py",
+      "code": 0,
+      "checks": 34,
+      "seconds": 1.64,
+      "output": "PASS: 34 V17 HTTP task checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "main-parity-http.py",
+      "code": 0,
+      "checks": 47,
+      "seconds": 2.08,
+      "output": "PASS: 47 Main concept/HTTP parity checks (V18)\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "gig-layout-http.py",
+      "code": 0,
+      "checks": 723,
+      "seconds": 5.26,
+      "output": "PASS: 560 Main layout software-DOM checks\nPASS: 163 Main layout HTTP checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "gig-defaults-http.py",
+      "code": 0,
+      "checks": 111,
+      "seconds": 2.79,
+      "output": "PASS: 98 default-left Chromium checks\nPASS: 13 default-layout HTTP/setup checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "review-http.py",
+      "code": 0,
+      "checks": 36,
+      "seconds": 2.5,
+      "output": "PASS: 36 final-review HTTP checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "php-compat.php",
+      "code": 0,
+      "checks": 16,
+      "seconds": 0.02,
+      "output": "PASS: 16 PHP compatibility checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "php-compat-http.py",
+      "code": 0,
+      "checks": 49,
+      "seconds": 1.7,
+      "output": "PASS: 49 PHP compatibility HTTP checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "audio-upload-http.py",
+      "code": 0,
+      "checks": 84,
+      "seconds": 11.74,
+      "output": "PASS: 21 V18 audio Chromium checks\nPASS: 63 V18 audio conversion/HTTP checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "concept-assets-http.py",
+      "code": 0,
+      "checks": 41,
+      "seconds": 0.99,
+      "output": "PASS: 41 asset-role HTTP checks (V18)\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "concept-concurrency-http.py",
+      "code": 0,
+      "checks": 17,
+      "seconds": 1.44,
+      "output": "PASS: 17 independent-editor conflict checks (V18)\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "concept-outputs-http.py",
+      "code": 0,
+      "checks": 42,
+      "seconds": 1.06,
+      "output": "PASS: 42 output-agreement checks (V18)\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "evolution-state-http.py",
+      "code": 0,
+      "checks": 74,
+      "seconds": 2.43,
+      "output": "PASS: 74 gig identity and catalogue checks (V18)\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "evolution-duration-http.py",
+      "code": 0,
+      "checks": 32,
+      "seconds": 2.87,
+      "output": "PASS: 32 duration preservation checks (V18)\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "admin-shared-http.py",
+      "code": 0,
+      "checks": 108,
+      "seconds": 3.12,
+      "output": "PASS: 108 V12 HTTP/storage regression checks\n\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "render-preview.py",
+      "code": 0,
+      "checks": 0,
+      "seconds": 4.09,
+      "output": "/tmp/nadin-matrix-preview-tpp89il0/preview/views\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "admin-dom.cjs",
+      "code": 0,
+      "checks": 78,
+      "seconds": 1.25,
+      "output": "PASS: 78 V12 DOM behavior checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "login-dom.cjs",
+      "code": 0,
+      "checks": 8,
+      "seconds": 0.42,
+      "output": "PASS: 8 V13 login DOM checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "ui-browser.cjs",
+      "code": 0,
+      "checks": 24,
+      "seconds": 1.61,
+      "output": "PASS: 24 Chromium interaction and layout checks\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "v17-browser.py",
+      "code": 0,
+      "checks": 80,
+      "seconds": 19.75,
+      "output": "/tmp/nadin-v17-browser-c9z16gp4/fixture/views\nPASS: 80 V17 native Chromium journey checks; 25 accessibility scans\nPASS: V17 browser server produced no PHP warnings, errors or deprecations\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "evolution-countercheck-http.py",
+      "code": 0,
+      "checks": 23,
+      "seconds": 2.13,
+      "output": "PASS: 23 independent repair counterchecks (V18)\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "evolution-audio-workflow-http.py",
+      "code": 0,
+      "checks": 59,
+      "seconds": 2.92,
+      "output": "PASS: 59 audio workflow and boundary checks (V18)\n"
+    },
+    {
+      "branch": "V18-audio-upload-conversion",
+      "key": "V18",
+      "source_sha256": "fbc213ae5294385c83772d42a614facd927350c67e40b2b8aa87f3a60162b4e8",
+      "suite": "evolution-duration-concurrency-http.py",
+      "code": 0,
+      "checks": 75,
+      "seconds": 1.82,
+      "output": "PASS: 75 parallel duration and bounded-lock checks (V18)\n"
+    }
+  ],
+  "before_evidence": {
+    "classic_audio_workflow": {
+      "branch": "7.7.2",
+      "checks": 59,
+      "failures": [
+        "unannotated valid recording leaves the gig view usable for editor: Long_RCMD.mp3",
+        "unannotated valid recording leaves the gig view usable for musician: Long_RCMD.mp3",
+        "unknown duration stays blank in the actual XLS export: Long_RCMD.mp3",
+        "repeating annotation is a genuine no-op: Long_RCMD.mp3",
+        "a valid 100-minute annotation does not schedule an endless automatic retiming loop",
+        "unannotated valid recording leaves the gig view usable for editor: VBR_RCMD.mp3",
+        "unannotated valid recording leaves the gig view usable for musician: VBR_RCMD.mp3",
+        "unknown duration stays blank in the actual XLS export: VBR_RCMD.mp3",
+        "follow the exact form/iframe produced by the audio editor: VBR_RCMD.mp3",
+        "repeating annotation is a genuine no-op: VBR_RCMD.mp3",
+        "unannotated valid recording leaves the gig view usable for editor: Mixed Case_RCMD.MP3",
+        "unannotated valid recording leaves the gig view usable for musician: Mixed Case_RCMD.MP3",
+        "unknown duration stays blank in the actual XLS export: Mixed Case_RCMD.MP3",
+        "repeating annotation is a genuine no-op: Mixed Case_RCMD.MP3",
+        "unannotated valid recording leaves the gig view usable for editor: Space & plus+_RCMD.mp3",
+        "unannotated valid recording leaves the gig view usable for musician: Space & plus+_RCMD.mp3",
+        "unknown duration stays blank in the actual XLS export: Space & plus+_RCMD.mp3",
+        "follow the exact form/iframe produced by the audio editor: Space & plus+_RCMD.mp3",
+        "repeating annotation is a genuine no-op: Space & plus+_RCMD.mp3",
+        "unknown duration stays blank in the actual XLS export: Session (2026.11)_RCMD.mp3",
+        "repeating annotation is a genuine no-op: Session (2026.11)_RCMD.mp3",
+        "unannotated valid recording leaves the gig view usable for editor: ID3_RCMD.mp3",
+        "unannotated valid recording leaves the gig view usable for musician: ID3_RCMD.mp3",
+        "unknown duration stays blank in the actual XLS export: ID3_RCMD.mp3",
+        "repeating annotation is a genuine no-op: ID3_RCMD.mp3",
+        "unannotated valid recording leaves the gig view usable for editor: APEv2_RCMD.mp3",
+        "unannotated valid recording leaves the gig view usable for musician: APEv2_RCMD.mp3",
+        "unknown duration stays blank in the actual XLS export: APEv2_RCMD.mp3",
+        "repeating annotation is a genuine no-op: APEv2_RCMD.mp3",
+        "probe server has no fatal/parse errors"
+      ],
+      "events": [
+        {
+          "label": "login admin@example.invalid",
+          "pass_": true
+        },
+        {
+          "label": "login member@example.invalid",
+          "pass_": true
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for editor: Long_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for musician: Long_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unknown duration stays blank in the actual XLS export: Long_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "FFprobe agrees with annotation: Long_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "exact audio/tag bytes retained: Long_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "known duration stays correct in the actual XLS export: Long_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "repeating annotation is a genuine no-op: Long_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "long-recording fixture independently exceeds 100 minutes",
+          "pass_": true
+        },
+        {
+          "label": "a valid 100-minute annotation does not schedule an endless automatic retiming loop",
+          "pass_": false
+        },
+        {
+          "label": "ordinary musician can still view the long-recording gig",
+          "pass_": true
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for editor: VBR_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for musician: VBR_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unknown duration stays blank in the actual XLS export: VBR_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "the real audio file list schedules annotation: VBR_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "follow the exact form/iframe produced by the audio editor: VBR_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "FFprobe agrees with annotation: VBR_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "exact audio/tag bytes retained: VBR_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "known duration stays correct in the actual XLS export: VBR_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "repeating annotation is a genuine no-op: VBR_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for editor: Mixed Case_RCMD.MP3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for musician: Mixed Case_RCMD.MP3",
+          "pass_": false
+        },
+        {
+          "label": "unknown duration stays blank in the actual XLS export: Mixed Case_RCMD.MP3",
+          "pass_": false
+        },
+        {
+          "label": "FFprobe agrees with annotation: Mixed Case_RCMD.MP3",
+          "pass_": true
+        },
+        {
+          "label": "exact audio/tag bytes retained: Mixed Case_RCMD.MP3",
+          "pass_": true
+        },
+        {
+          "label": "known duration stays correct in the actual XLS export: Mixed Case_RCMD.MP3",
+          "pass_": true
+        },
+        {
+          "label": "repeating annotation is a genuine no-op: Mixed Case_RCMD.MP3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for editor: Space & plus+_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for musician: Space & plus+_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unknown duration stays blank in the actual XLS export: Space & plus+_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "the real audio file list schedules annotation: Space & plus+_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "follow the exact form/iframe produced by the audio editor: Space & plus+_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "FFprobe agrees with annotation: Space & plus+_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "exact audio/tag bytes retained: Space & plus+_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "known duration stays correct in the actual XLS export: Space & plus+_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "repeating annotation is a genuine no-op: Space & plus+_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for editor: Session (2026.11)_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for musician: Session (2026.11)_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "unknown duration stays blank in the actual XLS export: Session (2026.11)_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "FFprobe agrees with annotation: Session (2026.11)_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "exact audio/tag bytes retained: Session (2026.11)_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "known duration stays correct in the actual XLS export: Session (2026.11)_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "repeating annotation is a genuine no-op: Session (2026.11)_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for editor: ID3_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for musician: ID3_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unknown duration stays blank in the actual XLS export: ID3_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "FFprobe agrees with annotation: ID3_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "exact audio/tag bytes retained: ID3_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "known duration stays correct in the actual XLS export: ID3_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "repeating annotation is a genuine no-op: ID3_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for editor: APEv2_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for musician: APEv2_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unknown duration stays blank in the actual XLS export: APEv2_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "FFprobe agrees with annotation: APEv2_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "exact audio/tag bytes retained: APEv2_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "known duration stays correct in the actual XLS export: APEv2_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "repeating annotation is a genuine no-op: APEv2_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "probe server has no fatal/parse errors",
+          "pass_": false
+        }
+      ],
+      "long_ffprobe_seconds": 6366.024
+    },
+    "V18_audio_workflow": {
+      "branch": "V18",
+      "checks": 59,
+      "failures": [
+        "unknown duration stays blank in the actual XLS export: Long_RCMD.mp3",
+        "repeating annotation is a genuine no-op: Long_RCMD.mp3",
+        "a valid 100-minute annotation does not schedule an endless automatic retiming loop",
+        "unknown duration stays blank in the actual XLS export: VBR_RCMD.mp3",
+        "repeating annotation is a genuine no-op: VBR_RCMD.mp3",
+        "unknown duration stays blank in the actual XLS export: Mixed Case_RCMD.MP3",
+        "repeating annotation is a genuine no-op: Mixed Case_RCMD.MP3",
+        "unknown duration stays blank in the actual XLS export: Space & plus+_RCMD.mp3",
+        "repeating annotation is a genuine no-op: Space & plus+_RCMD.mp3",
+        "unknown duration stays blank in the actual XLS export: Session (2026.11)_RCMD.mp3",
+        "repeating annotation is a genuine no-op: Session (2026.11)_RCMD.mp3",
+        "unknown duration stays blank in the actual XLS export: ID3_RCMD.mp3",
+        "repeating annotation is a genuine no-op: ID3_RCMD.mp3",
+        "unknown duration stays blank in the actual XLS export: APEv2_RCMD.mp3",
+        "repeating annotation is a genuine no-op: APEv2_RCMD.mp3"
+      ],
+      "events": [
+        {
+          "label": "login admin@example.invalid",
+          "pass_": true
+        },
+        {
+          "label": "login member@example.invalid",
+          "pass_": true
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for editor: Long_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for musician: Long_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "unknown duration stays blank in the actual XLS export: Long_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "FFprobe agrees with annotation: Long_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "exact audio/tag bytes retained: Long_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "known duration stays correct in the actual XLS export: Long_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "repeating annotation is a genuine no-op: Long_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "long-recording fixture independently exceeds 100 minutes",
+          "pass_": true
+        },
+        {
+          "label": "a valid 100-minute annotation does not schedule an endless automatic retiming loop",
+          "pass_": false
+        },
+        {
+          "label": "ordinary musician can still view the long-recording gig",
+          "pass_": true
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for editor: VBR_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for musician: VBR_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "unknown duration stays blank in the actual XLS export: VBR_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "the real audio file list schedules annotation: VBR_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "follow the exact form/iframe produced by the audio editor: VBR_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "FFprobe agrees with annotation: VBR_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "exact audio/tag bytes retained: VBR_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "known duration stays correct in the actual XLS export: VBR_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "repeating annotation is a genuine no-op: VBR_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for editor: Mixed Case_RCMD.MP3",
+          "pass_": true
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for musician: Mixed Case_RCMD.MP3",
+          "pass_": true
+        },
+        {
+          "label": "unknown duration stays blank in the actual XLS export: Mixed Case_RCMD.MP3",
+          "pass_": false
+        },
+        {
+          "label": "FFprobe agrees with annotation: Mixed Case_RCMD.MP3",
+          "pass_": true
+        },
+        {
+          "label": "exact audio/tag bytes retained: Mixed Case_RCMD.MP3",
+          "pass_": true
+        },
+        {
+          "label": "known duration stays correct in the actual XLS export: Mixed Case_RCMD.MP3",
+          "pass_": true
+        },
+        {
+          "label": "repeating annotation is a genuine no-op: Mixed Case_RCMD.MP3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for editor: Space & plus+_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for musician: Space & plus+_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "unknown duration stays blank in the actual XLS export: Space & plus+_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "the real audio file list schedules annotation: Space & plus+_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "follow the exact form/iframe produced by the audio editor: Space & plus+_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "FFprobe agrees with annotation: Space & plus+_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "exact audio/tag bytes retained: Space & plus+_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "known duration stays correct in the actual XLS export: Space & plus+_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "repeating annotation is a genuine no-op: Space & plus+_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for editor: Session (2026.11)_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for musician: Session (2026.11)_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "unknown duration stays blank in the actual XLS export: Session (2026.11)_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "FFprobe agrees with annotation: Session (2026.11)_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "exact audio/tag bytes retained: Session (2026.11)_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "known duration stays correct in the actual XLS export: Session (2026.11)_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "repeating annotation is a genuine no-op: Session (2026.11)_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for editor: ID3_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for musician: ID3_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "unknown duration stays blank in the actual XLS export: ID3_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "FFprobe agrees with annotation: ID3_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "exact audio/tag bytes retained: ID3_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "known duration stays correct in the actual XLS export: ID3_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "repeating annotation is a genuine no-op: ID3_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for editor: APEv2_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "unannotated valid recording leaves the gig view usable for musician: APEv2_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "unknown duration stays blank in the actual XLS export: APEv2_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "FFprobe agrees with annotation: APEv2_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "exact audio/tag bytes retained: APEv2_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "known duration stays correct in the actual XLS export: APEv2_RCMD.mp3",
+          "pass_": true
+        },
+        {
+          "label": "repeating annotation is a genuine no-op: APEv2_RCMD.mp3",
+          "pass_": false
+        },
+        {
+          "label": "probe server has no fatal/parse errors",
+          "pass_": true
+        }
+      ],
+      "long_ffprobe_seconds": 6366.024
+    },
+    "original_7_6_probe": "FAIL: unannotated valid recording leaves the gig view usable for editor: Long_RCMD.mp3\nFAIL: unannotated valid recording leaves the gig view usable for musician: Long_RCMD.mp3\nFAIL: FFprobe agrees with annotation: Long_RCMD.mp3\nFAIL: unannotated valid recording leaves the gig view usable for editor: VBR_RCMD.mp3\nFAIL: unannotated valid recording leaves the gig view usable for musician: VBR_RCMD.mp3\nFAIL: repeating annotation is a genuine no-op: VBR_RCMD.mp3\nFAIL: unannotated valid recording leaves the gig view usable for editor: Mixed Case_RCMD.MP3\nFAIL: unannotated valid recording leaves the gig view usable for musician: Mixed Case_RCMD.MP3\nFAIL: FFprobe agrees with annotation: Mixed Case_RCMD.MP3\nFAIL: unannotated valid recording leaves the gig view usable for editor: Space & plus+_RCMD.mp3\nFAIL: unannotated valid recording leaves the gig view usable for musician: Space & plus+_RCMD.mp3\nFAIL: follow the exact form/iframe produced by the audio editor: Space & plus+_RCMD.mp3\nFAIL: FFprobe agrees with annotation: Space & plus+_RCMD.mp3\nFAIL: unannotated valid recording leaves the gig view usable for editor: ID3_RCMD.mp3\nFAIL: unannotated valid recording leaves the gig view usable for musician: ID3_RCMD.mp3\nFAIL: repeating annotation is a genuine no-op: ID3_RCMD.mp3\nFAIL: unannotated valid recording leaves the gig view usable for editor: APEv2_RCMD.mp3\nFAIL: unannotated valid recording leaves the gig view usable for musician: APEv2_RCMD.mp3\nFAIL: FFprobe agrees with annotation: APEv2_RCMD.mp3\nFAIL: probe server has no fatal/parse errors\n{\"branch\": \"baseline-7.6\", \"checks\": 29, \"failures\": [\"unannotated valid recording leaves the gig view usable for editor: Long_RCMD.mp3\", \"unannotated valid recording leaves the gig view usable for musician: Long_RCMD.mp3\", \"FFprobe agrees with annotation: Long_RCMD.mp3\", \"unannotated valid recording leaves the gig view usable for editor: VBR_RCMD.mp3\", \"unannotated valid recording leaves the gig view usable for musician: VBR_RCMD.mp3\", \"repeating annotation is a genuine no-op: VBR_RCMD.mp3\", \"unannotated valid recording leaves the gig view usable for editor: Mixed Case_RCMD.MP3\", \"unannotated valid recording leaves the gig view usable for musician: Mixed Case_RCMD.MP3\", \"FFprobe agrees with annotation: Mixed Case_RCMD.MP3\", \"unannotated valid recording leaves the gig view usable for editor: Space & plus+_RCMD.mp3\", \"unannotated valid recording leaves the gig view usable for musician: Space & plus+_RCMD.mp3\", \"follow the exact form/iframe produced by the audio editor: Space & plus+_RCMD.mp3\", \"FFprobe agrees with annotation: Space & plus+_RCMD.mp3\", \"unannotated valid recording leaves the gig view usable for editor: ID3_RCMD.mp3\", \"unannotated valid recording leaves the gig view usable for musician: ID3_RCMD.mp3\", \"repeating annotation is a genuine no-op: ID3_RCMD.mp3\", \"unannotated valid recording leaves the gig view usable for editor: APEv2_RCMD.mp3\", \"unannotated valid recording leaves the gig view usable for musician: APEv2_RCMD.mp3\", \"FFprobe agrees with annotation: APEv2_RCMD.mp3\", \"probe server has no fatal/parse errors\"], \"long_ffprobe_seconds\": 6366.024}\n",
+    "parallel_overwrite": {
+      "branch": "main",
+      "rounds": 200,
+      "simultaneous_requests": 400,
+      "statuses": {
+        "200,409": 191,
+        "200,200": 9
+      },
+      "lost": [
+        {
+          "round": 4,
+          "statuses": [
+            200,
+            200
+          ],
+          "files": [
+            "Race_0004_RCMD.(00.03).mp3"
+          ]
+        },
+        {
+          "round": 27,
+          "statuses": [
+            200,
+            200
+          ],
+          "files": [
+            "Race_0027_RCMD.(00.03).mp3"
+          ]
+        },
+        {
+          "round": 32,
+          "statuses": [
+            200,
+            200
+          ],
+          "files": [
+            "Race_0032_RCMD.(00.03).mp3"
+          ]
+        },
+        {
+          "round": 62,
+          "statuses": [
+            200,
+            200
+          ],
+          "files": [
+            "Race_0062_RCMD.(00.03).mp3"
+          ]
+        },
+        {
+          "round": 98,
+          "statuses": [
+            200,
+            200
+          ],
+          "files": [
+            "Race_0098_RCMD.(00.03).mp3"
+          ]
+        },
+        {
+          "round": 101,
+          "statuses": [
+            200,
+            200
+          ],
+          "files": [
+            "Race_0101_RCMD.(00.03).mp3"
+          ]
+        },
+        {
+          "round": 114,
+          "statuses": [
+            200,
+            200
+          ],
+          "files": [
+            "Race_0114_RCMD.(00.03).mp3"
+          ]
+        },
+        {
+          "round": 116,
+          "statuses": [
+            200,
+            200
+          ],
+          "files": [
+            "Race_0116_RCMD.(00.03).mp3"
+          ]
+        },
+        {
+          "round": 123,
+          "statuses": [
+            200,
+            200
+          ],
+          "files": [
+            "Race_0123_RCMD.(00.03).mp3"
+          ]
+        }
+      ]
+    }
+  },
+  "installation_verification": {
+    "runs": 20,
+    "checks": 3014,
+    "failures": [],
+    "fixtures": [
+      {
+        "kind": "unchanged-7.6",
+        "base": "v7.6",
+        "protected_sha256": {
+          "config.inc.php": "e645c4fa8ad3b57c9195dd0ee3d5f1b2ab72f6317857a1406f1b81993be331a7",
+          "userdatei/userdatei.txt": "a4839423a8ad8875965b83c7827366a4827e3061105beb56c6f70259b2864392"
+        },
+        "matched_application_files": [
+          "abo/zip/donotdeletethisfolder.txt",
+          "corr.php",
+          "get/forscore.php",
+          "login.php",
+          "nadinmodule/forscore-actions.css",
+          "nadinmodule/forscore.inc.php",
+          "nadinmodule/forscore.js",
+          "nadinmodule/gigreps.inc.php",
+          "nadinmodule/gigrepsarchiv.inc.php",
+          "nadinmodule/infos.inc.php",
+          "nadinmodule/library.inc.php",
+          "nadinmodule/settime.php",
+          "nadinmodule/table.inc.inc.php",
+          "nadinmodule/table.inc.xls.php",
+          "nadinmodule/table.print.php",
+          "nadinmodule/functions.inc.php",
+          "nadinmodule/AUDfiles.php"
+        ],
+        "matrix": [
+          {
+            "fixture": "unchanged-7.6",
+            "base": "v7.6",
+            "suite": "forscore.php",
+            "code": 0,
+            "checks": 62,
+            "seconds": 0.04
+          },
+          {
+            "fixture": "unchanged-7.6",
+            "base": "v7.6",
+            "suite": "forscore-http.py",
+            "code": 0,
+            "checks": 291,
+            "seconds": 12.93
+          },
+          {
+            "fixture": "unchanged-7.6",
+            "base": "v7.6",
+            "suite": "main-parity-http.py",
+            "code": 0,
+            "checks": 47,
+            "seconds": 3.59
+          },
+          {
+            "fixture": "unchanged-7.6",
+            "base": "v7.6",
+            "suite": "concept-assets-http.py",
+            "code": 0,
+            "checks": 41,
+            "seconds": 1.46
+          },
+          {
+            "fixture": "unchanged-7.6",
+            "base": "v7.6",
+            "suite": "concept-outputs-http.py",
+            "code": 0,
+            "checks": 44,
+            "seconds": 1.6
+          },
+          {
+            "fixture": "unchanged-7.6",
+            "base": "v7.6",
+            "suite": "evolution-duration-http.py",
+            "code": 0,
+            "checks": 32,
+            "seconds": 3.26
+          },
+          {
+            "fixture": "unchanged-7.6",
+            "base": "v7.6",
+            "suite": "evolution-audio-workflow-http.py",
+            "code": 0,
+            "checks": 59,
+            "seconds": 4.23
+          },
+          {
+            "fixture": "unchanged-7.6",
+            "base": "v7.6",
+            "suite": "evolution-duration-concurrency-http.py",
+            "code": 0,
+            "checks": 75,
+            "seconds": 2.8
+          },
+          {
+            "fixture": "unchanged-7.6",
+            "base": "v7.6",
+            "suite": "gig-defaults-http.py",
+            "code": 0,
+            "checks": 111,
+            "seconds": 3.85
+          },
+          {
+            "fixture": "unchanged-7.6",
+            "base": "v7.6",
+            "suite": "gigrep-layout-http.py",
+            "code": 0,
+            "checks": 1569,
+            "seconds": 36.03
+          },
+          {
+            "fixture": "unchanged-7.6",
+            "base": "v7.6",
+            "suite": "evolution-countercheck-http.py",
+            "code": 0,
+            "checks": 16,
+            "seconds": 3.55
+          }
+        ]
+      },
+      {
+        "kind": "existing-7.7",
+        "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+        "protected_sha256": {
+          "config.inc.php": "b7c15eed819139661b79e44cb7cf418958ca189f7584cf4d212e6de02130256d",
+          "userdatei/userdatei.txt": "a4839423a8ad8875965b83c7827366a4827e3061105beb56c6f70259b2864392",
+          "nadinmodule/infos.inc.php": "68fc99a88bb16fae6d44fbcca93f64ae05532d9005e3afe19026074c134903ea"
+        },
+        "matched_application_files": [
+          "abo/zip/donotdeletethisfolder.txt",
+          "corr.php",
+          "get/forscore.php",
+          "login.php",
+          "nadinmodule/forscore-actions.css",
+          "nadinmodule/forscore.inc.php",
+          "nadinmodule/forscore.js",
+          "nadinmodule/gigreps.inc.php",
+          "nadinmodule/gigrepsarchiv.inc.php",
+          "nadinmodule/library.inc.php",
+          "nadinmodule/settime.php",
+          "nadinmodule/table.inc.inc.php",
+          "nadinmodule/table.inc.xls.php",
+          "nadinmodule/table.print.php",
+          "nadinmodule/functions.inc.php",
+          "nadinmodule/AUDfiles.php"
+        ],
+        "matrix": [
+          {
+            "fixture": "existing-7.7",
+            "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+            "suite": "forscore.php",
+            "code": 0,
+            "checks": 62,
+            "seconds": 0.04
+          },
+          {
+            "fixture": "existing-7.7",
+            "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+            "suite": "forscore-http.py",
+            "code": 0,
+            "checks": 291,
+            "seconds": 12.97
+          },
+          {
+            "fixture": "existing-7.7",
+            "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+            "suite": "main-parity-http.py",
+            "code": 0,
+            "checks": 47,
+            "seconds": 3.59
+          },
+          {
+            "fixture": "existing-7.7",
+            "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+            "suite": "concept-assets-http.py",
+            "code": 0,
+            "checks": 41,
+            "seconds": 1.44
+          },
+          {
+            "fixture": "existing-7.7",
+            "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+            "suite": "concept-outputs-http.py",
+            "code": 0,
+            "checks": 44,
+            "seconds": 1.58
+          },
+          {
+            "fixture": "existing-7.7",
+            "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+            "suite": "evolution-duration-http.py",
+            "code": 0,
+            "checks": 32,
+            "seconds": 3.24
+          },
+          {
+            "fixture": "existing-7.7",
+            "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+            "suite": "evolution-audio-workflow-http.py",
+            "code": 0,
+            "checks": 59,
+            "seconds": 4.1
+          },
+          {
+            "fixture": "existing-7.7",
+            "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+            "suite": "evolution-duration-concurrency-http.py",
+            "code": 0,
+            "checks": 75,
+            "seconds": 2.76
+          },
+          {
+            "fixture": "existing-7.7",
+            "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+            "suite": "evolution-countercheck-http.py",
+            "code": 0,
+            "checks": 16,
+            "seconds": 3.58
+          }
+        ]
+      }
+    ],
+    "matrix": [
+      {
+        "fixture": "unchanged-7.6",
+        "base": "v7.6",
+        "suite": "forscore.php",
+        "code": 0,
+        "checks": 62,
+        "seconds": 0.04
+      },
+      {
+        "fixture": "unchanged-7.6",
+        "base": "v7.6",
+        "suite": "forscore-http.py",
+        "code": 0,
+        "checks": 291,
+        "seconds": 12.93
+      },
+      {
+        "fixture": "unchanged-7.6",
+        "base": "v7.6",
+        "suite": "main-parity-http.py",
+        "code": 0,
+        "checks": 47,
+        "seconds": 3.59
+      },
+      {
+        "fixture": "unchanged-7.6",
+        "base": "v7.6",
+        "suite": "concept-assets-http.py",
+        "code": 0,
+        "checks": 41,
+        "seconds": 1.46
+      },
+      {
+        "fixture": "unchanged-7.6",
+        "base": "v7.6",
+        "suite": "concept-outputs-http.py",
+        "code": 0,
+        "checks": 44,
+        "seconds": 1.6
+      },
+      {
+        "fixture": "unchanged-7.6",
+        "base": "v7.6",
+        "suite": "evolution-duration-http.py",
+        "code": 0,
+        "checks": 32,
+        "seconds": 3.26
+      },
+      {
+        "fixture": "unchanged-7.6",
+        "base": "v7.6",
+        "suite": "evolution-audio-workflow-http.py",
+        "code": 0,
+        "checks": 59,
+        "seconds": 4.23
+      },
+      {
+        "fixture": "unchanged-7.6",
+        "base": "v7.6",
+        "suite": "evolution-duration-concurrency-http.py",
+        "code": 0,
+        "checks": 75,
+        "seconds": 2.8
+      },
+      {
+        "fixture": "unchanged-7.6",
+        "base": "v7.6",
+        "suite": "gig-defaults-http.py",
+        "code": 0,
+        "checks": 111,
+        "seconds": 3.85
+      },
+      {
+        "fixture": "unchanged-7.6",
+        "base": "v7.6",
+        "suite": "gigrep-layout-http.py",
+        "code": 0,
+        "checks": 1569,
+        "seconds": 36.03
+      },
+      {
+        "fixture": "unchanged-7.6",
+        "base": "v7.6",
+        "suite": "evolution-countercheck-http.py",
+        "code": 0,
+        "checks": 16,
+        "seconds": 3.55
+      },
+      {
+        "fixture": "existing-7.7",
+        "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+        "suite": "forscore.php",
+        "code": 0,
+        "checks": 62,
+        "seconds": 0.04
+      },
+      {
+        "fixture": "existing-7.7",
+        "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+        "suite": "forscore-http.py",
+        "code": 0,
+        "checks": 291,
+        "seconds": 12.97
+      },
+      {
+        "fixture": "existing-7.7",
+        "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+        "suite": "main-parity-http.py",
+        "code": 0,
+        "checks": 47,
+        "seconds": 3.59
+      },
+      {
+        "fixture": "existing-7.7",
+        "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+        "suite": "concept-assets-http.py",
+        "code": 0,
+        "checks": 41,
+        "seconds": 1.44
+      },
+      {
+        "fixture": "existing-7.7",
+        "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+        "suite": "concept-outputs-http.py",
+        "code": 0,
+        "checks": 44,
+        "seconds": 1.58
+      },
+      {
+        "fixture": "existing-7.7",
+        "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+        "suite": "evolution-duration-http.py",
+        "code": 0,
+        "checks": 32,
+        "seconds": 3.24
+      },
+      {
+        "fixture": "existing-7.7",
+        "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+        "suite": "evolution-audio-workflow-http.py",
+        "code": 0,
+        "checks": 59,
+        "seconds": 4.1
+      },
+      {
+        "fixture": "existing-7.7",
+        "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+        "suite": "evolution-duration-concurrency-http.py",
+        "code": 0,
+        "checks": 75,
+        "seconds": 2.76
+      },
+      {
+        "fixture": "existing-7.7",
+        "base": "3c77aa2c868304582575d6b1c02ca2f7503c6725",
+        "suite": "evolution-countercheck-http.py",
+        "code": 0,
+        "checks": 16,
+        "seconds": 3.58
+      }
+    ]
+  },
+  "classic_browser_verification": {
+    "7.7": "PASS: 7 native classic upload and long-recording browser checks\nPASS: 1 native classic browser server fatal/parse check\n",
+    "7.7.2": "PASS: 7 native classic upload and long-recording browser checks\nPASS: 1 native classic browser server fatal/parse check\n"
+  },
+  "test_scope_note": "All final runtime files and tests were unchanged during the 333-suite run. An earlier matrix was discarded after the parallel overwrite was reproduced; no preliminary result is counted as a final pass. Browser and installation checks are additional, separately counted executions.",
+  "platform": "Linux; native Windows was not executed"
+}
