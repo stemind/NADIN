@@ -1,3 +1,5 @@
+> Historical snapshot: the [later reliability follow-up](RELIABILITY-RECHECK-2026-11-03.md) supersedes the final-state assessment below with the expanded 333-suite review.
+
 # NADIN repair countercheck — 3 November 2026
 
 **Result:** the additional review found three reproducible side effects in the proposed repairs. They are corrected with small changes. The final run passes **305 suite executions / 29,633 numbered checks across all 14 maintained branches**, including **2,023 PHP syntax checks**. The two classic installation paths separately pass **16 suite executions / 2,746 checks**. No confirmed failure remains in this executed matrix.
