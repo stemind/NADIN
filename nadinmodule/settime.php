@@ -16,7 +16,7 @@ if (!is_file($source) || is_link($source) || is_link($durationDirectory) || strp
 if (isset($hidden) && $hidden!=='' && strpos($durationTune.'/'.$durationFile,$hidden)!==false) auth('musers');
 // Lock the source itself: older installations need no additional writable directory.
 $durationLock=@fopen($source,'rb');
-if (!$durationLock || !flock($durationLock,LOCK_EX)) nadin_duration_error(503,'The recording is busy. Please retry.');
+if (!$durationLock || !flock($durationLock,LOCK_EX|LOCK_NB)) nadin_duration_error(503,'The recording is busy. Please retry.');
 try {
     $mp3file=new MP3File($source);$duration2=$mp3file->getDuration();
     if ($duration2===false) nadin_duration_error(422,'The recording duration could not be read. Its filename and bytes were left unchanged.');
@@ -73,7 +73,7 @@ class MP3File
             else if ($block[0]=="\xff" && (ord($block[1])&0xe0) )
             {
                 $info = self::parseFrameHeader(substr($block, 0, 4));
-                if (empty($info['Framesize']) || $info['Framesize']<10 || empty($info['Samples']) || empty($info['Sampling Rate'])) { fclose($fd);return false; } //some corrupt mp3 files
+                if (empty($info['Framesize']) || $info['Framesize']<10 || empty($info['Samples']) || empty($info['Sampling Rate'])) { fclose($fd);return $duration>0 ? round($duration) : false; } // Retain measured audio when trailing metadata resembles an invalid frame.
                 fseek($fd, $info['Framesize']-10, SEEK_CUR);
                 $duration += ( $info['Samples'] / $info['Sampling Rate'] );
             }
