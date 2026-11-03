@@ -42,3 +42,5 @@ Current defaults, package and workflow verification are described in [the consol
 The media Library intentionally has no forScore link. Do not restore it as a missing feature; its Excel and Print exports remain available.
 
 The [2 November 2026 audit](EVOLUTION-AUDIT-2026-11-02.md) records the current 14-branch preservation check and repairs.
+
+The [follow-up evolution check of 2 November 2026](EVOLUTION-RECHECK-2026-11-02.md) verifies all fourteen current branch snapshots and documents the additional gig-state, catalogue and audio-duration repairs.
