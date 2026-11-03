@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/media-revision.inc.php';
 // Keep the established media tools, but require authenticated POST + CSRF for writes.
 require_once dirname(__DIR__).'/config.inc.php';
 require_once __DIR__.'/functions.inc.php';
@@ -37,6 +38,6 @@ if(!fstat($legacyLock)['size']){fwrite($legacyLock,"<?php http_response_code(404
 register_shutdown_function(function() use($legacyLock){flock($legacyLock,LOCK_UN);fclose($legacyLock);});
 if($legacyName==='uploadsave.php'){
  $infoPath=dirname(__DIR__).'/library/'.($_POST['foldername'] ?? '').'/infos.txt';
- $currentRevision=is_file($infoPath)?hash_file('sha256',$infoPath):hash('sha256','');
- if(!is_string($_POST['revision'] ?? null)||!hash_equals($currentRevision,$_POST['revision'])){nadin_legacy_error(409,'These tune notes changed in another window. Copy your changes, reload, and compare before saving.');}
+ $currentRevision=nadin_media_notes_revision($infoPath);
+ if(!is_string($_POST['revision'] ?? null)||!hash_equals($currentRevision,$_POST['revision'])){nadin_legacy_error(409,'These tune notes or their folder changed in another window. Copy your changes, reload, and compare before saving.');}
 }
