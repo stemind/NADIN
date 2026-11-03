@@ -6,6 +6,7 @@ require_once('../config.inc.php');
 require_once('functions.inc.php');
 setcookie('rezip', basename($_GET['p']), time()+$timeout, '/');
 auth('upaudio');
+nadin_media_mutation_lock();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -23,7 +24,7 @@ $ext=explode('.',$file);
 $ext=$ext[count($ext)-1];
 
 if(trim($path)!=''&&trim($file)!='') {
-rename('../library/'.$path.'/'.$file,'../filesdeleted/'.$time.'!'.$uc.'!'.$file);
+if (!@rename('../library/'.$path.'/'.$file,nadin_media_retained_path('../filesdeleted','!'.$uc.'!'.$file))) die('<script>alert("The file could not be moved to deleted files. The original was kept. Check storage permissions.");parent.location.href=parent.location.href;</script>');
 }
 ?>
 <script>
