@@ -1,3 +1,5 @@
+> **Later anti-regression review:** [The additional complete review](ANTI-REGRESSION-2026-11-03.md) supersedes this source snapshot: 347 suites / 32,371 checks and both classic installation paths pass. It corrects an additional filename-boundary regression. The earlier findings and counts below remain historical evidence.
+
 # NADIN reliability follow-up — 3 November 2026
 
 **Final result:** **333 suite executions / 31,509 numbered checks across all 14 maintained branches pass**, including **2,023 PHP syntax checks**. Both classic installation paths additionally pass **20 suite executions / 3,014 checks**. Two native Chromium upload journeys add **16 checks**. No confirmed failure remains in this executed matrix.
