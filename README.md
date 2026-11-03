@@ -33,3 +33,11 @@ Use this line's complete source files together and preserve your configuration, 
 V17 retains V16's PHP compatibility preparation. Native PHP 9 compatibility is not claimed. See [V17 verification](docs/V17-VERIFICATION.md) for the runtimes and features actually exercised, [the earlier evolution audit](docs/EVOLUTION-AUDIT.md) for the inherited corrections, and [7.7 notes](docs/7.7.md) for the cumulative classic-interface update.
 
 GigRep navigation defaults to the left vertical column in all branches. Only the literal value `$rendergiglistontheleft='no';` puts it above the tunes; missing, empty and other values keep the default.
+
+## Current evolution verification
+
+See [the 2 November 2026 audit](docs/EVOLUTION-AUDIT-2026-11-02.md) for the 14-branch review, three additional investigation rounds and all resulting corrections.
+
+The [follow-up evolution check of 2 November 2026](docs/EVOLUTION-RECHECK-2026-11-02.md) verifies all fourteen current branch snapshots and documents the additional gig-state, catalogue and audio-duration repairs.
+
+The [repair countercheck of 3 November 2026](docs/REPAIR-COUNTERCHECK-2026-11-03.md) challenges the repairs themselves, corrects three reproduced side effects and records the final 305-suite matrix plus both classic installation paths.
