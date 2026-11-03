@@ -146,15 +146,14 @@ if (isset($_GET['gig'])) $basket='style="cursor:pointer" onmouseover="this.style
          echo '</td>';         echo '<td nowrap="nowrap">';
          if ($listento=='' && ($scorepdf!='' || $saxespdf!='' || $bonespdf!='' || $trumpetspdf!='' || $rhythmpdf!='' || $otherpdf!='' || $partspdf!='')) $secwarn=' (!)';
          if ($listento!='')   {
-			 $time=explode('(',$listento);
-			 $time=explode(')',$time[count($time)-1]);
-			 $time=$time[0];
-			 $seconds=explode('.',$time);
-			 $seconds=$seconds[0]*60+$seconds[1];
+			 $time='';$seconds=0;
+             if (striptime($listento)!==$listento && preg_match_all('/\((\d+)\.([0-5]\d)\)/',$listento,$durations,PREG_SET_ORDER)) {
+                 $duration=end($durations);$time=$duration[1].'.'.$duration[2];$seconds=(int)$duration[1]*60+(int)$duration[2];
+             }
 			 if($seconds<1)$secwarn=' (!!)';
 			 $totalseconds+=$seconds;
              if(striptime($listento)==$listento) {
-                 $libraryTimeFrame = '<iframe style="display:none" src="nadinmodule/settime.php?p='.$tunes[$i].'&f='.$listento.'"></iframe>';
+                 $libraryTimeFrame = '<iframe style="display:none" src="nadinmodule/settime.php?p='.rawurlencode($tunes[$i]).'&amp;f='.rawurlencode($listento).'"></iframe>';
                  if ($libraryInteractive) $libraryBackgroundFrames .= $libraryTimeFrame;
                  else echo $libraryTimeFrame;
              }
