@@ -1,5 +1,7 @@
 # NADIN evolution audit — 31 October 2026
 
+For the subsequent current-source review, see [the 2 November 2026 audit](EVOLUTION-AUDIT-2026-11-02.md). The results below describe the historical source snapshots listed here.
+
 Historical audit: the results below describe the source and layout contract at that time. The current [consolidated 7.7 guide](7.7.md) supersedes the old release instructions and missing-flag behaviour: only `no` selects the top list.
 
 **Result:** all 278 final suite executions pass on PHP 8.3.6 and PHP 8.5.12 after the corrections below. The final matrix contains 27,688 numbered assertions, including 3,356 PHP syntax checks. It covers the maintained Main baseline, the conservative 7.7 development line, release 7.7.2 and V8–V16. The corrected runtime/test source fingerprints match the tested working trees.
@@ -87,3 +89,7 @@ Input commit IDs identify the source before these repairs. The SHA-256 values be
 | `V16-php85-php9-preparation` | `880efe7ae1c413a8202492dc53859761a08210ba` | `98c61e300da3c98cc4577ca1760e5f1460ed4ad1b6117ca183cfb1bf9022303e` |
 
 The [branch map](BRANCHES.md) describes the individual stages and their integration status. [7.7.2 notes](7.7.2.md) describe the smaller release delta and upgrade packages.
+
+The [follow-up evolution check of 2 November 2026](EVOLUTION-RECHECK-2026-11-02.md) verifies all fourteen current branch snapshots and documents the additional gig-state, catalogue and audio-duration repairs.
+
+The [repair countercheck of 3 November 2026](REPAIR-COUNTERCHECK-2026-11-03.md) challenges the repairs themselves, corrects three reproduced side effects and records the final 305-suite matrix plus both classic installation paths.
