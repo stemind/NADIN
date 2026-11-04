@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__.'/legacy-write.inc.php';
+nadin_media_mutation_lock();
 // The write guard holds the common media lock throughout validation and rename.
 $file=$_GET['f'] ?? '';$path=$_GET['p'] ?? '';$new=$_GET['n'] ?? '';
 if (!is_string($new) || $new==='' || basename($new)!==$new || preg_match('/[\\\\\x00-\x1f]/',$new) || strtolower(pathinfo($new,PATHINFO_EXTENSION))!=='mp3') nadin_legacy_error(400,'Choose a valid MP3 filename.');
