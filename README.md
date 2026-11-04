@@ -42,4 +42,6 @@ The [follow-up evolution check of 2 November 2026](docs/EVOLUTION-RECHECK-2026-1
 
 The [reliability follow-up of 3 November 2026](docs/RELIABILITY-RECHECK-2026-11-03.md) follows the actual audio editor and parallel workers, documents the remaining repairs and records the final 333-suite matrix plus both classic installation paths.
 
-The [latest anti-regression review](docs/ANTI-REGRESSION-2026-11-03.md) repeats the entire current evolution, protects dotted date/numeric title text during audio annotation and records 347 suite executions / 32,371 checks, plus both classic installation paths.
+The [preceding anti-regression review](docs/ANTI-REGRESSION-2026-11-03.md) repeats the entire current evolution, protects dotted date/numeric title text during audio annotation and records 347 suite executions / 32,371 checks, plus both classic installation paths.
+
+The [latest independent media contract review](docs/MEDIA-CONTRACT-REVIEW-2026-11-03.md) repairs pre-existing rename, retention and upload collisions in the affected stages. All 375 suites / 34,047 checks pass across 14 branches, with both classic installation paths and real browser journeys verified separately.
