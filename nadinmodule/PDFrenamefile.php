@@ -6,6 +6,7 @@ require_once('../config.inc.php');
 require_once('functions.inc.php');
 setcookie('rezip', basename($_GET['p']), time()+$timeout, '/');
 auth('uppdf');
+nadin_media_mutation_lock();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -33,7 +34,7 @@ $ext=$ext[count($ext)-1];
 if ($ext=='mp3') die('<script>alert("Do not upload audio files here. Audio files do have a dedicated upload page.");parent.location.href=parent.location.href;</script>');
 
 
-if (file_exists('../library/'.$path.'/'.mkascii($new))) die('<script>alert(\'File name already exists!\');parent.location.href=parent.location.href</script>');
+if (file_exists('../library/'.$path.'/'.mkascii($new)) || is_link('../library/'.$path.'/'.mkascii($new))) die('<script>alert(\'File name already exists!\');parent.location.href=parent.location.href</script>');
 
 ?>
 <script>
