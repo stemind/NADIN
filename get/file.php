@@ -21,4 +21,8 @@ $inline=in_array($ext,array('pdf','mp3','mp4','m4a','wav','jpg','jpeg','gif','pn
 header('Content-Type: '.($m[$ext] ?? 'application/octet-stream'));header('X-Content-Type-Options: nosniff');header('Cache-Control: private, no-store');
 header("Content-Security-Policy: sandbox; default-src 'none'");
 header('Content-Disposition: '.($inline?'inline':'attachment').'; filename="NADIN.'.preg_replace('/[^a-z0-9]/','',$ext).'"; filename*=UTF-8\'\''.rawurlencode(nadinText($name)));
+if ($ext==='mp3') {
+    require_once(__DIR__.'/stream.inc.php');
+    nadin_stream_mp3($file);
+}
 header('Content-Length: '.filesize($file));readfile($file);
