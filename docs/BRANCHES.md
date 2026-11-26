@@ -22,7 +22,7 @@ The numbered branches describe successive functional stages. Common repairs have
 ## Integration and release status
 
 - `main` is the maintained legacy comparison baseline and has no forScore exporter. Later interface, account and federation stages are separate development lines.
-- The consolidated classic release is [NADIN 7.7](7.7.md), sourced from `7.7.2-css-gigrep-layout` (historical branch name). It includes the earlier patch corrections and supplies one cumulative `NADIN-7.6-to-7.7.zip` update.
+- The current classic maintenance release is [NADIN 7.7.1](7.7.1.md), sourced from `7.7.2-css-gigrep-layout` (historical branch name). It includes the earlier patch corrections. The preceding cumulative 7.6→7.7 update is followed by the targeted three-file 7.7.1 MP3 patch.
 - `7.7-original-interface-forScore` retains its classic development layout. Both classic lines and V8–V18 share the guided forScore workflow and active-download validation, while each retains its visual stage.
 - In every branch, only the literal string `rendergiglistontheleft='no'` puts current/archive GigRep navigation above the tunes. Missing, empty, `yes` and other values use the left vertical column. A positive pixel width remains configurable.
 - Shared fixes preserve literal headings, GigRep/archive forScore access, section/Parts permissions, custom markers, source order, file identities and required directories.
@@ -46,3 +46,5 @@ The [2 November 2026 audit](EVOLUTION-AUDIT-2026-11-02.md) records the current 1
 The [follow-up evolution check of 2 November 2026](EVOLUTION-RECHECK-2026-11-02.md) verifies all fourteen current branch snapshots and documents the additional gig-state, catalogue and audio-duration repairs.
 
 The [reliability follow-up of 3 November 2026](RELIABILITY-RECHECK-2026-11-03.md) follows the actual audio editor and parallel workers, documents the remaining repairs and records the final 333-suite matrix plus both classic installation paths.
+
+The [MP3 transport correction of 26 November 2026](MP3-STREAMING-2026-11-26.md) is maintained in every line; each controller retains its own authentication and permissions.
