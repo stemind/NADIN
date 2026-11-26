@@ -1,10 +1,10 @@
-# NADIN 7.7 — classic interface with guided forScore export
+# NADIN 7.7.1 — classic interface with guided forScore export
 
 The classic maintenance line, retaining the CSS-based GigRep layout and adding a remembered section, automatic updates, a concise download summary and NADIN’s own favicon on the forScore page.
 
 **Branch:** `7.7.2-css-gigrep-layout`
 **Starting point:** 7.6
-**Status:** Consolidated classic release with one cumulative 7.6→7.7 update. Includes the previous patch corrections.
+**Status:** Classic 7.7.1 maintenance release with resumable MP3 delivery and a targeted three-file update for consolidated 7.7 installations.
 
 ## Project
 
@@ -12,7 +12,7 @@ NADIN is a file-based PHP application for big bands. It manages sheet music, rec
 
 ## Branches and releases
 
-See [the complete branch map](docs/BRANCHES.md) for the stages, historical numbering, integration status and current release. [NADIN 7.7](https://github.com/stemind/NADIN/releases/tag/v7.7) is the current classic-interface release with guided forScore export.
+See [the complete branch map](docs/BRANCHES.md) for the stages, historical numbering, integration status and current release. [NADIN 7.7.1](https://github.com/stemind/NADIN/releases/tag/v7.7.1) is the current classic-interface release with guided forScore export and resumable MP3 playback.
 
 ## Installation and verification
 
@@ -31,3 +31,5 @@ The [reliability follow-up of 3 November 2026](docs/RELIABILITY-RECHECK-2026-11-
 The [preceding anti-regression review](docs/ANTI-REGRESSION-2026-11-03.md) repeats the entire current evolution, protects dotted date/numeric title text during audio annotation and records 347 suite executions / 32,371 checks, plus both classic installation paths.
 
 The [latest independent media contract review](docs/MEDIA-CONTRACT-REVIEW-2026-11-03.md) repairs pre-existing rename, retention and upload collisions in the affected stages. All 375 suites / 34,047 checks pass across 14 branches, with both classic installation paths and real browser journeys verified separately.
+
+The [7.7.1 update guide](docs/7.7.1.md) and [MP3 transport report](docs/MP3-STREAMING-2026-11-26.md) describe the interrupted-playback correction, installation and executed verification.
