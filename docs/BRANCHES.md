@@ -22,7 +22,7 @@ The numbered branches describe successive functional stages. Common repairs have
 ## Integration and release status
 
 - `main` is the maintained legacy comparison baseline and has no forScore exporter. Later interface, account and federation stages are separate development lines.
-- The current classic maintenance release is [NADIN 7.7.1](7.7.1.md), sourced from `7.7.2-css-gigrep-layout` (historical branch name). It includes the earlier patch corrections. The preceding cumulative 7.6→7.7 update is followed by the targeted three-file 7.7.1 MP3 patch.
+- The current classic maintenance release is [NADIN 7.7.2](7.7.2-mp3.md), sourced from `7.7.2-css-gigrep-layout` (historical branch name). It includes the earlier patch corrections. The preceding cumulative 7.6→7.7 update is followed by the targeted three-file 7.7.2 MP3 patch.
 - `7.7-original-interface-forScore` retains its classic development layout. Both classic lines and V8–V18 share the guided forScore workflow and active-download validation, while each retains its visual stage.
 - In every branch, only the literal string `rendergiglistontheleft='no'` puts current/archive GigRep navigation above the tunes. Missing, empty, `yes` and other values use the left vertical column. A positive pixel width remains configurable.
 - Shared fixes preserve literal headings, GigRep/archive forScore access, section/Parts permissions, custom markers, source order, file identities and required directories.
