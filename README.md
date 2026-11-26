@@ -1,10 +1,10 @@
-# NADIN 7.7.1 — classic interface with guided forScore export
+# NADIN 7.7.2 — classic interface with guided forScore export
 
 The classic maintenance line, retaining the CSS-based GigRep layout and adding a remembered section, automatic updates, a concise download summary and NADIN’s own favicon on the forScore page.
 
 **Branch:** `7.7.2-css-gigrep-layout`
 **Starting point:** 7.6
-**Status:** Classic 7.7.1 maintenance release with resumable MP3 delivery and a targeted three-file update for consolidated 7.7 installations.
+**Status:** Classic 7.7.2 maintenance release with resumable MP3 delivery and a targeted three-file update for consolidated 7.7 installations.
 
 ## Project
 
@@ -12,7 +12,7 @@ NADIN is a file-based PHP application for big bands. It manages sheet music, rec
 
 ## Branches and releases
 
-See [the complete branch map](docs/BRANCHES.md) for the stages, historical numbering, integration status and current release. [NADIN 7.7.1](https://github.com/stemind/NADIN/releases/tag/v7.7.1) is the current classic-interface release with guided forScore export and resumable MP3 playback.
+See [the complete branch map](docs/BRANCHES.md) for the stages, historical numbering, integration status and current release. [NADIN 7.7.2](https://github.com/stemind/NADIN/releases/tag/v7.7.2) is the current classic-interface release with guided forScore export and resumable MP3 playback.
 
 ## Installation and verification
 
@@ -32,4 +32,4 @@ The [preceding anti-regression review](docs/ANTI-REGRESSION-2026-11-03.md) repea
 
 The [latest independent media contract review](docs/MEDIA-CONTRACT-REVIEW-2026-11-03.md) repairs pre-existing rename, retention and upload collisions in the affected stages. All 375 suites / 34,047 checks pass across 14 branches, with both classic installation paths and real browser journeys verified separately.
 
-The [7.7.1 update guide](docs/7.7.1.md) and [MP3 transport report](docs/MP3-STREAMING-2026-11-26.md) describe the interrupted-playback correction, installation and executed verification.
+The [7.7.2 update guide](docs/7.7.2-mp3.md) and [MP3 transport report](docs/MP3-STREAMING-2026-11-26.md) describe the interrupted-playback correction, installation and executed verification.
