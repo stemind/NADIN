@@ -12,7 +12,7 @@ NADIN is a file-based PHP application for big bands. It manages sheet music, rec
 
 ## Branches and releases
 
-See [the complete branch map](docs/BRANCHES.md) for the stages, historical numbering, integration status and current release. [NADIN 7.7.1](https://github.com/stemind/NADIN/releases/tag/v7.7.1) is the current classic-interface release with guided forScore export and resumable MP3 playback.
+See [the complete branch map](docs/BRANCHES.md) for the stages, historical numbering, integration status and current release. [NADIN 7.7.2](https://github.com/stemind/NADIN/releases/tag/v7.7.2) is the current classic-interface release with guided forScore export and resumable MP3 playback.
 
 ## Installation and verification
 
