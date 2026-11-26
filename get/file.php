@@ -15,9 +15,13 @@ if (strpos($c,$hidden)>0) checkrole('musers');
 if (!file_exists($c)) die('File '.$c.' not found.');
 require_once('mime.inc.php');
 $ext=explode('.',$c);
-$ext=$ext[count($ext)-1];
+$ext=strtolower($ext[count($ext)-1]);
 header("Content-type: ".$m[$ext]); 
 header("Content-Disposition: inline; filename=\"NADIN\"; filename*=UTF-8''".rawurlencode(nadinText(basename($c))));
+if ($ext==='mp3') {
+    require_once(__DIR__.'/stream.inc.php');
+    nadin_stream_mp3($c);
+}
 header("Content-Length: " . filesize($c));
 readfile($c);
 ?>
